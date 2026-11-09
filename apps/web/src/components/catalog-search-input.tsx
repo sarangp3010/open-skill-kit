@@ -23,6 +23,14 @@ export function CatalogSearchInput({
       setValue(initialValue);
     }
   }, [initialValue, navigationKey, restoreFromUrl, inputRef]);
+  useLayoutEffect(() => {
+    // POP can cancel every pending router render and return to the same rendered
+    // location. Observe the event itself even when URL props have not changed.
+    const restore = () =>
+      setValue(new URLSearchParams(window.location.search).get('q') ?? '');
+    window.addEventListener('popstate', restore);
+    return () => window.removeEventListener('popstate', restore);
+  }, []);
   return (
     <Input
       ref={inputRef}

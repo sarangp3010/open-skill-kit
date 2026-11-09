@@ -10,7 +10,7 @@ import {
   it,
   vi,
 } from 'vitest';
-import { cleanup, render, screen, waitFor } from '@testing-library/react';
+import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { resolve } from 'node:path';
@@ -226,4 +226,32 @@ it('keeps newer keystrokes and the caret when an older URL render arrives', asyn
     />,
   );
   expect(search).toHaveValue('');
+});
+
+it('restores a native POP even if all intermediate router renders were cancelled', async () => {
+  const user = userEvent.setup();
+  const inputRef = createRef<HTMLInputElement>();
+  const previousUrl = window.location.href;
+  window.history.replaceState(null, '', '/skills');
+  try {
+    render(
+      <CatalogSearchInput
+        initialValue=""
+        navigationKey="initial-render"
+        restoreFromUrl={true}
+        inputRef={inputRef}
+        onQueryChange={vi.fn()}
+      />,
+    );
+    const search = screen.getByRole('searchbox');
+    await user.click(search);
+    await user.keyboard('code');
+    expect(search).toHaveValue('code');
+    // No rerender: POP returns to the same location props React already has.
+    act(() => window.dispatchEvent(new PopStateEvent('popstate')));
+    expect(search).toHaveValue('');
+    expect(search).toHaveFocus();
+  } finally {
+    window.history.replaceState(null, '', previousUrl);
+  }
 });

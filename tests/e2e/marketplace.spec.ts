@@ -232,7 +232,11 @@ test('rapid typing survives delayed URL renders and same-page history', async ({
 
 test('history restores an initially empty search after filtering and typing', async ({
   page,
+  context,
 }) => {
+  test.setTimeout(60_000);
+  const cdp = await context.newCDPSession(page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 12 });
   await page.goto('/skills');
   const search = page.getByLabel('Search skills');
   await page.getByLabel('Sort by').selectOption('za');

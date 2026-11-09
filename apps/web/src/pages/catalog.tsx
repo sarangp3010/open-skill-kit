@@ -37,6 +37,13 @@ export function CatalogPage() {
   useLayoutEffect(() => {
     if (restoreSearch) latestParams.current = params;
   }, [params, restoreSearch]);
+  useLayoutEffect(() => {
+    const restore = () => {
+      latestParams.current = new URLSearchParams(window.location.search);
+    };
+    window.addEventListener('popstate', restore);
+    return () => window.removeEventListener('popstate', restore);
+  }, []);
   const selected = sectorRoute ?? params.get('sector') ?? '';
   const sort = params.get('sort') ?? 'az';
   const capability = params.get('capability') ?? '';
