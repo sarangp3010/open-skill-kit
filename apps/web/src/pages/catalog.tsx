@@ -1,4 +1,4 @@
-import { useMemo, useRef } from 'react';
+import { useLayoutEffect, useMemo, useRef } from 'react';
 import {
   Link,
   useLocation,
@@ -33,6 +33,10 @@ export function CatalogPage() {
   // arrive late. POP must always restore the destination's shareable query.
   const restoreSearch =
     navigationType === 'POP' || location.state?.catalogSearchUpdate !== true;
+  const latestParams = useRef(params);
+  useLayoutEffect(() => {
+    if (restoreSearch) latestParams.current = params;
+  }, [params, restoreSearch]);
   const selected = sectorRoute ?? params.get('sector') ?? '';
   const sort = params.get('sort') ?? 'az';
   const capability = params.get('capability') ?? '';
@@ -51,7 +55,8 @@ export function CatalogPage() {
     [catalog, query, selected, sort, capability],
   );
   function update(key: string, value: string) {
-    const next = new URLSearchParams(params);
+    // Compose with the latest requested URL, even before the router commits it.
+    const next = new URLSearchParams(latestParams.current);
     if (key !== 'q') {
       const latestQuery = inputRef.current?.value ?? query;
       if (latestQuery) next.set('q', latestQuery);
@@ -59,6 +64,7 @@ export function CatalogPage() {
     }
     if (value) next.set(key, value);
     else next.delete(key);
+    latestParams.current = next;
     if (sectorRoute && key === 'sector')
       navigate(`/skills${next.size ? `?${next}` : ''}`);
     else

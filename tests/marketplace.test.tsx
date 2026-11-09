@@ -1,5 +1,6 @@
 // @vitest-environment jsdom
 import '@testing-library/jest-dom/vitest';
+import { createRef } from 'react';
 import {
   afterEach,
   beforeAll,
@@ -188,12 +189,13 @@ describe('generated-catalog marketplace', () => {
 it('keeps newer keystrokes and the caret when an older URL render arrives', async () => {
   const user = userEvent.setup();
   const onQueryChange = vi.fn();
+  const inputRef = createRef<HTMLInputElement>();
   const view = render(
     <CatalogSearchInput
       initialValue=""
       navigationKey="initial"
       restoreFromUrl={false}
-      inputRef={null}
+      inputRef={inputRef}
       onQueryChange={onQueryChange}
     />,
   );
@@ -205,7 +207,7 @@ it('keeps newer keystrokes and the caret when an older URL render arrives', asyn
       initialValue="Pr"
       navigationKey="delayed-replacement"
       restoreFromUrl={false}
-      inputRef={null}
+      inputRef={inputRef}
       onQueryChange={onQueryChange}
     />,
   );
@@ -214,4 +216,14 @@ it('keeps newer keystrokes and the caret when an older URL render arrives', asyn
   await user.keyboard(' Evaluator');
   expect(search).toHaveValue('Prompt Evaluator');
   expect(onQueryChange).toHaveBeenLastCalledWith('Prompt Evaluator');
+  view.rerender(
+    <CatalogSearchInput
+      initialValue=""
+      navigationKey="back-to-empty"
+      restoreFromUrl={true}
+      inputRef={inputRef}
+      onQueryChange={onQueryChange}
+    />,
+  );
+  expect(search).toHaveValue('');
 });
