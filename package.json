@@ -1,0 +1,66 @@
+{
+  "name": "open-skill-kit",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "packageManager": "pnpm@10.20.0",
+  "engines": {
+    "node": "^22.13.0 || ^24.0.0 || >=26.0.0"
+  },
+  "scripts": {
+    "lint": "eslint .",
+    "format": "prettier --write .",
+    "format:check": "prettier --check .",
+    "typecheck": "tsc --noEmit && pnpm --filter @osh/web typecheck",
+    "test": "vitest run",
+    "validate:skills": "tsx scripts/catalog.ts --validate",
+    "build:catalog": "tsx scripts/catalog.ts",
+    "check:links": "tsx scripts/check-links.ts",
+    "check:duplicates": "tsx scripts/catalog.ts --validate",
+    "build": "pnpm build:web",
+    "build:npm": "tsx scripts/build-npm.ts",
+    "pack:npm": "pnpm build:npm && npm pack ./dist/npm --pack-destination ./dist",
+    "cli": "node dist/npm/bin/open-skill-kit.js",
+    "dev": "pnpm --filter @osh/web dev",
+    "build:web": "pnpm --filter @osh/web build",
+    "build:marketplace": "tsx scripts/build-marketplace.ts",
+    "test:e2e": "playwright test",
+    "skills:validate": "pnpm validate:skills",
+    "skills:index": "pnpm build:catalog",
+    "catalog:check": "tsx scripts/catalog.ts --check",
+    "catalog:check-assets": "tsx scripts/catalog.ts --check-public"
+  },
+  "devDependencies": {
+    "@eslint/js": "^10.0.1",
+    "@types/node": "^22.19.0",
+    "eslint": "^10.14.0",
+    "globals": "^16.5.0",
+    "prettier": "^3.6.2",
+    "tsx": "^4.20.6",
+    "typescript": "^5.9.3",
+    "typescript-eslint": "^8.46.3",
+    "vitest": "^5.1.0",
+    "esbuild": "^0.28.2",
+    "@types/react": "^19.2.0",
+    "@types/react-dom": "^19.2.0",
+    "@testing-library/react": "^16.3.0",
+    "@testing-library/user-event": "^14.6.1",
+    "@testing-library/jest-dom": "6.9.1",
+    "jsdom": "^26.1.0",
+    "@playwright/test": "^1.56.1",
+    "fflate": "^0.8.2",
+    "eslint-plugin-react-hooks": "^7.1.1",
+    "eslint-plugin-react-refresh": "^0.5.7",
+    "@axe-core/playwright": "^4.10.2",
+    "react": "^19.2.0",
+    "react-dom": "^19.2.0",
+    "react-router-dom": "^7.9.5"
+  },
+  "pnpm": {
+    "overrides": {
+      "zod": "^4.6.6",
+      "minimatch@>=7 <11.0.1": "^11.0.1"
+    }
+  },
+  "license": "MIT"
+}

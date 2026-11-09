@@ -1,0 +1,12 @@
+{
+  "name": "@uas/catalog-indexer",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@uas/skill-schema": "workspace:*",
+    "@uas/skill-validator": "workspace:*"
+  },
+  "license": "MIT"
+}

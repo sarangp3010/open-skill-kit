@@ -1,0 +1,13 @@
+{
+  "name": "@uas/skill-validator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@uas/skill-schema": "workspace:*",
+    "@uas/skill-parser": "workspace:*",
+    "mdast-util-from-markdown": "^2.0.2"
+  },
+  "license": "MIT"
+}

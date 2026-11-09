@@ -1,0 +1,241 @@
+import { Link } from 'react-router-dom';
+import {
+  ArrowRight,
+  ArrowUpRight,
+  FolderOpen,
+  FileText,
+  GitPullRequest,
+  Shield,
+} from 'lucide-react';
+import { useLibrary } from '@/lib/use-library';
+import { Button } from '@/components/ui/button';
+export function SectorsPage() {
+  const catalog = useLibrary();
+  const sectors = catalog.sectors
+    .map((sector) => ({
+      ...sector,
+      count: catalog.skills.filter((skill) => skill.sector === sector.slug)
+        .length,
+    }))
+    .filter((sector) => sector.count > 0);
+  return (
+    <section className="container-shell py-16">
+      <p className="eyebrow">Different work. Shared knowledge.</p>
+      <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+        Explore the sectors.
+      </h1>
+      <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
+        Find a starting point in your field. Every collection below has real
+        skill files to explore.
+      </p>
+      <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
+        {sectors.map((sector) => (
+          <Link
+            key={sector.slug}
+            to={`/sectors/${sector.slug}`}
+            className="group rounded-2xl border border-border bg-card p-6 transition hover:border-primary/50"
+          >
+            <div className="flex justify-between">
+              <FolderOpen
+                className="text-primary"
+                size={25}
+                aria-hidden="true"
+              />
+              <span className="text-xs text-muted-foreground">
+                {sector.count} {sector.count === 1 ? 'skill' : 'skills'}
+              </span>
+            </div>
+            <h2 className="mt-5 text-lg font-semibold">{sector.title}</h2>
+            <p className="mt-3 text-sm leading-6 text-muted-foreground">
+              {sector.description}
+            </p>
+            <span className="text-link mt-5 text-xs">
+              Explore workflows
+              <ArrowRight size={14} aria-hidden="true" />
+            </span>
+          </Link>
+        ))}
+      </div>
+      {!sectors.length && (
+        <p className="mt-8 text-muted-foreground">
+          No sectors have authored packages yet.
+        </p>
+      )}
+    </section>
+  );
+}
+export function DocsPage() {
+  return (
+    <article className="container-shell max-w-3xl py-16">
+      <p className="eyebrow">Start with a text file</p>
+      <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+        A simple way to reuse a workflow.
+      </h1>
+      <div className="mt-9 space-y-8 text-sm leading-7 text-muted-foreground">
+        <section>
+          <h2 className="mb-3 text-xl font-semibold text-foreground">
+            1. Find and inspect
+          </h2>
+          <p>
+            Search by task, choose a sector, and open a skill. Read its
+            instructions, examples, provenance and boundaries. Drafts have not
+            completed human review. Validation checks format and file safety,
+            not whether an assistant will behave correctly.
+          </p>
+        </section>
+        <section>
+          <h2 className="mb-3 text-xl font-semibold text-foreground">
+            2. Download or copy
+          </h2>
+          <p>
+            Download the ZIP to get the complete folder, including SKILL.md,
+            metadata and examples. Or use Copy SKILL.md to copy its original
+            instructions. ZIPs are built locally in your browser from the
+            validated catalog. No skill scripts are executed.
+          </p>
+        </section>
+        <section>
+          <h2 className="mb-3 text-xl font-semibold text-foreground">
+            3. Use it with care
+          </h2>
+          <p>
+            For a generic chat assistant, paste the instructions and supply the
+            required inputs. For native skills support, consult your assistant’s
+            current official documentation for folder location and allowed
+            features. We do not claim universal compatibility or verified native
+            install paths.
+          </p>
+        </section>
+        <section className="rounded-2xl border border-border bg-card p-6">
+          <h2 className="flex items-center gap-2 text-lg font-semibold text-foreground">
+            <Shield size={19} className="text-primary" aria-hidden="true" />
+            Your content stays yours
+          </h2>
+          <p className="mt-3">
+            This site has no authentication, analytics, AI provider calls or
+            backend. Search runs locally after loading the static catalog. A
+            theme preference may be saved in your browser. Opening source or
+            documentation links navigates to another website.
+          </p>
+        </section>
+        <section>
+          <h2 className="mb-3 text-xl font-semibold text-foreground">
+            For contributors and developers
+          </h2>
+          <p>
+            Each package lives in skills/sector/skill-name. Its minimal YAML
+            frontmatter contains a name and description; catalog metadata
+            belongs in metadata.json. Skills remain readable without this app.
+          </p>
+          <a
+            href="https://github.com/sarangp3010/open-skill-kit/blob/main/docs/skill-authoring.md"
+            className="text-link mt-4"
+          >
+            Read the authoring guide
+            <ArrowUpRight size={14} aria-hidden="true" />
+          </a>
+        </section>
+      </div>
+    </article>
+  );
+}
+export function ContributePage() {
+  return (
+    <section className="container-shell max-w-3xl py-16">
+      <p className="eyebrow">Built in the open</p>
+      <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+        Share a workflow that helps.
+      </h1>
+      <p className="mt-5 text-lg leading-8 text-muted-foreground">
+        Useful skills are specific, inspectable and honest about their limits.
+        Contributions start with a GitHub pull request and a human review.
+      </p>
+      <div className="my-10 grid gap-5 sm:grid-cols-2">
+        {[
+          {
+            icon: FileText,
+            title: 'Make it practical',
+            body: 'Write original instructions, clear inputs and outputs, and two realistic example pairs. Add boundaries and source provenance.',
+          },
+          {
+            icon: GitPullRequest,
+            title: 'Make it reviewable',
+            body: 'Keep new skills as drafts, run repository validation, and describe the change. Never claim tests or professional review that did not happen.',
+          },
+        ].map((item) => (
+          <div
+            key={item.title}
+            className="rounded-2xl border border-border bg-card p-6"
+          >
+            <item.icon className="text-primary" size={24} aria-hidden="true" />
+            <h2 className="mt-4 font-semibold">{item.title}</h2>
+            <p className="mt-3 text-sm leading-7 text-muted-foreground">
+              {item.body}
+            </p>
+          </div>
+        ))}
+      </div>
+      <Button asChild>
+        <a
+          href="https://github.com/sarangp3010/open-skill-kit/blob/main/CONTRIBUTING.md"
+          target="_blank"
+          rel="noreferrer"
+        >
+          Read contribution guide
+          <ArrowUpRight size={16} aria-hidden="true" />
+        </a>
+      </Button>
+    </section>
+  );
+}
+export function AboutPage() {
+  return (
+    <article className="container-shell max-w-3xl py-16">
+      <p className="eyebrow">Open Skill Kit</p>
+      <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+        Practical knowledge, in portable files.
+      </h1>
+      <p className="mt-6 text-lg leading-8 text-muted-foreground">
+        We are building an open-source library of focused instructions for
+        AI-assisted work. The skill files are the source of truth. This website
+        is a way to explore them.
+      </p>
+      <div className="mt-8 space-y-5 text-sm leading-7 text-muted-foreground">
+        <p>
+          Source code and original contributions are MIT licensed. Reuse and
+          adapt a package after inspecting its license and provenance.
+          Compatibility depends on the assistant and required capabilities, and
+          high-stakes decisions need qualified professional review.
+        </p>
+        <p>
+          There are no paid APIs, accounts or claims of invented popularity.
+          Current starter skills are drafts. Passing deterministic checks does
+          not establish model performance or professional correctness.
+        </p>
+      </div>
+      <Link to="/skills" className="text-link mt-8">
+        Explore the library
+        <ArrowRight size={16} aria-hidden="true" />
+      </Link>
+    </article>
+  );
+}
+export function NotFoundPage() {
+  return (
+    <section className="container-shell py-24 text-center">
+      <p className="eyebrow">404 · A path less traveled</p>
+      <h1 className="mt-4 text-4xl font-semibold">
+        This page isn’t in the kit.
+      </h1>
+      <p className="mt-5 text-muted-foreground">
+        Head back to the library to find a useful workflow.
+      </p>
+      <Button asChild className="mt-7">
+        <Link to="/skills">
+          Browse skills
+          <ArrowRight size={16} aria-hidden="true" />
+        </Link>
+      </Button>
+    </section>
+  );
+}

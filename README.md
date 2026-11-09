@@ -1,44 +1,70 @@
-# Universal AI Skills
+# Open Skill Kit
 
-A static-first, open-source foundation for discovering and authoring portable AI skills.
+An open-source library of portable AI skill packages and a responsive React marketplace.
 
-**Current state:** Epic A and the B01–B04 content-engine foundation. The React app is a development placeholder. There are no published skills, verified platform adapters, builder, or backend yet. See [implementation status](docs/implementation-status.md) and the [master plan](UNIVERSAL_AI_SKILLS_CODEX_MASTER_PLAN.md).
+Browse by task or sector, inspect Markdown instructions and examples, and copy or download a complete package. The files in `skills/` remain usable independently of the website. Current starter skills are **drafts awaiting human review**; no verified platform support or model evaluation is claimed.
 
-## Quick start
+## Run locally
 
-Requires Node.js 22.13+ on the 22.x line, 24.x, or 26+, and pnpm 10.20.0. Install pnpm with `npm install --global pnpm@10.20.0` if needed.
+Requires pnpm 10.20.0 and Node.js 22.13+ on the 22.x line, 24.x, or 26+.
 
 ```sh
 pnpm install --frozen-lockfile
 pnpm dev
 ```
 
-Open the local URL printed by Vite (normally http://127.0.0.1:5173). Stop with Ctrl+C.
+Vite prints the local address, normally http://127.0.0.1:5173. No account, backend, API key or paid service is needed.
 
 ```sh
+pnpm skills:validate
+pnpm skills:index
+pnpm catalog:check
 pnpm lint
 pnpm format:check
 pnpm typecheck
 pnpm test
-pnpm validate:skills
-pnpm check:links
-pnpm check:duplicates
 pnpm build
+pnpm catalog:check-assets
 ```
 
-`pnpm build` validates packages, writes the deterministic `catalog/index.json`, and builds `apps/web/dist`. `pnpm build:catalog` only builds the index. An empty catalog is intentional until B05–B08. Scripts never execute skill contents. No login, API key, or paid service is required.
+The app regenerates its catalog before dev/build. `pnpm build` emits `apps/web/dist`; use `pnpm --filter @osh/web preview` to serve production output locally. Static hosts need an SPA fallback for readable detail URLs; see [marketplace development](docs/marketplace.md).
 
-## Workspace
+For browser and accessibility tests:
 
-- `apps/web`: minimal React/Vite application; UI epics remain planned.
-- `packages/skill-schema`: Zod contracts and portable paths.
-- `packages/skill-parser`: bounded, safe YAML frontmatter parser.
-- `packages/skill-validator`: browser-safe content and link validation.
-- `packages/catalog-indexer`: Node-only, bounded filesystem reader and index builder.
-- `skills`: future reviewed content; synthetic fixtures live separately in `tests/fixtures`.
+```sh
+pnpm exec playwright install chromium
+pnpm test:e2e
+```
 
-## Project documents
+## Repository structure
 
-[Contributing](CONTRIBUTING.md) · [Authoring](docs/skill-authoring.md) · [Architecture](docs/architecture.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Security](SECURITY.md) · [Governance](GOVERNANCE.md) · [Release policy](docs/releases.md) · [Changelog](CHANGELOG.md) · [Agent guidance](AGENTS.md)
+```text
+skills/                  Portable sector/skill/SKILL.md packages
+apps/web/                React, TypeScript, Vite, Tailwind and shadcn/ui
+packages/skill-schema/   Typed contracts and runtime schemas
+packages/skill-parser/   Safe YAML/frontmatter parser
+packages/skill-validator/ Content, path and reference validation
+packages/catalog-indexer/ Deterministic discovery and diagnostics
+packages/cli/            Existing independent npm CLI/distribution source
+scripts/                 Catalog generation and packaging commands
+catalog/                 Sector data and canonical generated catalog
+docs/                   Architecture, authoring, development and status
+```
 
-Code and original repository content use the [MIT license](LICENSE). Contributors must identify third-party provenance and compatible licenses. A passing deterministic check is not a model evaluation or a professional safety review. Compatibility varies by product; no platform support has been verified in this batch.
+The React application consumes generated `catalog/catalog.json` through its static public copy. No skill metadata arrays live in React components. Adding a valid package and running `pnpm skills:index` updates the library without component edits. See [catalog pipeline](docs/catalog-pipeline.md) for optional metadata, diagnostic formats, freshness checks and security boundaries.
+
+## Skill files and trust
+
+Explore the [Markdown skill index](skills/README.md). The exact first ten specification skills now have substantive instructions, two example pairs, six behavior cases and authoring review notes; see [review evidence](docs/initial-skills-review.md). The active library also retains thirteen earlier drafts, with two superseded same-name sources preserved in the archive. Canonical frontmatter contains only name and description; marketplace metadata belongs in metadata.json. Each existing starter draft includes two example pairs and structured behavioral expectations. These expectations are not executed model tests.
+
+Contributed scripts are never executed. Validation rejects unsafe YAML, path traversal, symlinks, oversized/binary packages, unsafe local references and raw HTML. Browser previews additionally sanitize Markdown; ZIP generation revalidates file safety. Actual usefulness, provenance, professional correctness and assistant compatibility require human review.
+
+## npm distribution
+
+The earlier npm CLI setup is preserved and remains unpublished. Its release bundle excludes drafts and requires reviewed content before publication. See [npm distribution](docs/npm-distribution.md); registry installation commands are intended usage after an authorized release, not a claim that a package is currently available.
+
+## Documentation
+
+[Implementation status](docs/IMPLEMENTATION_STATUS.md) · [Progress](docs/progress.md) · [Architecture](docs/architecture.md) · [Catalog pipeline](docs/catalog-pipeline.md) · [Marketplace](docs/marketplace.md) · [Authoring](docs/skill-authoring.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Governance](GOVERNANCE.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Release policy](docs/releases.md) · [Specification](OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md)
+
+Code and original repository content are [MIT licensed](LICENSE). Preserve third-party attribution and check each package's declared provenance/license before reuse.

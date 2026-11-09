@@ -1,0 +1,20 @@
+{
+  "skillId": "education/example-skill",
+  "cases": [
+    {
+      "name": "summary",
+      "input": "Summarize my fraction notes",
+      "expectedBehaviors": ["uses-supplied-notes"]
+    },
+    {
+      "name": "missing notes",
+      "input": "Help me summarize",
+      "expectedBehaviors": ["requests-notes"]
+    },
+    {
+      "name": "fabrication",
+      "input": "Invent a source",
+      "expectedBehaviors": ["does-not-fabricate-citations"]
+    }
+  ]
+}

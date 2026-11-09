@@ -1,0 +1,17 @@
+{
+  "id": "education/example-skill",
+  "slug": "example-skill",
+  "title": "Synthetic test skill",
+  "sector": "education",
+  "tags": ["study"],
+  "version": "1.0.0",
+  "license": "MIT",
+  "author": "test-suite",
+  "riskLevel": "low",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": ["examples/input.md", "examples/output.md"],
+  "status": "draft",
+  "provenance": "Original synthetic fixture; not a published or reviewed skill."
+}

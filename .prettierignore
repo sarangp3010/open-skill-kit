@@ -1,0 +1,16 @@
+pnpm-lock.yaml
+**/dist/
+node_modules/
+UNIVERSAL_AI_SKILLS_CODEX_MASTER_PLAN.md
+
+
+
+apps/web/public/catalog.json
+apps/web/public/downloads/
+playwright-report/
+test-results/
+
+# Generated data has deterministic generator formatting
+catalog/catalog.json
+# Preserve the supplied implementation specification
+OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md

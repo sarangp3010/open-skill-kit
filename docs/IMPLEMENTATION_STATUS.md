@@ -1,0 +1,378 @@
+# Open Skill Kit — Implementation checklist and plan
+
+Planning snapshot: 2026-11-09. Authority: [OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md](../OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md), read completely (445 lines).
+
+The initial review was **inspection and planning only**, as explicitly requested. The subsequent scaffold-only implementation is recorded at the end of this document. The specification's instruction to implement Milestone 1 is deferred until implementation is requested. No application code, package manifests, dependency versions, existing skills or configuration are changed in this planning turn. No install, publishing, deployment, Git commit or push is performed.
+
+The earlier [implementation-status.md](implementation-status.md) is preserved as historical evidence. Its task IDs refer to an older master plan; the task IDs below refer exclusively to the new specification. Its previous passing checks do not establish that the interrupted current tree passes.
+
+## Inspection completed
+
+- [x] Read the complete current implementation specification.
+- [x] Read repository guidance, README, workspace/package/configuration files, existing architecture and historical status.
+- [x] Inspect parser, schemas, validator, indexer, marketplace generation script, React placeholder, tests, CI and draft skill inventory.
+- [x] Identify package boundaries, dependency responsibilities, specification mismatches and implementation order.
+- [x] Create this implementation checklist without modifying existing files.
+
+## Current repository evidence
+
+| Area              | Observed state                                                                                                                                                                                            | Consequence for implementation                                                                                                                                                                              |
+| ----------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| Git               | Only README.md is tracked; initial commit is e79aa51. Origin is sarangp3010/open-skill-kit. Other source/configuration files remain local and untracked.                                                  | Preserve and inspect the full local tree; do not reset or assume the remote includes it. Do not commit or push as part of this planning request.                                                            |
+| Workspace         | pnpm 10.20.0; strict TypeScript; root name openskillhub; apps/web and packages/* are workspace members. Earlier app-ignore rule has already been removed.                                                 | Keep the independent directories in one monorepo. Align active documentation and display branding with the new specification's Open Skill Kit name during implementation; avoid gratuitous package renames. |
+| Toolchain         | ESLint 10, Prettier, Vitest 5 and esbuild are configured. Existing Vitest configuration discovers only tests/**/*.test.ts in Node.                                                                        | Reuse the baseline; add an explicit DOM/component test configuration and Playwright configuration.                                                                                                          |
+| Content engine    | skill-schema, skill-parser, skill-validator and catalog-indexer exist. Parser rejects unsafe YAML; validator checks structure, paths, links and resource limits; indexer rejects symlinks and duplicates. | Adapt and extend these packages rather than replace them. New marketplace schemas and includeDrafts behavior were added in the interrupted turn and are not yet revalidated.                                |
+| npm CLI           | packages/cli and scripts/build-npm.ts implement listing, inspection and copying of published packages. Public artifact name is open-skill-kit; no npm publication is claimed.                             | Preserve this independent consumer. Keep its published-only policy separate from marketplace draft visibility. New CLI features are not required for Milestone 1.                                           |
+| Skills            | 15 original draft folders across 14 sectors; each has metadata, four example files (two pairs) and structured test cases.                                                                                 | Preserve all drafts. They are not the exact 10 required paths in section 8 and have not passed the new milestone's editorial/manual review gates.                                                           |
+| Sector registry   | catalog/sectors.json contains the earlier 30-sector vocabulary. New specification proposes data/sectors.json and 50 stable target slugs.                                                                  | Make an explicit, lossless registry/mapping decision before adding new content. Do not create 500 placeholders or 50 empty landing pages.                                                                   |
+| Generated content | catalog/index.json currently has zero published entries. scripts/build-marketplace.ts partially generates draft-inclusive JSON and ZIPs with fflate.                                                      | Existing empty public index is not proof of missing source skills. Validate and integrate the unfinished generator; extract reusable ZIP behavior into a package.                                           |
+| React app         | Only index.html, package.json, src/main.tsx and src/style.css exist outside dependencies/build output. main.tsx is still the original placeholder.                                                        | Dependencies declared in a manifest are not implemented UI features. Routing, Tailwind integration, shadcn components, search, details, themes and download controls remain to implement.                   |
+| Web setup gaps    | No app-specific TypeScript/Vite configuration, components.json, UI components, browser test configuration or Playwright tests are present.                                                                | Add these deliberately, with app-owned development/build commands and shared browser-safe contracts.                                                                                                        |
+| Documentation     | README/architecture/history still contain earlier separate-repository and empty-library statements.                                                                                                       | Reconcile active docs with the latest spec, retain historical records and add a progress log.                                                                                                               |
+| Prior checks      | Historical status records 55 passing tests before the interrupted marketplace changes. A dependency install launched in that prior turn completed.                                                        | No current tests/lint/build are claimed as passed. The next execution batch must establish a new baseline.                                                                                                  |
+
+### Concrete issues to resolve first
+
+- The current metadata profile uses title, testedPlatforms, text-only, and draft/reviewed/published/planned, while the new specification illustrates displayName, testedWith, text, difficulty and community/verified labels. Preserve provenance and safety fields; introduce an explicit normalization boundary rather than silently rewriting every skill.
+- Publication lifecycle and review evidence are different concepts. Do not map a schema-valid draft or an automatically computed rubric score to verified. Keep review records and execution evidence separate.
+- The catalog needs sourcePath, difficulty, search keywords and compatibility information that the current entry shape does not fully provide. Derive source paths from validated repository-relative paths. Only derive updatedAt from actual source-control history; untracked files have no such history, so use null/omit rather than an invented timestamp.
+- The new pipeline permits optional metadata; the existing catalog validator requires metadata.json and tests/cases.json. Define a portable minimum parser contract and a clearly documented stricter publication/contribution profile. Missing author/license/provenance information must remain unknown and unreviewed, never manufactured.
+- The current validator disallows raw HTML, but the draft accessibility example includes an unfenced HTML snippet in examples/input-1.md. Fence or escape illustrative code during implementation; do not weaken sanitization to accommodate it. No validation run was performed to assert the precise current error set.
+- Existing high-stakes checks recognize earlier sector slugs. When adopting new slugs, preserve coverage for healthcare-medicine, legal-services, personal-finance, accounting-tax, aviation-aerospace and other consequential domains, rather than relying only on the old names or contributor-provided risk flags.
+- Current error reporting is mostly message strings. Add package/file context and useful line/column locations where available, without claiming natural-language safety can be established mechanically.
+- Current CI's git-diff check covers only catalog/index.json and does not detect all missing, ignored or untracked generated assets. Specify and test a real freshness check.
+- The completed earlier dependency installation resolved @testing-library/jest-dom 6.10.0 with a deprecation warning. Review its compatibility and select a supported version when implementation resumes; do not change dependencies in this planning turn.
+
+## Proposed architecture
+
+Keep skills as portable data and instructions. Keep filesystem/network/build concerns out of browser-safe modules. React components receive generated data and never embed the skill catalog.
+
+```text
+skills/<sector>/<slug>/SKILL.md + optional metadata/resources
+                   + canonical sector registry
+                              |
+                  skill-parser + skill-schema
+                              |
+                 skill-validator (untrusted data)
+                              |
+           catalog-indexer (Node-only filesystem boundary)
+                              |
+                 deterministic typed catalog
+                  /                        \
+       per-skill content assets       skill-exporter
+                  |                   safe ZIP artifacts
+                  +------------+-----------+
+                               |
+                        apps/web static build
+                               |
+               React search / filters / detail / download
+```
+
+The existing npm CLI remains a separate consumer of the validated published catalog. Reading or downloading a skill must not require the React app, Open Skill Kit servers, authentication, AI keys or a paid service.
+
+### Packages and responsibilities
+
+| Package/directory        | Plan                                            | Boundary/dependencies                                                                                                                                                                                             |
+| ------------------------ | ----------------------------------------------- | ----------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| packages/skill-schema    | Reuse and extend                                | Zod contracts for portable frontmatter, normalized metadata, sectors, review evidence and generated catalog; no Node imports.                                                                                     |
+| packages/skill-parser    | Reuse                                           | yaml parser with existing alias/tag/size restrictions; depends on schema, not UI.                                                                                                                                 |
+| packages/skill-validator | Reuse and extend                                | Deterministic structural/path/link checks using parser/schema and mdast-util-from-markdown; human review remains separate.                                                                                        |
+| packages/catalog-indexer | Reuse as the specification's skill-catalog role | Node filesystem traversal, duplicate detection, normalized catalog and search fields. No second competing scanner or gratuitous rename.                                                                           |
+| packages/skill-exporter  | Add                                             | Shared safe file-map-to-ZIP contract, limits, stable relative paths and archive tests, using fflate. Browser-safe core; Node writes belong in build scripts.                                                      |
+| packages/cli             | Preserve                                        | Existing npm distribution and filesystem copy workflow; no new registry publication or installer scope in this milestone.                                                                                         |
+| apps/web                 | Complete independent app workspace              | React + TypeScript + Vite, generated-data loading, routing, components and static output. No runtime filesystem reads or imports of Node indexer/CLI.                                                             |
+| scripts                  | Adapt orchestration                             | Validation/index aliases, generation, ZIP artifact writes and check-only freshness mode. App build/dev invokes generation explicitly.                                                                             |
+| data/sectors.json        | Proposed canonical registry                     | Adopt the new 50-slug planning vocabulary with a mapping from existing slugs. Preserve catalog/sectors.json until references are deliberately migrated; never maintain two independently edited sources of truth. |
+| docs                     | Update during implementation                    | Architecture/ADR, authoring/rubric, compatibility, security, roadmap and docs/progress.md. Preserve both earlier specifications and status history.                                                               |
+
+### Dependencies
+
+Versions below are not recommendations to install now. Reuse compatible locked versions where possible and check official documentation/advisories before changing dependency inputs.
+
+| Responsibility                   | Required dependencies                                                                                                                                     | Current state / action                                                                                                                                                                                                                     |
+| -------------------------------- | --------------------------------------------------------------------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| Workspace and language           | pnpm, TypeScript, tsx, Node                                                                                                                               | Already configured; honor the declared Node engine range and pnpm pin.                                                                                                                                                                     |
+| Contracts and Markdown structure | zod, yaml, mdast-util-from-markdown                                                                                                                       | Already used by the content engine; extend with compatibility tests.                                                                                                                                                                       |
+| UI runtime/routing               | react, react-dom, react-router-dom, React type declarations                                                                                               | Declared/installed from the interrupted turn; route implementation is missing.                                                                                                                                                             |
+| Styling/components               | tailwindcss, @tailwindcss/vite, shadcn/ui source components, @radix-ui/react-dialog, @radix-ui/react-slot, class-variance-authority, clsx, tailwind-merge | Most runtime utilities are declared; Vite/CSS integration, components.json, tokens and actual accessible components are missing. shadcn/ui is source code adopted into the app, not a completed feature merely because Radix is installed. |
+| Markdown preview                 | react-markdown, remark-gfm, rehype-sanitize                                                                                                               | Declared; implement and test a restricted renderer. Never enable arbitrary raw HTML.                                                                                                                                                       |
+| ZIP export                       | fflate                                                                                                                                                    | Declared; extract the partial build-script behavior into skill-exporter and test limits/round trips.                                                                                                                                       |
+| Search                           | Local normalized token/keyword index                                                                                                                      | Start with a typed local search module across name, description, tags, sector aliases and task synonyms. No hosted search service. Add MiniSearch only if tested relevance or scale justifies another dependency.                          |
+| Icons                            | lucide-react                                                                                                                                              | Already declared; decorative icons hidden from assistive technology, meaningful controls named.                                                                                                                                            |
+| Unit/component tests             | vitest, jsdom, @testing-library/react, @testing-library/user-event, @testing-library/jest-dom                                                             | Node tests exist; add DOM setup, TSX discovery and component/route tests. Resolve the noted deprecation compatibly.                                                                                                                        |
+| Browser tests                    | @playwright/test                                                                                                                                          | Declared; add configuration, critical flows and appropriate local/CI browser setup.                                                                                                                                                        |
+| Build and quality                | vite, esbuild, eslint, typescript-eslint, prettier                                                                                                        | Reuse current tools; app Vite config and a fresh full validation are still needed.                                                                                                                                                         |
+
+No backend, database, authentication provider, billing system, analytics integration, hosted search, model SDK or paid API is needed for Milestone 1. Do not introduce these as hidden prerequisites.
+
+## Milestone 1 execution checklist
+
+All unchecked tasks below are future work or existing work that must be adapted and revalidated against the new specification. A package existing on disk does not satisfy a milestone acceptance gate.
+
+### A — Repository foundation
+
+- [x] A01 Inspect repository, read current instructions and preserve the local baseline.
+- [x] A02 Reconcile independent skills/app workspaces and root/app commands; add skills:validate and skills:index aliases while preserving existing command compatibility. Scaffold commands validated; content commands remain opt-in.
+- [ ] A03 Complete strict app TypeScript, Vite/Tailwind configuration, shared formatting/linting and Node/DOM/browser test separation; validate a fresh install.
+- [ ] A04 Align README, contribution, security and licensing documentation with the current product name and actual capabilities.
+- [x] A05 Add an architecture decision record for skills/app separation, generated data, static hosting and status/review distinctions. See ADR 0001.
+- [ ] A06 Define the 50-sector stable registry and legacy slug mapping; render landing pages only where useful content exists.
+
+### B — Skill format and validation
+
+- [x] B01 Adapt parser and normalized metadata schema without breaking portable minimal frontmatter or existing packages.
+- [x] B02 Revalidate uniqueness, name/folder consistency, allowed files, size/count limits and symlink boundaries.
+- [x] B03 Cover encoded traversal, unsafe links, Markdown references and optional local resources without allowing escape from a skill root.
+- [x] B04 Return actionable package/file errors and available YAML/Markdown line positions.
+- [x] B05 Add regression tests for normalization, missing metadata, new sector aliases and malicious/invalid fixtures; rerun existing tests.
+- [x] B06 Document the authoring template and eight-dimension 0–2 rubric. Editorial review requires at least 13/16 and no critical safety failure; verified status needs separate review/execution evidence.
+
+### C — Initial ten skills
+
+All ten exact canonical paths are now authored. The reuse notes below describe the original plan; see the latest initial-skills batch for the completed content, preservation mapping and test evidence. The two conflicting old drafts are retained outside the active catalog in archive/skills.
+
+- [x] C01a software-development/code-reviewer — assess reuse of software-engineering/code-review-expert.
+- [x] C01b software-development/bug-investigator — author a dedicated evidence-based debugging workflow.
+- [x] C01c web-design-ux/ux-auditor — author a task-specific UX audit workflow.
+- [x] C01d web-design-ux/react-component-designer — author a component design workflow with accessibility and test boundaries.
+- [x] C01e web-design-ux/accessibility-reviewer — assess reuse of design-ux/accessibility-reviewer.
+- [x] C01f education-teaching/personal-tutor — assess reuse of education/personal-tutor.
+- [x] C01g recruitment-careers/resume-reviewer — assess reuse of resume-tailoring-assistant; distinguish reviewing from tailoring.
+- [x] C01h marketing-advertising/campaign-planner — author a concrete campaign planning workflow.
+- [x] C01i personal-productivity/weekly-review-coach — assess the existing weekly planning draft, but implement retrospective review rather than merely rename a planner.
+- [x] C01j data-analytics-bi/sql-query-reviewer — author an evidence-based SQL review workflow; no database execution by default.
+- [x] C02 Include at least two realistic input/output examples per initial skill, metadata/provenance and structured test fixtures; retain the useful existing two-pair convention.
+- [x] C03 Review triggers, actionable steps, outputs, privacy, tool permission, boundaries and original/licensed provenance using the rubric.
+- [x] C04 Run structural validation and documented manual sample walkthroughs; record any model executions separately and never imply unexecuted behavior tests passed.
+- [x] C05 Record draft/community/editorial status honestly; obtain human review before verified claims. Preserve additional existing drafts without silently presenting them as the required ten or as reviewed content.
+
+### D — Catalog pipeline
+
+- [x] D01 Reuse deterministic sector/skill discovery; validate every included package and fail on duplicate IDs/slugs.
+- [ ] D02 Generate typed catalog and per-skill content assets with required fields, safe source paths and nullable source-control dates.
+- [x] D03 Build task-oriented search fields with sector aliases and cross-sector synonyms, including an interview-relevant skill result.
+- [x] D04 Add a check-only freshness command that detects missing/stale generated data and fails CI without relying solely on git diff for ignored/untracked outputs.
+- [x] D05 Test exact IDs/counts, deterministic ordering, invalid-sector rejection, changed/new skill propagation and valid generated asset paths.
+
+### E — Read-only marketplace
+
+- [x] E01 Build AppShell, header, mobile navigation, footer, error boundary, light/dark/system themes and semantic tokens using Tailwind and shadcn/ui primitives.
+- [x] E02 Implement the homepage with a working hero search, useful sector entry points, honest curated picks and getting-started content; no invented popularity.
+- [ ] E03 Implement /skills with search, sector/capability/difficulty/review filters, sort and shareable URL query state.
+- [x] E04 Implement /sectors and /sectors/:sector using generated data; avoid empty SEO pages.
+- [x] E05 Implement /skills/:sector/:slug with safe Markdown, breadcrumbs and missing-skill handling.
+- [x] E06 Show examples, capability/compatibility limitations, copy actions, ZIP download and repository source links; no hardcoded skill metadata in components.
+- [x] E07 Provide accessible loading, empty, error and not-found states; respect reduced motion, visible focus, semantic landmarks and 320px+ layouts.
+- [ ] E08 Add component and route tests for search/filter/sort persistence, keyboard navigation, theme behavior, clipboard failures and Markdown injection.
+- [ ] Add useful /docs, /contribute and /about read-only pages. Keep /create out of active navigation until phase 2, or show an explicit informational placeholder with no pretend editor.
+- [ ] Document static host routing/fallback configuration for the specified readable URLs. Pre-render skill metadata if practical; do not claim SEO or accessibility targets without measurement.
+
+### F — ZIP and generic installation
+
+- [x] F01 Extract the ZIP exporter and preserve SKILL.md plus allowed relative assets in an inspectable package.
+- [ ] F02 Define installation/export adapter types with an honest generic Markdown fallback. Native platform guide implementation remains Milestone 2.
+- [x] F04 Explain capability limits, provide copyable generic instructions and show review status before use; never execute skill scripts.
+- [x] F05 Test archive path/file/size constraints, expected content and ZIP round-trip validation.
+- [ ] Make every initial skill's ZIP download functional in the browser and usable without the website.
+
+F03 current official platform verification and native Claude Code/Codex/Cursor/Gemini CLI instructions belong to Milestone 2 under section 14. Verify official documentation at that time; do not copy uncertain install commands into Milestone 1.
+
+### Supporting CI/documentation work for this milestone
+
+- [ ] Adapt existing CI to run skill validation, catalog freshness, Node/component tests, lint, typecheck, app/library builds and critical browser flows.
+- [ ] Preserve safe untrusted-PR behavior: no contributed skill script execution, no secrets exposed to untrusted workflows, dependency scanning, practical action pinning.
+- [ ] Update authoring/review/licensing/security/compatibility docs and start docs/progress.md with actual completed items, decisions, blockers and next steps.
+- [ ] Keep the npm packaging regression tests working without claiming that a public npm release occurred.
+
+## Validation and exit gates
+
+Implementation should proceed in dependency order: foundation/normalization → validation → ten skills/review → catalog/export → React pages → integration/accessibility and CI. Run the relevant checks after each coherent batch, resolve failures, and only then proceed.
+
+Future command gate (not run in this planning turn):
+
+```sh
+pnpm install --frozen-lockfile
+pnpm skills:validate
+pnpm skills:index
+pnpm lint
+pnpm format:check
+pnpm typecheck
+pnpm test
+pnpm build
+pnpm test:e2e
+```
+
+skills:validate and skills:index are planned aliases, not commands currently implemented. Add a catalog check-only freshness command during D04. Confirm standalone app commands and a fresh-clone build as part of A02/A03.
+
+| Spec acceptance                  | Required evidence                                                                                                                                            |
+| -------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| 1: add skill without React edits | Temporary valid package appears after generation and its detail/download resolves without component changes.                                                 |
+| 2: invalid content fails         | Duplicate slug, missing description, malformed YAML, broken reference, unsafe path and symlink negative tests.                                               |
+| 3: task-oriented search          | interview and relevant synonyms return appropriate authored content across sector labels.                                                                    |
+| 4: shareable filters             | Search/filter/sort survives a copied URL, reload and browser back/forward navigation.                                                                        |
+| 5: safe detail and examples      | Every initial skill renders readable Markdown and two examples; malicious HTML/URLs are blocked in component tests.                                          |
+| 6: safe ZIP                      | Decode the downloaded archive, inspect all relative entries and validate the reconstructed skill package.                                                    |
+| 7: keyboard journey              | Browser test: search → filter → open detail → download with keyboard; mobile nav/dialog focus and Escape behavior verified.                                  |
+| 8: mobile                        | Browser checks at 320px and representative larger viewports; no horizontal overflow or inaccessible controls.                                                |
+| 9: dark theme                    | Light/dark/system behavior, focus visibility and measured contrast on primary surfaces/controls. Automated checks alone do not establish WCAG conformance.   |
+| 10: static/no-key                | Clean build and served catalog work without backend configuration, credentials or paid services.                                                             |
+| 11: portability                  | Inspect and manually use plain SKILL.md from a downloaded folder independently of React; record evidence and limits.                                         |
+| 12: no untrusted execution       | CI/build/export review and negative fixtures demonstrate contributed scripts are not executed; human inspection covers unsafe natural-language instructions. |
+
+Do not mark Milestone 1 complete until its acceptance evidence exists. Do not claim a full WCAG audit, native platform support, executed model evaluation or professional correctness from deterministic tests.
+
+## Deferred scope and next action
+
+- Milestone 2: marketplace polish, officially verified platform guides and no-API visual builder.
+- Milestone 3: expanded governance/SEO/community and reviewed 30–100-skill growth.
+- Milestone 4: consent-based optional AI integrations and gradual quality-gated expansion toward 500 skills.
+- Keep accounts, database, payments, AI generation, community auto-publishing and bulk placeholder generation out of Milestone 1.
+- No GitHub/npm publication, remote settings changes or hosting deployment is included in this planning request.
+
+Next action when implementation is requested: establish the current validation baseline, reconcile schema/status/sector contracts, and complete the first A/B batch while preserving the existing drafts and CLI. Then author/adapt the exact ten skills and work through the remaining checklist. Stop at any failing gate rather than automatically beginning another milestone.
+
+## Scaffold implementation — 2026-11-09
+
+Authorized scope: “Implement the approved Open Skill Kit monorepo structure ... Do not implement the marketplace or generate skills yet.” This step implements the workspace and frontend toolchain foundation only. The inventory and planning-only statements above describe the earlier inspection, not the latest completed scaffold.
+
+### Implemented
+
+- Retained independent `skills/`, `apps/web/`, `packages/`, `scripts/` and `docs/` directories. No new skills, skill moves or content edits.
+- Root private package named `open-skill-kit`, pnpm 10.20.0 workspace membership, lockfile refresh and explicit `skills:validate` / `skills:index` aliases.
+- Shared `tsconfig.base.json`; root library/test/script configuration plus separate app browser and Vite/Node configurations. App-local `@/*` aliases agree between TypeScript and Vite.
+- React Fast Refresh via `@vitejs/plugin-react`, Tailwind CSS 4 via `@tailwindcss/vite`, semantic tokens and shadcn/ui `components.json`, local Button and `cn` utility.
+- TypeScript/React Hooks/React Refresh ESLint rules and Prettier formatting for the scaffold files.
+- A small accessible React starter with a functional local Button interaction. Marketplace pages, search, routing, catalog loading, exports and skill generation remain deferred.
+- Root `dev` delegates to the app. Root `build` builds only the starter app. App dev/build no longer call the partial marketplace generator. Existing content/index/npm commands remain explicit and unchanged internally.
+- README, app README, [scaffold guide](scaffold.md), [architecture](architecture.md), [ADR 0001](adr/0001-monorepo-boundaries.md), repository guidance and [progress log](progress.md).
+
+### Verification
+
+Environment: macOS, Node 24.21.0, pnpm 10.20.0. A temporary pinned pnpm executable supplied the commands; the README documents normal setup.
+
+| Check                                    | Actual result                                                                                                                                                                                                                |
+| ---------------------------------------- | ---------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
+| `pnpm install --frozen-lockfile`         | Pass in a fresh copy without node_modules.                                                                                                                                                                                   |
+| `pnpm lint`                              | Pass in workspace and fresh copy.                                                                                                                                                                                            |
+| `pnpm typecheck`                         | Pass in workspace and fresh copy, including app browser and Vite/Node checks.                                                                                                                                                |
+| `pnpm build`                             | Pass in workspace and fresh copy: Vite 7.3.8, 36 modules, output in apps/web/dist.                                                                                                                                           |
+| `pnpm test`                              | Pass: 55 existing tests across two files. No marketplace/component test suite added or claimed.                                                                                                                              |
+| Scaffold-file Prettier check             | Pass. Existing unrelated source/content files were not reformatted.                                                                                                                                                          |
+| `pnpm dev`                               | Vite ready in 101 ms at http://127.0.0.1:5173; server stopped after the smoke test.                                                                                                                                          |
+| Headless Chrome via installed Playwright | HTTP 200, Open Skill Kit heading rendered, Button updated React state, Tailwind background/radius applied, no page errors and no horizontal overflow at 320px. This is a one-off smoke test, not a full accessibility audit. |
+| Preservation check                       | SHA-256 comparison confirms all 134 pre-existing skills/packages/scripts/catalog/tests files unchanged.                                                                                                                      |
+
+Fresh verification directory: `/private/tmp/osk-scaffold-clean-qvx1jb7b`. Production output: 0.52 kB HTML, 12.21 kB CSS and 257.48 kB JS before gzip. No catalog or ZIP generation was run by the scaffold build.
+
+### Remaining work
+
+A03's broader component/browser test configuration and all marketplace/content gates remain unchecked. This step does not mark complete the entire foundation epic or Milestone 1. Existing draft validation gaps and partial marketplace-generation code are preserved for later work. Existing CI includes broader content validation/packaging gates and has not been verified on a hosted PR in this step. No paid API, backend, release, publication, remote configuration, commit or push was introduced.
+
+## Catalog and marketplace implementation — 2026-11-09
+
+The latest user requests authorize both the parser/schema/catalog pipeline and its read-only React marketplace. This supersedes the earlier scaffold-only runtime restriction. The earlier scope/status sections remain historical evidence.
+
+### Implemented scope
+
+- Safe YAML/frontmatter parsing with typed schema validation and available line/column diagnostics. The portable minimum remains name/description plus substantive instructions; catalog metadata/test cases are optional for drafts, with a separate stricter publication profile.
+- Optional metadata normalization supports existing fields and displayName/testedWith aliases. Missing version, license, author, provenance, difficulty and verification date remain unknown/null. Identity and source paths are derived and checked rather than trusted from metadata.
+- The filesystem reader checks boundaries, symlinks, names, byte/file limits, UTF-8 and extensions. The Markdown/reference validator rejects unsafe schemes, encoded/double-encoded traversal, absolute paths, broken local references and raw HTML. Checks collect diagnostics across invalid packages instead of stopping at the first skill.
+- New `DiscoverySkill` / `DiscoveryCatalog` Zod schemas and TypeScript types; deterministic generation to `catalog/catalog.json` and its identical Git-ignored app copy. Unknown safe sectors get a derived display label. Current registered vocabulary remains the earlier 30 sectors; the separate 50-sector migration is not claimed complete.
+- `pnpm skills:validate`, `skills:index`, `catalog:check` and `catalog:check-assets`. Validation/check modes do not rewrite outputs. Dev/build regenerate the catalog before Vite; React consumes fetched, runtime-validated generated JSON, never hardcoded arrays.
+- Landing, catalog and sector pages; task/alias search; sector/capability filters; alphabetical/sector sorts; shareable query parameters; skill details with safe Markdown, file/example previews, declared capabilities, source links, provenance and review labels.
+- Real clipboard and ZIP actions with error feedback. ZIP generation is lazy-loaded, revalidates the package and retains safe relative files beneath the skill slug. No contributed scripts execute.
+- Tailwind/shadcn-style local source primitives and consistent tokens; light/dark/system themes; Radix mobile navigation; keyboard/focus/skip-link behavior; readable 320px layouts; loading, empty, malformed-data, fetch-error/retry and not-found states.
+- Read-only docs, contribution and about pages; SPA fallback guidance and static `_redirects`. No account, authentication, analytics, database, backend or paid API.
+- Browser/component/unit test setup, axe checks and CI catalog freshness/browser steps. Local React/router dev dependencies support component tests; Testing Library matchers pinned to supported 6.9.1. Detail/Markdown and ZIP code are split from initial page code.
+
+### Changed areas
+
+- `packages/skill-schema`, `skill-parser`, `skill-validator`, `catalog-indexer`: discovery contract, diagnostics, normalization and safe discovery/reference handling. Existing publication/CLI APIs remain supported.
+- `scripts/catalog.ts`, root/app package scripts, canonical JSON, sector search aliases, test configurations, workspace lockfile and CI workflow.
+- `apps/web/src`: layout/navigation, themes, data loading/search, cards/controls, landing/catalog/sectors/details/info pages, Markdown, clipboard and downloads; app HTML/title, CSS tokens, Vite chunks and SPA rewrite file.
+- Pipeline/component/browser tests and README/app README/development/authoring/status/progress docs.
+- Existing draft Markdown/JSON formatting normalized; one HTML example was safely fenced. No new skill was authored, removed, renamed or promoted. User-supplied specifications are preserved unchanged and excluded from formatting.
+
+### Actual validation results
+
+Environment: macOS, Node.js 24.21.0, pnpm 10.20.0. Browser tests used installed Chrome through PLAYWRIGHT_CHROMIUM_EXECUTABLE_PATH, with a temporary Vite server managed by Playwright.
+
+| Command/check                   | Result                                                                                                                                                                                                             |
+| ------------------------------- | ------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------------ |
+| `pnpm lint`                     | Pass.                                                                                                                                                                                                              |
+| `pnpm typecheck`                | Pass for library/tests/scripts and app browser/Vite configurations.                                                                                                                                                |
+| `pnpm format:check`             | Pass; deterministic generated JSON and supplied specifications are excluded from Prettier.                                                                                                                         |
+| `pnpm test`                     | Pass: 79 tests across four files, including existing CLI pack/install regression tests.                                                                                                                            |
+| `pnpm test:e2e`                 | Pass: five browser tests, including actual ZIP extraction and keyboard-triggered download.                                                                                                                         |
+| Axe automated scans             | No violations for selected WCAG 2 A/AA, 2.1 AA and 2.2 AA tags across landing/catalog/detail in both themes and the mobile catalog. Not a full WCAG certification.                                                 |
+| `pnpm skills:validate`          | Pass: 15 existing packages; all remain draft.                                                                                                                                                                      |
+| `pnpm skills:index`             | Pass: 15 typed entries, 14 populated sectors, stable canonical/public JSON.                                                                                                                                        |
+| `pnpm catalog:check`            | Pass; checks canonical freshness without rewriting.                                                                                                                                                                |
+| `pnpm catalog:check-assets`     | Pass; also checks the generated app copy.                                                                                                                                                                          |
+| `pnpm build`                    | Pass; static output in apps/web/dist.                                                                                                                                                                              |
+| `pnpm check:links`              | Pass for local documentation file targets; external availability/anchors are not fetched.                                                                                                                          |
+| `pnpm audit --audit-level high` | Pass; no known vulnerabilities reported.                                                                                                                                                                           |
+| Production preview              | Rendered landing, applied themes, found task synonyms, opened details and downloaded a ZIP with zero page errors. Light/dark screenshots were visually inspected. Temporary servers/browser sessions were stopped. |
+
+Production build split outputs before gzip: entry 412.97 kB, React chunk 51.01 kB, Markdown chunk 173.19 kB, detail chunk 10.17 kB, lazy ZIP chunk 113.04 kB and CSS 35.37 kB. Non-blocking third-party Zod annotation warnings remain in build output; there is no oversized-chunk warning after splitting. Canonical catalog is approximately 124 KiB.
+
+Initial checks caught and resolved root DOM-test typing/alias setup, duplicate Markdown page headings, a keyboard-unfocusable horizontal code preview and a narrow mobile sector target. Contrast checks now wait for actual theme transitions to settle before measurement. All relevant checks were rerun after fixes.
+
+### Checklist interpretation and limits
+
+B01–B05 and D01/D03–D05 are implemented for the current catalog contract; full historical milestone acceptance is not implied. D02 uses per-skill file maps embedded in the generated JSON rather than separately fetched content assets. E01/E02/E04–E08 and generic ZIP/copy behavior are implemented. E03 currently covers search, sector/capability filters, sort and URL state; dedicated difficulty/review filters from the broader specification remain future work.
+
+The initial ten exact skill paths, 50-sector registry migration, authoring rubric/domain reviews, native platform adapters, shared skill-exporter package extraction and the visual builder remain pending. There are 15 existing structural-validity-checked drafts, not 15 human-reviewed or executed-model-tested releases. Automated checks cannot establish professional correctness or complete prompt-injection safety.
+
+CI definitions were updated, but no hosted PR result, public deployment, registry release or Git commit/push is claimed. The package/skill source links point at the intended repository and require those files to be pushed before the remote files are available. No later milestone is started automatically.
+
+## Exact initial ten skills — 2026-11-09
+
+The user requested the exact first ten skills in section 8 of the current specification, including substantial workflows, examples, limitations, tests and catalog regeneration. All ten are now content-complete authoring drafts at their required canonical paths. No independent human review, model/provider execution or native-platform verification is claimed.
+
+### Delivered packages
+
+1. software-development/code-reviewer
+2. software-development/bug-investigator
+3. web-design-ux/ux-auditor
+4. web-design-ux/react-component-designer
+5. web-design-ux/accessibility-reviewer
+6. education-teaching/personal-tutor
+7. recruitment-careers/resume-reviewer
+8. marketing-advertising/campaign-planner
+9. personal-productivity/weekly-review-coach
+10. data-analytics-bi/sql-query-reviewer
+
+Each package has a valid minimal-frontmatter SKILL.md with specific activation/exclusions, input requirements, eight substantive decision-oriented workflow steps, an output contract, privacy/permission limits and task-specific boundaries. Each also contains full metadata/provenance, two realistic input/output pairs, six distinct structured behavior cases and review.md with authoring evidence and the eight-dimension rubric self-assessment. Entry points are approximately 690–765 words rather than generic one-paragraph prompts.
+
+The examples include concrete defects and useful no-finding/insufficient-evidence cases. Distinctions include code-supported versus executed bug explanations, UX hypotheses versus observations, component data ownership, source-only accessibility limits, real learner reasoning, truthful resume evidence, budget/measurement arithmetic, retrospective capacity and SQL join/cardinality semantics.
+
+### Preservation and taxonomy
+
+Existing unique-slug checks remain intact. The earlier design-ux/accessibility-reviewer and education/personal-tutor drafts were preserved in archive/skills with all fourteen original files byte-for-byte; the expanded versions use the specification paths. The archive manifest records SHA-256 hashes verified by tests, and an additional comparison against the pre-move snapshot confirmed preservation. The other thirteen original packages remain in place. Old local sector URLs for the two moved drafts are superseded; no hosted site was changed.
+
+Six actual populated specification sectors were added alongside the original registry. There are now 36 registered sector definitions, 18 populated sectors and 23 active packages: the ten initial skills plus thirteen earlier drafts. This is not a completion claim for the separate 50-sector migration or the remaining 490 planned skills. The Markdown library index links to all active packages and the archive.
+
+### Tests and actual checks
+
+- `pnpm lint`, `pnpm typecheck`, `pnpm test` and `pnpm format:check`: pass. The suite now has **107 passing tests across five files**, including 28 new initial-skill checks.
+- New tests derive the required IDs from the specification, validate all ten with the strict full-package contract, check both example pairs and six distinct cases, preserve draft/platform/date honesty and ZIP-round-trip every package independently of the website.
+- Deterministic example checks cover fraction equality, campaign budget/cost thresholds, next-week capacity/buffer, independent relational calculations from the SQL JSON fixture, and syntax diagnostics for authored TSX. No contributed SQL/TSX is executed.
+- `pnpm skills:validate`: pass for all 23 active packages.
+- `pnpm skills:index`: regenerated canonical catalog/catalog.json and the identical app public copy.
+- `pnpm catalog:check` and `pnpm catalog:check-assets`: pass.
+- `pnpm build`: production build passes with the new catalog. Existing non-blocking upstream Zod annotation notices remain.
+- `pnpm check:links`: pass for repository documentation file targets; package-local references are also covered by per-package validation.
+- The skill-creator quick_validate.py accepts all ten entry points. Its initially missing PyYAML dependency was installed only in a temporary validation environment under /private/tmp; project/system dependencies were not changed.
+
+The tests/cases.json files describe **60 new behavioral scenarios**, not 60 executed model runs. Authoring walkthroughs and deterministic invariants establish internal consistency; independent forward-testing and human/editorial review are still pending. C01–C05 and the authoring rubric documentation are complete for this authoring scope: C04 evidence consists of deterministic validation and documented authoring sample walkthroughs, not independent assistant execution. Human editorial review and model forward-testing remain separate pending evidence, not claims made by this batch.
+
+See [initial-skill review evidence](initial-skills-review.md) and [progress](progress.md). All ten metadata files remain draft with no testedPlatforms or lastVerified date. Nothing was published to npm/GitHub or deployed, and no paid API was used. Catalog entries required no hardcoded React metadata. The larger library exposed a rapid-typing regression in the existing catalog page; its focused state-sync fix and strengthened browser/component assertions are recorded below.
+
+### Updated-catalog browser regression
+
+`pnpm test:e2e` passes all five browser tests with the new content, including real ZIP download, light/dark automated accessibility scans, mobile focus/overflow and keyboard navigation/download. The first regression run exposed search text being overwritten by delayed URL updates during rapid typing. A focused change in apps/web/src/pages/catalog.tsx keeps input updates immediate while acknowledging its own URL replacements and respecting browser/link navigation. Existing component/browser tests now assert the full typed value before navigating results; no arbitrary delay or weakened assertion was used. Lint, typecheck, all 107 tests, the browser suite and production build were rerun after the fix. No marketplace feature was added in this content batch.
+
+An extra repeated keyboard-stability invocation initially hit Playwright's automatic web-server startup timeout. The full five-test suite had already passed after the search correction; Vite was then started explicitly (ready in 93 ms) for a targeted follow-up. This was a test-harness startup issue, not a skill-validation failure. Final follow-up outcome is recorded below.
+
+The targeted follow-up passed **three consecutive keyboard search/detail/download runs** against the explicit local server. The temporary Vite server was stopped afterward. Final content validation, catalog generation/freshness, full tests, formatting and production build are all successful.

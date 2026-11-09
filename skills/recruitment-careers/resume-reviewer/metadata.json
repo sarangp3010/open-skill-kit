@@ -1,0 +1,22 @@
+{
+  "id": "recruitment-careers/resume-reviewer",
+  "slug": "resume-reviewer",
+  "title": "Resume Reviewer",
+  "sector": "recruitment-careers",
+  "tags": ["resume", "career", "job-search", "interview", "review"],
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Open Skill Kit contributors",
+  "riskLevel": "low",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original Open Skill Kit initial-milestone package. Examples and test inputs are fictional, authored for this project. Authoring self-review is recorded in review.md; independent human review and model execution are pending."
+}

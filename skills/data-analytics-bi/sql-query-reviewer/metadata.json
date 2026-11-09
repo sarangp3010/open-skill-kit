@@ -1,0 +1,22 @@
+{
+  "id": "data-analytics-bi/sql-query-reviewer",
+  "slug": "sql-query-reviewer",
+  "title": "SQL Query Reviewer",
+  "sector": "data-analytics-bi",
+  "tags": ["sql", "database", "query-review", "joins", "data-quality"],
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Open Skill Kit contributors",
+  "riskLevel": "low",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original Open Skill Kit initial-milestone package. Examples and test inputs are fictional, authored for this project. Authoring self-review is recorded in review.md; independent human review and model execution are pending."
+}

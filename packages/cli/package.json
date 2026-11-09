@@ -1,0 +1,12 @@
+{
+  "name": "@uas/cli",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "dependencies": {
+    "@uas/catalog-indexer": "workspace:*",
+    "@uas/skill-schema": "workspace:*",
+    "@uas/skill-validator": "workspace:*"
+  }
+}

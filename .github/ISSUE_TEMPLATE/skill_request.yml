@@ -1,0 +1,16 @@
+name: Skill request
+description: Propose a task-specific skill
+title: '[Skill]: '
+body:
+  - type: textarea
+    id: task
+    attributes:
+      label: Sector, task and activation conditions
+    validations:
+      required: true
+  - type: textarea
+    id: examples
+    attributes:
+      label: Example input, desired output and safety boundaries
+    validations:
+      required: true

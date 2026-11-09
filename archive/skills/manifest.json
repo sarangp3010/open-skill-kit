@@ -1,0 +1,75 @@
+{
+  "reason": "Preserve earlier drafts while adopting the specification sector paths without duplicate active slugs.",
+  "entries": [
+    {
+      "originalPath": "skills/design-ux/accessibility-reviewer",
+      "archivedPath": "archive/skills/design-ux/accessibility-reviewer",
+      "replacementId": "web-design-ux/accessibility-reviewer",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "7da4cb797c4da835a7b877105177d6b336e5ad4ec5e4f98b9367726f0a13de98"
+        },
+        {
+          "path": "examples/input-1.md",
+          "sha256": "0b1f3826841f09364431ca3a941f9600871f81621df6280b4e0968f03aa6e53f"
+        },
+        {
+          "path": "examples/input-2.md",
+          "sha256": "616cbdef11ca1bf80060b38b26cc2560d94280d5567ecffda43616fafce760d4"
+        },
+        {
+          "path": "examples/output-1.md",
+          "sha256": "f48ed4e1ca40637391dfaeaa3695eb5ff9613e23673e4e20c3133f7e0d556988"
+        },
+        {
+          "path": "examples/output-2.md",
+          "sha256": "db091f9beb3e54c3acaae347ba4a2e832e1014e43850ab3234e70583ed0679cf"
+        },
+        {
+          "path": "metadata.json",
+          "sha256": "7ad6c580d3a95e9144b1b0da5e678730654331b8acafaeddbf102c60d9574958"
+        },
+        {
+          "path": "tests/cases.json",
+          "sha256": "f3b0c343acc949079dd1f877db682fa260a01e58c5f89239e097a58aefadf3a8"
+        }
+      ]
+    },
+    {
+      "originalPath": "skills/education/personal-tutor",
+      "archivedPath": "archive/skills/education/personal-tutor",
+      "replacementId": "education-teaching/personal-tutor",
+      "files": [
+        {
+          "path": "SKILL.md",
+          "sha256": "50e6062d4c57feccf91f5f265a26df299325611b3db36247ad4f6ef8fedf2c00"
+        },
+        {
+          "path": "examples/input-1.md",
+          "sha256": "32e61ed85ec51d1b11250d6a132bc13b31d6ef21f87cea7b01bf59d24012e53b"
+        },
+        {
+          "path": "examples/input-2.md",
+          "sha256": "a448b5ecaa0591e93451ef38b127ea55ac00512284ff8ed1a9b2e9b1030d969b"
+        },
+        {
+          "path": "examples/output-1.md",
+          "sha256": "4bc5cec00990539da3be39a0862d77de1be6b22be2d377bfbcb26c94efe0bbd0"
+        },
+        {
+          "path": "examples/output-2.md",
+          "sha256": "40e17b0c13410dd5ad835aed15ad3d34b585f60b0d4a8599b0b17334cee0d6eb"
+        },
+        {
+          "path": "metadata.json",
+          "sha256": "401528dd1ab20262e6d7b49c0f5ad118ce7e04f60eff98b3a2e7d1031aaeedfd"
+        },
+        {
+          "path": "tests/cases.json",
+          "sha256": "f4ff8a5aaa2396c4613a9c0851fe5ce3c5de67c720c4c4c522a8a05eab67dbe5"
+        }
+      ]
+    }
+  ]
+}

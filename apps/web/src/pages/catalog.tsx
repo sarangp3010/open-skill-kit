@@ -1,0 +1,293 @@
+import { useMemo, useState } from 'react';
+import {
+  Link,
+  useNavigate,
+  useNavigationType,
+  useParams,
+  useSearchParams,
+} from 'react-router-dom';
+import {
+  Search,
+  SlidersHorizontal,
+  X,
+  ArrowRight,
+  FolderOpen,
+} from 'lucide-react';
+import { useLibrary } from '@/lib/use-library';
+import { selectSkills } from '@/lib/catalog';
+import { SkillCard } from '@/components/skill-card';
+import { Input, Select, Badge } from '@/components/ui/card';
+import { Button } from '@/components/ui/button';
+export function CatalogPage() {
+  const catalog = useLibrary();
+  const [params, setParams] = useSearchParams();
+  const { sector: sectorRoute } = useParams();
+  const navigate = useNavigate();
+  const urlQuery = params.get('q') ?? '';
+  const navigationType = useNavigationType();
+  const [search, setSearch] = useState({
+    value: urlQuery,
+    url: urlQuery,
+    pending: [] as string[],
+  });
+  // Keep keystrokes urgent while acknowledging delayed URL replacements.
+  // Back/forward and links still replace the input with their shareable query.
+  if (search.url !== urlQuery) {
+    const index =
+      navigationType === 'REPLACE' ? search.pending.lastIndexOf(urlQuery) : -1;
+    setSearch({
+      value: index >= 0 ? search.value : urlQuery,
+      url: urlQuery,
+      pending: index >= 0 ? search.pending.slice(index + 1) : [],
+    });
+  }
+  const query = search.value;
+  const selected = sectorRoute ?? params.get('sector') ?? '';
+  const sort = params.get('sort') ?? 'az';
+  const capability = params.get('capability') ?? '';
+  const populated = catalog.sectors.filter((sector) =>
+    catalog.skills.some((skill) => skill.sector === sector.slug),
+  );
+  const sector = catalog.sectors.find((item) => item.slug === selected);
+  const capabilities = [
+    ...new Set(catalog.skills.flatMap((skill) => skill.capabilities)),
+  ].sort();
+  const skills = useMemo(
+    () =>
+      selectSkills(catalog, { query, sector: selected, sort }).filter(
+        (skill) => !capability || skill.capabilities.includes(capability),
+      ),
+    [catalog, query, selected, sort, capability],
+  );
+  function update(key: string, value: string) {
+    const next = new URLSearchParams(params);
+    if (key !== 'q') {
+      if (query) next.set('q', query);
+      else next.delete('q');
+    }
+    if (value) next.set(key, value);
+    else next.delete(key);
+    if (sectorRoute && key === 'sector')
+      navigate(`/skills${next.size ? `?${next}` : ''}`);
+    else setParams(next, { replace: key === 'q' });
+  }
+  if (sectorRoute && !sector)
+    return (
+      <div className="container-shell py-20">
+        <h1 className="text-3xl font-semibold">Sector not found</h1>
+        <Link className="text-link mt-5" to="/sectors">
+          Explore available sectors
+          <ArrowRight size={16} />
+        </Link>
+      </div>
+    );
+  return (
+    <div className="container-shell py-12 sm:py-16">
+      <div className="mb-10">
+        <p className="eyebrow">The open workflow library</p>
+        <h1 className="mt-3 text-4xl font-semibold tracking-tight">
+          {sectorRoute ? sector?.title : 'Find your next skill.'}
+        </h1>
+        <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
+          {sectorRoute
+            ? sector?.description
+            : 'Practical instructions for your AI assistant. Explore by task, inspect the examples, and make a workflow your own.'}
+        </p>
+      </div>
+      <div className="grid items-start gap-8 lg:grid-cols-[210px_1fr] lg:gap-10">
+        <aside aria-label="Sector filters" className="hidden lg:block">
+          <div className="mb-5 flex items-center gap-2 text-xs font-semibold tracking-wider text-muted-foreground uppercase">
+            <SlidersHorizontal size={15} aria-hidden="true" />
+            Sectors
+          </div>
+          <div className="flex flex-col gap-1">
+            <button
+              type="button"
+              aria-pressed={!selected}
+              className={`sector-button ${!selected ? 'sector-active' : ''}`}
+              onClick={() => update('sector', '')}
+            >
+              All skills<span>{catalog.skills.length}</span>
+            </button>
+            {populated.map((item) => (
+              <button
+                type="button"
+                aria-pressed={selected === item.slug}
+                key={item.slug}
+                onClick={() => update('sector', item.slug)}
+                className={`sector-button ${selected === item.slug ? 'sector-active' : ''}`}
+              >
+                <span className="text-left">{item.title}</span>
+                <span>
+                  {
+                    catalog.skills.filter((skill) => skill.sector === item.slug)
+                      .length
+                  }
+                </span>
+              </button>
+            ))}
+          </div>
+          <div className="mt-8 rounded-xl border border-border bg-muted/50 p-4">
+            <FolderOpen size={21} className="text-primary" aria-hidden="true" />
+            <h2 className="mt-3 text-sm font-semibold">Missing a workflow?</h2>
+            <p className="mt-2 text-xs leading-5 text-muted-foreground">
+              The best libraries grow through shared experience.
+            </p>
+            <Link to="/contribute" className="text-link mt-3 text-xs">
+              Contribute a skill
+              <ArrowRight size={13} aria-hidden="true" />
+            </Link>
+          </div>
+        </aside>
+        <section aria-label="Skill results" className="min-w-0">
+          <div className="relative">
+            <Search
+              className="absolute top-4 left-4 text-muted-foreground"
+              size={19}
+              aria-hidden="true"
+            />
+            <label htmlFor="catalog-search" className="sr-only">
+              Search skills
+            </label>
+            <Input
+              id="catalog-search"
+              type="search"
+              value={query}
+              onChange={(event) => {
+                const value = event.target.value;
+                setSearch((current) => ({
+                  ...current,
+                  value,
+                  pending: [...current.pending, value],
+                }));
+                update('q', value);
+              }}
+              className="h-13 bg-card pr-4 pl-12"
+              placeholder="Search skills, tasks, or keywords…"
+            />
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 lg:flex lg:items-end">
+            <div className="col-span-2 min-w-0 lg:hidden">
+              <label
+                htmlFor="mobile-sector"
+                className="mb-1 block text-xs text-muted-foreground"
+              >
+                Sector
+              </label>
+              <Select
+                id="mobile-sector"
+                value={selected}
+                onChange={(event) => update('sector', event.target.value)}
+                className="w-full"
+              >
+                <option value="">All sectors</option>
+                {populated.map((item) => (
+                  <option key={item.slug} value={item.slug}>
+                    {item.title}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div>
+              <label
+                htmlFor="capability"
+                className="mb-1 block text-xs text-muted-foreground"
+              >
+                Capability
+              </label>
+              <Select
+                className="w-full"
+                id="capability"
+                value={capability}
+                onChange={(event) => update('capability', event.target.value)}
+              >
+                <option value="">All capabilities</option>
+                {capabilities.map((value) => (
+                  <option key={value} value={value}>
+                    {value.replaceAll('-', ' ')}
+                  </option>
+                ))}
+              </Select>
+            </div>
+            <div className="min-w-0 lg:ml-auto">
+              <label
+                htmlFor="sort"
+                className="mb-1 block text-xs text-muted-foreground"
+              >
+                Sort by
+              </label>
+              <Select
+                className="w-full"
+                id="sort"
+                value={sort}
+                onChange={(event) => update('sort', event.target.value)}
+              >
+                <option value="az">Name: A–Z</option>
+                <option value="za">Name: Z–A</option>
+                <option value="sector">Sector</option>
+              </Select>
+            </div>
+          </div>
+          <div className="my-6 flex flex-wrap items-center justify-between gap-3">
+            <p
+              role="status"
+              aria-live="polite"
+              className="text-sm text-muted-foreground"
+            >
+              <strong className="font-semibold text-foreground">
+                {skills.length}
+              </strong>{' '}
+              {skills.length === 1 ? 'skill' : 'skills'}
+              {query && <> matching “{query}”</>}
+            </p>
+            <div className="flex items-center gap-2">
+              {sector && <Badge>{sector.title}</Badge>}
+              {(query || selected || capability) && (
+                <Button
+                  variant="ghost"
+                  size="sm"
+                  onClick={() => navigate('/skills')}
+                >
+                  <X size={13} aria-hidden="true" />
+                  Clear filters
+                </Button>
+              )}
+            </div>
+          </div>
+          {skills.length ? (
+            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
+              {skills.map((skill) => (
+                <SkillCard
+                  key={skill.id}
+                  skill={skill}
+                  sector={
+                    catalog.sectors.find((item) => item.slug === skill.sector)
+                      ?.title ?? skill.sector
+                  }
+                />
+              ))}
+            </div>
+          ) : (
+            <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-16 text-center">
+              <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-muted text-muted-foreground">
+                <Search size={25} aria-hidden="true" />
+              </span>
+              <h2 className="mt-6 text-xl font-semibold">No skills found</h2>
+              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
+                Try a shorter phrase, use a different keyword, or explore
+                another sector.
+              </p>
+              <Button className="mt-6" onClick={() => navigate('/skills')}>
+                Reset search
+              </Button>
+            </div>
+          )}
+          <p className="mt-8 text-xs leading-6 text-muted-foreground">
+            Drafts are shared for inspection and feedback. Structural validation
+            is not human review or a guarantee of assistant compatibility.
+          </p>
+        </section>
+      </div>
+    </div>
+  );
+}

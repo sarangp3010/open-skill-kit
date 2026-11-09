@@ -1,0 +1,17 @@
+name: Bug report
+description: Report a reproducible defect
+title: '[Bug]: '
+body:
+  - type: textarea
+    id: behavior
+    attributes:
+      label: Expected and actual behavior
+    validations:
+      required: true
+  - type: textarea
+    id: reproduce
+    attributes:
+      label: Steps to reproduce and environment
+      description: Include versions and sanitized logs. Report security flaws privately.
+    validations:
+      required: true

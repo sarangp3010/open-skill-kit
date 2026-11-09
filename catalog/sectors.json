@@ -1,0 +1,236 @@
+[
+  {
+    "slug": "software-engineering",
+    "title": "Software Engineering",
+    "description": "Task-specific workflows for software engineering.",
+    "aliases": [
+      "software engineering",
+      "programming",
+      "code",
+      "development",
+      "debugging"
+    ]
+  },
+  {
+    "slug": "ai-machine-learning",
+    "title": "AI & Machine Learning",
+    "description": "Task-specific workflows for ai & machine learning.",
+    "aliases": ["ai", "machine learning", "AI", "prompts", "language models"]
+  },
+  {
+    "slug": "education",
+    "title": "Education",
+    "description": "Task-specific workflows for education.",
+    "aliases": ["education", "learning", "study", "tutoring"]
+  },
+  {
+    "slug": "healthcare",
+    "title": "Healthcare",
+    "description": "Task-specific workflows for healthcare.",
+    "aliases": ["healthcare"]
+  },
+  {
+    "slug": "finance",
+    "title": "Finance",
+    "description": "Task-specific workflows for finance.",
+    "aliases": ["finance"]
+  },
+  {
+    "slug": "legal",
+    "title": "Legal",
+    "description": "Task-specific workflows for legal.",
+    "aliases": ["legal"]
+  },
+  {
+    "slug": "marketing",
+    "title": "Marketing",
+    "description": "Task-specific workflows for marketing.",
+    "aliases": ["marketing"]
+  },
+  {
+    "slug": "sales",
+    "title": "Sales",
+    "description": "Task-specific workflows for sales.",
+    "aliases": ["sales"]
+  },
+  {
+    "slug": "human-resources",
+    "title": "Human Resources",
+    "description": "Task-specific workflows for human resources.",
+    "aliases": ["human resources"]
+  },
+  {
+    "slug": "recruitment-careers",
+    "title": "Recruitment & Careers",
+    "description": "Task-specific workflows for recruitment & careers.",
+    "aliases": [
+      "recruitment",
+      "careers",
+      "interview",
+      "job search",
+      "resume",
+      "career"
+    ]
+  },
+  {
+    "slug": "business-startups",
+    "title": "Business & Startups",
+    "description": "Task-specific workflows for business & startups.",
+    "aliases": ["business", "startups"]
+  },
+  {
+    "slug": "real-estate",
+    "title": "Real Estate",
+    "description": "Task-specific workflows for real estate.",
+    "aliases": ["real estate"]
+  },
+  {
+    "slug": "construction",
+    "title": "Construction",
+    "description": "Task-specific workflows for construction.",
+    "aliases": ["construction"]
+  },
+  {
+    "slug": "manufacturing",
+    "title": "Manufacturing",
+    "description": "Task-specific workflows for manufacturing.",
+    "aliases": ["manufacturing"]
+  },
+  {
+    "slug": "agriculture",
+    "title": "Agriculture",
+    "description": "Task-specific workflows for agriculture.",
+    "aliases": ["agriculture"]
+  },
+  {
+    "slug": "transportation-logistics",
+    "title": "Transportation & Logistics",
+    "description": "Task-specific workflows for transportation & logistics.",
+    "aliases": ["transportation", "logistics"]
+  },
+  {
+    "slug": "retail-e-commerce",
+    "title": "Retail & E-commerce",
+    "description": "Task-specific workflows for retail & e-commerce.",
+    "aliases": ["retail", "e-commerce"]
+  },
+  {
+    "slug": "food-restaurants",
+    "title": "Food & Restaurants",
+    "description": "Task-specific workflows for food & restaurants.",
+    "aliases": ["food", "restaurants"]
+  },
+  {
+    "slug": "travel-hospitality",
+    "title": "Travel & Hospitality",
+    "description": "Task-specific workflows for travel & hospitality.",
+    "aliases": ["travel", "hospitality"]
+  },
+  {
+    "slug": "media-journalism",
+    "title": "Media & Journalism",
+    "description": "Task-specific workflows for media & journalism.",
+    "aliases": ["media", "journalism"]
+  },
+  {
+    "slug": "social-media-creators",
+    "title": "Social Media & Creators",
+    "description": "Task-specific workflows for social media & creators.",
+    "aliases": ["social media", "creators"]
+  },
+  {
+    "slug": "design-ux",
+    "title": "Design & UX",
+    "description": "Task-specific workflows for design & ux.",
+    "aliases": ["design", "ux"]
+  },
+  {
+    "slug": "photography-video",
+    "title": "Photography & Video",
+    "description": "Task-specific workflows for photography & video.",
+    "aliases": ["photography", "video"]
+  },
+  {
+    "slug": "science-research",
+    "title": "Science & Research",
+    "description": "Task-specific workflows for science & research.",
+    "aliases": ["science", "research"]
+  },
+  {
+    "slug": "cybersecurity",
+    "title": "Cybersecurity",
+    "description": "Task-specific workflows for cybersecurity.",
+    "aliases": ["cybersecurity"]
+  },
+  {
+    "slug": "government-public-services",
+    "title": "Government & Public Services",
+    "description": "Task-specific workflows for government & public services.",
+    "aliases": ["government", "public services"]
+  },
+  {
+    "slug": "nonprofits-social-impact",
+    "title": "Nonprofits & Social Impact",
+    "description": "Task-specific workflows for nonprofits & social impact.",
+    "aliases": ["nonprofits", "social impact"]
+  },
+  {
+    "slug": "environment-energy",
+    "title": "Environment & Energy",
+    "description": "Task-specific workflows for environment & energy.",
+    "aliases": ["environment", "energy"]
+  },
+  {
+    "slug": "sports-fitness",
+    "title": "Sports & Fitness",
+    "description": "Task-specific workflows for sports & fitness.",
+    "aliases": ["sports", "fitness"]
+  },
+  {
+    "slug": "personal-life-productivity",
+    "title": "Personal Life & Productivity",
+    "description": "Task-specific workflows for personal life & productivity.",
+    "aliases": ["personal life", "productivity"]
+  },
+  {
+    "slug": "software-development",
+    "title": "Software Development",
+    "description": "Review, investigate and improve software using concrete code evidence.",
+    "aliases": [
+      "programming",
+      "code review",
+      "debugging",
+      "software engineering"
+    ]
+  },
+  {
+    "slug": "web-design-ux",
+    "title": "Web Design & UX",
+    "description": "Review journeys and accessibility, and design focused React components.",
+    "aliases": ["design", "usability", "interface", "frontend"]
+  },
+  {
+    "slug": "education-teaching",
+    "title": "Education & Teaching",
+    "description": "Explain concepts, support practice and provide evidence-based learner feedback.",
+    "aliases": ["learning", "study", "tutor", "education"]
+  },
+  {
+    "slug": "marketing-advertising",
+    "title": "Marketing & Advertising",
+    "description": "Plan truthful, measurable campaigns with explicit budgets and decision criteria.",
+    "aliases": ["campaign", "promotion", "marketing", "audience"]
+  },
+  {
+    "slug": "personal-productivity",
+    "title": "Personal Productivity",
+    "description": "Reflect on commitments, capacity and practical next actions.",
+    "aliases": ["weekly review", "reflection", "planning", "time"]
+  },
+  {
+    "slug": "data-analytics-bi",
+    "title": "Data Analytics & BI",
+    "description": "Review data questions and SQL semantics with traceable assumptions.",
+    "aliases": ["sql", "query", "analytics", "database"]
+  }
+]

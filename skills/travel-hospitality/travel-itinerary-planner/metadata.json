@@ -1,0 +1,22 @@
+{
+  "id": "travel-hospitality/travel-itinerary-planner",
+  "slug": "travel-itinerary-planner",
+  "title": "Travel Itinerary Planner",
+  "sector": "travel-hospitality",
+  "tags": ["travel", "itinerary", "planner"],
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "OpenSkillHub contributors",
+  "riskLevel": "low",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original OpenSkillHub starter draft. Examples are fictional and illustrative; human/domain review and executed model evaluations are pending."
+}

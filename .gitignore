@@ -1,0 +1,15 @@
+node_modules/
+dist/
+coverage/
+.env*
+!.env.example
+.DS_Store
+
+# Local copies made by the npm CLI
+.open-skill-kit/
+
+# Build-generated marketplace data and archives
+/apps/web/public/catalog.json
+/apps/web/public/downloads/
+/playwright-report/
+/test-results/
