@@ -181,3 +181,71 @@ test('theme persistence, system preference and empty search', async ({
     page.getByRole('link', { name: skill.title, exact: true }),
   ).toBeVisible();
 });
+
+test('rapid typing survives delayed URL renders and same-page history', async ({
+  page,
+  context,
+}) => {
+  test.setTimeout(60_000);
+  const cdp = await context.newCDPSession(page);
+  await cdp.send('Emulation.setCPUThrottlingRate', { rate: 6 });
+  await page.goto('/skills?capability=text-only&sort=za');
+  const search = page.getByLabel('Search skills');
+  await search.focus();
+  // No typing delay: this reproduces the CI input/URL transition race.
+  await page.keyboard.type(skill.title);
+  await expect(search).toHaveValue(skill.title);
+  await expect(search).toBeFocused();
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('q'))
+    .toBe(skill.title);
+  await expect(page.getByRole('status')).toContainText('1 skill matching');
+  await expect(page.getByLabel('Capability')).toHaveValue('text-only');
+  await expect(page.getByLabel('Sort by')).toHaveValue('za');
+
+  // Make a separate history entry, then replace its query using real keystrokes.
+  await page.getByLabel('Sort by').selectOption('az');
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('sort'))
+    .toBe('az');
+  await search.focus();
+  await page.keyboard.press('ControlOrMeta+A');
+  await page.keyboard.type('code');
+  await expect(search).toHaveValue('code');
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('q'))
+    .toBe('code');
+  await expect(page.getByLabel('Capability')).toHaveValue('text-only');
+
+  await page.goBack();
+  await expect(search).toHaveValue(skill.title);
+  await expect(page.getByLabel('Sort by')).toHaveValue('za');
+  await expect(page.getByLabel('Capability')).toHaveValue('text-only');
+  await page.goForward();
+  await expect(search).toHaveValue('code');
+  await expect(page.getByLabel('Sort by')).toHaveValue('az');
+  await page.reload();
+  await expect(search).toHaveValue('code');
+  await expect(page.getByLabel('Capability')).toHaveValue('text-only');
+  await expect(page.getByLabel('Sort by')).toHaveValue('az');
+});
+
+test('history restores an initially empty search after filtering and typing', async ({
+  page,
+}) => {
+  await page.goto('/skills');
+  const search = page.getByLabel('Search skills');
+  await page.getByLabel('Sort by').selectOption('za');
+  await search.focus();
+  await page.keyboard.type('code');
+  await expect(search).toHaveValue('code');
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('q'))
+    .toBe('code');
+  await page.goBack();
+  await expect(search).toHaveValue('');
+  await expect(page.getByLabel('Sort by')).toHaveValue('az');
+  await page.goForward();
+  await expect(search).toHaveValue('code');
+  await expect(page.getByLabel('Sort by')).toHaveValue('za');
+});

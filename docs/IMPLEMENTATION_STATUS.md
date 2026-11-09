@@ -376,3 +376,13 @@ See [initial-skill review evidence](initial-skills-review.md) and [progress](pro
 An extra repeated keyboard-stability invocation initially hit Playwright's automatic web-server startup timeout. The full five-test suite had already passed after the search correction; Vite was then started explicitly (ready in 93 ms) for a targeted follow-up. This was a test-harness startup issue, not a skill-validation failure. Final follow-up outcome is recorded below.
 
 The targeted follow-up passed **three consecutive keyboard search/detail/download runs** against the explicit local server. The temporary Vite server was stopped afterward. Final content validation, catalog generation/freshness, full tests, formatting and production build are all successful.
+
+## CI search race correction — 2026-11-09
+
+Run #42703934777 disproved the earlier local-only stability result: the keyboard search test expected Prompt Evaluator but received r. The page matched pending query strings while reconciling URL state during render. Router transitions can be delayed/replayed, so query values are not reliable acknowledgements of keystrokes.
+
+The search field now owns urgent input state independently of URL-driven results. Search/filter URL writes carry an explicit history-state marker; the field acknowledges navigation identity without replacing text for those writes. External navigation and every POP restore the destination query, including an initially empty search. Typing still replaces the current history entry; filter/sort changes still push entries and copy the latest input value. No pending-string queue, debounce delay, router-wide transition changes or dependency changes are needed. The field remains mounted across filter changes to preserve focus.
+
+The original keyboard test is unchanged. Added a component regression injecting an older URL render between keystrokes, a real-keyboard browser regression under six-times CPU throttling covering filters/sorting/reload/back/forward, and a browser regression returning to the initially empty history entry. No keyboard test was changed to fill(), delayed, retried or weakened.
+
+Actual local validation: lint, typecheck, all 108 unit/component tests, all seven Playwright tests (including accessibility scans and ZIP downloads), validate:skills (23 drafts), check:links, check:duplicates, catalog:check, production build, catalog:check-assets and pack:npm pass. Canonical catalog remains unchanged. Existing upstream build annotation notices are non-blocking. Formatting is checked before commit. Hosted verification will follow the authorized commit/push; no hosted success is claimed here.

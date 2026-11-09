@@ -14,6 +14,7 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { resolve } from 'node:path';
 import { App } from '../apps/web/src/App';
+import { CatalogSearchInput } from '../apps/web/src/components/catalog-search-input';
 import { MarkdownViewer } from '../apps/web/src/components/markdown-viewer';
 import { generateCatalog } from '../packages/catalog-indexer/src/index';
 import type { DiscoveryCatalog } from '../packages/skill-schema/src/index';
@@ -182,4 +183,35 @@ describe('generated-catalog marketplace', () => {
       'noopener noreferrer',
     );
   });
+});
+
+it('keeps newer keystrokes and the caret when an older URL render arrives', async () => {
+  const user = userEvent.setup();
+  const onQueryChange = vi.fn();
+  const view = render(
+    <CatalogSearchInput
+      initialValue=""
+      navigationKey="initial"
+      restoreFromUrl={false}
+      inputRef={null}
+      onQueryChange={onQueryChange}
+    />,
+  );
+  const search = screen.getByRole('searchbox');
+  await user.click(search);
+  await user.keyboard('Prompt');
+  view.rerender(
+    <CatalogSearchInput
+      initialValue="Pr"
+      navigationKey="delayed-replacement"
+      restoreFromUrl={false}
+      inputRef={null}
+      onQueryChange={onQueryChange}
+    />,
+  );
+  expect(search).toHaveValue('Prompt');
+  expect(search).toHaveFocus();
+  await user.keyboard(' Evaluator');
+  expect(search).toHaveValue('Prompt Evaluator');
+  expect(onQueryChange).toHaveBeenLastCalledWith('Prompt Evaluator');
 });

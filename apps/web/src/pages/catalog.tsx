@@ -1,6 +1,7 @@
-import { useMemo, useState } from 'react';
+import { useMemo, useRef } from 'react';
 import {
   Link,
+  useLocation,
   useNavigate,
   useNavigationType,
   useParams,
@@ -16,32 +17,22 @@ import {
 import { useLibrary } from '@/lib/use-library';
 import { selectSkills } from '@/lib/catalog';
 import { SkillCard } from '@/components/skill-card';
-import { Input, Select, Badge } from '@/components/ui/card';
+import { CatalogSearchInput } from '@/components/catalog-search-input';
+import { Select, Badge } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 export function CatalogPage() {
   const catalog = useLibrary();
   const [params, setParams] = useSearchParams();
   const { sector: sectorRoute } = useParams();
   const navigate = useNavigate();
-  const urlQuery = params.get('q') ?? '';
+  const query = params.get('q') ?? '';
+  const location = useLocation();
   const navigationType = useNavigationType();
-  const [search, setSearch] = useState({
-    value: urlQuery,
-    url: urlQuery,
-    pending: [] as string[],
-  });
-  // Keep keystrokes urgent while acknowledging delayed URL replacements.
-  // Back/forward and links still replace the input with their shareable query.
-  if (search.url !== urlQuery) {
-    const index =
-      navigationType === 'REPLACE' ? search.pending.lastIndexOf(urlQuery) : -1;
-    setSearch({
-      value: index >= 0 ? search.value : urlQuery,
-      url: urlQuery,
-      pending: index >= 0 ? search.pending.slice(index + 1) : [],
-    });
-  }
-  const query = search.value;
+  const inputRef = useRef<HTMLInputElement>(null);
+  // History state identifies our own URL writes even when router transitions
+  // arrive late. POP must always restore the destination's shareable query.
+  const restoreSearch =
+    navigationType === 'POP' || location.state?.catalogSearchUpdate !== true;
   const selected = sectorRoute ?? params.get('sector') ?? '';
   const sort = params.get('sort') ?? 'az';
   const capability = params.get('capability') ?? '';
@@ -62,14 +53,19 @@ export function CatalogPage() {
   function update(key: string, value: string) {
     const next = new URLSearchParams(params);
     if (key !== 'q') {
-      if (query) next.set('q', query);
+      const latestQuery = inputRef.current?.value ?? query;
+      if (latestQuery) next.set('q', latestQuery);
       else next.delete('q');
     }
     if (value) next.set(key, value);
     else next.delete(key);
     if (sectorRoute && key === 'sector')
       navigate(`/skills${next.size ? `?${next}` : ''}`);
-    else setParams(next, { replace: key === 'q' });
+    else
+      setParams(next, {
+        replace: key === 'q',
+        state: { catalogSearchUpdate: true },
+      });
   }
   if (sectorRoute && !sector)
     return (
@@ -149,21 +145,12 @@ export function CatalogPage() {
             <label htmlFor="catalog-search" className="sr-only">
               Search skills
             </label>
-            <Input
-              id="catalog-search"
-              type="search"
-              value={query}
-              onChange={(event) => {
-                const value = event.target.value;
-                setSearch((current) => ({
-                  ...current,
-                  value,
-                  pending: [...current.pending, value],
-                }));
-                update('q', value);
-              }}
-              className="h-13 bg-card pr-4 pl-12"
-              placeholder="Search skills, tasks, or keywords…"
+            <CatalogSearchInput
+              navigationKey={location.key}
+              restoreFromUrl={restoreSearch}
+              initialValue={query}
+              inputRef={inputRef}
+              onQueryChange={(value) => update('q', value)}
             />
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:flex lg:items-end">
