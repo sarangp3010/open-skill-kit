@@ -14,7 +14,7 @@ pnpm build
 pnpm --filter @osh/web preview
 ```
 
-The app's dev/build commands regenerate the [typed catalog](catalog-pipeline.md). The production output is `apps/web/dist`. Asset URLs use Vite's configured base. BrowserRouter uses that base; static hosting must rewrite non-asset routes to index.html. `public/_redirects` provides the SPA fallback convention for hosts that support it. For other hosts configure the equivalent rewrite. No hosting deployment is performed here.
+The app's dev/build commands regenerate the [typed catalog](catalog-pipeline.md). The production output is `apps/web/dist`. Asset URLs use Vite's configured base. BrowserRouter uses that base; static hosting must rewrite non-asset routes to index.html. `public/_redirects` provides the SPA fallback convention for hosts that support it. For hosts without rewrite support, use the static route entries described below.
 
 ## Pages and interactions
 
@@ -43,3 +43,21 @@ The browser suite runs real downloads, checks extracted SKILL.md bytes, keyboard
 Passing automated scans is not a complete WCAG conformance claim or a substitute for manual screen-reader and device testing. Some Markdown tables/code blocks are horizontally scrollable with keyboard focus rather than forcing the page to overflow. Human/editorial review and actual assistant execution evidence are outside these UI tests.
 
 Detail/Markdown code and ZIP functionality are split from initial page code, with separate React/Markdown vendor chunks. No account, analytics, API provider, paid service or automatic publication was added.
+
+## GitHub Pages
+
+`pnpm build:pages` generates the production app plus a physical index.html for each catalog, informational, sector and skill route. This supports direct links and reloads on GitHub Pages without changing BrowserRouter or search URL behavior. Route names come from the validated catalog; no skill metadata is hardcoded in React. Unknown URLs use the generated 404.html and retain HTTP 404 semantics.
+
+For the project site, build locally with:
+
+```sh
+VITE_BASE_PATH=/open-skill-kit/ pnpm build:pages
+```
+
+`VITE_BASE_PATH` defaults to `/` for local development and ordinary builds. The deployment job obtains the correct repository/custom-domain path from actions/configure-pages instead of hardcoding this repository name. Assets, generated catalog fetches and BrowserRouter all use the same base.
+
+The `deploy-pages` job in CI runs only after validation succeeds for main pushes or manually dispatched main runs. Pull requests validate without deploying. It builds and uploads only apps/web/dist using the official configure-pages, upload-pages-artifact and deploy-pages actions. Deployment uses the github-pages environment and scoped contents-read, pages-write and id-token-write permissions. Deployments are serialized. npm publication is separate and is not performed.
+
+Before the first deployment, enable GitHub Pages with GitHub Actions as its publishing source in repository Settings → Pages. This change, committing/pushing the prepared workflow, and the first deployment require the user's explicit approval. Once enabled, approved future main pushes automatically deploy only after CI passes. The expected project URL is https://sarangp3010.github.io/open-skill-kit/; no live deployment is claimed until verified.
+
+References: [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and [Vite static deployment](https://vite.dev/guide/static-deploy.html).

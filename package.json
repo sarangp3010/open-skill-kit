@@ -28,7 +28,8 @@
     "skills:validate": "pnpm validate:skills",
     "skills:index": "pnpm build:catalog",
     "catalog:check": "tsx scripts/catalog.ts --check",
-    "catalog:check-assets": "tsx scripts/catalog.ts --check-public"
+    "catalog:check-assets": "tsx scripts/catalog.ts --check-public",
+    "build:pages": "pnpm build && tsx scripts/prepare-pages.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

@@ -402,3 +402,15 @@ Hosted run #42707679766 passed six browser tests but exposed an additional empty
 The field now also restores controlled state on native popstate. The catalog resets its latest-parameter snapshot from that event as well, preventing a subsequent edit from reintroducing pre-POP filters. Existing URL-prop restoration still supports links and MemoryRouter navigation. Both listeners clean up on unmount. No router-wide transition change, typing delay or weakened assertion was added.
 
 Added a deterministic component regression dispatching POP with unchanged router props and strengthened the empty-history browser test with twelve-times CPU throttling. The full seven-test browser suite and five additional independent runs of the stronger history case pass locally using Chromium 158. The unit/component suite now has 109 passing tests. Other CI checks are rerun before the follow-up commit; hosted verification follows the authorized push.
+
+## GitHub Pages preparation — awaiting user approval
+
+Prepared a Pages deployment job gated by the existing successful CI validate job. It runs only for main pushes/manual main runs, uses GitHub's official configure/upload/deploy actions, reads the correct base path from Pages metadata and serializes deployments. Pull requests cannot deploy. Vite supports VITE_BASE_PATH while local development still defaults to the root path.
+
+Added build:pages and a catalog-driven static route preparation script. It creates 64 real directory entry points for the five fixed routes, 36 sectors and 23 skill details, plus 404.html and .nojekyll. Known routes load directly without SPA rewrites; generated paths are validated before writing. The app retains BrowserRouter, ordinary search URLs, filters/sorting/history and browser-generated ZIPs. No skill content, catalog metadata, paid API or npm release was added.
+
+Local results: lint/typecheck pass; 112 unit/component tests across six files pass, including three new Pages preparation regressions; all seven Playwright tests pass. The project-subpath production build passes. A plain local static server without rewrites returned HTTP 200 for home/catalog/info/sector/detail routes; Chromium verified asset/catalog loading, keyboard search, refresh, filters/sorting, back/forward and an actual ZIP download with zero page errors. Skill/link/duplicate/catalog/asset checks and npm packaging pass; canonical catalog is unchanged. Existing upstream build annotation notices remain non-blocking.
+
+User explicitly required asking before every push. That instruction is recorded in AGENTS.md. All Pages changes remain local/uncommitted: no hosting setting, commit, push or deployment has been performed. Pending approval: commit/push the reviewed setup, enable Pages with GitHub Actions as publishing source, wait for CI/deployment, then verify the public site. Expected project URL: https://sarangp3010.github.io/open-skill-kit/ (not yet live/verified).
+
+The user subsequently approved committing/pushing this prepared setup, enabling GitHub Pages and deploying it. Local validation above applies to the approved changes; hosted CI/deployment and public verification follow the push.

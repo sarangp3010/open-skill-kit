@@ -11,3 +11,5 @@ The latest user request restores apps/web as an independent workspace in this mo
 Current approved step: validated catalog pipeline plus read-only marketplace. App dev/build regenerate catalog data from skills; never generate or execute contributed skill code. Preserve existing packages and drafts; do not add authentication, paid APIs or publish/deploy without authorization.
 
 The exact initial ten specification skills are now authored at their canonical sector paths. Keep authoring completion distinct from independent editorial review, model execution and publication. Two superseded same-name drafts are preserved under archive/skills; keep the preservation manifest intact and never index the archive as active content.
+
+Ask the user for explicit approval before every git push. Prepare and validate the concrete changes first. For hosting work, include enabling hosting and deployment in the approval request.
