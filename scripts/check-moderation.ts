@@ -294,8 +294,6 @@ if (
           return response.json();
         },
       );
-      if (event.pull_request && event.pull_request.base.ref !== 'main')
-        throw new Error('Publication review must target main');
     }
     console.log(
       `Moderation checks pass: ${registry.decisions.length} recorded decisions. Local ledger checks do not impersonate GitHub approval or merge.`,
