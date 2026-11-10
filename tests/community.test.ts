@@ -301,52 +301,25 @@ describe('workflow and community configuration boundaries', () => {
       }
     }
   });
-  it('limits privileged deployment to the canonical main push/manual event and executes no application code there', async () => {
+  it('keeps CI validation read-only and disables automatic Pages publication', async () => {
     const workflow = parse(
       await readFile(resolve('.github/workflows/ci.yml'), 'utf8'),
     ) as Workflow;
-    const guard =
-      "github.repository == 'sarangp3010/open-skill-kit' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')";
-    for (const id of ['build-pages', 'deploy-pages'])
-      expect(workflow.jobs[id].if).toBe(guard);
-    const deploy = workflow.jobs['deploy-pages'];
-    expect(deploy.permissions).toEqual({
-      contents: 'read',
-      pages: 'write',
-      'id-token': 'write',
-    });
-    expect(deploy.steps).toHaveLength(1);
-    expect(deploy.steps[0].uses).toMatch(/^actions\/deploy-pages@/);
-    expect(deploy.steps[0].run).toBeUndefined();
-    expect(
-      workflow.jobs['validate'].steps.some(
-        (step) => step.run === 'pnpm contributions:check',
-      ),
-    ).toBe(true);
-  });
-  it('keeps the reviewed build/deploy dependency chain and confines the read token to moderation', async () => {
-    const workflow = parse(
-      await readFile(resolve('.github/workflows/ci.yml'), 'utf8'),
-    ) as Workflow;
-    expect(workflow.jobs['build-pages'].needs).toEqual([
-      'validate',
-      'portability',
-    ]);
-    expect(workflow.jobs['deploy-pages'].needs).toBe('build-pages');
-    expect(workflow.jobs['deploy-pages'].environment?.name).toBe(
-      'github-pages',
-    );
-    const tokenSteps = workflow.jobs.validate.steps.filter(
-      (step) => step.env?.GH_TOKEN,
-    );
+    expect(workflow.on.pull_request.branches).toEqual(['main', 'develop']);
+    expect(workflow.on.push.branches).toEqual(['main', 'develop']);
+    expect(Object.keys(workflow.jobs)).toEqual(['validate', 'portability']);
+    expect(workflow.jobs['build-pages']).toBeUndefined();
+    expect(workflow.jobs['deploy-pages']).toBeUndefined();
+    for (const job of Object.values(workflow.jobs)) {
+      expect(job.permissions).not.toHaveProperty('pages');
+      expect(job.permissions).not.toHaveProperty('id-token');
+      expect(job.steps.some((step) => step.uses?.includes('deploy-pages'))).toBe(false);
+    }
+    expect(workflow.jobs.validate.steps.some((step) => step.run === 'pnpm release:check')).toBe(true);
+    const tokenSteps = workflow.jobs.validate.steps.filter((step) => step.env?.GH_TOKEN);
     expect(tokenSteps).toHaveLength(1);
     expect(tokenSteps[0].run).toBe('pnpm moderation:check');
     expect(tokenSteps[0].env?.GH_TOKEN).toBe('${{ github.token }}');
-    expect(
-      workflow.jobs.validate.steps.some(
-        (step) => step.run === 'pnpm release:check',
-      ),
-    ).toBe(true);
   });
   it('provides parseable issue forms with unique IDs and required fields plus private-report guidance', async () => {
     for (const name of [
