@@ -432,9 +432,17 @@ it('explains fixture evidence and hides stale scores without promoting compatibi
   const artifact = (
     await readEvaluationReports(resolve('evaluations/reports'))
   )[0];
-  const evidence = assessEvaluationArtifact(artifact, skill);
+  const historicalSkill = {
+    ...skill,
+    files: Object.fromEntries(
+      Object.entries(skill.files).filter(([path]) => path !== 'LICENSE.txt'),
+    ),
+  };
+  const evidence = assessEvaluationArtifact(artifact, historicalSkill);
   const { rerender } = render(
-    <EvaluationDetails skill={{ ...skill, evaluations: [evidence] }} />,
+    <EvaluationDetails
+      skill={{ ...historicalSkill, evaluations: [evidence] }}
+    />,
   );
   expect(
     screen.getByText('Offline fixture replay · not agent performance'),
@@ -513,4 +521,145 @@ it('composes broad-sector selection with specialty filters and keeps typed input
   expect(
     screen.queryByRole('link', { name: 'Code Reviewer' }),
   ).not.toBeInTheDocument();
+});
+
+it('takes visitors from Submit a skill to a complete read-only contribution workflow', async () => {
+  app('/');
+  await userEvent.click(
+    await screen.findByRole('link', { name: 'Submit a skill' }),
+  );
+  await screen.findByRole('heading', { name: 'Share a workflow that helps.' });
+  expect(
+    screen.getByLabelText('Contribution validation commands'),
+  ).toHaveTextContent('pnpm contributions:check');
+  expect(
+    screen.getByRole('link', { name: 'Open a pull request on GitHub' }),
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/sarangp3010/open-skill-kit/compare',
+  );
+  expect(
+    screen.getByRole('link', { name: 'Get the complete skill template' }),
+  ).toHaveAttribute('href', expect.stringContaining('/templates/skill'));
+  await waitFor(() =>
+    expect(document.title).toBe('Submit a skill — Open Skill Kit'),
+  );
+  expect(document.head.querySelectorAll('link[rel="canonical"]')).toHaveLength(
+    1,
+  );
+  expect(document.head.querySelectorAll('#page-structured-data')).toHaveLength(
+    1,
+  );
+});
+
+it('keeps declared authors separate from current and stale maintainer attribution', async () => {
+  const { ContributorAttribution } =
+    await import('../apps/web/src/components/contributor-attribution');
+  const original = catalog.skills[0];
+  const { rerender } = render(<ContributorAttribution skill={original} />);
+  expect(screen.getByText(/Declared author:/)).toBeInTheDocument();
+  expect(
+    screen.getByText('No maintainer-reviewed attribution recorded.'),
+  ).toBeInTheDocument();
+  const attribution = {
+    status: 'current' as const,
+    record: {
+      skillId: original.id,
+      displayName: 'Synthetic Contributor <script>bad()</script>',
+      githubUsername: 'synthetic-contributor',
+      reviewedBy: 'synthetic-reviewer',
+      reviewedAt: '2026-11-10T12:00:00Z',
+      reviewUrl: 'https://github.com/sarangp3010/open-skill-kit/pull/1',
+      packageDigest: '0'.repeat(64),
+      evidencePath: 'docs/attributions/synthetic.md',
+      evidenceDigest: '0'.repeat(64),
+    },
+  };
+  rerender(<ContributorAttribution skill={{ ...original, attribution }} />);
+  expect(
+    screen.getByRole('link', { name: attribution.record.displayName }),
+  ).toHaveAttribute('href', 'https://github.com/synthetic-contributor');
+  expect(document.body.querySelector('script')).toBeNull();
+  expect(
+    screen.getByText(
+      /This maintainer record is not a professional qualification/,
+    ),
+  ).toBeInTheDocument();
+  rerender(
+    <ContributorAttribution
+      skill={{ ...original, attribution: { ...attribution, status: 'stale' } }}
+    />,
+  );
+  expect(screen.getByText(/needs re-review/)).toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: attribution.record.displayName }),
+  ).not.toBeInTheDocument();
+});
+
+it('provides generated installation onboarding without requiring an account', async () => {
+  app('/docs');
+  await screen.findByRole('heading', {
+    name: `Install a catalog example: ${catalog.skills[0].title}`,
+  });
+  expect(screen.getByLabelText('Installation command')).toHaveTextContent(
+    catalog.skills[0].id,
+  );
+  expect(
+    screen.getByText(
+      /Browsing, local validation and downloads need no account/,
+    ),
+  ).toBeInTheDocument();
+  await waitFor(() =>
+    expect(
+      document.head
+        .querySelector('meta[name="description"]')
+        ?.getAttribute('content'),
+    ).toContain('Codex'),
+  );
+});
+
+it('lets contributors edit and validate a proposal without a catalog write or publication action', async () => {
+  app('/create');
+  await screen.findByRole('heading', { name: 'Create a skill proposal' });
+  const slug = screen.getByLabelText('Skill name');
+  await userEvent.clear(slug);
+  await userEvent.type(slug, 'browser-proposal-test');
+  await userEvent.click(screen.getByRole('button', { name: 'Apply identity' }));
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Validate proposal' }),
+  );
+  expect(
+    screen.getByRole('region', { name: 'Proposal validation' }),
+  ).toHaveTextContent('Validation passed');
+  await userEvent.click(
+    screen.getByRole('button', { name: 'Submit Skill for review' }),
+  );
+  expect(
+    screen.getByRole('region', { name: 'Submission review guide' }),
+  ).toHaveTextContent('not submitted or published');
+  expect(
+    screen.getByRole('link', { name: 'Open GitHub pull request page' }),
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/sarangp3010/open-skill-kit/compare',
+  );
+  expect(
+    catalog.skills.some((skill) => skill.slug === 'browser-proposal-test'),
+  ).toBe(false);
+});
+
+it('keeps the published view empty rather than falling back to source drafts', async () => {
+  app('/published');
+  await screen.findByRole('heading', { name: 'Published skills' });
+  expect(
+    screen.getByRole('heading', { name: 'No skills found' }),
+  ).toBeInTheDocument();
+  expect(
+    screen.queryByRole('link', { name: catalog.skills[0].title }),
+  ).not.toBeInTheDocument();
+  expect(
+    screen.getByText(
+      /Only maintainer-approved, merged publications appear here/,
+    ),
+  ).toBeInTheDocument();
 });

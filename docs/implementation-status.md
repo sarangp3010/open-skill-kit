@@ -1,3 +1,5 @@
+> Historical foundation record. Current architecture, features and validation are tracked in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md). Statements below describe earlier milestones, not current product limitations.
+
 # Implementation status
 
 Validated 2026-11-09. Scope: Epic A (A01–A05) and the Epic B foundation (B01–B04), as specified by the master plan's first implementation batch. The original master plan is unchanged. Subsequent user requests added GitHub navigation and explicitly brought forward a limited npm CLI/distribution slice of K01/K02; unrelated later epics remain deferred.

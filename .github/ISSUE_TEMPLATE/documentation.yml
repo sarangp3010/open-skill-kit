@@ -1,0 +1,17 @@
+name: Documentation or accessibility improvement
+description: Help improve installation, authoring, compatibility or marketplace access
+title: '[Docs]: '
+body:
+  - type: textarea
+    id: location
+    attributes:
+      label: Affected guide, page or workflow
+    validations:
+      required: true
+  - type: textarea
+    id: problem
+    attributes:
+      label: What is unclear or inaccessible, and the proposed improvement
+      description: For accessibility, include browser, input method or assistive technology when useful. Do not include personal data.
+    validations:
+      required: true

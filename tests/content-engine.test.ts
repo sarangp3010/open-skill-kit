@@ -22,6 +22,7 @@ import {
 } from '../packages/skill-validator/src/index';
 import {
   buildCatalog,
+  generateCatalog,
   readSkillFiles,
 } from '../packages/catalog-indexer/src/index';
 
@@ -195,17 +196,23 @@ describe('filesystem indexer', () => {
   it('is deterministic, excludes drafts, and validates published entries', async () => {
     const directory = await root();
     expect((await buildCatalog(directory)).catalog.skills).toEqual([]);
+    const draftEntries = (
+      await buildCatalog(directory, { includeDrafts: true })
+    ).catalog.skills;
+    expect(draftEntries).toHaveLength(1);
     const path = join(directory, 'education/example-skill/metadata.json');
     const metadata = JSON.parse(await readFile(path, 'utf8'));
     await writeFile(path, JSON.stringify({ ...metadata, status: 'published' }));
     const first = await buildCatalog(directory);
     expect(first.validated).toBe(1);
-    expect(first.catalog.skills).toHaveLength(1);
+    expect(first.catalog.skills).toHaveLength(0);
+    const preview = (await generateCatalog(directory)).catalog;
+    expect(preview.skills).toHaveLength(1);
     expect(await buildCatalog(directory)).toEqual(first);
     expect(
       catalogSchema.safeParse({
         schemaVersion: 1,
-        skills: [...first.catalog.skills, ...first.catalog.skills],
+        skills: [...draftEntries, ...draftEntries],
       }).success,
     ).toBe(false);
   });

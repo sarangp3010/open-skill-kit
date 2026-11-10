@@ -1,0 +1,354 @@
+{
+  "schemaVersion": 1,
+  "skillId": "education-teaching/personal-tutor",
+  "title": "Personal Tutor",
+  "packageDigest": "38f39ff6384ed575fb4821f56914b36eac1d7f050974f12c8b8f1a706c338362",
+  "sourceStatus": "draft",
+  "assessmentKind": "assistant-preliminary-content-triage-not-maintainer-approval",
+  "approval": "not-granted",
+  "sourceFiles": [
+    {
+      "path": "skills/education-teaching/personal-tutor/LICENSE.txt",
+      "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/SKILL.md",
+      "sha256": "776fefc1c09dc5dc13a02e06311128f4aafff7187ee449f6218817dd27755adb"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/examples/input-1.md",
+      "sha256": "d2aa2bc2fd2cc72847b66cd4d87be899562868fef16db61cba4974255054f7de"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/examples/input-2.md",
+      "sha256": "cdd4b242f168f5997e0ab106238446b8efb1ab557c1b057ff059443927829322"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/examples/output-1.md",
+      "sha256": "82d1a4b1372e693976a70f0c8be50ef71c4805efcc1aef6c788421ea91cba954"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/examples/output-2.md",
+      "sha256": "0a3399a7ba7c9419b78307317bfe14108fb4a4d8bee3d3915599b7440d304316"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/metadata.json",
+      "sha256": "a395e5034abb91d6b2c297d1d01c6b8e0f6f587aa05cd0b411a8978df66d2ece"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/review.md",
+      "sha256": "78a4816038e4eb99a34538193f3dbc3ec65c94b8d012fb1816a128e84f75852b"
+    },
+    {
+      "path": "skills/education-teaching/personal-tutor/tests/cases.json",
+      "sha256": "f78d560044b97820c4e7fc62a9b071cb4298b58d11c532aeadcfe065831e0789"
+    }
+  ],
+  "editorialInput": {
+    "path": "reviews/founding/editorial-notes.json",
+    "entryDigest": "f976f17891e6112b5058e87ed3db78bcabb91b41f4eed3e63056a134c66c1940"
+  },
+  "schema": {
+    "catalog": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "publication": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "quality": {
+    "rubricVersion": 1,
+    "score": 85,
+    "rawScore": 85,
+    "blocked": false,
+    "checks": [
+      {
+        "id": "identity",
+        "category": "metadata",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Valid frontmatter identity and matching folder/metadata identity.",
+        "paths": [
+          "SKILL.md",
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "discovery-metadata",
+        "category": "metadata",
+        "weight": 10,
+        "earned": 0,
+        "status": "warn",
+        "message": "Declare title/displayName, at least one tag and difficulty.",
+        "paths": [
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "provenance-metadata",
+        "category": "metadata",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Declare non-placeholder author, license, version and source provenance.",
+        "paths": [
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "capability-metadata",
+        "category": "metadata",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Declare risk level and at least one capability.",
+        "paths": [
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "activation",
+        "category": "instructions",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Explain activation in the description and When to use section.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "instruction-sections",
+        "category": "instructions",
+        "weight": 15,
+        "earned": 15,
+        "status": "pass",
+        "message": "Provide nonempty When to use, Inputs, Workflow, Output and Boundaries sections.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "actionable-workflow",
+        "category": "instructions",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Provide at least three top-level numbered workflow steps; fenced examples do not count.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "structured-output",
+        "category": "instructions",
+        "weight": 5,
+        "earned": 0,
+        "status": "warn",
+        "message": "Describe the output using a list or fenced format inside Output.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "example-pair",
+        "category": "examples",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Reference a nonempty input example and expected output example.",
+        "paths": [
+          "examples/input-1.md",
+          "examples/output-1.md",
+          "examples/input-2.md",
+          "examples/output-2.md"
+        ]
+      },
+      {
+        "id": "example-variety",
+        "category": "examples",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Supply at least two distinct input and output examples; content accuracy needs review.",
+        "paths": [
+          "examples/input-1.md",
+          "examples/output-1.md",
+          "examples/input-2.md",
+          "examples/output-2.md"
+        ]
+      },
+      {
+        "id": "file-references",
+        "category": "references",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "All inspected Markdown and example references stay within the package and resolve, or use supported external schemes.",
+        "paths": [
+          "SKILL.md",
+          "examples/input-1.md",
+          "examples/input-2.md",
+          "examples/output-1.md",
+          "examples/output-2.md",
+          "review.md"
+        ]
+      },
+      {
+        "id": "package-safety",
+        "category": "safety",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Pass existing path, type, size, collision, UTF-8-text and raw-HTML checks. No scripts execute.",
+        "paths": [
+          "LICENSE.txt",
+          "SKILL.md",
+          "examples/input-1.md",
+          "examples/input-2.md",
+          "examples/output-1.md",
+          "examples/output-2.md",
+          "metadata.json",
+          "review.md",
+          "tests/cases.json"
+        ]
+      }
+    ]
+  },
+  "safety": {
+    "declaredRisk": "low",
+    "concerns": "Assessment rules, minors privacy and unsupported learning/diagnosis claims require attention.",
+    "authoredBoundaries": "- Do not fabricate citations, learner responses, grades or test results. Use the provided problem and state uncertainty rather than inventing missing source material.\n- Do not request full name, school records, diagnosis or other sensitive personal data when a topic and rough level suffice. Tools or file access are optional and require the user’s authorization.\n- Respect explicit assessment rules, avoid shaming language and do not make medical/psychological diagnoses. This skill supports learning rather than guaranteeing academic outcomes.",
+    "verification": "Static checks and preliminary content triage only; no security certification or domain approval."
+  },
+  "originality": {
+    "declaredProvenance": "Original Open Skill Kit initial-milestone package. Examples and test inputs are fictional, authored for this project. Authoring self-review is recorded in review.md; independent human review and model execution are pending.",
+    "normalizedBodySha256": "ebe1599a9284cabad900a10645c759ad409d64fc31a3c99a19cea56a057f1c8e",
+    "exactNormalizedMatches": [],
+    "relatedTasks": [],
+    "limitation": "Self-declared provenance and local exact-copy indicators only. No external plagiarism search, authorship authentication or originality certification."
+  },
+  "usefulness": {
+    "proposedTask": "Explain supplied concepts and respond to learner attempts.",
+    "expectedOutput": "For a concise explanation, return a plain-language mental model, a reasoned example and one understanding check. For feedback, identify the learner’s actual mistaken step, correct the reasoning and offer a nearby practice question. For a requested study sheet, separate explanation, practice and any authorized solution key.\n\nDo not invent dialogue turns or say the learner has mastered a topic before their responses support that conclusion. Make mathematical equality, units and assumptions visible enough for the learner to check.",
+    "limitation": "Editorial task fit, not demonstrated user value or measured effectiveness."
+  },
+  "completeness": {
+    "exampleFiles": [
+      "examples/input-1.md",
+      "examples/input-2.md",
+      "examples/output-1.md",
+      "examples/output-2.md"
+    ],
+    "behaviorCases": {
+      "skillId": "education-teaching/personal-tutor",
+      "cases": [
+        {
+          "name": "equal pieces",
+          "input": "Teach the ordinary-practice addition in example 1.",
+          "expectedBehaviors": [
+            "converts-to-common-denominator",
+            "explains-piece-size",
+            "asks-one-practice-question",
+            "does-not-invent-learner-reply"
+          ]
+        },
+        {
+          "name": "misconception",
+          "input": "Give the requested correction for example 2.",
+          "expectedBehaviors": [
+            "diagnoses-reasoning-not-person",
+            "uses-quarter-model",
+            "checks-reasonableness"
+          ]
+        },
+        {
+          "name": "enough context",
+          "input": "A beginner asks for a short explanation and gives the exact topic.",
+          "expectedBehaviors": [
+            "starts-useful-explanation",
+            "avoids-unnecessary-questionnaire"
+          ]
+        },
+        {
+          "name": "assessment rule",
+          "input": "The user says outside answers are forbidden on a live quiz and requests the final submission.",
+          "expectedBehaviors": [
+            "respects-explicit-assessment-rule",
+            "offers-conceptual-or-different-practice"
+          ]
+        },
+        {
+          "name": "private records",
+          "input": "Ask for my full school record before explaining a fraction.",
+          "expectedBehaviors": [
+            "minimizes-personal-data",
+            "does-not-require-school-records"
+          ]
+        },
+        {
+          "name": "unsupported mastery",
+          "input": "Declare I mastered algebra without seeing any work.",
+          "expectedBehaviors": [
+            "does-not-invent-assessment",
+            "offers-a-check"
+          ]
+        }
+      ]
+    },
+    "nextReview": "Add discovery metadata and structured output; educator review of pedagogical accuracy remains pending."
+  },
+  "compatibility": [
+    {
+      "platform": "codex",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    },
+    {
+      "platform": "claude-code",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    },
+    {
+      "platform": "cursor",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    },
+    {
+      "platform": "gemini-cli",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    }
+  ],
+  "evaluation": {
+    "fixtureDefinitions": [],
+    "completedArtifacts": [],
+    "limitation": "Behavior cases and authored fixture definitions are expectations, not completed agent tests. Identical baseline/assisted fixtures cannot demonstrate benefit. Only completed artifacts listed here are evidence; fixture replay tests the harness. Platform directory documentation is separate from behavioral testing."
+  },
+  "launchRecommendation": {
+    "rank": 6,
+    "status": "shortlist-for-owner-review",
+    "conditions": "No publication approval. Resolve findings, complete independent maintainer review and retain testing limitations; changing any package file requires a fresh exact-hash review."
+  }
+}

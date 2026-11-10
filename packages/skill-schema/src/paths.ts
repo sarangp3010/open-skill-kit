@@ -1,10 +1,17 @@
 import { z } from 'zod';
 
+export const isReservedFilename = (name: string) =>
+  /^(con|prn|aux|nul|conin\$|conout\$|com[0-9¹²³]|lpt[0-9¹²³])(?:\.|$)/i.test(
+    name,
+  );
+export const portablePathKey = (path: string) =>
+  path.normalize('NFC').toUpperCase().toLowerCase().normalize('NFC');
 export const slugSchema = z
   .string()
   .min(1)
   .max(64)
-  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/);
+  .regex(/^[a-z0-9]+(?:-[a-z0-9]+)*$/)
+  .refine((name) => !isReservedFilename(name), 'Reserved Windows device name');
 export const frontmatterSchema = z
   .object({
     name: slugSchema,
@@ -23,6 +30,7 @@ export const safePathSchema = z
       ) &&
       !/[\\:%?#<>"|*]/.test(value) &&
       !value.startsWith('/') &&
+      value === value.normalize('NFC') &&
       value
         .split('/')
         .every(
@@ -32,7 +40,7 @@ export const safePathSchema = z
             part !== '..' &&
             !part.startsWith('.') &&
             !/[. ]$/.test(part) &&
-            !/^(con|prn|aux|nul|com[0-9]|lpt[0-9])(?:\.|$)/i.test(part),
+            !isReservedFilename(part),
         ),
     'Expected a portable relative path without traversal or reserved names',
   );

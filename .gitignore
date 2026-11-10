@@ -13,3 +13,5 @@ coverage/
 /apps/web/public/downloads/
 /playwright-report/
 /test-results/
+
+/apps/web/public/published.json

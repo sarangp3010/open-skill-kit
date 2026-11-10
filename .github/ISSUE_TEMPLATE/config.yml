@@ -1,0 +1,8 @@
+blank_issues_enabled: false
+contact_links:
+  - name: Security vulnerability or private information
+    url: https://github.com/sarangp3010/open-skill-kit/blob/main/SECURITY.md
+    about: Read the private reporting options. Do not disclose vulnerabilities or secrets in public issues.
+  - name: Create and submit a skill
+    url: https://github.com/sarangp3010/open-skill-kit/blob/main/CONTRIBUTING.md
+    about: Use the portable template, validate locally, and submit your own draft pull request.

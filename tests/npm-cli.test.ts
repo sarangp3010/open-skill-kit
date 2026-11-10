@@ -15,9 +15,14 @@ import {
 import { join, resolve } from 'node:path';
 import { tmpdir } from 'node:os';
 import { afterAll, beforeAll, describe, expect, it } from 'vitest';
-import { buildCatalog } from '../packages/catalog-indexer/src/index';
+import {
+  packageDigest,
+  readSkillFiles,
+  buildCatalog,
+} from '../packages/catalog-indexer/src/index';
 import { installSkill, loadLibrary, runCli } from '../packages/cli/src/index';
 import { buildNpmPackage } from '../scripts/build-npm';
+import { writeSyntheticReview } from './helpers/review-fixture';
 
 const execute = promisify(execFile);
 const repo = resolve('.');
@@ -36,6 +41,33 @@ beforeAll(async () => {
   await writeFile(
     metadataPath,
     JSON.stringify({ ...metadata, status: 'published' }),
+  );
+  const { reviewRecord, review } = await writeSyntheticReview(
+    temp,
+    'education/example-skill',
+    await readSkillFiles(join(skills, 'education/example-skill')),
+  );
+  await mkdir(join(temp, 'catalog'), { recursive: true });
+  await writeFile(
+    join(temp, 'catalog/publication-reviews.json'),
+    JSON.stringify({
+      schemaVersion: 1,
+      decisions: [
+        {
+          skillId: 'education/example-skill',
+          packageDigest: packageDigest(
+            await readSkillFiles(join(skills, 'education/example-skill')),
+          ),
+          decision: 'approved',
+          reviewer: 'sarangp3010',
+          reviewedAt: review.reviewedAt,
+          reviewRecord,
+          pullRequest: 1,
+          reason:
+            'Synthetic offline packaging fixture only; no actual approval is claimed.',
+        },
+      ],
+    }),
   );
   artifact = join(temp, 'dist/npm');
   await buildNpmPackage(repo, artifact, skills);
@@ -194,6 +226,27 @@ describe('npm CLI', () => {
     expect((await invokeBinary(['installed', ...flags])).stdout).toContain(
       'No installed',
     );
+  });
+  it('seals approved package/catalog bytes and rejects unlisted package directories before publication', async () => {
+    await execute(process.execPath, [join(artifact, 'release-check.js')]);
+    for (const kind of ['package', 'catalog', 'extra']) {
+      const output = join(temp, 'tampered-' + kind);
+      await cp(artifact, output, { recursive: true });
+      if (kind === 'package')
+        await writeFile(
+          join(output, 'data/skills/education/example-skill/SKILL.md'),
+          'Unreviewed replacement.',
+        );
+      if (kind === 'catalog')
+        await writeFile(join(output, 'data/catalog.json'), '{}');
+      if (kind === 'extra')
+        await mkdir(join(output, 'data/skills/education/unapproved'), {
+          recursive: true,
+        });
+      await expect(
+        execute(process.execPath, [join(output, 'release-check.js')]),
+      ).rejects.toThrow('Release blocked');
+    }
   });
   it('excludes all drafts and blocks publishing an empty release', async () => {
     const emptyArtifact = join(temp, 'empty/dist/npm');

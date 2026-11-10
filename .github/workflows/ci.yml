@@ -1,44 +1,115 @@
 name: CI
 on:
   pull_request:
+  pull_request_review:
+    types: [submitted, dismissed]
   push:
     branches: [main]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   validate:
     runs-on: ubuntu-latest
-    timeout-minutes: 15
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          package-manager-cache: false
+      - run: npm install --global pnpm@10.20.0 --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Validate skill contributions and report actionable diagnostics
+        run: pnpm contributions:check
+      - name: Require maintainer approval for publication changes
+        run: pnpm moderation:check
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: pnpm founding:check
+      - run: pnpm release:check
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm test
+      - run: pnpm portability:check
+      - run: pnpm licensing:check
       - run: pnpm evaluate:fixtures
       - run: pnpm validate:skills
       - run: pnpm check:links
       - run: pnpm check:duplicates
       - run: pnpm catalog:check
+      - run: pnpm build:marketplace
       - run: pnpm build
       - run: pnpm catalog:check-assets
       - run: pnpm exec playwright install --with-deps chromium
       - run: pnpm test:e2e
       - run: pnpm pack:npm
-      - run: git diff --exit-code -- catalog/catalog.json
+      - run: pnpm licensing:artifacts
+      - name: Check generated catalog is committed
+        run: git diff --exit-code -- catalog/catalog.json
 
+  # Standard public-repository runners only; no private-plan spending is assumed.
+  portability:
+    if: github.event.repository.private == false
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: npm install --global pnpm@10.20.0 --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm exec vitest run tests/portability.test.ts
+
+  # Build application code with read-only permissions, never deployment rights.
+  build-pages:
+    needs: [validate, portability]
+    if: github.repository == 'sarangp3010/open-skill-kit' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
+    runs-on: ubuntu-latest
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: npm install --global pnpm@10.20.0 --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm build:pages
+        env:
+          VITE_BASE_PATH: /open-skill-kit/
+      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
+        with:
+          path: apps/web/dist
+          retention-days: 1
+
+  # Only the official deployment action runs with Pages/OIDC write permissions.
   deploy-pages:
-    needs: validate
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
+    needs: build-pages
+    if: github.repository == 'sarangp3010/open-skill-kit' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
     runs-on: ubuntu-latest
     timeout-minutes: 10
     permissions:
@@ -52,22 +123,5 @@ jobs:
       name: github-pages
       url: ${{ steps.deployment.outputs.page_url }}
     steps:
-      - uses: actions/checkout@v4
-        with:
-          persist-credentials: false
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
-        with:
-          node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - uses: actions/configure-pages@v5
-        id: pages
-      - run: pnpm build:pages
-        env:
-          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
-      - uses: actions/upload-pages-artifact@v4
-        with:
-          path: apps/web/dist
-      - uses: actions/deploy-pages@v4
+      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
         id: deployment

@@ -4,6 +4,7 @@ import {
   discoverySkillSchema,
   metadataSchema,
   safePathSchema,
+  portablePathKey,
   slugSchema,
   testCasesSchema,
   platformResultsSchema,
@@ -110,17 +111,17 @@ export function validateSkill(
     for (let index = 0; index < parts.length; index++) {
       const prefix = parts.slice(0, index + 1).join('/');
       const kind = index === parts.length - 1 ? 'file' : 'directory';
-      const previous = pathTree.get(prefix.toLowerCase());
+      const previous = pathTree.get(portablePathKey(prefix));
       if (previous && (previous.path !== prefix || previous.kind !== kind))
         fail(`Conflicting file/directory or case alias: ${prefix}`, path);
-      else pathTree.set(prefix.toLowerCase(), { path: prefix, kind });
+      else pathTree.set(portablePathKey(prefix), { path: prefix, kind });
     }
     const bytes = new TextEncoder().encode(files[path]).length;
     size += bytes;
     if (bytes > LIMITS.fileBytes) fail('File exceeds 256 KiB', path);
     if (files[path].includes('\0')) fail('Binary content is unsupported', path);
   }
-  if (new Set(paths.map((path) => path.toLowerCase())).size !== paths.length)
+  if (new Set(paths.map(portablePathKey)).size !== paths.length)
     fail('Case-insensitive filename collision');
   if (size > LIMITS.packageBytes) fail('Package exceeds 1 MiB');
   facts.safetyChecked = true;

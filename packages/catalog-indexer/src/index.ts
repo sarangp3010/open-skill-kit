@@ -8,11 +8,21 @@ export {
   type EvaluationArtifact,
 } from './evaluations';
 import { assessCompatibility } from './trust';
+import { assessAttribution } from './attributions';
+export { readAttributions, assessAttribution } from './attributions';
 export { packageDigest, assessCompatibility } from './trust';
+export {
+  readPublicationRegistry,
+  publishedCatalog,
+  isApprovedPackage,
+  publicationDigest,
+} from './publication';
 import { lstat, readdir, readFile } from 'node:fs/promises';
-import { join } from 'node:path';
+import { join, dirname, resolve } from 'node:path';
+import { readPublicationRegistry, isApprovedPackage } from './publication';
 import {
   catalogSchema,
+  attributionRegistrySchema,
   discoveryCatalogSchema,
   sectorsSchema,
   matchesSector,
@@ -20,6 +30,7 @@ import {
   slugSchema,
   type Catalog,
   type Sector,
+  type AttributionRecord,
 } from '@uas/skill-schema';
 import {
   LIMITS,
@@ -68,7 +79,10 @@ export async function readSkillFiles(
         if (Object.keys(files).length >= LIMITS.files)
           throw new Error('Package file count exceeds limit');
         const data = await readFile(diskPath);
-        files[path] = new TextDecoder('utf-8', { fatal: true }).decode(data);
+        files[path] = new TextDecoder('utf-8', {
+          fatal: true,
+          ignoreBOM: true,
+        }).decode(data);
       }
     }
   }
@@ -154,20 +168,24 @@ export async function inspectSkills(
   return { results, diagnostics };
 }
 
-/** Existing publication contract: all packages validate, only explicitly published entries ship. */
+/** Validated authored publication candidates; distribution additionally requires moderation approval. */
 export async function buildCatalog(
   root: string,
   options: { includeDrafts?: boolean } = {},
 ): Promise<{ catalog: Catalog; warnings: string[]; validated: number }> {
   const { results, diagnostics } = await inspectSkills(root);
   if (diagnostics.length) throw new CatalogValidationError(diagnostics);
-  const skills = results.flatMap(({ result }) =>
-    result.entry &&
-    (result.entry.metadata.status === 'published' ||
-      (options.includeDrafts && result.entry.metadata.status !== 'planned'))
+  const registry = await readPublicationRegistry(dirname(resolve(root)));
+  const skills = results.flatMap(({ id, result }) => {
+    if (!result.entry || !result.skill) return [];
+    if (result.entry.metadata.status === 'published')
+      return isApprovedPackage(id, result.skill.files, 'published', registry)
+        ? [result.entry]
+        : [];
+    return options.includeDrafts && result.entry.metadata.status !== 'planned'
       ? [result.entry]
-      : [],
-  );
+      : [];
+  });
   return {
     catalog: catalogSchema.parse({ schemaVersion: 1, skills }),
     warnings: results.flatMap(({ result }) => result.warnings),
@@ -179,12 +197,24 @@ export async function buildCatalog(
 export async function generateCatalog(
   root: string,
   sectors: Sector[] = [],
-  options: { evaluationReports?: EvaluationArtifact[] } = {},
+  options: {
+    evaluationReports?: EvaluationArtifact[];
+    attributions?: AttributionRecord[];
+  } = {},
 ) {
   const { results, diagnostics } = await inspectSkills(root, 'catalog');
   if (diagnostics.length) throw new CatalogValidationError(diagnostics);
   const declared = sectorsSchema.parse(sectors);
   const known = new Set(declared.map((sector) => sector.slug));
+  const attributions = attributionRegistrySchema.parse({
+    schemaVersion: 1,
+    records: options.attributions ?? [],
+  }).records;
+  for (const record of attributions)
+    if (!results.some((item) => item.id === record.skillId))
+      throw new Error(
+        `Attribution references unknown skill: ${record.skillId}`,
+      );
   const derived = [...new Set(results.map(({ id }) => id.split('/')[0]))]
     .filter((slug) => !known.has(slug))
     .sort()
@@ -229,6 +259,18 @@ export async function generateCatalog(
             {
               ...result.skill,
               compatibility: assessCompatibility(result.skill),
+              ...(attributions.some(
+                (record) => record.skillId === result.skill!.id,
+              )
+                ? {
+                    attribution: assessAttribution(
+                      attributions.find(
+                        (record) => record.skillId === result.skill!.id,
+                      )!,
+                      result.skill,
+                    ),
+                  }
+                : {}),
               ...((options.evaluationReports ?? []).some(
                 (item) => item.report.suite.skillId === result.skill!.id,
               )

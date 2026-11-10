@@ -11,6 +11,16 @@ import { loadCatalog } from '@/lib/catalog';
 import { Layout, type CatalogState } from '@/components/layout';
 import { HomePage } from '@/pages/home';
 import { CatalogPage } from '@/pages/catalog';
+const SkillEditorPage = lazy(() =>
+  import('@/pages/skill-editor').then((module) => ({
+    default: module.SkillEditorPage,
+  })),
+);
+const PublishedPage = lazy(() =>
+  import('@/pages/published').then((module) => ({
+    default: module.PublishedPage,
+  })),
+);
 const SkillDetailPage = lazy(() =>
   import('@/pages/skill-detail').then((module) => ({
     default: module.SkillDetailPage,
@@ -81,6 +91,24 @@ export function App() {
         <Route element={<Layout state={state} retry={retry} />}>
           <Route index element={<HomePage />} />
           <Route path="skills" element={<CatalogPage />} />
+          <Route
+            path="create"
+            element={
+              <Suspense fallback={<p role="status">Opening editor…</p>}>
+                <SkillEditorPage />
+              </Suspense>
+            }
+          />
+          <Route
+            path="published"
+            element={
+              <Suspense
+                fallback={<p role="status">Opening published catalog…</p>}
+              >
+                <PublishedPage />
+              </Suspense>
+            }
+          />
           <Route
             path="skills/:sector/:slug"
             element={

@@ -1,9 +1,17 @@
 import { z } from 'zod';
 
 import { slugSchema, safePathSchema, frontmatterSchema } from './paths';
-export { slugSchema, safePathSchema, frontmatterSchema } from './paths';
+export {
+  slugSchema,
+  safePathSchema,
+  frontmatterSchema,
+  portablePathKey,
+} from './paths';
 export * from './evaluation';
 import { evaluationSummarySchema } from './evaluation';
+import { attributionSummarySchema } from './attribution';
+export * from './attribution';
+export * from './moderation';
 
 const text = z.string().trim().min(1).max(1024);
 export const metadataSchema = z
@@ -358,6 +366,7 @@ export const discoverySkillSchema = z
     lastVerified: z.string().date().nullable(),
     testedPlatforms: z.array(slugSchema),
     evaluations: z.array(evaluationSummarySchema).optional(),
+    attribution: attributionSummarySchema.optional(),
     quality: qualityReportSchema.optional(),
     validation: validationSummarySchema.optional(),
     compatibility: compatibilitySchema.optional(),

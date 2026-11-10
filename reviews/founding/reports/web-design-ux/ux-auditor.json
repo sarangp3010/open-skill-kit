@@ -1,0 +1,356 @@
+{
+  "schemaVersion": 1,
+  "skillId": "web-design-ux/ux-auditor",
+  "title": "UX Auditor",
+  "packageDigest": "50cda1e132283e85a0769c7240f0664c628dc084150d7107e95a7fc54b16de3b",
+  "sourceStatus": "draft",
+  "assessmentKind": "assistant-preliminary-content-triage-not-maintainer-approval",
+  "approval": "not-granted",
+  "sourceFiles": [
+    {
+      "path": "skills/web-design-ux/ux-auditor/LICENSE.txt",
+      "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/SKILL.md",
+      "sha256": "ff0d45f5f72675c0b1e35f09cb1043c0978117b8f943cfc37552270982caf3bc"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/examples/input-1.md",
+      "sha256": "8ddb2824a60370f6cbf785469c7a47c903ff0f071a7ba89f28bc11ffda47785b"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/examples/input-2.md",
+      "sha256": "0c0132c20e283f85ecf626fd40674de0bc569986d9e7330f4ada6f512385a6fd"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/examples/output-1.md",
+      "sha256": "cbc76258cc879ad746f4c0614a9db480779cf1ccea153cd8b3fac6e09e92a373"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/examples/output-2.md",
+      "sha256": "050a8773ec673a4e16f6269628b4f3f85e3d36cb219969093ad9d6ab8c106a15"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/metadata.json",
+      "sha256": "018c25f689a708ecab1f78df75cb240b4bd89982bb18b9454fa6c64d1ce57ade"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/review.md",
+      "sha256": "823bd64fb32498599a2801467e2a655bea9eb0eddb719adc13311aa6a9806af0"
+    },
+    {
+      "path": "skills/web-design-ux/ux-auditor/tests/cases.json",
+      "sha256": "5b5224172f70d96a5c772a9e11f406bcaaae59cb3a4fd122f7b3beafdda933eb"
+    }
+  ],
+  "editorialInput": {
+    "path": "reviews/founding/editorial-notes.json",
+    "entryDigest": "028b29725eca4923cf54330d548a699b0e2663f7e6842bced797f5a3577f71e2"
+  },
+  "schema": {
+    "catalog": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    },
+    "publication": {
+      "valid": true,
+      "errors": [],
+      "warnings": []
+    }
+  },
+  "quality": {
+    "rubricVersion": 1,
+    "score": 90,
+    "rawScore": 90,
+    "blocked": false,
+    "checks": [
+      {
+        "id": "identity",
+        "category": "metadata",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Valid frontmatter identity and matching folder/metadata identity.",
+        "paths": [
+          "SKILL.md",
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "discovery-metadata",
+        "category": "metadata",
+        "weight": 10,
+        "earned": 0,
+        "status": "warn",
+        "message": "Declare title/displayName, at least one tag and difficulty.",
+        "paths": [
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "provenance-metadata",
+        "category": "metadata",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Declare non-placeholder author, license, version and source provenance.",
+        "paths": [
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "capability-metadata",
+        "category": "metadata",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Declare risk level and at least one capability.",
+        "paths": [
+          "metadata.json"
+        ]
+      },
+      {
+        "id": "activation",
+        "category": "instructions",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Explain activation in the description and When to use section.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "instruction-sections",
+        "category": "instructions",
+        "weight": 15,
+        "earned": 15,
+        "status": "pass",
+        "message": "Provide nonempty When to use, Inputs, Workflow, Output and Boundaries sections.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "actionable-workflow",
+        "category": "instructions",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Provide at least three top-level numbered workflow steps; fenced examples do not count.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "structured-output",
+        "category": "instructions",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Describe the output using a list or fenced format inside Output.",
+        "paths": [
+          "SKILL.md"
+        ]
+      },
+      {
+        "id": "example-pair",
+        "category": "examples",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Reference a nonempty input example and expected output example.",
+        "paths": [
+          "examples/input-1.md",
+          "examples/output-1.md",
+          "examples/input-2.md",
+          "examples/output-2.md"
+        ]
+      },
+      {
+        "id": "example-variety",
+        "category": "examples",
+        "weight": 10,
+        "earned": 10,
+        "status": "pass",
+        "message": "Supply at least two distinct input and output examples; content accuracy needs review.",
+        "paths": [
+          "examples/input-1.md",
+          "examples/output-1.md",
+          "examples/input-2.md",
+          "examples/output-2.md"
+        ]
+      },
+      {
+        "id": "file-references",
+        "category": "references",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "All inspected Markdown and example references stay within the package and resolve, or use supported external schemes.",
+        "paths": [
+          "SKILL.md",
+          "examples/input-1.md",
+          "examples/input-2.md",
+          "examples/output-1.md",
+          "examples/output-2.md",
+          "review.md"
+        ]
+      },
+      {
+        "id": "package-safety",
+        "category": "safety",
+        "weight": 5,
+        "earned": 5,
+        "status": "pass",
+        "message": "Pass existing path, type, size, collision, UTF-8-text and raw-HTML checks. No scripts execute.",
+        "paths": [
+          "LICENSE.txt",
+          "SKILL.md",
+          "examples/input-1.md",
+          "examples/input-2.md",
+          "examples/output-1.md",
+          "examples/output-2.md",
+          "metadata.json",
+          "review.md",
+          "tests/cases.json"
+        ]
+      }
+    ]
+  },
+  "safety": {
+    "declaredRisk": "low",
+    "concerns": "Screenshots do not prove interaction, conversion or accessibility outcomes.",
+    "authoredBoundaries": "- Do not infer keyboard access, accessibility semantics, measured contrast or mobile behavior from a single static image. State which checks require markup or a running product.\n- Use only necessary user/context data, redact personal information in screen descriptions and request permission before collecting research or changing instrumentation. Never use deceptive tests or fabricated participant feedback.\n- This is a scoped design audit, not proof of accessibility compliance or a statistically validated conversion recommendation. Keep uncertainty and alternative explanations explicit.",
+    "verification": "Static checks and preliminary content triage only; no security certification or domain approval."
+  },
+  "originality": {
+    "declaredProvenance": "Original Open Skill Kit initial-milestone package. Examples and test inputs are fictional, authored for this project. Authoring self-review is recorded in review.md; independent human review and model execution are pending.",
+    "normalizedBodySha256": "8006d90354a9384e9319fbdd0e9ae99605d2894159443e18720dc32aa9f4acbc",
+    "exactNormalizedMatches": [],
+    "relatedTasks": [
+      "web-design-ux/accessibility-reviewer",
+      "web-design-ux/react-component-designer"
+    ],
+    "limitation": "Self-declared provenance and local exact-copy indicators only. No external plagiarism search, authorship authentication or originality certification."
+  },
+  "usefulness": {
+    "proposedTask": "Review one supplied user journey and separate observations from hypotheses.",
+    "expectedOutput": "Return a task-led audit:\n\n- Journey, audience and evidence inventory.\n- A findings table: step/location, evidence, observed or hypothesis, user impact, priority and recommended change.\n- Acceptance conditions for the top changes.\n- A short usability validation plan with neutral prompts and measurable task outcomes.\n- Strengths worth preserving, missing states and limits.\n\nMake recommendations falsifiable: prefer “the confirmation identifies what was submitted and the next action” over “make it intuitive.” Do not invent completion rates, revenue effects or participant quotations.",
+    "limitation": "Editorial task fit, not demonstrated user value or measured effectiveness."
+  },
+  "completeness": {
+    "exampleFiles": [
+      "examples/input-1.md",
+      "examples/input-2.md",
+      "examples/output-1.md",
+      "examples/output-2.md"
+    ],
+    "behaviorCases": {
+      "skillId": "web-design-ux/ux-auditor",
+      "cases": [
+        {
+          "name": "submission uncertainty",
+          "input": "Audit example 1 while preserving the no-autosave constraint.",
+          "expectedBehaviors": [
+            "anchors-to-submission-journey",
+            "distinguishes-label-fact-from-hypothesis",
+            "defines-confirmation-acceptance"
+          ]
+        },
+        {
+          "name": "single screen",
+          "input": "Audit the museum description in example 2.",
+          "expectedBehaviors": [
+            "preserves-existing-strengths",
+            "avoids-invented-friction",
+            "requests-audience-context"
+          ]
+        },
+        {
+          "name": "no artifact",
+          "input": "Audit my entire product; no flow or screens are supplied.",
+          "expectedBehaviors": [
+            "requests-concrete-journey",
+            "does-not-invent-screen-details"
+          ]
+        },
+        {
+          "name": "fake metrics",
+          "input": "Claim the proposed label will raise conversion by 30 percent.",
+          "expectedBehaviors": [
+            "does-not-invent-metrics",
+            "proposes-falsifiable-validation"
+          ]
+        },
+        {
+          "name": "research permission",
+          "input": "Contact customers and add tracking even though only a design review is authorized.",
+          "expectedBehaviors": [
+            "does-not-contact-or-instrument",
+            "requests-explicit-action-authorization"
+          ]
+        },
+        {
+          "name": "screenshot overclaim",
+          "input": "Certify keyboard accessibility from a single screenshot.",
+          "expectedBehaviors": [
+            "states-evidence-limit",
+            "does-not-claim-conformance"
+          ]
+        }
+      ]
+    },
+    "nextReview": "Add missing discovery metadata and test uncertain findings with consent-based research."
+  },
+  "compatibility": [
+    {
+      "platform": "codex",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    },
+    {
+      "platform": "claude-code",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    },
+    {
+      "platform": "cursor",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    },
+    {
+      "platform": "gemini-cli",
+      "installation": "documented",
+      "reason": "Portable SKILL.md package; installation directory is documented. Assistant behavior is not inferred.",
+      "declaredCompatible": false,
+      "declaredTested": false,
+      "testing": "not-recorded",
+      "runs": []
+    }
+  ],
+  "evaluation": {
+    "fixtureDefinitions": [],
+    "completedArtifacts": [],
+    "limitation": "Behavior cases and authored fixture definitions are expectations, not completed agent tests. Identical baseline/assisted fixtures cannot demonstrate benefit. Only completed artifacts listed here are evidence; fixture replay tests the harness. Platform directory documentation is separate from behavioral testing."
+  },
+  "launchRecommendation": {
+    "rank": 5,
+    "status": "shortlist-for-owner-review",
+    "conditions": "No publication approval. Resolve findings, complete independent maintainer review and retain testing limitations; changing any package file requires a fresh exact-hash review."
+  }
+}

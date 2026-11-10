@@ -1,4 +1,4 @@
-import { useLayoutEffect, useMemo, useRef } from 'react';
+import { useLayoutEffect, useRef } from 'react';
 import {
   Link,
   useLocation,
@@ -18,12 +18,17 @@ import { platforms } from '@uas/platform-adapters';
 import { broadSectors, matchesSector } from '@uas/skill-schema';
 import { useLibrary } from '@/lib/use-library';
 import { selectSkills } from '@/lib/catalog';
+import type { DiscoveryCatalog } from '@/lib/catalog';
 import { SkillCard } from '@/components/skill-card';
 import { CatalogSearchInput } from '@/components/catalog-search-input';
 import { Select, Badge } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
-export function CatalogPage() {
-  const catalog = useLibrary();
+export function CatalogPage({
+  catalogOverride,
+  publishedOnly = false,
+}: { catalogOverride?: DiscoveryCatalog; publishedOnly?: boolean } = {}) {
+  const library = useLibrary();
+  const catalog = catalogOverride ?? library;
   const [params, setParams] = useSearchParams();
   const { sector: sectorRoute } = useParams();
   const navigate = useNavigate();
@@ -72,36 +77,19 @@ export function CatalogPage() {
   const capabilities = [
     ...new Set(catalog.skills.flatMap((skill) => skill.capabilities)),
   ].sort();
-  const skills = useMemo(
-    () =>
-      selectSkills(catalog, {
-        query,
-        sector: selected,
-        broadSector: industry,
-        sort,
-        capability,
-        difficulty,
-        status,
-        minQuality: Number(quality) || 0,
-        platform,
-        testing,
-        validation,
-      }),
-    [
-      catalog,
-      query,
-      selected,
-      industry,
-      sort,
-      capability,
-      difficulty,
-      status,
-      quality,
-      platform,
-      testing,
-      validation,
-    ],
-  );
+  const skills = selectSkills(catalog, {
+    query,
+    sector: selected,
+    broadSector: industry,
+    sort,
+    capability,
+    difficulty,
+    status,
+    minQuality: Number(quality) || 0,
+    platform,
+    testing,
+    validation,
+  });
   function update(key: string, value: string) {
     // Compose with the latest requested URL, even before the router commits it.
     const next = new URLSearchParams(latestParams.current);
@@ -134,10 +122,23 @@ export function CatalogPage() {
     );
   return (
     <div className="container-shell py-12 sm:py-16">
+      {!publishedOnly && (
+        <p className="mb-6 rounded-xl border border-border bg-muted/50 p-4 text-sm leading-6">
+          Draft/source library · these packages are not approved publications.{' '}
+          <Link className="text-link" to="/published">
+            View the separate published catalog
+          </Link>
+          .
+        </p>
+      )}
       <div className="mb-10">
         <p className="eyebrow">The open workflow library</p>
         <h1 className="mt-3 text-4xl font-semibold tracking-tight">
-          {sectorRoute ? sector?.title : 'Find your next skill.'}
+          {publishedOnly
+            ? 'Published skills'
+            : sectorRoute
+              ? sector?.title
+              : 'Find your next skill.'}
         </h1>
         <p className="mt-4 max-w-2xl text-base leading-7 text-muted-foreground">
           {sectorRoute

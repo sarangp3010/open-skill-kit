@@ -343,8 +343,11 @@ test('fixture evaluation evidence stays separate from measured agent performance
   await expect(
     section.getByText('Offline fixture replay · not agent performance'),
   ).toBeVisible();
-  await expect(section.getByText(/Evidence check: reproduced/)).toBeVisible();
-  await expect(section.getByText(/Difference: 0 points/)).toBeVisible();
+  await expect(section.getByText(/Evidence check: stale/)).toBeVisible();
+  await expect(section.getByText(/Difference: 0 points/)).toHaveCount(0);
+  await expect(
+    section.getByText(/Tested skill package has changed since evaluation/),
+  ).toBeVisible();
   await expect(
     page.getByText('Test evidence: No completed test evidence.'),
   ).toHaveCount(4);
@@ -464,4 +467,217 @@ test('legacy collection URLs and new skill packages remain accessible', async ({
   expect(strFromU8(files[`${source.slug}/SKILL.md`])).toBe(
     source.files['SKILL.md'],
   );
+});
+
+test('contributor onboarding stays accessible on mobile and does not submit anything automatically', async ({
+  page,
+}) => {
+  await page.goto('/');
+  await page.getByRole('link', { name: 'Submit a skill', exact: true }).click();
+  await expect(
+    page.getByRole('heading', { name: 'Share a workflow that helps.' }),
+  ).toBeVisible();
+  await expect(page).toHaveTitle('Submit a skill — Open Skill Kit');
+  await expect(
+    page.getByLabel('Contribution validation commands'),
+  ).toContainText('pnpm validate:all');
+  await expect(
+    page.getByRole('link', { name: 'Open a pull request on GitHub' }),
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/sarangp3010/open-skill-kit/compare',
+  );
+  await page.setViewportSize({ width: 320, height: 740 });
+  for (const path of ['/contribute', '/docs', '/sectors']) {
+    await page.goto(path);
+    await expect(page.locator('main h1')).toBeVisible();
+    expect(
+      await page.evaluate(
+        () => document.documentElement.scrollWidth <= innerWidth,
+      ),
+    ).toBe(true);
+    for (const theme of ['light', 'dark']) {
+      await page.getByLabel('Color theme').selectOption(theme);
+      await page.evaluate(async () => {
+        await Promise.all(
+          document
+            .getAnimations()
+            .map((animation) => animation.finished.catch(() => undefined)),
+        );
+      });
+      const result = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+        .analyze();
+      expect(result.violations).toEqual([]);
+    }
+  }
+  await page.getByRole('button', { name: 'Open navigation' }).click();
+  await page
+    .getByRole('navigation', { name: 'Mobile navigation' })
+    .getByRole('link', { name: 'Contribute', exact: true })
+    .click();
+  await expect(page).toHaveURL(/\/contribute$/);
+  await expect(page.getByRole('dialog')).toBeHidden();
+});
+
+test('route metadata follows navigation, query canonicalization, planned pages and unknown routes', async ({
+  page,
+}) => {
+  await page.goto('/skills?q=invoice');
+  await expect(page).toHaveTitle('Browse AI skills — Open Skill Kit');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://sarangp3010.github.io/open-skill-kit/skills/',
+  );
+  const target = catalog.skills.find(
+    (item) =>
+      item.id === 'accounting-operations/invoice-reconciliation-assistant',
+  )!;
+  await page.getByRole('link', { name: target.title, exact: true }).click();
+  await expect(page).toHaveTitle(`${target.title} — Open Skill Kit`);
+  await expect(page.locator('meta[property="og:url"]')).toHaveAttribute(
+    'content',
+    `https://sarangp3010.github.io/open-skill-kit/skills/${target.id}/`,
+  );
+  const structured = JSON.parse(
+    (await page.locator('#page-structured-data').textContent())!,
+  );
+  expect(structured.creativeWorkStatus).toBe('draft');
+  expect(structured).not.toHaveProperty('aggregateRating');
+  expect(structured).not.toHaveProperty('author');
+  await expect(
+    page.getByRole('region', { name: 'Contributor attribution' }),
+  ).toContainText('No maintainer-reviewed attribution recorded.');
+  await page.goBack();
+  await expect(page).toHaveTitle('Browse AI skills — Open Skill Kit');
+  await expect(page.locator('link[rel="canonical"]')).toHaveCount(1);
+  await page.goto('/sectors/healthcare-research');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    'noindex, follow',
+  );
+  await page.goto('/sectors/software-engineering');
+  await expect(page.locator('link[rel="canonical"]')).toHaveAttribute(
+    'href',
+    'https://sarangp3010.github.io/open-skill-kit/sectors/software-development/',
+  );
+  await page.goto('/this-page-does-not-exist');
+  await expect(page).toHaveTitle('Page not found — Open Skill Kit');
+  await expect(page.locator('meta[name="robots"]')).toHaveAttribute(
+    'content',
+    'noindex, nofollow',
+  );
+});
+
+test('browser proposals validate, preview and export while publication remains moderated', async ({
+  page,
+}) => {
+  const writes: string[] = [];
+  page.on('request', (request) => {
+    if (['POST', 'PUT', 'PATCH', 'DELETE'].includes(request.method()))
+      writes.push(request.url());
+  });
+  await page.goto('/create');
+  await expect(
+    page.getByRole('heading', { name: 'Create a skill proposal' }),
+  ).toBeVisible();
+  await page
+    .getByLabel('Skill name', { exact: true })
+    .fill('community-note-proposal');
+  await page.getByRole('button', { name: 'Apply identity' }).click();
+  await page.getByRole('button', { name: 'Validate proposal' }).click();
+  const validation = page.getByRole('region', { name: 'Proposal validation' });
+  await expect(validation).toContainText('Validation passed');
+  const text = page.getByLabel('File contents');
+  const original = await text.inputValue();
+  await text.fill(original + '\n[Broken reference](references/missing.md)\n');
+  await expect(
+    page.getByRole('button', { name: 'Export proposal ZIP' }),
+  ).toBeDisabled();
+  await page.getByRole('button', { name: 'Validate proposal' }).click();
+  await expect(validation).toContainText('missing.md');
+  await text.fill(original);
+  await page.getByLabel('New supporting file path').fill('../escape.md');
+  await page.getByRole('button', { name: 'Add file', exact: true }).click();
+  await expect(page.getByRole('status')).toContainText('Unsafe or reserved');
+  await page.getByLabel('New supporting file path').fill('references/notes.md');
+  await page.getByRole('button', { name: 'Add file', exact: true }).click();
+  await text.fill(
+    '# Authored notes\n\nFictional material for the proposed workflow.',
+  );
+  await page
+    .getByLabel('Package file', { exact: true })
+    .selectOption('metadata.json');
+  const metadata = JSON.parse(await text.inputValue());
+  await text.fill(JSON.stringify({ ...metadata, status: 'published' }));
+  await expect(
+    page.getByRole('button', { name: 'Submit Skill for review' }),
+  ).toBeDisabled();
+  await text.fill(JSON.stringify({ ...metadata, status: 'draft' }));
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export proposal ZIP' }).click();
+  const download = await downloadPromise;
+  const files = unzipSync(await readFile((await download.path())!));
+  expect(
+    JSON.parse(strFromU8(files['community-note-proposal/submission.json'])),
+  ).toEqual({ schemaVersion: 1, operation: 'new' });
+  expect(strFromU8(files['community-note-proposal/SKILL.md'])).toContain(
+    'name: community-note-proposal',
+  );
+  expect(
+    strFromU8(files['community-note-proposal/references/notes.md']),
+  ).toContain('Fictional material');
+  await page.getByRole('button', { name: 'Submit Skill for review' }).click();
+  await expect(
+    page.getByRole('region', { name: 'Submission review guide' }),
+  ).toContainText('not submitted or published');
+  await expect(
+    page.getByRole('link', { name: 'Open GitHub pull request page' }),
+  ).toHaveAttribute(
+    'href',
+    'https://github.com/sarangp3010/open-skill-kit/compare',
+  );
+  await page.setViewportSize({ width: 320, height: 740 });
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze();
+  expect(results.violations).toEqual([]);
+  expect(writes).toEqual([]);
+});
+
+test('published catalog excludes drafts and update proposals bind to their source', async ({
+  page,
+}) => {
+  await page.goto('/published');
+  await expect(
+    page.getByRole('heading', { name: 'Published skills' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('heading', { name: 'No skills found' }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: skill.title, exact: true }),
+  ).toHaveCount(0);
+  await page.goto(`/create?skill=${encodeURIComponent(skill.id)}`);
+  await page
+    .getByRole('button', { name: `Load ${skill.title} as an update proposal` })
+    .click();
+  await expect(
+    page.getByText(
+      `Proposal: update · ${skill.id} · publication unavailable in browser`,
+    ),
+  ).toBeVisible();
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Export proposal ZIP' }).click();
+  const files = unzipSync(
+    await readFile((await (await downloadPromise).path())!),
+  );
+  const request = JSON.parse(strFromU8(files[`${skill.slug}/submission.json`]));
+  expect(request.operation).toBe('update');
+  expect(request.basePackageDigest).toMatch(/^[a-f0-9]{64}$/);
 });

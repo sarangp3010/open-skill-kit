@@ -13,6 +13,7 @@ import { sourceUrl, type DiscoverySkill } from '@/lib/catalog';
 import { Button } from '@/components/ui/button';
 import { Badge, Select } from '@/components/ui/card';
 import { TrustDetails } from '@/components/skill-trust';
+import { ContributorAttribution } from '@/components/contributor-attribution';
 import { InstallGuide } from '@/components/install-guide';
 import { MarkdownViewer } from '@/components/markdown-viewer';
 function SkillActions({ skill }: { skill: DiscoverySkill }) {
@@ -152,6 +153,20 @@ export function SkillDetailPage() {
   );
   return (
     <div className="container-shell py-10 sm:py-14">
+      <p className="mb-4 text-xs leading-6 text-muted-foreground">
+        Source package preview. Authored status does not grant publication
+        approval.{' '}
+        <Link className="text-link" to="/published">
+          Published catalog
+        </Link>{' '}
+        ·{' '}
+        <Link
+          className="text-link"
+          to={`/create?skill=${encodeURIComponent(skill.id)}`}
+        >
+          Propose an update
+        </Link>
+      </p>
       <nav
         aria-label="Breadcrumb"
         className="mb-8 flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
@@ -278,6 +293,7 @@ export function SkillDetailPage() {
             </a>
           </section>
           <InstallGuide key={skill.id} skill={skill} />
+          <ContributorAttribution skill={skill} />
           <section className="px-1">
             <h2 className="text-xs font-semibold">Provenance</h2>
             <p className="mt-2 text-xs leading-6 text-muted-foreground">

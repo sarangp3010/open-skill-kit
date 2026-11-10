@@ -1,16 +1,48 @@
-name: Skill request
-description: Propose a task-specific skill
+name: Skill proposal
+description: Propose an original, focused workflow before authoring it
 title: '[Skill]: '
 body:
+  - type: markdown
+    attributes:
+      value: Check the catalog and expansion plan first. A proposal is not an available skill. Do not include private, patient, payment or proprietary data.
+  - type: input
+    id: collection
+    attributes:
+      label: Canonical sector or specialty
+      description: Use catalog/sectors.json; avoid retained alias collections for new packages.
+    validations:
+      required: true
   - type: textarea
     id: task
     attributes:
-      label: Sector, task and activation conditions
+      label: Task, intended user and activation criteria
+    validations:
+      required: true
+  - type: textarea
+    id: distinction
+    attributes:
+      label: Existing skills checked and what makes this different
     validations:
       required: true
   - type: textarea
     id: examples
     attributes:
-      label: Example input, desired output and safety boundaries
+      label: Fictional input, expected output and limitations
+      description: Include a missing-input or conflicting-evidence case. Do not invent completed agent results.
     validations:
       required: true
+  - type: textarea
+    id: provenance
+    attributes:
+      label: Originality, source licenses and professional-review needs
+    validations:
+      required: true
+  - type: checkboxes
+    id: review
+    attributes:
+      label: Proposal checks
+      options:
+        - label: I searched the catalog and will keep any new package a draft until reviewed.
+          required: true
+        - label: I can redistribute the proposed content and have excluded private data.
+          required: true

@@ -10,6 +10,7 @@ import {
 } from 'lucide-react';
 import { useLibrary } from '@/lib/use-library';
 import { Button } from '@/components/ui/button';
+import { InstallGuide } from '@/components/install-guide';
 export function SectorsPage() {
   const catalog = useLibrary();
   const sectors = broadSectors(catalog.sectors);
@@ -76,6 +77,8 @@ export function SectorsPage() {
   );
 }
 export function DocsPage() {
+  const catalog = useLibrary();
+  const example = catalog.skills[0];
   return (
     <article className="container-shell max-w-3xl py-16">
       <p className="eyebrow">Start with a text file</p>
@@ -83,6 +86,20 @@ export function DocsPage() {
         A simple way to reuse a workflow.
       </h1>
       <div className="mt-9 space-y-8 text-sm leading-7 text-muted-foreground">
+        <p>
+          Browsing, local validation and downloads need no account. GitHub pull
+          requests require a GitHub account and repository access. Current
+          skills are drafts; installation directory support is separate from
+          actual assistant testing.
+        </p>
+        {example && (
+          <section>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
+              Install a catalog example: {example.title}
+            </h2>
+            <InstallGuide skill={example} />
+          </section>
+        )}
         <section>
           <h2 className="mb-3 text-xl font-semibold text-foreground">
             1. Find and inspect
@@ -161,6 +178,71 @@ export function ContributePage() {
         Useful skills are specific, inspectable and honest about their limits.
         Contributions start with a GitHub pull request and a human review.
       </p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Button asChild>
+          <Link to="/create">Create and preview a skill</Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link to="/published">Published catalog</Link>
+        </Button>
+      </div>
+      <ol className="mt-8 list-decimal space-y-4 pl-6 text-sm leading-7 text-muted-foreground">
+        <li>
+          Choose a canonical specialty and check for an existing workflow. Copy
+          the complete repository template into skills/sector/skill-name, align
+          its identity and replace the illustrative task.
+        </li>
+        <li>
+          Write original instructions, two fictional example pairs, structured
+          behavior cases, limitations and source/license provenance. Keep the
+          package a draft; do not invent platform tests.
+        </li>
+        <li>
+          Validate locally and regenerate the catalog. Fix diagnostics at the
+          reported paths before submitting.
+        </li>
+        <li>
+          Fork and open a draft GitHub pull request using the checklist.
+          Maintainers review scope, provenance, safety and evidence; passing CI
+          does not publish a skill.
+        </li>
+      </ol>
+      <pre
+        tabIndex={0}
+        aria-label="Contribution validation commands"
+        className="mt-6 overflow-x-auto rounded-xl bg-muted p-4 text-xs leading-6"
+      >
+        <code>
+          {
+            'pnpm install --frozen-lockfile --ignore-scripts\npnpm contributions:check\npnpm skills:index\npnpm validate:all'
+          }
+        </code>
+      </pre>
+      <p className="mt-4 text-sm leading-7 text-muted-foreground">
+        No marketplace account is needed. GitHub submission needs a GitHub
+        account and repository access; this page opens instructions and links,
+        and never submits or publishes on your behalf.
+      </p>
+      <div className="mt-6 flex flex-wrap gap-4">
+        <a
+          className="text-link"
+          href="https://github.com/sarangp3010/open-skill-kit/tree/main/templates/skill"
+        >
+          Get the complete skill template
+        </a>
+        <a
+          className="text-link"
+          href="https://github.com/sarangp3010/open-skill-kit/compare"
+        >
+          Open a pull request on GitHub
+        </a>
+        <a
+          className="text-link"
+          href="https://github.com/sarangp3010/open-skill-kit/issues/new?template=skill_request.yml"
+        >
+          Propose a skill first
+        </a>
+      </div>
       <div className="my-10 grid gap-5 sm:grid-cols-2">
         {[
           {

@@ -369,7 +369,7 @@ describe('catalog and CLI integration', () => {
 
 it('validates the reusable template without adding it to the active catalog or fabricating test evidence', async () => {
   const template = await readSkillFiles(resolve('templates/skill'));
-  const result = validateSkill(template, 'personal-productivity/example-skill');
+  const result = validateSkill(template, 'collaboration-records/example-skill');
   expect(result.valid).toBe(true);
   expect(
     result.quality.checks.find((check) => check.id === 'provenance-metadata'),
@@ -382,7 +382,7 @@ it('validates the reusable template without adding it to the active catalog or f
   const active = (await generateCatalog(resolve('skills'))).catalog;
   expect(
     active.skills.some(
-      (skill) => skill.id === 'personal-productivity/example-skill',
+      (skill) => skill.id === 'collaboration-records/example-skill',
     ),
   ).toBe(false);
 });

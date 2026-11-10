@@ -4,6 +4,9 @@ import { fileURLToPath } from 'node:url';
 import {
   generateCatalog,
   readEvaluationReports,
+  readAttributions,
+  readPublicationRegistry,
+  publishedCatalog,
 } from '../packages/catalog-indexer/src/index';
 import { sectorsSchema } from '../packages/skill-schema/src/index';
 
@@ -24,14 +27,39 @@ export async function regenerateCatalog(
   );
   const result = await generateCatalog(join(root, 'skills'), sectors, {
     evaluationReports,
+    attributions: await readAttributions(root),
   });
   const serialized = JSON.stringify(result.catalog, null, 2) + '\n';
+  const published = publishedCatalog(
+    result.catalog,
+    await readPublicationRegistry(root),
+  );
+  const approved = JSON.stringify(published, null, 2) + '\n';
   const outputs = [
     'catalog/catalog.json',
     ...(!options.check || options.checkPublic
       ? ['apps/web/public/catalog.json']
       : []),
   ];
+  const publishedOutputs = [
+    'catalog/published.json',
+    ...(!options.check || options.checkPublic
+      ? ['apps/web/public/published.json']
+      : []),
+  ];
+  for (const path of publishedOutputs) {
+    if (options.check) {
+      if ((await readFile(join(root, path), 'utf8')) !== approved)
+        throw new Error(
+          `${path}: stale published catalog; run pnpm skills:index`,
+        );
+    } else if (!options.validateOnly) {
+      await mkdir(join(root, path.slice(0, path.lastIndexOf('/'))), {
+        recursive: true,
+      });
+      await writeFile(join(root, path), approved);
+    }
+  }
   if (options.check) {
     for (const path of outputs) {
       let actual: string;
@@ -54,7 +82,7 @@ export async function regenerateCatalog(
       await writeFile(join(root, path), serialized);
     }
   }
-  return result;
+  return { ...result, published };
 }
 if (
   process.argv[1] &&

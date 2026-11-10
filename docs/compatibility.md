@@ -1,0 +1,18 @@
+# Compatibility: declarations, installation and actual evidence
+
+Open Skill Kit distributes portable text packages. The marketplace supports Codex, Claude Code, Cursor and Gemini CLI installation instructions using the existing shared adapter registry. Their documented project/global directories and official sources are in [platform installation](platform-installation.md). The CLI never silently selects a different platform or executes a contributed package.
+
+| Signal                           | Meaning                                                                                         | Does not prove                                                                  |
+| -------------------------------- | ----------------------------------------------------------------------------------------------- | ------------------------------------------------------------------------------- |
+| Package validates                | Schema, structure, supported file types, size, references and paths passed deterministic checks | Usefulness, professional correctness or malicious-intent absence                |
+| Structural quality score         | Versioned rubric completeness with individual results                                           | Measured model performance or human approval                                    |
+| Documented installation          | An official discovery directory/command convention is implemented                               | Assistant activation or task success in every session/version                   |
+| Compatibility declaration        | Contributor says the skill targets a platform                                                   | A completed platform test                                                       |
+| Recorded completed platform test | A contributor supplied a bounded artifact tied to a package digest                              | Independent certification or universal compatibility                            |
+| Fixture replay                   | Authored observations reproduce objective assertions/reporting                                  | Actual assistant output or improvement from using a skill                       |
+| Agent evaluation                 | A configured opt-in execution captured observable outputs                                       | Statistical significance, guaranteed served-model identity or universal success |
+| Attribution review record        | A maintainer recorded authorship review against a package and evidence digest                   | Professional qualifications, signed identity attestation or skill endorsement   |
+
+All 42 current packages remain drafts with no completed platform-testing records. No real-agent effectiveness result is inferred from their offline suites. Current recorded fixture evidence is labeled as such. Some clients have tool/permission/session restrictions; inspect the package capabilities and boundaries, then consult the selected platform's current official guide. Installing the CLI globally is separate from installing a skill in user-global scope.
+
+For an account-free checkout workflow, build the CLI and preview installation with --source ./skills --allow-draft --dry-run. Resolve conflicts by inspecting existing user files; there is no unsafe force overwrite. Use installed/inspect/update/uninstall as documented. Browser ZIPs preserve complete admitted packages; downloading one does not install or activate it. Read [installation](platform-installation.md), [quality](skill-quality.md) and [evaluation](skill-evaluation.md) for exact formats and limitations.

@@ -1,68 +1,46 @@
-import { mkdir, readFile, rm, writeFile } from 'node:fs/promises';
+import { mkdir, writeFile, rm } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { strToU8, zipSync, type Zippable } from 'fflate';
-import {
-  marketplaceSchema,
-  sectorsSchema,
-} from '../packages/skill-schema/src/index';
-import {
-  buildCatalog,
-  readSkillFiles,
-} from '../packages/catalog-indexer/src/index';
-
+import { regenerateCatalog } from './catalog';
+import { createSkillZip } from '../apps/web/src/lib/download';
 const repository = fileURLToPath(new URL('../', import.meta.url));
+/** Legacy entry point delegates to the canonical moderated catalog pipeline. */
 export async function buildMarketplace(
   root = repository,
   output = join(root, 'apps/web/public'),
 ) {
-  const sectors = sectorsSchema.parse(
-    JSON.parse(await readFile(join(root, 'catalog/sectors.json'), 'utf8')),
-  );
-  const { catalog, warnings, validated } = await buildCatalog(
-    join(root, 'skills'),
-    { includeDrafts: true },
-  );
-  const entries = await Promise.all(
-    catalog.skills.map(async (entry) => ({
-      ...entry,
-      content: await readSkillFiles(join(root, 'skills', entry.metadata.id)),
-      archive: `downloads/${entry.metadata.slug}.zip`,
-    })),
-  );
-  const result = marketplaceSchema.parse({
-    schemaVersion: 1,
-    sectors,
-    skills: entries,
-  });
+  const result = await regenerateCatalog(root);
   await mkdir(output, { recursive: true });
   await rm(join(output, 'downloads'), { recursive: true, force: true });
   await mkdir(join(output, 'downloads'), { recursive: true });
-  for (const entry of result.skills) {
-    const archive: Zippable = {};
-    for (const [path, text] of Object.entries(entry.content).sort(([a], [b]) =>
-      a.localeCompare(b, 'en'),
-    )) {
-      archive[`${entry.metadata.slug}/${path}`] = [
-        strToU8(text),
-        { mtime: new Date(2020, 0, 1) },
-      ];
-    }
-    await writeFile(join(output, entry.archive), zipSync(archive));
-  }
+  // Static download artifacts are approved-only. Labeled source previews retain
+  // their existing browser-local ZIP flow and stable URLs.
+  for (const skill of result.published.skills)
+    await writeFile(
+      join(output, 'downloads', `${skill.slug}.zip`),
+      createSkillZip(skill),
+    );
   await writeFile(
     join(output, 'catalog.json'),
-    JSON.stringify(result, null, 2) + '\n',
+    JSON.stringify(result.catalog, null, 2) + '\n',
   );
-  return { marketplace: result, warnings, validated };
+  await writeFile(
+    join(output, 'published.json'),
+    JSON.stringify(result.published, null, 2) + '\n',
+  );
+  return {
+    marketplace: result.catalog,
+    published: result.published,
+    warnings: result.warnings,
+    validated: result.validated,
+  };
 }
 if (
   process.argv[1] &&
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
-  const { marketplace, validated, warnings } = await buildMarketplace();
-  warnings.forEach((warning) => console.warn(warning));
+  const result = await buildMarketplace();
   console.log(
-    `Marketplace: ${validated} validated packages, ${marketplace.skills.length} visible skills, ${marketplace.sectors.length} sectors.`,
+    `Marketplace: ${result.validated} source packages, ${result.published.skills.length} approved static downloads. No publication performed.`,
   );
 }

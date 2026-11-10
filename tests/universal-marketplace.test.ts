@@ -81,9 +81,11 @@ describe('universal taxonomy and preserved identities', () => {
     for (const [id, files] of Object.entries(legacy.skills)) {
       const current = catalog.skills.find((skill) => skill.id === id)!;
       expect(current.sourcePath).toBe(`skills/${id}/SKILL.md`);
-      expect(Object.keys(current.files).sort()).toEqual(
-        Object.keys(files).sort(),
-      );
+      expect(
+        Object.keys(current.files)
+          .filter((path) => path !== 'LICENSE.txt')
+          .sort(),
+      ).toEqual(Object.keys(files).sort());
       for (const [path, digest] of Object.entries(files))
         expect(
           createHash('sha256').update(current.files[path]).digest('hex'),
@@ -93,7 +95,7 @@ describe('universal taxonomy and preserved identities', () => {
       catalog.skills.find(
         (item) => item.id === 'software-development/code-reviewer',
       )?.evaluations?.[0],
-    ).toMatchObject({ mode: 'fixture', verification: 'reproduced', delta: 0 });
+    ).toMatchObject({ mode: 'fixture', verification: 'stale', delta: null });
   });
   it('assigns each package to exactly one broad sector and counts canonical aliases only once', () => {
     for (const skill of catalog.skills)

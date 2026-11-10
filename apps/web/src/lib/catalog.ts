@@ -8,8 +8,9 @@ import {
 export type { DiscoveryCatalog, DiscoverySkill };
 export async function loadCatalog(
   signal?: AbortSignal,
+  asset: 'catalog.json' | 'published.json' = 'catalog.json',
 ): Promise<DiscoveryCatalog> {
-  const response = await fetch(`${import.meta.env.BASE_URL}catalog.json`, {
+  const response = await fetch(`${import.meta.env.BASE_URL}${asset}`, {
     signal,
   });
   if (!response.ok) throw new Error('The skill catalog could not be loaded.');

@@ -1,7 +1,10 @@
 name: Bug report
-description: Report a reproducible defect
+description: Report a reproducible non-security defect
 title: '[Bug]: '
 body:
+  - type: markdown
+    attributes:
+      value: For vulnerabilities or leaked private data, use SECURITY.md rather than this public form. Paste only sanitized diagnostics.
   - type: textarea
     id: behavior
     attributes:
@@ -11,7 +14,18 @@ body:
   - type: textarea
     id: reproduce
     attributes:
-      label: Steps to reproduce and environment
-      description: Include versions and sanitized logs. Report security flaws privately.
+      label: Steps, affected skill ID or URL, and environment
+      description: Include OS, Node/pnpm/browser or CLI versions and the failing command.
     validations:
       required: true
+  - type: textarea
+    id: evidence
+    attributes:
+      label: Sanitized diagnostics and local check results
+  - type: checkboxes
+    id: privacy
+    attributes:
+      label: Reporting checks
+      options:
+        - label: This report contains no secrets, private data or undisclosed vulnerability details.
+          required: true

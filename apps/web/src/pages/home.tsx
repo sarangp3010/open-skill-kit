@@ -80,6 +80,9 @@ export function HomePage() {
                 />
               </Button>
             </form>
+            <Link to="/contribute" className="text-link mt-5 text-sm">
+              Submit a skill <ArrowRight size={15} aria-hidden="true" />
+            </Link>
             <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <Check size={13} className="text-primary" aria-hidden="true" />
