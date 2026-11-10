@@ -313,10 +313,18 @@ describe('workflow and community configuration boundaries', () => {
     for (const job of Object.values(workflow.jobs)) {
       expect(job.permissions).not.toHaveProperty('pages');
       expect(job.permissions).not.toHaveProperty('id-token');
-      expect(job.steps.some((step) => step.uses?.includes('deploy-pages'))).toBe(false);
+      expect(
+        job.steps.some((step) => step.uses?.includes('deploy-pages')),
+      ).toBe(false);
     }
-    expect(workflow.jobs.validate.steps.some((step) => step.run === 'pnpm release:check')).toBe(true);
-    const tokenSteps = workflow.jobs.validate.steps.filter((step) => step.env?.GH_TOKEN);
+    expect(
+      workflow.jobs.validate.steps.some(
+        (step) => step.run === 'pnpm release:check',
+      ),
+    ).toBe(true);
+    const tokenSteps = workflow.jobs.validate.steps.filter(
+      (step) => step.env?.GH_TOKEN,
+    );
     expect(tokenSteps).toHaveLength(1);
     expect(tokenSteps[0].run).toBe('pnpm moderation:check');
     expect(tokenSteps[0].env?.GH_TOKEN).toBe('${{ github.token }}');
