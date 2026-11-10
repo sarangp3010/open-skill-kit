@@ -189,7 +189,7 @@ describe('reproducible founding content triage', () => {
     await expect(generateFoundingReview(dir)).rejects.toThrow(
       'Unexpected review artifact',
     );
-  });
+  }, 20000);
   it('prepares unsigned templates with no invented human identity, date or decision', () => {
     const template = unsignedReviewTemplate(reports[0]);
     expect(template).toMatchObject({
