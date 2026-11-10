@@ -24,6 +24,7 @@ jobs:
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm test
+      - run: pnpm evaluate:fixtures
       - run: pnpm validate:skills
       - run: pnpm check:links
       - run: pnpm check:duplicates

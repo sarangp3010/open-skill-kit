@@ -401,3 +401,47 @@ it('shows unassessed states for older catalog entries without trust reports', ()
   expect(screen.getByText('Validation not assessed')).toBeInTheDocument();
   expect(screen.getByText('Testing not assessed')).toBeInTheDocument();
 });
+
+it('explains fixture evidence and hides stale scores without promoting compatibility', async () => {
+  const { EvaluationDetails } =
+    await import('../apps/web/src/components/skill-evaluations');
+  const { readEvaluationReports, assessEvaluationArtifact } =
+    await import('../packages/catalog-indexer/src/index');
+  const skill = catalog.skills.find(
+    (item) => item.id === 'software-development/code-reviewer',
+  )!;
+  const artifact = (
+    await readEvaluationReports(resolve('evaluations/reports'))
+  )[0];
+  const evidence = assessEvaluationArtifact(artifact, skill);
+  const { rerender } = render(
+    <EvaluationDetails skill={{ ...skill, evaluations: [evidence] }} />,
+  );
+  expect(
+    screen.getByText('Offline fixture replay · not agent performance'),
+  ).toBeInTheDocument();
+  expect(screen.getByText(/Baseline assertions: 100/)).toBeInTheDocument();
+  expect(screen.queryByText(/^Verified$/i)).not.toBeInTheDocument();
+  rerender(
+    <EvaluationDetails
+      skill={{
+        ...skill,
+        evaluations: [
+          {
+            ...evidence,
+            verification: 'stale',
+            baselineScore: null,
+            assistedScore: null,
+            delta: null,
+            issues: ['Package changed'],
+          },
+        ],
+      }}
+    />,
+  );
+  expect(
+    screen.queryByText(/Baseline assertions: 100/),
+  ).not.toBeInTheDocument();
+  expect(screen.getByText(/Comparison unscored/)).toBeInTheDocument();
+  expect(screen.getByText('Package changed')).toBeInTheDocument();
+});

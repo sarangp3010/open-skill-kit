@@ -29,7 +29,8 @@
     "skills:index": "pnpm build:catalog",
     "catalog:check": "tsx scripts/catalog.ts --check",
     "catalog:check-assets": "tsx scripts/catalog.ts --check-public",
-    "build:pages": "pnpm build && tsx scripts/prepare-pages.ts"
+    "build:pages": "pnpm build && tsx scripts/prepare-pages.ts",
+    "evaluate:fixtures": "tsx scripts/evaluate-fixtures.ts"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

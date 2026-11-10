@@ -4263,6 +4263,24 @@
       "provenance": "Original Open Skill Kit initial-milestone package. Examples and test inputs are fictional, authored for this project. Authoring self-review is recorded in review.md; independent human review and model execution are pending.",
       "lastVerified": null,
       "testedPlatforms": [],
+      "evaluations": [
+        {
+          "reportPath": "evaluations/reports/code-reviewer-fixture.json",
+          "reportDigest": "12cdd2e854973a719664c357ec09de3bdec0cdb6f493e7a4d8836d43fe6415b7",
+          "suiteId": "code-reviewer-offline",
+          "mode": "fixture",
+          "platform": "fixture",
+          "verification": "reproduced",
+          "baselineScore": 100,
+          "assistedScore": 100,
+          "delta": 0,
+          "completedAt": "2026-11-10T16:47:52.072Z",
+          "completedCases": 2,
+          "totalCases": 2,
+          "modelRequested": null,
+          "issues": []
+        }
+      ],
       "quality": {
         "rubricVersion": 1,
         "score": 90,

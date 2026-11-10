@@ -1,0 +1,285 @@
+{
+  "schemaVersion": 1,
+  "kind": "skill-evaluation",
+  "runnerVersion": "1.0.0",
+  "suite": {
+    "schemaVersion": 1,
+    "id": "code-reviewer-offline",
+    "skillId": "software-development/code-reviewer",
+    "description": "Offline harness replay of explicitly authored review outputs. These fixtures test scoring and evidence capture, not real agent performance or skill efficacy.",
+    "scenarios": [
+      {
+        "id": "empty-average",
+        "prompt": "Review input/review.txt for correctness. Explain the empty-array behavior and suggest regression tests. Do not execute the supplied code.",
+        "files": {
+          "input/review.txt": "export function average(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }"
+        },
+        "assertions": [
+          {
+            "id": "empty-result",
+            "weight": 2,
+            "type": "text-contains",
+            "value": "NaN"
+          },
+          {
+            "id": "empty-boundary",
+            "weight": 1,
+            "type": "text-contains",
+            "value": "empty"
+          },
+          {
+            "id": "regression-tests",
+            "weight": 1,
+            "type": "text-contains",
+            "value": "tests"
+          }
+        ],
+        "fixtures": {
+          "baseline": {
+            "output": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+            "files": {}
+          },
+          "assisted": {
+            "output": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+            "files": {}
+          }
+        }
+      },
+      {
+        "id": "missing-account",
+        "prompt": "Review input/review.txt for an unknown user ID. Return JSON with finding and severity, and write a short explanation to output/review.txt. Do not execute supplied code.",
+        "files": {
+          "input/review.txt": "function emailFor(users, id) { const user = users.find(candidate => candidate.id === id); return user.email; }"
+        },
+        "assertions": [
+          {
+            "id": "finding",
+            "weight": 2,
+            "type": "json-field-equals",
+            "path": ["finding"],
+            "value": "missing-user"
+          },
+          {
+            "id": "review-file",
+            "weight": 1,
+            "type": "file-exists",
+            "path": "output/review.txt"
+          },
+          {
+            "id": "lookup-guard",
+            "weight": 1,
+            "type": "file-contains",
+            "path": "output/review.txt",
+            "value": "undefined"
+          }
+        ],
+        "fixtures": {
+          "baseline": {
+            "output": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+            "files": {
+              "output/review.txt": "The lookup may be undefined. Guard it before reading email and test an unknown ID."
+            }
+          },
+          "assisted": {
+            "output": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+            "files": {
+              "output/review.txt": "The lookup may be undefined. Guard it before reading email and test an unknown ID."
+            }
+          }
+        }
+      }
+    ]
+  },
+  "suiteDigest": "7388faaca135d1402cae5184186a162b485012f13016805c36ae07487015405b",
+  "skillDigest": "0c3a5b278fb7b098d3aa39145ee3607095fd9e28e11da5e44cffadd9e9f6c5fb",
+  "configurationDigest": "3b4e7179f50171a84bfdd4f3f6777af2268ef255e8560fab10c29ef9371c51e5",
+  "mode": "fixture",
+  "platform": "fixture",
+  "engineVersion": null,
+  "modelRequested": null,
+  "image": null,
+  "network": false,
+  "credentialNames": [],
+  "environment": {
+    "node": "v24.21.0",
+    "os": "darwin"
+  },
+  "limits": {
+    "timeoutMs": 10000,
+    "suiteTimeoutMs": 60000,
+    "maxOutputBytes": 32768,
+    "maxWorkspaceBytes": 4194304,
+    "maxWorkspaceEntries": 512,
+    "memoryMiB": 512,
+    "cpus": 1,
+    "pids": 64
+  },
+  "startedAt": "2026-11-10T16:47:52.064Z",
+  "completedAt": "2026-11-10T16:47:52.072Z",
+  "runtimeMs": 6.5,
+  "cases": [
+    {
+      "id": "empty-average",
+      "baseline": {
+        "status": "completed",
+        "output": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+        "files": {},
+        "stdout": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+        "stderr": "",
+        "runtimeMs": 0.62,
+        "exitCode": 0,
+        "modelReported": null,
+        "platformVersion": null,
+        "error": null,
+        "score": 100,
+        "assertions": [
+          {
+            "id": "empty-result",
+            "passed": true,
+            "weight": 2,
+            "earned": 2,
+            "message": "text-contains: passed"
+          },
+          {
+            "id": "empty-boundary",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "text-contains: passed"
+          },
+          {
+            "id": "regression-tests",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "text-contains: passed"
+          }
+        ]
+      },
+      "assisted": {
+        "status": "completed",
+        "output": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+        "files": {},
+        "stdout": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+        "stderr": "",
+        "runtimeMs": 2.15,
+        "exitCode": 0,
+        "modelReported": null,
+        "platformVersion": null,
+        "error": null,
+        "score": 100,
+        "assertions": [
+          {
+            "id": "empty-result",
+            "passed": true,
+            "weight": 2,
+            "earned": 2,
+            "message": "text-contains: passed"
+          },
+          {
+            "id": "empty-boundary",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "text-contains: passed"
+          },
+          {
+            "id": "regression-tests",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "text-contains: passed"
+          }
+        ]
+      },
+      "delta": 0
+    },
+    {
+      "id": "missing-account",
+      "baseline": {
+        "status": "completed",
+        "output": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+        "files": {
+          "output/review.txt": "The lookup may be undefined. Guard it before reading email and test an unknown ID."
+        },
+        "stdout": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+        "stderr": "",
+        "runtimeMs": 0.95,
+        "exitCode": 0,
+        "modelReported": null,
+        "platformVersion": null,
+        "error": null,
+        "score": 100,
+        "assertions": [
+          {
+            "id": "finding",
+            "passed": true,
+            "weight": 2,
+            "earned": 2,
+            "message": "json-field-equals: passed"
+          },
+          {
+            "id": "review-file",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "file-exists: passed"
+          },
+          {
+            "id": "lookup-guard",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "file-contains: passed"
+          }
+        ]
+      },
+      "assisted": {
+        "status": "completed",
+        "output": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+        "files": {
+          "output/review.txt": "The lookup may be undefined. Guard it before reading email and test an unknown ID."
+        },
+        "stdout": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+        "stderr": "",
+        "runtimeMs": 2.31,
+        "exitCode": 0,
+        "modelReported": null,
+        "platformVersion": null,
+        "error": null,
+        "score": 100,
+        "assertions": [
+          {
+            "id": "finding",
+            "passed": true,
+            "weight": 2,
+            "earned": 2,
+            "message": "json-field-equals: passed"
+          },
+          {
+            "id": "review-file",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "file-exists: passed"
+          },
+          {
+            "id": "lookup-guard",
+            "passed": true,
+            "weight": 1,
+            "earned": 1,
+            "message": "file-contains: passed"
+          }
+        ]
+      },
+      "delta": 0
+    }
+  ],
+  "summary": {
+    "completedCases": 2,
+    "totalCases": 2,
+    "baselineScore": 100,
+    "assistedScore": 100,
+    "delta": 0
+  }
+}

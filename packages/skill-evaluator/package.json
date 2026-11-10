@@ -1,0 +1,15 @@
+{
+  "name": "@uas/skill-evaluator",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "license": "MIT",
+  "exports": "./src/index.ts",
+  "dependencies": {
+    "@uas/skill-schema": "workspace:*",
+    "@uas/skill-validator": "workspace:*",
+    "@uas/catalog-indexer": "workspace:*",
+    "@uas/platform-adapters": "workspace:*",
+    "@uas/skill-installer": "workspace:*"
+  }
+}

@@ -1,6 +1,7 @@
 import { platforms } from '@uas/platform-adapters';
 import type { DiscoverySkill } from '@/lib/catalog';
 import { sourceUrl } from '@/lib/catalog';
+import { EvaluationDetails, EvaluationSummary } from './skill-evaluations';
 
 const testingLabels = {
   'not-recorded': 'No completed test evidence',
@@ -43,6 +44,7 @@ export function TrustSummary({ skill }: { skill: DiscoverySkill }) {
           )
           .join(', ') || 'Not assessed'}
       </p>
+      <EvaluationSummary skill={skill} />
     </div>
   );
 }
@@ -168,6 +170,7 @@ export function TrustDetails({ skill }: { skill: DiscoverySkill }) {
         Installation support does not establish runtime tool access or task
         correctness.
       </p>
+      <EvaluationDetails skill={skill} />
     </section>
   );
 }

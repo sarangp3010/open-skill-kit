@@ -472,3 +472,49 @@ A built CLI smoke assessment of the real Code Reviewer draft returned 90/100, 12
 The score is a structural proxy, not accuracy, professional safety or review. Test records are contributor-supplied artifacts, not signed independent attestations; no actual assistant/model execution was performed in this task. Optional discovery report fields allow new readers to consume older catalogs with explicit not-assessed states; older strict readers should rebuild against the current schema. npm's publication-only entry format and existing CLI commands remain supported. See [quality and trust](skill-quality.md), [template](../templates/skill/SKILL.md) and the preceding Phase 2 record for ownership/recovery limitations.
 
 All Phase 2 and Phase 3 changes remain local and uncommitted. No commit, push, pull request, publication, deployment, remote workflow or paid API was used. Remaining work is independent content/domain review and real authorized assistant testing, not a local validation failure.
+
+## Phase 4: reproducible skill evaluations — 2026-11-10
+
+The implementation was completed and reviewed locally on top of the user's Phase 3 commit, 5abefcd (feat: add skill quality scoring and marketplace trust). Existing Phase 3 work and the initial Phase 4 changes were inspected and preserved. AGENTS.md, implementation specification, status, CLI, validator/parser/schema, catalog infrastructure, marketplace and tests were reviewed. The Phase 3 baseline passed before extension. No commit or remote action was performed by this task.
+
+### Completed implementation checklist
+
+- [x] Extend existing schema contracts with versioned scenario/assertion/configuration/report/evidence types. Preserve frontmatter/path exports and optional discovery fields for old catalogs.
+- [x] Reuse browser-safe validator scoring/consistency checks, the existing Node package reader/digests and platform/path helpers; avoid a second parser, validator, installation registry or catalog.
+- [x] Declarative weighted text/JSON/file assertions, realistic task fixtures, deterministic score reproduction, paired baseline/assisted execution, full admitted skill-package provisioning and explicit errors/unscored incomplete results.
+- [x] Canonical suite/configuration digests, package digest, captured observations/raw process output, individual assertions, comparisons, model/platform/environment/configuration metadata when available, actual runtime and structured errors.
+- [x] New Node evaluator workspace with private temporary per-arm directories, cleanup, bounded input/output/workspace/time, container CPU/memory/PID constraints and no host project/home/auth-directory mounts.
+- [x] Extensible documented Codex, Claude Code, Cursor and Gemini CLI command adapters. Require explicit opt-in, valid configuration, a trusted Docker executable, digest-pinned pre-existing image and explicit network/credential policy for real execution. No host execution or fixture fallback.
+- [x] Preserve default offline operation with no provider credentials, paid API, Docker or agent requirement. Add evaluate adapters, evaluate with explicit suite/source/output and optional regression/assertion gates, plus pnpm evaluate:fixtures.
+- [x] Import reviewed bounded report artifacts through the existing indexer; recheck assertions, comparisons, suite/configuration digests and source-package identity. Label stale/invalid results, suppress their scores, retain errors and never promote compatibility/review/publication status.
+- [x] Marketplace cards/details distinguish offline replay from measured agent results, show comparison coverage and report provenance, and explain the limits of reproduced evidence separately from structural quality.
+- [x] Unit/integration/CLI/component/Playwright coverage; contributor/evaluation/architecture/CLI documentation; add only the offline fixture command to the existing CI validate job.
+- [x] Complete local CI validation, production/Pages-path builds, local npm packaging and standalone bundled CLI smoke test.
+- [ ] Real Docker/assistant/model evaluations and independently observed compatibility/effectiveness evidence. Not configured, authorized for a particular provider run, executed or claimed.
+
+### Review corrections
+
+Final review tightened configuration/protocol gates, credential allowlists/redaction (including captured files before scoring), reserved context paths, report consistency/output limits, symlink/hard-link boundaries, bounded subprocess termination and cleanup error reporting. Tests exercise missing/mismatched configuration, unavailable/generic engines, malformed agent output, process hangs, unsafe workspace entries, container cleanup failure, altered assertions/scores/configuration, stale packages, exclusive report writes and preserved user/source files. Local process doubles explicitly identify themselves as synthetic test infrastructure; their temporary results are never shipped as agent evidence.
+
+The one catalog artifact is an actually executed **fixture replay**, not a model run: two Code Reviewer scenarios, two complete comparisons, baseline and assisted assertion scores both 100/100, difference zero. Both sets of answers are explicitly authored, identical fixtures. This validates the harness mechanics without manufacturing a measured improvement. No fixture result creates platform-test evidence, a verified badge or compatibility claim.
+
+### Actual final validation
+
+Node 24.21.0 / pnpm 10.20.0 on macOS. All commands below completed successfully locally:
+
+- pnpm install --frozen-lockfile; pnpm lint; pnpm format:check; pnpm typecheck.
+- pnpm test: **237 tests across 10 files passed**, retaining all 192 Phase 3 tests.
+- pnpm evaluate:fixtures: **two complete offline comparisons**, zero difference; new reports stored under ignored local output without overwriting reviewed artifacts.
+- pnpm validate:skills; pnpm check:links; pnpm check:duplicates; pnpm skills:index; pnpm catalog:check; pnpm catalog:check-assets: **23 valid drafts**, documentation file links and generated catalog assets current.
+- pnpm build; pnpm pack:npm; VITE_BASE_PATH=/open-skill-kit/ pnpm build:pages: production, local tarball and **64 static route entries** built successfully. Nothing was published or deployed.
+- pnpm test:e2e: **10 Playwright tests passed**, including accessibility, actual ZIP downloads, keyboard/rapid input/history regressions and the new fixture evidence/provenance flow.
+- Built standalone CLI evaluate adapters and fixture evaluation with --fail-on-regression --fail-on-assertion both passed without workspace-runtime dependencies or provider calls.
+- git diff --check passes. A semantic comparison with HEAD confirms every catalog field is unchanged after removing the one new optional evaluations summary. git diff for skills/ and archive/ is empty. HEAD remains 5abefcd.
+
+The existing upstream Zod annotation, npm environment and terminal-color notices are non-blocking warnings. There are **no remaining local test/check failures**. Live agents were not run. Docker/configuration/image trust, daemon availability, soft workspace disk monitoring, hard-interruption recovery, unsigned contributor evidence and nondeterministic real models are documented limits; no stronger sandbox or independent verification claim is made.
+
+### Files and architecture affected
+
+New packages/skill-evaluator owns execution; existing packages/skill-schema and packages/skill-validator own shared contracts/scoring; packages/catalog-indexer imports evidence; packages/cli exposes evaluation commands. scripts/catalog.ts, scripts/evaluate-fixtures.ts, package workspace dependencies/lockfile, catalog/catalog.json and .github/workflows/ci.yml connect the pipeline. apps/web/src/components/skill-evaluations.tsx and skill-trust.tsx consume generated evidence. Tests extend tests/skill-evaluator.test.ts, tests/marketplace.test.tsx and tests/e2e/marketplace.spec.ts. evaluations/scenarios and evaluations/reports contain the explicit offline suite and its actual replay artifact. README, CONTRIBUTING, CLI README, architecture, progress and this status link to [the evaluation guide](skill-evaluation.md).
+
+All changes remain in the local working directory, uncommitted. No push, PR, publication, deployment, remote workflow execution, assistant/provider call or installation into a real assistant directory was performed.

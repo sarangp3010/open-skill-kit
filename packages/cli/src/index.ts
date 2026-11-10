@@ -15,6 +15,7 @@ import {
 import { readSkillFiles } from '@uas/catalog-indexer';
 import { validateSkill } from '@uas/skill-validator';
 import { directoryPath } from '@uas/skill-installer';
+import { runEvaluationCommand } from './evaluation-command';
 import { runQualityCommand } from './quality-command';
 import { runPlatformCommand, type CliOptions } from './platform-cli';
 
@@ -24,6 +25,9 @@ Usage:
   open-skill-kit list [query]
   open-skill-kit show <skill-id-or-slug>
   open-skill-kit add <skill-id-or-slug> [--dir <directory>] [--dry-run]
+  open-skill-kit evaluate adapters
+  open-skill-kit evaluate --suite <json> --source <skills-root> [--output <new-json>]
+  Real evaluations: --mode agent --platform <platform> --agent-config <json> --allow-agent
   open-skill-kit quality <id-or-slug> [--source <skills-root>] [--json]
   open-skill-kit platforms
   open-skill-kit install <id> --platform <platform> [--scope project|global]
@@ -133,6 +137,10 @@ export async function runCli(
   if (command === '--version') {
     if (rest.length) throw new Error('Unexpected arguments');
     options.log(options.version);
+    return;
+  }
+  if (command === 'evaluate') {
+    await runEvaluationCommand(rest, options);
     return;
   }
   if (command === 'quality') {

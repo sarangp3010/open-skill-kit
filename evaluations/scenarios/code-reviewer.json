@@ -1,0 +1,88 @@
+{
+  "schemaVersion": 1,
+  "id": "code-reviewer-offline",
+  "skillId": "software-development/code-reviewer",
+  "description": "Offline harness replay of explicitly authored review outputs. These fixtures test scoring and evidence capture, not real agent performance or skill efficacy.",
+  "scenarios": [
+    {
+      "id": "empty-average",
+      "prompt": "Review input/review.txt for correctness. Explain the empty-array behavior and suggest regression tests. Do not execute the supplied code.",
+      "files": {
+        "input/review.txt": "export function average(values) { return values.reduce((sum, value) => sum + value, 0) / values.length; }"
+      },
+      "assertions": [
+        {
+          "id": "empty-result",
+          "type": "text-contains",
+          "value": "NaN",
+          "weight": 2
+        },
+        {
+          "id": "empty-boundary",
+          "type": "text-contains",
+          "value": "empty",
+          "weight": 1
+        },
+        {
+          "id": "regression-tests",
+          "type": "text-contains",
+          "value": "tests",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+          "files": {}
+        },
+        "assisted": {
+          "output": "Empty input yields NaN; reject empty input or specify a fallback. Add tests for empty and nonempty arrays.",
+          "files": {}
+        }
+      }
+    },
+    {
+      "id": "missing-account",
+      "prompt": "Review input/review.txt for an unknown user ID. Return JSON with finding and severity, and write a short explanation to output/review.txt. Do not execute supplied code.",
+      "files": {
+        "input/review.txt": "function emailFor(users, id) { const user = users.find(candidate => candidate.id === id); return user.email; }"
+      },
+      "assertions": [
+        {
+          "id": "finding",
+          "type": "json-field-equals",
+          "path": ["finding"],
+          "value": "missing-user",
+          "weight": 2
+        },
+        {
+          "id": "review-file",
+          "type": "file-exists",
+          "path": "output/review.txt",
+          "weight": 1
+        },
+        {
+          "id": "lookup-guard",
+          "type": "file-contains",
+          "path": "output/review.txt",
+          "value": "undefined",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+          "files": {
+            "output/review.txt": "The lookup may be undefined. Guard it before reading email and test an unknown ID."
+          }
+        },
+        "assisted": {
+          "output": "{\"finding\":\"missing-user\",\"severity\":\"medium\"}",
+          "files": {
+            "output/review.txt": "The lookup may be undefined. Guard it before reading email and test an unknown ID."
+          }
+        }
+      }
+    }
+  ]
+}

@@ -324,3 +324,33 @@ test('quality filters persist in URLs and details explain structural scores with
   ).toHaveCount(4);
   await expect(page.getByText(/^Verified$/i)).toHaveCount(0);
 });
+
+test('fixture evaluation evidence stays separate from measured agent performance', async ({
+  page,
+}) => {
+  const evaluated = catalog.skills.find((item) =>
+    item.evaluations?.some((report) => report.mode === 'fixture'),
+  )!;
+  expect(evaluated).toBeDefined();
+  await page.goto(`/skills/${evaluated.sector}/${evaluated.slug}`);
+  const section = page.getByRole('region', { name: 'Evaluation evidence' });
+  await expect(
+    section.getByText('Offline fixture replay · not agent performance'),
+  ).toBeVisible();
+  await expect(section.getByText(/Evidence check: reproduced/)).toBeVisible();
+  await expect(section.getByText(/Difference: 0 points/)).toBeVisible();
+  await expect(
+    page.getByText('Test evidence: No completed test evidence.'),
+  ).toHaveCount(4);
+  await section.getByText('Inspect report provenance').click();
+  await expect(
+    section.getByRole('link', { name: /Source report:/ }),
+  ).toHaveAttribute(
+    'href',
+    /evaluations\/reports\/code-reviewer-fixture.json$/,
+  );
+  const results = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze();
+  expect(results.violations).toEqual([]);
+});

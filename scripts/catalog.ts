@@ -1,7 +1,10 @@
 import { mkdir, readFile, writeFile } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
-import { generateCatalog } from '../packages/catalog-indexer/src/index';
+import {
+  generateCatalog,
+  readEvaluationReports,
+} from '../packages/catalog-indexer/src/index';
 import { sectorsSchema } from '../packages/skill-schema/src/index';
 
 export const repositoryRoot = fileURLToPath(new URL('../', import.meta.url));
@@ -16,7 +19,12 @@ export async function regenerateCatalog(
   const sectors = sectorsSchema.parse(
     JSON.parse(await readFile(join(root, 'catalog/sectors.json'), 'utf8')),
   );
-  const result = await generateCatalog(join(root, 'skills'), sectors);
+  const evaluationReports = await readEvaluationReports(
+    join(root, 'evaluations/reports'),
+  );
+  const result = await generateCatalog(join(root, 'skills'), sectors, {
+    evaluationReports,
+  });
   const serialized = JSON.stringify(result.catalog, null, 2) + '\n';
   const outputs = [
     'catalog/catalog.json',

@@ -1,3 +1,12 @@
+import {
+  assessEvaluationArtifact,
+  type EvaluationArtifact,
+} from './evaluations';
+export {
+  readEvaluationReports,
+  assessEvaluationArtifact,
+  type EvaluationArtifact,
+} from './evaluations';
 import { assessCompatibility } from './trust';
 export { packageDigest, assessCompatibility } from './trust';
 import { lstat, readdir, readFile } from 'node:fs/promises';
@@ -166,7 +175,11 @@ export async function buildCatalog(
 }
 
 /** Website contract includes valid drafts with their actual review status and optional metadata. */
-export async function generateCatalog(root: string, sectors: Sector[] = []) {
+export async function generateCatalog(
+  root: string,
+  sectors: Sector[] = [],
+  options: { evaluationReports?: EvaluationArtifact[] } = {},
+) {
   const { results, diagnostics } = await inspectSkills(root, 'catalog');
   if (diagnostics.length) throw new CatalogValidationError(diagnostics);
   const declared = sectorsSchema.parse(sectors);
@@ -183,6 +196,12 @@ export async function generateCatalog(root: string, sectors: Sector[] = []) {
       description: `Skill packages in ${slug}.`,
       aliases: [],
     }));
+  for (const artifact of options.evaluationReports ?? []) {
+    if (!results.some((item) => item.id === artifact.report.suite.skillId))
+      throw new Error(
+        `Evaluation report ${artifact.reportPath} references unknown skill ${artifact.report.suite.skillId}`,
+      );
+  }
   const catalog = discoveryCatalogSchema.parse({
     schemaVersion: 1,
     sectors: [...declared, ...derived].sort((a, b) =>
@@ -194,6 +213,20 @@ export async function generateCatalog(root: string, sectors: Sector[] = []) {
             {
               ...result.skill,
               compatibility: assessCompatibility(result.skill),
+              ...((options.evaluationReports ?? []).some(
+                (item) => item.report.suite.skillId === result.skill!.id,
+              )
+                ? {
+                    evaluations: (options.evaluationReports ?? [])
+                      .filter(
+                        (item) =>
+                          item.report.suite.skillId === result.skill!.id,
+                      )
+                      .map((item) =>
+                        assessEvaluationArtifact(item, result.skill!),
+                      ),
+                  }
+                : {}),
             },
           ]
         : [],

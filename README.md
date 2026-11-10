@@ -76,3 +76,5 @@ Codex, Claude Code, Cursor and Gemini CLI installation, inspection, updates and 
 ## Quality and marketplace trust
 
 Cards/details now show generated structural scores, validation and separate installation/test evidence. Assess a local skill with pnpm cli quality <sector>/<slug> --source ./skills after building the CLI. Scores and declarations never imply verification. Start authoring from templates/skill and read [quality and trust](docs/skill-quality.md) for the rubric, evidence format and contributor workflow.
+
+Phase 4 adds [reproducible evaluations](docs/skill-evaluation.md): run pnpm evaluate:fixtures for offline scenario replay, or use the built CLI evaluate command for structured baseline/assisted reports. Marketplace evidence distinguishes fixture mechanics from actual agent performance. Real-agent container execution requires separate configuration and explicit opt-in; no real platform evaluation is included or claimed.

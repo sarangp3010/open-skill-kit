@@ -384,3 +384,12 @@ export function validateSkill(
     });
   return finish(extra);
 }
+
+export {
+  canonicalJson,
+  evaluationConfiguration,
+  scoreEvaluation,
+  extractAgentOutput,
+  evaluationSummary,
+  reproduceEvaluation,
+} from './evaluation';

@@ -178,6 +178,9 @@ importers:
       '@uas/platform-adapters':
         specifier: workspace:*
         version: link:../platform-adapters
+      '@uas/skill-evaluator':
+        specifier: workspace:*
+        version: link:../skill-evaluator
       '@uas/skill-installer':
         specifier: workspace:*
         version: link:../skill-installer
@@ -189,6 +192,24 @@ importers:
         version: link:../skill-validator
 
   packages/platform-adapters: {}
+
+  packages/skill-evaluator:
+    dependencies:
+      '@uas/catalog-indexer':
+        specifier: workspace:*
+        version: link:../catalog-indexer
+      '@uas/platform-adapters':
+        specifier: workspace:*
+        version: link:../platform-adapters
+      '@uas/skill-installer':
+        specifier: workspace:*
+        version: link:../skill-installer
+      '@uas/skill-schema':
+        specifier: workspace:*
+        version: link:../skill-schema
+      '@uas/skill-validator':
+        specifier: workspace:*
+        version: link:../skill-validator
 
   packages/skill-installer:
     dependencies:

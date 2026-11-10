@@ -9,6 +9,7 @@
     "@uas/skill-schema": "workspace:*",
     "@uas/skill-validator": "workspace:*",
     "@uas/platform-adapters": "workspace:*",
-    "@uas/skill-installer": "workspace:*"
+    "@uas/skill-installer": "workspace:*",
+    "@uas/skill-evaluator": "workspace:*"
   }
 }
