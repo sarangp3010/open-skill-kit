@@ -103,3 +103,61 @@ Local results: lint/typecheck pass; 112 unit/component tests across six files pa
 User explicitly required asking before every push. That instruction is recorded in AGENTS.md. All Pages changes remain local/uncommitted: no hosting setting, commit, push or deployment has been performed. Pending approval: commit/push the reviewed setup, enable Pages with GitHub Actions as publishing source, wait for CI/deployment, then verify the public site. Expected project URL: https://sarangp3010.github.io/open-skill-kit/ (not yet live/verified).
 
 The user subsequently approved committing/pushing this prepared setup, enabling GitHub Pages and deploying it. Local validation above applies to the approved changes; hosted CI/deployment and public verification follow the push.
+
+## Phase 2: local platform adapters and installation — 2026-11-10
+
+Scope follows the latest explicit request: native filesystem installation and lifecycle plus marketplace instructions. This does not implement the separate visual builder, accounts, model execution or any publishing/deployment feature. The existing CLI, schema, validator, indexer, package reader, npm builder, ZIP exporter and React primitives were inspected and reused. Official directory conventions were opened and checked before installation code; sources and limits are recorded in [platform installation](platform-installation.md).
+
+### Implementation checklist
+
+- [x] Shared browser-safe platform registry for OpenAI Codex, Claude Code, Cursor and Gemini CLI, project/global scope, directory resolution, name restrictions and copyable commands.
+- [x] Reuse published-bundle list/show/add behavior; add platforms/install/installed/inspect/update/uninstall and explicit local --source discovery.
+- [x] Keep all real packages draft and npm bundles publication-only; require --allow-draft to install unpublished local packages.
+- [x] Preserve complete admitted packages and supporting files without executing skill instructions, scripts or assistant binaries.
+- [x] Managed receipts with ID/platform/scope/version and complete file hashes, read-only inspection of managed/modified/unmanaged state, explicit dry runs and conflicts.
+- [x] Existing project/home anchors, safe names/paths, case collisions and file/directory aliases, symlink/hard-link checks, exclusive mutation locks, staged updates, rollback on publication failure, guarded removal and preservation of user changes.
+- [x] Account-free marketplace selectors, destination paths, official links, copyable preview/install commands, honest unpublished checkout instructions and clipboard fallback.
+- [x] Adapter/lifecycle/path-safety tests, simulated transaction failures/concurrent user additions, standalone bundled CLI lifecycle and marketplace/browser copy tests.
+- [x] Documentation and all local CI validation checks.
+- [ ] Real assistant/model activation tests, independent editorial review and npm publication (not requested or performed).
+
+### Validation evidence
+
+Node 24 / pnpm 10.20.0 on macOS. Frozen install, lint, typecheck and formatting pass. Vitest passes **155 tests across eight files**; Playwright passes **eight tests**, including keyboard/history regressions, real ZIP extraction/download, selected axe accessibility scans, mobile navigation and platform command copying. Tests use temporary project/home directories; no real assistant directory was installed into.
+
+Skill validation and duplicates pass for 23 unchanged drafts. Documentation file links, catalog freshness and public asset freshness pass. Normal production build and local npm packing pass, with existing non-blocking upstream Zod annotation/npm environment warnings. Canonical catalog has no diff. A real-source built-binary smoke test listed, previewed, installed, compared all eight Code Reviewer files, inspected, updated and uninstalled in a temporary project. The Pages subpath build is checked locally; no deployment is run.
+
+Tests verify unchanged user files for conflicts, modified/missing/additional package files, empty user directories, invalid receipts, unsafe IDs, unsupported platform/scope/flags, symlinked sources/destinations/receipts/files, hard links, concurrent installs and lock conflicts. Transaction fault tests verify old-package restoration when renaming/publishing/removing fails and preservation of files added during the old-directory move. Validator path alias checks also protect portable packages across case-sensitive and case-insensitive filesystems.
+
+Installation support is based on official documentation and filesystem tests, not actual assistant execution. Receipt files are local bookkeeping, not signatures. Hostile same-user filesystem races and abrupt process termination can require manual recovery; no force or automatic destructive recovery is offered. These limits are documented.
+
+All changes remain local and uncommitted for review. No push, pull request, publication, deployment, remote workflow execution or assistant/API call was performed. Existing skill source files, review labels, publication gates and canonical catalog are preserved.
+
+## Phase 3: skill quality and marketplace trust — 2026-11-10
+
+The current request explicitly authorizes this quality/trust scope while retaining all uncommitted Phase 2 work. Before Phase 3 edits, the uncommitted adapter/installer/CLI/marketplace changes and repository guidance were inspected. The complete Phase 2 local suite passed: frozen install, lint, formatting, typecheck, 155 unit/component tests, eight Playwright tests, skill/link/duplicate/catalog checks, production build, public-asset freshness and npm packing. No baseline failure required discarding work.
+
+### Completed checklist
+
+- [x] Extend the existing parser with a shared Markdown instruction-structure extractor, reused by the validator rather than introducing a duplicate parser.
+- [x] Extend schema contracts with optional quality, static validation and compatibility reports; optional difficulty/compatible-platform metadata and completed-test records remain separate from legacy testing declarations.
+- [x] Add a deterministic rubric-v1 100-point quality report with 12 weighted checks, statuses, earned points, messages and paths across metadata, instruction structure, examples, references and package safety. Invalid packages are blocked at zero; optional authoring gaps remain advisory.
+- [x] Derive reports through the existing validator/catalog pipeline. Do not execute skills, change editorial status or accept authored scores as trusted reports.
+- [x] Track documented installation support and contributor declarations separately from completed-test evidence. Records require runner, platform version, completion time, outcome, artifact and SHA-256 package digest. Missing/invalid evidence fails validation; changed content/logs is stale; newer failures/stale records are not hidden by older passes.
+- [x] Add read-only CLI quality with human/JSON output, digest and invalid-package diagnostics; preserve published bundle policy, list/show/add and every Phase 2 lifecycle command.
+- [x] Show quality, validation and installation/testing summaries on cards; detailed checks, legacy declarations and escaped source artifacts on detail pages. No verified badge is generated, including for a full score or recorded pass.
+- [x] Reuse the catalog selector and URL update helper for difficulty/editorial/minimum-score/platform/evidence/validation filters and deterministic quality/evidence sorts. Match selected-platform testing without borrowing another platform's result. Preserve search, refresh, keyboard and back/forward behavior.
+- [x] Add contributor documentation and a complete reusable template outside the active skills root, with two example pairs and behavior cases but no fabricated completed tests.
+- [x] Add unit/integration/CLI/template/component and relevant Playwright regression coverage; run the full local suite.
+
+### Actual results and preservation
+
+Vitest: **192 passing tests across nine files**. Playwright: **nine passing tests**, including existing rapid-typing/history cases, actual ZIP downloads, selected axe accessibility checks, mobile layout, clipboard commands and the new quality-filter/detail flow. Lint, formatting, typecheck, frozen install, skill validation, documentation links, duplicate checks, catalog regeneration/freshness, production build, public asset freshness and npm packing all pass. The repository-subpath Pages build is validated locally; no deployment is invoked. Existing upstream Zod annotation/npm environment warnings are non-blocking.
+
+The baseline 155 unit/component and eight browser tests remain passing. New tests cover deterministic totals, placeholder/missing metadata, fenced workflow examples, invalid-package score blocking, a full score without test/review promotion, legacy declarations without evidence, completed/stale/failed/ambiguous records, artifact changes, path safety, older catalog fallbacks, CLI JSON/errors, template validity, filter pairing, score sorting, escaped evidence and absence of verified badges. The standalone bundled CLI also runs quality assessment without workspace dependencies.
+
+A built CLI smoke assessment of the real Code Reviewer draft returned 90/100, 12 checks, valid structure and no recorded platform tests. A semantic comparison with the original canonical catalog proves that all 23 source entries/file maps and sector data are unchanged after removing the three newly derived report fields. Real skill files, archive preservation data, review labels and publication gates are untouched. All current entries remain drafts; their recorded passing-test count remains zero. Template files are outside skills/ and are not silently published or indexed.
+
+The score is a structural proxy, not accuracy, professional safety or review. Test records are contributor-supplied artifacts, not signed independent attestations; no actual assistant/model execution was performed in this task. Optional discovery report fields allow new readers to consume older catalogs with explicit not-assessed states; older strict readers should rebuild against the current schema. npm's publication-only entry format and existing CLI commands remain supported. See [quality and trust](skill-quality.md), [template](../templates/skill/SKILL.md) and the preceding Phase 2 record for ownership/recovery limitations.
+
+All Phase 2 and Phase 3 changes remain local and uncommitted. No commit, push, pull request, publication, deployment, remote workflow or paid API was used. Remaining work is independent content/domain review and real authorized assistant testing, not a local validation failure.

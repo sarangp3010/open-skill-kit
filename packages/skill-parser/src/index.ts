@@ -1,4 +1,5 @@
 import { parseDocument, isAlias, isMap, isSeq, LineCounter } from 'yaml';
+import { fromMarkdown } from 'mdast-util-from-markdown';
 import { frontmatterSchema } from '@uas/skill-schema';
 
 export const MAX_SKILL_BYTES = 256 * 1024;
@@ -77,4 +78,37 @@ export function parseSkill(source: string) {
       match[1].split('\n').length + 3,
     );
   return { frontmatter: result.data, body };
+}
+
+/** One Markdown structure extractor shared by validation and quality reporting. */
+export function parseInstructionStructure(body: string) {
+  const sections = new Map<string, string>();
+  let current = '';
+  let orderedSteps = 0;
+  let structuredOutput = false;
+  for (const node of fromMarkdown(body).children) {
+    if (node.type === 'heading' && node.depth === 2) {
+      current = node.children
+        .map((child) => ('value' in child ? child.value : ''))
+        .join('')
+        .toLowerCase()
+        .trim();
+      sections.set(current, '');
+    } else if (current) {
+      sections.set(
+        current,
+        (sections.get(current) ?? '') +
+          body.slice(node.position!.start.offset, node.position!.end.offset) +
+          '\n',
+      );
+      if (current === 'workflow' && node.type === 'list' && node.ordered)
+        orderedSteps += node.children.length;
+      if (
+        current === 'output' &&
+        (node.type === 'list' || node.type === 'code')
+      )
+        structuredOutput = true;
+    }
+  }
+  return { sections, orderedSteps, structuredOutput };
 }

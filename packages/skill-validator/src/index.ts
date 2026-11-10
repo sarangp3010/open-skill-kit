@@ -6,10 +6,17 @@ import {
   safePathSchema,
   slugSchema,
   testCasesSchema,
+  platformResultsSchema,
+  type QualityReport,
   type CatalogEntry,
   type DiscoverySkill,
 } from '@uas/skill-schema';
-import { parseSkill, SkillParseError } from '@uas/skill-parser';
+import { assessQuality, type QualityFacts } from './quality';
+import {
+  parseSkill,
+  parseInstructionStructure,
+  SkillParseError,
+} from '@uas/skill-parser';
 
 export const LIMITS = {
   files: 100,
@@ -22,6 +29,7 @@ export interface Diagnostic {
   message: string;
   line?: number;
   column?: number;
+  category?: string;
 }
 export function formatDiagnostic(diagnostic: Diagnostic) {
   const location = diagnostic.line
@@ -31,6 +39,7 @@ export function formatDiagnostic(diagnostic: Diagnostic) {
 }
 export interface ValidationResult {
   valid: boolean;
+  quality: QualityReport;
   errors: string[];
   warnings: string[];
   diagnostics: Diagnostic[];
@@ -46,21 +55,34 @@ export function validateSkill(
 ): ValidationResult {
   const diagnostics: Diagnostic[] = [];
   const warnings: string[] = [];
+  let category = 'safety';
+  const facts: QualityFacts = {
+    valid: false,
+    files,
+    safetyChecked: false,
+    referencesChecked: false,
+    failures: new Set(),
+  };
   const fail = (
     message: string,
     file = 'SKILL.md',
     line?: number,
     column?: number,
-  ) =>
+    group = category,
+  ) => {
+    facts.failures.add(group);
     diagnostics.push({
       path: `${folder}/${file}`,
       message,
+      category: group,
       ...(line ? { line, column: column ?? 1 } : {}),
     });
+  };
   const finish = (
     extra: Pick<ValidationResult, 'entry' | 'skill'> = {},
   ): ValidationResult => ({
     valid: !diagnostics.length,
+    quality: assessQuality({ ...facts, valid: !diagnostics.length }),
     errors: diagnostics.map(formatDiagnostic),
     diagnostics,
     warnings,
@@ -76,10 +98,23 @@ export function validateSkill(
   const paths = Object.keys(files).sort();
   if (paths.length > LIMITS.files) fail('Package exceeds 100 files');
   let size = 0;
+  const pathTree = new Map<
+    string,
+    { path: string; kind: 'file' | 'directory' }
+  >();
   for (const path of paths) {
     if (!safePathSchema.safeParse(path).success) fail('Unsafe path', path);
     if (!/\.(md|json|txt|csv)$/i.test(path))
       fail('Unsupported file type; executable content is not accepted', path);
+    const parts = path.split('/');
+    for (let index = 0; index < parts.length; index++) {
+      const prefix = parts.slice(0, index + 1).join('/');
+      const kind = index === parts.length - 1 ? 'file' : 'directory';
+      const previous = pathTree.get(prefix.toLowerCase());
+      if (previous && (previous.path !== prefix || previous.kind !== kind))
+        fail(`Conflicting file/directory or case alias: ${prefix}`, path);
+      else pathTree.set(prefix.toLowerCase(), { path: prefix, kind });
+    }
     const bytes = new TextEncoder().encode(files[path]).length;
     size += bytes;
     if (bytes > LIMITS.fileBytes) fail('File exceeds 256 KiB', path);
@@ -88,7 +123,9 @@ export function validateSkill(
   if (new Set(paths.map((path) => path.toLowerCase())).size !== paths.length)
     fail('Case-insensitive filename collision');
   if (size > LIMITS.packageBytes) fail('Package exceeds 1 MiB');
+  facts.safetyChecked = true;
   if (diagnostics.length) return finish();
+  category = 'instructions';
   let parsed: ReturnType<typeof parseSkill>;
   try {
     parsed = parseSkill(files['SKILL.md'] ?? '');
@@ -101,7 +138,9 @@ export function validateSkill(
     );
     return finish();
   }
+  facts.parsed = parsed;
   const { frontmatter, body } = parsed;
+  category = 'metadata';
   const [sector, slug] = folder.split('/');
   if (frontmatter.name !== slug)
     fail('Frontmatter name must match skill directory', 'SKILL.md', 2);
@@ -133,6 +172,7 @@ export function validateSkill(
       );
     return finish();
   }
+  facts.metadata = metadata;
   if (
     (metadata.id && metadata.id !== folder) ||
     (metadata.slug && metadata.slug !== slug) ||
@@ -155,24 +195,10 @@ export function validateSkill(
     warnings.push(
       `${folder}/SKILL.md: Description should explicitly explain when to activate the skill`,
     );
-  const tree = fromMarkdown(body);
-  const sections = new Map<string, string>();
-  let current = '';
-  for (const node of tree.children) {
-    if (node.type === 'heading' && node.depth === 2) {
-      current = node.children
-        .map((child) => ('value' in child ? child.value : ''))
-        .join('')
-        .toLowerCase();
-      sections.set(current, '');
-    } else if (current)
-      sections.set(
-        current,
-        (sections.get(current) ?? '') +
-          body.slice(node.position!.start.offset, node.position!.end.offset) +
-          '\n',
-      );
-  }
+  category = 'instructions';
+  const structure = parseInstructionStructure(body);
+  facts.structure = structure;
+  const { sections } = structure;
   for (const heading of [
     'when to use',
     'inputs',
@@ -200,9 +226,11 @@ export function validateSkill(
         'High-stakes boundaries require limitations, source verification and professional escalation',
       );
   }
+  category = 'examples';
   const examples =
     metadata.examples ??
     paths.filter((path) => /^examples\/.*\.md$/i.test(path));
+  facts.examples = examples;
   for (const path of examples)
     if (!Object.hasOwn(files, path) || !files[path].trim())
       fail(`Missing or empty example: ${path}`, 'metadata.json');
@@ -229,6 +257,37 @@ export function validateSkill(
       );
     }
   }
+  if (Object.hasOwn(files, 'tests/platform-results.json')) {
+    const result = platformResultsSchema.safeParse(
+      (() => {
+        try {
+          return JSON.parse(files['tests/platform-results.json']);
+        } catch {
+          return null;
+        }
+      })(),
+    );
+    if (!result.success)
+      fail(
+        'Invalid completed platform test records',
+        'tests/platform-results.json',
+        undefined,
+        undefined,
+        'references',
+      );
+    else
+      for (const run of result.data.runs)
+        if (!files[run.evidencePath]?.trim())
+          fail(
+            `Missing or empty test evidence: ${run.evidencePath}`,
+            'tests/platform-results.json',
+            undefined,
+            undefined,
+            'references',
+          );
+  }
+  category = 'references';
+  facts.referencesChecked = true;
   for (const path of paths.filter((path) => path.endsWith('.md'))) {
     const ast = fromMarkdown(files[path]);
     function walk(node: unknown): void {
@@ -242,7 +301,13 @@ export function validateSkill(
       const at = (message: string) =>
         fail(message, path, n.position?.start.line, n.position?.start.column);
       if (n.type === 'html')
-        at('Raw HTML is unsupported; fence illustrative code');
+        fail(
+          'Raw HTML is unsupported; fence illustrative code',
+          path,
+          n.position?.start.line,
+          n.position?.start.column,
+          'safety',
+        );
       if (n.type === 'link' || n.type === 'image' || n.type === 'definition') {
         const url = n.url!;
         if (!url.startsWith('#')) {
@@ -314,6 +379,8 @@ export function validateSkill(
       body,
       files,
       examples,
+      quality: assessQuality({ ...facts, valid: true }),
+      validation: { status: 'passed', profile: 'catalog', warnings },
     });
   return finish(extra);
 }

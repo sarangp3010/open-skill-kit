@@ -25,7 +25,8 @@
     "tailwind-merge": "^3.3.1",
     "@uas/skill-schema": "workspace:*",
     "fflate": "^0.8.3",
-    "@uas/skill-validator": "workspace:*"
+    "@uas/skill-validator": "workspace:*",
+    "@uas/platform-adapters": "workspace:*"
   },
   "devDependencies": {
     "vite": "^7.1.12",

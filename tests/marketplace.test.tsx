@@ -15,6 +15,15 @@ import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { resolve } from 'node:path';
 import { App } from '../apps/web/src/App';
+import {
+  TrustDetails,
+  TrustSummary,
+} from '../apps/web/src/components/skill-trust';
+import {
+  assessCompatibility,
+  packageDigest,
+} from '../packages/catalog-indexer/src/index';
+import { validateSkill } from '../packages/skill-validator/src/index';
 import { CatalogSearchInput } from '../apps/web/src/components/catalog-search-input';
 import { MarkdownViewer } from '../apps/web/src/components/markdown-viewer';
 import { generateCatalog } from '../packages/catalog-indexer/src/index';
@@ -254,4 +263,141 @@ it('restores a native POP even if all intermediate router renders were cancelled
   } finally {
     window.history.replaceState(null, '', previousUrl);
   }
+});
+
+it('shows copyable platform and scope instructions for the generated skill without claiming publication', async () => {
+  const user = userEvent.setup();
+  const clipboard = vi
+    .spyOn(navigator.clipboard, 'writeText')
+    .mockResolvedValue();
+  try {
+    const skill = catalog.skills[0];
+    app(`/skills/${skill.sector}/${skill.slug}`);
+    await screen.findByRole('heading', { name: skill.title, level: 1 });
+    const command = screen.getByLabelText('Installation command');
+    expect(command).toHaveTextContent(
+      `pnpm cli install ${skill.id} --platform codex`,
+    );
+    expect(command).toHaveTextContent('--allow-draft');
+    expect(
+      screen.getByText(/CLI is not published to npm yet/),
+    ).toBeInTheDocument();
+    await user.selectOptions(screen.getByLabelText('Platform'), 'gemini-cli');
+    expect(command).toHaveTextContent('--platform gemini-cli --scope project');
+    await user.selectOptions(
+      screen.getByLabelText('Installation scope'),
+      'global',
+    );
+    expect(command).toHaveTextContent('--scope global');
+    expect(command).not.toHaveTextContent('--project-dir');
+    expect(
+      screen.getByText(`~/.gemini/skills/${skill.slug}`),
+    ).toBeInTheDocument();
+    await user.click(
+      screen.getByRole('button', { name: 'Copy preview command' }),
+    );
+    expect(clipboard).toHaveBeenLastCalledWith(
+      expect.stringContaining('--dry-run'),
+    );
+    await user.click(
+      screen.getByRole('button', { name: 'Copy install command' }),
+    );
+    expect(clipboard).toHaveBeenLastCalledWith(command.textContent);
+    clipboard.mockRejectedValue(new Error('Denied'));
+    await user.click(
+      screen.getByRole('button', { name: 'Copy install command' }),
+    );
+    expect(
+      screen.getByText(/Clipboard unavailable. Select and copy the command/),
+    ).toBeInTheDocument();
+  } finally {
+    clipboard.mockRestore();
+  }
+});
+
+it('shows generated quality and validation on cards and applies quality/trust filters', async () => {
+  const user = userEvent.setup();
+  app(
+    '/skills?quality=90&platform=codex&validation=passed&status=draft&sort=quality',
+  );
+  await screen.findByRole('heading', { name: 'Find your next skill.' });
+  const matches = catalog.skills.filter((skill) => skill.quality!.score >= 90);
+  expect(screen.getByRole('status')).toHaveTextContent(
+    `${matches.length} skills`,
+  );
+  expect(screen.getAllByText(/Quality 90\/100/)).toHaveLength(matches.length);
+  expect(screen.getByLabelText('Minimum quality score')).toHaveValue('90');
+  expect(screen.getByLabelText('Installation platform')).toHaveValue('codex');
+  await user.selectOptions(
+    screen.getByLabelText('Test evidence'),
+    'recorded-pass',
+  );
+  expect(
+    await screen.findByRole('heading', { name: 'No skills found' }),
+  ).toBeInTheDocument();
+  expect(screen.queryByText(/^Verified$/i)).toBeNull();
+});
+
+it('explains quality points and distinguishes documented installation from absent test evidence', async () => {
+  const user = userEvent.setup();
+  const skill = catalog.skills[0];
+  app(`/skills/${skill.sector}/${skill.slug}`);
+  await screen.findByRole('heading', { name: skill.title, level: 1 });
+  await user.click(
+    screen.getByText(`Explain quality score (${skill.quality!.score}/100)`),
+  );
+  expect(
+    screen.getByText('discovery-metadata: warn · 0/10'),
+  ).toBeInTheDocument();
+  expect(screen.getByText(/not independent verification/)).toBeInTheDocument();
+  expect(
+    screen.getAllByText('Test evidence: No completed test evidence.'),
+  ).toHaveLength(4);
+  expect(screen.queryByText(/^Verified$/i)).toBeNull();
+});
+
+it('displays contributor-recorded completed evidence safely without creating a verified label', async () => {
+  const user = userEvent.setup();
+  const original = catalog.skills[0];
+  const files = { ...original.files };
+  const evidencePath = 'tests/evidence/codex.txt';
+  const run = {
+    platform: 'codex',
+    platformVersion: 'synthetic-ui-fixture',
+    runner: 'Fixture runner',
+    completedAt: '2026-11-10T10:00:00Z',
+    outcome: 'passed',
+    packageDigest: '',
+    evidencePath,
+  };
+  files[evidencePath] =
+    'Completed synthetic UI test artifact. <script>bad()</script>';
+  run.packageDigest = packageDigest(files);
+  files['tests/platform-results.json'] = JSON.stringify({
+    schemaVersion: 1,
+    runs: [run],
+  });
+  const derived = validateSkill(files, original.id, {
+    profile: 'catalog',
+  }).skill!;
+  const skill = { ...derived, compatibility: assessCompatibility(derived) };
+  const { container } = render(<TrustDetails skill={skill} />);
+  expect(screen.getByText('Test evidence: Recorded pass.')).toBeInTheDocument();
+  await user.click(screen.getByText(`Recorded passed · ${run.completedAt}`));
+  expect(screen.getByLabelText('codex test evidence')).toHaveTextContent(
+    '<script>bad()</script>',
+  );
+  expect(container.querySelector('script')).toBeNull();
+  expect(screen.queryByText(/^Verified$/i)).toBeNull();
+});
+
+it('shows unassessed states for older catalog entries without trust reports', () => {
+  const old = { ...catalog.skills[0] };
+  delete old.quality;
+  delete old.validation;
+  delete old.compatibility;
+  render(<TrustSummary skill={old} />);
+  expect(screen.getByText('Quality not assessed')).toBeInTheDocument();
+  expect(screen.getByText('Validation not assessed')).toBeInTheDocument();
+  expect(screen.getByText('Testing not assessed')).toBeInTheDocument();
 });

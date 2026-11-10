@@ -1,0 +1,23 @@
+{
+  "id": "personal-productivity/example-skill",
+  "slug": "example-skill",
+  "title": "Meeting Notes Organizer",
+  "sector": "personal-productivity",
+  "tags": ["meetings", "notes", "actions"],
+  "difficulty": "beginner",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Template contributor — replace before submission",
+  "riskLevel": "low",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original illustrative template. Fictional notes; no independent review or assistant execution."
+}

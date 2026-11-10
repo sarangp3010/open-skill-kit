@@ -51,3 +51,7 @@ The site additionally skips HTML, sanitizes Markdown and disables remote image l
 ## Test coverage
 
 Node tests cover parser variants, schema/path validation, YAML locations, aggregated invalid-package diagnostics, optional metadata, deterministic generation, freshness failure, new-package discovery, symlink boundaries, unsafe/encoded references and ZIP round trips. Component tests cover generated-data consumption, search/filter state, detail previews, themes, loading/error/retry and malicious Markdown. Browser tests cover responsive/keyboard journeys, source-derived detail links, real ZIP downloads and automated axe scans in light/dark themes. See [marketplace development](marketplace.md) and [implementation status](IMPLEMENTATION_STATUS.md) for actual results.
+
+## Derived trust reports
+
+The validator now returns a deterministic rubric-v1 quality report for valid and invalid packages. Valid discovery entries additionally include static validation status/warnings. The existing Node indexer adds platform installation support, compatibility declarations and package-bound completed-test records using the shared adapter registry. It never runs skill content. Quality and compatibility fields are optional when reading an older catalog; current generation always derives them from files, not authored scores. Publication catalog entries remain unchanged. See [quality and trust](skill-quality.md) for weights, evidence hashing and stale-result policy.

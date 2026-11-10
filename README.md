@@ -68,3 +68,11 @@ The earlier npm CLI setup is preserved and remains unpublished. Its release bund
 [Implementation status](docs/IMPLEMENTATION_STATUS.md) · [Progress](docs/progress.md) · [Architecture](docs/architecture.md) · [Catalog pipeline](docs/catalog-pipeline.md) · [Marketplace](docs/marketplace.md) · [Authoring](docs/skill-authoring.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Governance](GOVERNANCE.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Release policy](docs/releases.md) · [Specification](OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md)
 
 Code and original repository content are [MIT licensed](LICENSE). Preserve third-party attribution and check each package's declared provenance/license before reuse.
+
+## Install into a local assistant
+
+Codex, Claude Code, Cursor and Gemini CLI installation, inspection, updates and safe removal are implemented. Start with [platform installation](docs/platform-installation.md) for verified project/global paths and preview commands. Current drafts require explicit local --source and --allow-draft; they are not published npm releases or independently assistant-tested packages.
+
+## Quality and marketplace trust
+
+Cards/details now show generated structural scores, validation and separate installation/test evidence. Assess a local skill with pnpm cli quality <sector>/<slug> --source ./skills after building the CLI. Scores and declarations never imply verification. Start authoring from templates/skill and read [quality and trust](docs/skill-quality.md) for the rubric, evidence format and contributor workflow.

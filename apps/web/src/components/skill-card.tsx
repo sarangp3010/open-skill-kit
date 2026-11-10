@@ -1,5 +1,6 @@
 import { ArrowUpRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
+import { TrustSummary } from './skill-trust';
 import { Badge } from './ui/card';
 import type { DiscoverySkill } from '@/lib/catalog';
 export function SkillCard({
@@ -38,6 +39,7 @@ export function SkillCard({
       <p className="mt-3 line-clamp-3 text-sm leading-6 text-muted-foreground">
         {skill.description.split(' Use when')[0]}
       </p>
+      <TrustSummary skill={skill} />
       <div className="mt-auto flex flex-wrap items-center gap-2 pt-6">
         {skill.tags.slice(0, 2).map((tag) => (
           <span

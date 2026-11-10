@@ -1,3 +1,5 @@
+import { assessCompatibility } from './trust';
+export { packageDigest, assessCompatibility } from './trust';
 import { lstat, readdir, readFile } from 'node:fs/promises';
 import { join } from 'node:path';
 import {
@@ -19,7 +21,10 @@ import {
 } from '@uas/skill-validator';
 
 /** Reject all symlinks, including links within the root, before reading content. */
-export async function readSkillFiles(root: string): Promise<SkillFiles> {
+export async function readSkillFiles(
+  root: string,
+  options: { receiptFile?: '.open-skill-kit-install.json' } = {},
+): Promise<SkillFiles> {
   const files: SkillFiles = Object.create(null) as SkillFiles;
   let total = 0;
   let count = 0;
@@ -33,6 +38,7 @@ export async function readSkillFiles(root: string): Promise<SkillFiles> {
     if (!stat.isDirectory() || stat.isSymbolicLink())
       throw new Error(`Expected ordinary directory: ${directory}`);
     for (const entry of (await readdir(directory)).sort()) {
+      if (!prefix && entry === options.receiptFile) continue;
       if (++count > LIMITS.files * 2)
         throw new Error('Package entry count exceeds limit');
       const path = prefix + entry;
@@ -183,7 +189,14 @@ export async function generateCatalog(root: string, sectors: Sector[] = []) {
       a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0,
     ),
     skills: results.flatMap(({ result }) =>
-      result.skill ? [result.skill] : [],
+      result.skill
+        ? [
+            {
+              ...result.skill,
+              compatibility: assessCompatibility(result.skill),
+            },
+          ]
+        : [],
     ),
   });
   return {

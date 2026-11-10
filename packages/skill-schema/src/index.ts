@@ -51,6 +51,7 @@ export const metadataSchema = z
     title: text,
     sector: slugSchema,
     tags: z.array(slugSchema).max(30),
+    difficulty: z.enum(['beginner', 'intermediate', 'advanced']).optional(),
     version: z
       .string()
       .regex(
@@ -60,6 +61,10 @@ export const metadataSchema = z
     author: text,
     riskLevel: z.enum(['low', 'medium', 'high']),
     capabilities: z.array(slugSchema).min(1).max(30),
+    compatiblePlatforms: z
+      .array(z.enum(['codex', 'claude-code', 'cursor', 'gemini-cli']))
+      .max(4)
+      .optional(),
     testedPlatforms: z.array(slugSchema).max(30),
     lastVerified: z.string().date().nullable(),
     examples: z
@@ -192,6 +197,112 @@ export type Sector = z.infer<typeof sectorSchema>;
 export type MarketplaceSkill = z.infer<typeof marketplaceSkillSchema>;
 export type Marketplace = z.infer<typeof marketplaceSchema>;
 
+export const qualityCategorySchema = z.enum([
+  'metadata',
+  'instructions',
+  'examples',
+  'references',
+  'safety',
+]);
+export const qualityReportSchema = z
+  .object({
+    rubricVersion: z.literal(1),
+    score: z.number().int().min(0).max(100),
+    rawScore: z.number().int().min(0).max(100),
+    blocked: z.boolean(),
+    checks: z.array(
+      z
+        .object({
+          id: slugSchema,
+          category: qualityCategorySchema,
+          weight: z.number().int().positive(),
+          earned: z.number().int().nonnegative(),
+          status: z.enum(['pass', 'warn', 'fail', 'not-evaluated']),
+          message: text,
+          paths: z.array(z.string()),
+        })
+        .strict(),
+    ),
+  })
+  .strict()
+  .superRefine((report, ctx) => {
+    const total = report.checks.reduce((sum, check) => sum + check.weight, 0);
+    const earned = report.checks.reduce((sum, check) => sum + check.earned, 0);
+    if (
+      total !== 100 ||
+      earned !== report.rawScore ||
+      report.score !== (report.blocked ? 0 : earned) ||
+      new Set(report.checks.map((check) => check.id)).size !==
+        report.checks.length ||
+      report.checks.some(
+        (check) =>
+          check.earned !== (check.status === 'pass' ? check.weight : 0),
+      )
+    )
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Quality totals must match individual check results',
+      });
+  });
+export const platformTestRunSchema = z
+  .object({
+    platform: z.enum(['codex', 'claude-code', 'cursor', 'gemini-cli']),
+    platformVersion: text,
+    runner: text,
+    completedAt: z.string().datetime({ offset: true }),
+    outcome: z.enum(['passed', 'failed']),
+    packageDigest: z.string().regex(/^[a-f0-9]{64}$/),
+    evidencePath: safePathSchema.refine(
+      (path) => path.startsWith('tests/evidence/'),
+      'Evidence must be under tests/evidence/',
+    ),
+  })
+  .strict();
+export const platformResultsSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    runs: z.array(platformTestRunSchema).max(100),
+  })
+  .strict()
+  .superRefine((results, ctx) => {
+    const keys = results.runs.map(
+      (run) => `${run.platform}:${new Date(run.completedAt).getTime()}`,
+    );
+    if (new Set(keys).size !== keys.length)
+      ctx.addIssue({
+        code: 'custom',
+        message: 'Duplicate platform completion times are ambiguous',
+      });
+  });
+export const compatibilitySchema = z.array(
+  z
+    .object({
+      platform: platformTestRunSchema.shape.platform,
+      installation: z.enum(['documented', 'unsupported']),
+      reason: text,
+      declaredCompatible: z.boolean(),
+      declaredTested: z.boolean(),
+      testing: z.enum([
+        'not-recorded',
+        'recorded-pass',
+        'recorded-fail',
+        'stale',
+      ]),
+      runs: z.array(platformTestRunSchema),
+    })
+    .strict(),
+);
+export const validationSummarySchema = z
+  .object({
+    status: z.enum(['passed', 'failed']),
+    profile: z.literal('catalog'),
+    warnings: z.array(z.string()),
+  })
+  .strict();
+export type QualityReport = z.infer<typeof qualityReportSchema>;
+export type PlatformTestRun = z.infer<typeof platformTestRunSchema>;
+export type Compatibility = z.infer<typeof compatibilitySchema>;
+
 /** Catalog-only metadata is optional. Unknown identity/provenance stays unknown. */
 export const catalogSourceMetadataSchema = z
   .object({
@@ -211,6 +322,10 @@ export const catalogSourceMetadataSchema = z
     provenance: text.optional(),
     riskLevel: z.enum(['low', 'medium', 'high']).optional(),
     capabilities: z.array(slugSchema).max(30).optional(),
+    compatiblePlatforms: z
+      .array(z.enum(['codex', 'claude-code', 'cursor', 'gemini-cli']))
+      .max(4)
+      .optional(),
     testedPlatforms: z.array(slugSchema).max(30).optional(),
     testedWith: z.array(slugSchema).max(30).optional(),
     lastVerified: z.string().date().nullable().optional(),
@@ -239,6 +354,9 @@ export const discoverySkillSchema = z
     provenance: text.nullable(),
     lastVerified: z.string().date().nullable(),
     testedPlatforms: z.array(slugSchema),
+    quality: qualityReportSchema.optional(),
+    validation: validationSummarySchema.optional(),
+    compatibility: compatibilitySchema.optional(),
     sourcePath: safePathSchema,
     body: z.string().min(1),
     files: z.record(safePathSchema, z.string()),

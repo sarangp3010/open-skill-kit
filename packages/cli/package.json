@@ -7,6 +7,8 @@
   "dependencies": {
     "@uas/catalog-indexer": "workspace:*",
     "@uas/skill-schema": "workspace:*",
-    "@uas/skill-validator": "workspace:*"
+    "@uas/skill-validator": "workspace:*",
+    "@uas/platform-adapters": "workspace:*",
+    "@uas/skill-installer": "workspace:*"
   }
 }

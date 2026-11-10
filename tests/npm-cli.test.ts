@@ -166,6 +166,35 @@ describe('npm CLI', () => {
       invoke(['show', 'example-skill'], temp, badData),
     ).rejects.toThrow('must not be symlinks');
   });
+  it('runs platform lifecycle commands from the bundled binary without workspace dependencies', async () => {
+    const cwd = join(temp, 'native-binary-consumer');
+    await mkdir(cwd);
+    const binary = join(artifact, 'bin/open-skill-kit.js');
+    const flags = ['--platform', 'cursor', '--scope', 'project'];
+    const invokeBinary = (args: string[]) =>
+      execute(process.execPath, [binary, ...args], { cwd });
+    const assessment = JSON.parse(
+      (await invokeBinary(['quality', 'education/example-skill', '--json']))
+        .stdout,
+    );
+    expect(assessment.valid).toBe(true);
+    expect(assessment.quality.checks).toHaveLength(12);
+    expect(
+      assessment.compatibility.every(
+        (row: { testing: string }) => row.testing === 'not-recorded',
+      ),
+    ).toBe(true);
+    await invokeBinary(['install', 'education/example-skill', ...flags]);
+    expect(
+      (await invokeBinary(['inspect', 'example-skill', ...flags])).stdout,
+    ).toContain('managed');
+    await access(join(cwd, '.cursor/skills/example-skill/examples/input.md'));
+    await invokeBinary(['update', 'education/example-skill', ...flags]);
+    await invokeBinary(['uninstall', 'education/example-skill', ...flags]);
+    expect((await invokeBinary(['installed', ...flags])).stdout).toContain(
+      'No installed',
+    );
+  });
   it('excludes all drafts and blocks publishing an empty release', async () => {
     const emptyArtifact = join(temp, 'empty/dist/npm');
     await buildNpmPackage(repo, emptyArtifact, resolve('tests/fixtures/valid'));

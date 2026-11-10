@@ -5,16 +5,15 @@ import {
   ArrowUpRight,
   Copy,
   Download,
-  Check,
   FileText,
-  Shield,
   PackageOpen,
-  AlertCircle,
 } from 'lucide-react';
 import { useLibrary } from '@/lib/use-library';
 import { sourceUrl, type DiscoverySkill } from '@/lib/catalog';
 import { Button } from '@/components/ui/button';
 import { Badge, Select } from '@/components/ui/card';
+import { TrustDetails } from '@/components/skill-trust';
+import { InstallGuide } from '@/components/install-guide';
 import { MarkdownViewer } from '@/components/markdown-viewer';
 function SkillActions({ skill }: { skill: DiscoverySkill }) {
   const [message, setMessage] = useState('');
@@ -186,6 +185,7 @@ export function SkillDetailPage() {
             ))}
           </div>
           <Preview key={skill.id} skill={skill} />
+          <TrustDetails skill={skill} />
           <section aria-labelledby="examples-title" className="mt-10">
             <h2
               id="examples-title"
@@ -243,7 +243,7 @@ export function SkillDetailPage() {
                 ['License', skill.license ?? 'Not declared'],
                 ['Files', String(Object.keys(skill.files).length)],
                 ['Difficulty', skill.difficulty ?? 'Not specified'],
-                ['Last verified', skill.lastVerified ?? 'Not verified'],
+                ['Declared test date', skill.lastVerified ?? 'Not supplied'],
               ].map(([key, value]) => (
                 <div key={key} className="flex justify-between gap-3">
                   <dt className="text-muted-foreground">{key}</dt>
@@ -261,48 +261,7 @@ export function SkillDetailPage() {
               <ArrowUpRight size={14} aria-hidden="true" />
             </a>
           </section>
-          <section className="rounded-2xl border border-border bg-muted/50 p-5">
-            <h2 className="flex items-center gap-2 text-sm font-semibold">
-              <Shield className="text-primary" size={17} aria-hidden="true" />
-              Compatibility & trust
-            </h2>
-            <ul className="mt-4 space-y-3 text-xs leading-5 text-muted-foreground">
-              <li className="flex gap-2">
-                <Check
-                  size={14}
-                  className="mt-0.5 shrink-0 text-primary"
-                  aria-hidden="true"
-                />
-                Readable Markdown, usable without this website.
-              </li>
-              <li className="flex gap-2">
-                <Check
-                  size={14}
-                  className="mt-0.5 shrink-0 text-primary"
-                  aria-hidden="true"
-                />
-                {skill.capabilities.length
-                  ? skill.capabilities.join(', ')
-                  : 'No capabilities declared'}
-                .
-              </li>
-              <li className="flex gap-2">
-                <AlertCircle
-                  size={14}
-                  className="mt-0.5 shrink-0"
-                  aria-hidden="true"
-                />
-                {skill.testedPlatforms.length
-                  ? `Declared platform tests: ${skill.testedPlatforms.join(', ')}.`
-                  : 'No platform compatibility testing has been recorded.'}
-              </li>
-            </ul>
-            <p className="mt-4 border-t border-border pt-4 text-xs leading-5 text-muted-foreground">
-              Native installation depends on your assistant. Copy instructions
-              manually or follow its current official guide. Downloading never
-              executes this skill.
-            </p>
-          </section>
+          <InstallGuide key={skill.id} skill={skill} />
           <section className="px-1">
             <h2 className="text-xs font-semibold">Provenance</h2>
             <p className="mt-2 text-xs leading-6 text-muted-foreground">

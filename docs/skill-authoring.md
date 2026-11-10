@@ -19,3 +19,9 @@ The newer catalog pipeline accepts optional metadata.json and optional structure
 ## Editorial rubric
 
 The current specification scores clear triggering, actionable workflow, structured outputs, useful examples, correct boundaries, portability, privacy/permissions and test coverage from 0–2 each. A score of at least 13/16 and no critical safety failure is required for editorial review. An authoring self-assessment is not independent review or evidence of model performance. Keep status draft and platform/date fields empty until the appropriate evidence exists. Numeric example checks, archive preservation and ZIP validation are deterministic tests; model behavior cases must not be reported as executed unless actually run.
+
+## Reusable template and quality reports
+
+The [authoring template](../templates/skill/SKILL.md) includes portable frontmatter, a complete illustrative workflow, metadata, two input/output pairs and behavior cases. It is not indexed until copied into skills/<sector>/<slug>. Replace its sample task and placeholder author/provenance before requesting review.
+
+Use the existing validator and the quality CLI described in [quality and trust](skill-quality.md). The versioned 100-point rubric explains missing structural information without turning optional metadata into hard draft requirements. Platform compatibility declarations and completed test artifacts have separate fields; no score creates a verified badge or changes editorial status.

@@ -6,7 +6,8 @@
   "exports": "./src/index.ts",
   "dependencies": {
     "@uas/skill-schema": "workspace:*",
-    "@uas/skill-validator": "workspace:*"
+    "@uas/skill-validator": "workspace:*",
+    "@uas/platform-adapters": "workspace:*"
   },
   "license": "MIT"
 }

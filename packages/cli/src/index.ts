@@ -6,7 +6,7 @@ import {
   rm,
   writeFile,
 } from 'node:fs/promises';
-import { dirname, join, parse, resolve } from 'node:path';
+import { dirname, join, resolve } from 'node:path';
 import {
   catalogEntrySchema,
   catalogSchema,
@@ -14,6 +14,9 @@ import {
 } from '@uas/skill-schema';
 import { readSkillFiles } from '@uas/catalog-indexer';
 import { validateSkill } from '@uas/skill-validator';
+import { directoryPath } from '@uas/skill-installer';
+import { runQualityCommand } from './quality-command';
+import { runPlatformCommand, type CliOptions } from './platform-cli';
 
 export const HELP = `open-skill-kit — portable skill files
 
@@ -21,36 +24,25 @@ Usage:
   open-skill-kit list [query]
   open-skill-kit show <skill-id-or-slug>
   open-skill-kit add <skill-id-or-slug> [--dir <directory>] [--dry-run]
+  open-skill-kit quality <id-or-slug> [--source <skills-root>] [--json]
+  open-skill-kit platforms
+  open-skill-kit install <id> --platform <platform> [--scope project|global]
+  open-skill-kit installed --platform <platform> [--scope project|global]
+  open-skill-kit inspect <id-or-slug> --platform <platform> [--scope project|global]
+  open-skill-kit update <id> --platform <platform> [--scope project|global]
+  open-skill-kit uninstall <id-or-slug> --platform <platform> [--scope project|global] [--dry-run]
+  Native install/update: [--source <skills-root>] [--allow-draft] [--dry-run]
+  Project operations: [--project-dir <directory>] (defaults to current directory)
+  list/show also accept --source <skills-root> for local skills.
   open-skill-kit --help
   open-skill-kit --version
 
 Default directory: ./.open-skill-kit/skills
-Only published skills bundled with this package are available.
+Default library: only published skills bundled with this package.
+Use --source for local packages; installing unpublished packages requires --allow-draft.
 Adding copies files; it does not execute a skill or configure an AI assistant.
 Existing destinations and symbolic links are never overwritten.
 `;
-
-async function directoryPath(path: string, create: boolean): Promise<void> {
-  const absolute = resolve(path);
-  const { root } = parse(absolute);
-  let current = root;
-  for (const part of absolute
-    .slice(root.length)
-    .split(/[\\/]/)
-    .filter(Boolean)) {
-    current = join(current, part);
-    try {
-      const info = await lstat(current);
-      if (info.isSymbolicLink() || !info.isDirectory())
-        throw new Error(
-          `Destination must contain ordinary directories only: ${current}`,
-        );
-    } catch (error) {
-      if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
-      if (create) await mkdir(current);
-    }
-  }
-}
 
 export async function loadLibrary(dataRoot: string) {
   const info = await lstat(dataRoot);
@@ -72,7 +64,7 @@ export async function loadLibrary(dataRoot: string) {
   return catalog;
 }
 
-async function skillFiles(dataRoot: string, entry: CatalogEntry) {
+export async function skillFiles(dataRoot: string, entry: CatalogEntry) {
   entry = catalogEntrySchema.parse(entry);
   if (entry.metadata.status !== 'published')
     throw new Error('Only published skills can be installed or shown');
@@ -131,12 +123,7 @@ export async function installSkill(
 
 export async function runCli(
   args: string[],
-  options: {
-    dataRoot: string;
-    cwd: string;
-    version: string;
-    log: (message: string) => void;
-  },
+  options: CliOptions,
 ): Promise<void> {
   const [command, ...rest] = args;
   if (!command || command === '--help' || command === '-h') {
@@ -146,6 +133,24 @@ export async function runCli(
   if (command === '--version') {
     if (rest.length) throw new Error('Unexpected arguments');
     options.log(options.version);
+    return;
+  }
+  if (command === 'quality') {
+    await runQualityCommand(rest, options, { loadLibrary, skillFiles });
+    return;
+  }
+  if (
+    [
+      'platforms',
+      'install',
+      'installed',
+      'inspect',
+      'update',
+      'uninstall',
+    ].includes(command) ||
+    (['list', 'show'].includes(command) && rest.includes('--source'))
+  ) {
+    await runPlatformCommand(args, options, { loadLibrary, skillFiles });
     return;
   }
   if (!['list', 'show', 'add'].includes(command))

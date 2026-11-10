@@ -20,7 +20,18 @@ export async function loadCatalog(
 }
 export function selectSkills(
   catalog: DiscoveryCatalog,
-  options: { query?: string; sector?: string; sort?: string },
+  options: {
+    query?: string;
+    sector?: string;
+    sort?: string;
+    capability?: string;
+    difficulty?: string;
+    status?: string;
+    minQuality?: number;
+    platform?: string;
+    testing?: string;
+    validation?: string;
+  },
 ) {
   const query = (options.query ?? '').toLowerCase().normalize('NFKD').trim();
   const terms = query.split(/\s+/).filter(Boolean);
@@ -30,6 +41,43 @@ export function selectSkills(
   return catalog.skills
     .filter((skill) => {
       if (options.sector && skill.sector !== options.sector) return false;
+      if (
+        options.capability &&
+        !skill.capabilities.includes(options.capability)
+      )
+        return false;
+      if (options.difficulty && skill.difficulty !== options.difficulty)
+        return false;
+      if (options.status && skill.status !== options.status) return false;
+      if (
+        options.minQuality &&
+        (skill.quality?.score ?? -1) < options.minQuality
+      )
+        return false;
+      if (
+        options.validation &&
+        (skill.validation?.status ?? 'not-assessed') !== options.validation
+      )
+        return false;
+      const rows = (skill.compatibility ?? []).filter(
+        (row) => !options.platform || row.platform === options.platform,
+      );
+      if (
+        options.platform &&
+        !rows.some((row) => row.installation === 'documented')
+      )
+        return false;
+      if (
+        options.testing === 'not-recorded' &&
+        (!rows.length || rows.some((row) => row.testing !== 'not-recorded'))
+      )
+        return false;
+      if (
+        options.testing &&
+        options.testing !== 'not-recorded' &&
+        !rows.some((row) => row.testing === options.testing)
+      )
+        return false;
       const sector = sectors.get(skill.sector);
       const text =
         `${skill.title} ${skill.description} ${skill.tags.join(' ')} ${sector?.title ?? ''} ${sector?.aliases.join(' ') ?? ''} ${skill.body}`
@@ -37,13 +85,28 @@ export function selectSkills(
           .normalize('NFKD');
       return terms.every((term) => text.includes(term));
     })
-    .sort((a, b) =>
-      options.sort === 'sector'
-        ? a.sector.localeCompare(b.sector) || a.title.localeCompare(b.title)
-        : options.sort === 'za'
-          ? b.title.localeCompare(a.title)
-          : a.title.localeCompare(b.title),
-    );
+    .sort((a, b) => {
+      const title =
+        a.title.localeCompare(b.title, 'en') || a.id.localeCompare(b.id, 'en');
+      if (options.sort === 'quality')
+        return (b.quality?.score ?? -1) - (a.quality?.score ?? -1) || title;
+      if (options.sort === 'testing')
+        return (
+          (b.compatibility ?? []).filter(
+            (row) =>
+              row.testing === 'recorded-pass' &&
+              (!options.platform || row.platform === options.platform),
+          ).length -
+            (a.compatibility ?? []).filter(
+              (row) =>
+                row.testing === 'recorded-pass' &&
+                (!options.platform || row.platform === options.platform),
+            ).length || title
+        );
+      if (options.sort === 'sector')
+        return a.sector.localeCompare(b.sector, 'en') || title;
+      return options.sort === 'za' ? -title : title;
+    });
 }
 export const sourceUrl = (path: string) =>
   `https://github.com/sarangp3010/open-skill-kit/blob/main/${path.split('/').map(encodeURIComponent).join('/')}`;

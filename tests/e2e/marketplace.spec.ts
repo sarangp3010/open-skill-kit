@@ -253,3 +253,74 @@ test('history restores an initially empty search after filtering and typing', as
   await expect(search).toHaveValue('code');
   await expect(page.getByLabel('Sort by')).toHaveValue('za');
 });
+
+test('platform installation instructions stay copyable across scopes', async ({
+  page,
+  context,
+}) => {
+  await context.grantPermissions(['clipboard-read', 'clipboard-write']);
+  await page.goto(`/skills/${skill.sector}/${skill.slug}`);
+  const command = page.getByLabel('Installation command');
+  await expect(command).toContainText(`install ${skill.id} --platform codex`);
+  await page
+    .getByLabel('Platform', { exact: true })
+    .selectOption('claude-code');
+  await expect(command).toContainText('--platform claude-code --scope project');
+  await page.getByLabel('Installation scope').selectOption('global');
+  await expect(command).toContainText('--scope global');
+  await expect(command).not.toContainText('--project-dir');
+  await expect(
+    page.getByText(`~/.claude/skills/${skill.slug}`, { exact: true }),
+  ).toBeVisible();
+  await page.getByRole('button', { name: 'Copy preview command' }).click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    `${await command.textContent()} --dry-run`,
+  );
+  await page.getByRole('button', { name: 'Copy install command' }).click();
+  expect(await page.evaluate(() => navigator.clipboard.readText())).toBe(
+    await command.textContent(),
+  );
+});
+
+test('quality filters persist in URLs and details explain structural scores without verification claims', async ({
+  page,
+}) => {
+  const qualified = catalog.skills.filter(
+    (item) => (item.quality?.score ?? 0) >= 90,
+  );
+  expect(qualified.length).toBeGreaterThan(0);
+  await page.goto(
+    '/skills?quality=90&platform=codex&validation=passed&status=draft&sort=quality',
+  );
+  await expect(page.getByRole('status')).toContainText(
+    `${qualified.length} skills`,
+  );
+  await expect(page.getByLabel('Minimum quality score')).toHaveValue('90');
+  await page.getByLabel('Test evidence').selectOption('recorded-pass');
+  await expect(
+    page.getByRole('heading', { name: 'No skills found' }),
+  ).toBeVisible();
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('testing'))
+    .toBe('recorded-pass');
+  await page.reload();
+  await expect(
+    page.getByRole('heading', { name: 'No skills found' }),
+  ).toBeVisible();
+  await page.goBack();
+  await expect(page.getByRole('status')).toContainText(
+    `${qualified.length} skills`,
+  );
+  await expect(page.getByLabel('Installation platform')).toHaveValue('codex');
+  await page
+    .getByRole('link', { name: qualified[0].title, exact: true })
+    .click();
+  await page
+    .getByText(`Explain quality score (${qualified[0].quality!.score}/100)`)
+    .click();
+  await expect(page.getByText('discovery-metadata: warn · 0/10')).toBeVisible();
+  await expect(
+    page.getByText('Test evidence: No completed test evidence.'),
+  ).toHaveCount(4);
+  await expect(page.getByText(/^Verified$/i)).toHaveCount(0);
+});

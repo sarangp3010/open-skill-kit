@@ -14,6 +14,7 @@ import {
   ArrowRight,
   FolderOpen,
 } from 'lucide-react';
+import { platforms } from '@uas/platform-adapters';
 import { useLibrary } from '@/lib/use-library';
 import { selectSkills } from '@/lib/catalog';
 import { SkillCard } from '@/components/skill-card';
@@ -47,6 +48,12 @@ export function CatalogPage() {
   const selected = sectorRoute ?? params.get('sector') ?? '';
   const sort = params.get('sort') ?? 'az';
   const capability = params.get('capability') ?? '';
+  const difficulty = params.get('difficulty') ?? '';
+  const status = params.get('status') ?? '';
+  const quality = params.get('quality') ?? '';
+  const platform = params.get('platform') ?? '';
+  const testing = params.get('testing') ?? '';
+  const validation = params.get('validation') ?? '';
   const populated = catalog.sectors.filter((sector) =>
     catalog.skills.some((skill) => skill.sector === sector.slug),
   );
@@ -56,10 +63,31 @@ export function CatalogPage() {
   ].sort();
   const skills = useMemo(
     () =>
-      selectSkills(catalog, { query, sector: selected, sort }).filter(
-        (skill) => !capability || skill.capabilities.includes(capability),
-      ),
-    [catalog, query, selected, sort, capability],
+      selectSkills(catalog, {
+        query,
+        sector: selected,
+        sort,
+        capability,
+        difficulty,
+        status,
+        minQuality: Number(quality) || 0,
+        platform,
+        testing,
+        validation,
+      }),
+    [
+      catalog,
+      query,
+      selected,
+      sort,
+      capability,
+      difficulty,
+      status,
+      quality,
+      platform,
+      testing,
+      validation,
+    ],
   );
   function update(key: string, value: string) {
     // Compose with the latest requested URL, even before the router commits it.
@@ -225,8 +253,101 @@ export function CatalogPage() {
                 <option value="az">Name: A–Z</option>
                 <option value="za">Name: Z–A</option>
                 <option value="sector">Sector</option>
+                <option value="quality">Quality score</option>
+                <option value="testing">Recorded passing tests</option>
               </Select>
             </div>
+          </div>
+          <div className="mt-4 grid grid-cols-2 gap-3 sm:grid-cols-3">
+            {[
+              {
+                key: 'difficulty',
+                label: 'Difficulty',
+                value: difficulty,
+                options: [
+                  ['', 'All difficulties'],
+                  ['beginner', 'Beginner'],
+                  ['intermediate', 'Intermediate'],
+                  ['advanced', 'Advanced'],
+                ],
+              },
+              {
+                key: 'status',
+                label: 'Editorial status',
+                value: status,
+                options: [
+                  ['', 'All editorial states'],
+                  ['draft', 'Draft'],
+                  ['community', 'Community'],
+                  ['reviewed', 'Reviewed'],
+                  ['published', 'Published'],
+                ],
+              },
+              {
+                key: 'quality',
+                label: 'Minimum quality score',
+                value: quality,
+                options: [
+                  ['', 'Any structural score'],
+                  ['80', 'At least 80/100'],
+                  ['90', 'At least 90/100'],
+                  ['100', '100/100'],
+                ],
+              },
+              {
+                key: 'platform',
+                label: 'Installation platform',
+                value: platform,
+                options: [
+                  ['', 'All platforms'],
+                  ...platforms.map((item) => [item.id, item.title]),
+                ],
+              },
+              {
+                key: 'testing',
+                label: 'Test evidence',
+                value: testing,
+                options: [
+                  ['', 'Any test evidence'],
+                  ['not-recorded', 'No completed test evidence'],
+                  ['recorded-pass', 'Recorded pass'],
+                  ['recorded-fail', 'Recorded failure'],
+                  ['stale', 'Stale evidence'],
+                ],
+              },
+              {
+                key: 'validation',
+                label: 'Validation status',
+                value: validation,
+                options: [
+                  ['', 'Any validation status'],
+                  ['passed', 'Structure passed'],
+                  ['failed', 'Structure failed'],
+                  ['not-assessed', 'Not assessed (legacy)'],
+                ],
+              },
+            ].map((filter) => (
+              <div key={filter.key} className="min-w-0">
+                <label
+                  htmlFor={`filter-${filter.key}`}
+                  className="mb-1 block text-xs text-muted-foreground"
+                >
+                  {filter.label}
+                </label>
+                <Select
+                  id={`filter-${filter.key}`}
+                  value={filter.value}
+                  className="w-full"
+                  onChange={(event) => update(filter.key, event.target.value)}
+                >
+                  {filter.options.map(([value, title]) => (
+                    <option key={value} value={value}>
+                      {title}
+                    </option>
+                  ))}
+                </Select>
+              </div>
+            ))}
           </div>
           <div className="my-6 flex flex-wrap items-center justify-between gap-3">
             <p
@@ -242,7 +363,15 @@ export function CatalogPage() {
             </p>
             <div className="flex items-center gap-2">
               {sector && <Badge>{sector.title}</Badge>}
-              {(query || selected || capability) && (
+              {(query ||
+                selected ||
+                capability ||
+                difficulty ||
+                status ||
+                quality ||
+                platform ||
+                testing ||
+                validation) && (
                 <Button
                   variant="ghost"
                   size="sm"

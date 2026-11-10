@@ -10,3 +10,9 @@ Start with the [README](README.md), [status](docs/implementation-status.md), and
 Use Conventional Commits (`feat:`, `fix:`, `docs:`, `test:`, `chore:`); breaking changes use `!` and a `BREAKING CHANGE:` footer. Follow the [release process](docs/releases.md).
 
 By contributing, you license your original work under MIT. Identify third-party sources, their licenses, and any modifications; do not submit private information or content you lack permission to redistribute. Maintainers review provenance, safety boundaries and compatibility evidence before publishing skills. Structured behavioral cases document expectations only; no LLM evaluation runs in baseline CI.
+
+## Quality and trust evidence
+
+Start from templates/skill, outside the active catalog. Copy the complete folder to skills/<sector>/<slug>, align identity fields and replace the illustrative task/author/provenance. Run pnpm build:npm, then pnpm cli quality <sector>/<slug> --source ./skills --json alongside normal validation/tests. Regenerate the catalog before submitting changes. Missing optional quality metadata is advisory; invalid references and unsafe packages still fail validation.
+
+Scores, editorial labels, documented installation and actual testing are separate. Keep drafts as drafts. Do not claim verification based on a structural score, a scenario file, an adapter installation test or a compatibility declaration. Only record platform runs that actually completed; include the real runner/version/time, package digest, outcome and nonprivate artifact, including failures. The UI treats these as contributor-recorded evidence, not independent verification. Full rubric, evidence format and template instructions: [quality and trust](docs/skill-quality.md).

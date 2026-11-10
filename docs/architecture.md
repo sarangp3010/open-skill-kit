@@ -31,3 +31,13 @@ The latest user authorization expands the earlier scaffold to the parser/catalog
 Catalog metadata is optional and normalized without inventing authorship, licenses, version or review dates. The reader/validator aggregate package diagnostics, reject unsafe references and preserve file boundaries. The browser renders safe Markdown, never executes skill contents, and lazy-loads a revalidating ZIP download module. All skill cards, counts, filters, details and examples derive from generated data.
 
 The implemented app includes landing, catalog, sectors, details, docs/contribution/about pages, responsive Radix navigation, URL state, light/dark/system themes and explicit loading/error/empty states. No account, backend, paid API or automatic publishing was introduced. Earlier scaffold-only descriptions above are historical. See the [pipeline](catalog-pipeline.md), [marketplace](marketplace.md) and latest [status](IMPLEMENTATION_STATUS.md) for current behavior and verification.
+
+## Local platform installation
+
+packages/platform-adapters is browser-safe and owns platform IDs, documented paths, name restrictions, scope types and copyable instructions shared by React and CLI. packages/skill-installer owns Node filesystem operations, receipts, hashes, locking, staging, inspection, updates and guarded removal. It reuses the existing schema, validator and catalog reader. Readers remain strict by default; installed-package reads explicitly exclude only the reserved receipt after independent validation.
+
+The CLI preserves published-bundle list/show/add behavior and dispatches native lifecycle commands through the shared installer. Local --source discovery uses the existing pipeline and explicit unpublished opt-in. The marketplace remains static/account-free and cannot write to the visitor's filesystem. See [platform installation](platform-installation.md).
+
+## Quality and trust data flow
+
+The existing parser exports one Markdown instruction-structure extractor. The validator reuses it and its own diagnostics to produce an explainable quality report; schema contracts validate report totals and optional completed-test records. The Node catalog indexer alone computes SHA-256 package digests and derives adapter compatibility/testing state. Browser-safe parser/schema/validator packages still import no Node filesystem/crypto modules. React consumes optional generated assessments, while CLI quality reads through existing package boundaries and the same validator/indexer. No second validation engine, external rating service or model API was added. See [quality and trust](skill-quality.md).

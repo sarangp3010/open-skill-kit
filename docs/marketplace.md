@@ -61,3 +61,11 @@ The `deploy-pages` job in CI runs only after validation succeeds for main pushes
 Before the first deployment, enable GitHub Pages with GitHub Actions as its publishing source in repository Settings → Pages. This change, committing/pushing the prepared workflow, and the first deployment require the user's explicit approval. Once enabled, approved future main pushes automatically deploy only after CI passes. The expected project URL is https://sarangp3010.github.io/open-skill-kit/; no live deployment is claimed until verified.
 
 References: [GitHub Pages custom workflows](https://docs.github.com/en/pages/getting-started-with-github-pages/using-custom-workflows-with-github-pages) and [Vite static deployment](https://vite.dev/guide/static-deploy.html).
+
+## Platform installation guidance
+
+Detail pages now provide Codex, Claude Code, Cursor and Gemini CLI project/global selectors, exact paths, official links and copyable preview/install commands from the shared adapter registry. Current drafts use the explicit local-checkout workflow and opt-in; no npm publication or assistant execution is implied. Clipboard denial has a manual-copy fallback. See [platform installation](platform-installation.md).
+
+## Quality and marketplace trust
+
+The generated catalog now carries optional structural quality, validation and platform assessment fields. Cards/details consume those fields, with not-assessed fallbacks for older catalogs. Detail pages explain each scoring check and display contributor-recorded evidence separately from documented installation and legacy testing declarations. No score or declaration produces a verified label. Additional URL filters cover difficulty, editorial state, minimum score, platform, evidence and validation; quality/evidence sorting reuses the existing catalog selector. See [quality and trust](skill-quality.md).
