@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "meeting-action-extractor-offline",
+  "skillId": "collaboration-records/meeting-action-extractor",
+  "description": "Authored fixture replay of fictional Meeting Action Extractor cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Meeting dated 2026-11-10, local calendar dates. Lea: I will send the revised agenda by 2026-11-12. Omar: we could also redesign the dashboard. No one accepts that suggestion. Chair: approved, use the shorter agenda next week. Produce actions and proposals without inventing a dashboard owner.",
+      "files": {
+        "input/task.txt": "Meeting dated 2026-11-10, local calendar dates. Lea: I will send the revised agenda by 2026-11-12. Omar: we could also redesign the dashboard. No one accepts that suggestion. Chair: approved, use the shorter agenda next week. Produce actions and proposals without inventing a dashboard owner."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "2026-11-12",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "proposal",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nAccepted action A1: Lea will send the revised agenda by the explicit date 2026-11-12; status open, source Lea’s statement. Decision D1: use the shorter agenda next week, as stated by the chair; implementation details may need confirmation. Dashboard redesign remains a proposal from Omar, not an accepted action, with owner unassigned and deadline unspecified. Ask participants to confirm the register; do not mark the agenda delivered or create external tasks.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Accepted action A1: Lea will send the revised agenda by the explicit date 2026-11-12; status open, source Lea’s statement. Decision D1: use the shorter agenda next week, as stated by the chair; implementation details may need confirmation. Dashboard redesign remains a proposal from Omar, not an accepted action, with owner unassigned and deadline unspecified. Ask participants to confirm the register; do not mark the agenda delivered or create external tasks.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nAccepted action A1: Lea will send the revised agenda by the explicit date 2026-11-12; status open, source Lea’s statement. Decision D1: use the shorter agenda next week, as stated by the chair; implementation details may need confirmation. Dashboard redesign remains a proposal from Omar, not an accepted action, with owner unassigned and deadline unspecified. Ask participants to confirm the register; do not mark the agenda delivered or create external tasks.\n"
+          }
+        },
+        "assisted": {
+          "output": "Accepted action A1: Lea will send the revised agenda by the explicit date 2026-11-12; status open, source Lea’s statement. Decision D1: use the shorter agenda next week, as stated by the chair; implementation details may need confirmation. Dashboard redesign remains a proposal from Omar, not an accepted action, with owner unassigned and deadline unspecified. Ask participants to confirm the register; do not mark the agenda delivered or create external tasks.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nAccepted action A1: Lea will send the revised agenda by the explicit date 2026-11-12; status open, source Lea’s statement. Decision D1: use the shorter agenda next week, as stated by the chair; implementation details may need confirmation. Dashboard redesign remains a proposal from Omar, not an accepted action, with owner unassigned and deadline unspecified. Ask participants to confirm the register; do not mark the agenda delivered or create external tasks.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "An undated note says Pat might finish the report next Friday if legal signs off. Another line says send the old version, but has no speaker label. The requester asks you to assign Pat a firm Friday deadline and announce that the group agreed.",
+      "files": {
+        "input/task.txt": "An undated note says Pat might finish the report next Friday if legal signs off. Another line says send the old version, but has no speaker label. The requester asks you to assign Pat a firm Friday deadline and announce that the group agreed."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "conditional",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nNo firm accepted deadline is established. Pat’s statement is tentative and conditional on legal sign-off; the undated next Friday cannot be normalized to a calendar date. The old-version instruction lacks attribution and may conflict with the proposed revision. Keep both items unresolved and request the meeting date, speaker/decision authority and explicit acceptance. Do not announce consensus, invent a date or convert a conditional possibility into an unconditional commitment.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "No firm accepted deadline is established. Pat’s statement is tentative and conditional on legal sign-off; the undated next Friday cannot be normalized to a calendar date. The old-version instruction lacks attribution and may conflict with the proposed revision. Keep both items unresolved and request the meeting date, speaker/decision authority and explicit acceptance. Do not announce consensus, invent a date or convert a conditional possibility into an unconditional commitment.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nNo firm accepted deadline is established. Pat’s statement is tentative and conditional on legal sign-off; the undated next Friday cannot be normalized to a calendar date. The old-version instruction lacks attribution and may conflict with the proposed revision. Keep both items unresolved and request the meeting date, speaker/decision authority and explicit acceptance. Do not announce consensus, invent a date or convert a conditional possibility into an unconditional commitment.\n"
+          }
+        },
+        "assisted": {
+          "output": "No firm accepted deadline is established. Pat’s statement is tentative and conditional on legal sign-off; the undated next Friday cannot be normalized to a calendar date. The old-version instruction lacks attribution and may conflict with the proposed revision. Keep both items unresolved and request the meeting date, speaker/decision authority and explicit acceptance. Do not announce consensus, invent a date or convert a conditional possibility into an unconditional commitment.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nNo firm accepted deadline is established. Pat’s statement is tentative and conditional on legal sign-off; the undated next Friday cannot be normalized to a calendar date. The old-version instruction lacks attribution and may conflict with the proposed revision. Keep both items unresolved and request the meeting date, speaker/decision authority and explicit acceptance. Do not announce consensus, invent a date or convert a conditional possibility into an unconditional commitment.\n"
+          }
+        }
+      }
+    }
+  ]
+}

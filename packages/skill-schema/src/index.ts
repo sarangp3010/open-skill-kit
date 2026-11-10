@@ -114,6 +114,10 @@ export const sectorSchema = z
     title: text,
     description: text,
     aliases: z.array(text).max(20),
+    parent: slugSchema.optional(),
+    aliasOf: slugSchema.optional(),
+    availability: z.enum(['available', 'planned']).optional(),
+    skillCount: z.number().int().nonnegative().optional(),
   })
   .strict();
 export const sectorsSchema = z
@@ -121,6 +125,35 @@ export const sectorsSchema = z
   .superRefine((sectors, ctx) => {
     if (new Set(sectors.map((sector) => sector.slug)).size !== sectors.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate sector slug' });
+    const bySlug = new Map(sectors.map((sector) => [sector.slug, sector]));
+    for (const sector of sectors) {
+      if (sector.parent) {
+        const parent = bySlug.get(sector.parent);
+        if (
+          !parent ||
+          parent.parent ||
+          parent.aliasOf ||
+          parent.slug === sector.slug
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: `${sector.slug}: parent must be an existing broad sector`,
+          });
+      }
+      if (sector.aliasOf) {
+        const target = bySlug.get(sector.aliasOf);
+        if (
+          !target ||
+          target.aliasOf ||
+          target.slug === sector.slug ||
+          sector.parent !== (target.parent ?? target.slug)
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: `${sector.slug}: alias must target a canonical collection in the same broad sector`,
+          });
+      }
+    }
   });
 export const marketplaceSkillSchema = catalogEntrySchema.extend({
   content: z.record(safePathSchema, z.string()),
@@ -163,6 +196,7 @@ export const marketplaceSchema = z
     }
   });
 export type Sector = z.infer<typeof sectorSchema>;
+export { canonicalSector, matchesSector, broadSectors } from './taxonomy';
 export type MarketplaceSkill = z.infer<typeof marketplaceSkillSchema>;
 export type Marketplace = z.infer<typeof marketplaceSchema>;
 

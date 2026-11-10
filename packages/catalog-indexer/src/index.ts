@@ -15,6 +15,7 @@ import {
   catalogSchema,
   discoveryCatalogSchema,
   sectorsSchema,
+  matchesSector,
   safePathSchema,
   slugSchema,
   type Catalog,
@@ -204,9 +205,24 @@ export async function generateCatalog(
   }
   const catalog = discoveryCatalogSchema.parse({
     schemaVersion: 1,
-    sectors: [...declared, ...derived].sort((a, b) =>
-      a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0,
-    ),
+    sectors: [...declared, ...derived]
+      .map((sector) => {
+        const skillCount = results.filter(
+          ({ id, result }) =>
+            !!result.skill &&
+            matchesSector(
+              [...declared, ...derived],
+              id.split('/')[0],
+              sector.slug,
+            ),
+        ).length;
+        return {
+          ...sector,
+          skillCount,
+          availability: skillCount ? 'available' : 'planned',
+        };
+      })
+      .sort((a, b) => (a.slug < b.slug ? -1 : a.slug > b.slug ? 1 : 0)),
     skills: results.flatMap(({ result }) =>
       result.skill
         ? [

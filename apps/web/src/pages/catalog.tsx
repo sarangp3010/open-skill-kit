@@ -15,6 +15,7 @@ import {
   FolderOpen,
 } from 'lucide-react';
 import { platforms } from '@uas/platform-adapters';
+import { broadSectors, matchesSector } from '@uas/skill-schema';
 import { useLibrary } from '@/lib/use-library';
 import { selectSkills } from '@/lib/catalog';
 import { SkillCard } from '@/components/skill-card';
@@ -54,10 +55,20 @@ export function CatalogPage() {
   const platform = params.get('platform') ?? '';
   const testing = params.get('testing') ?? '';
   const validation = params.get('validation') ?? '';
-  const populated = catalog.sectors.filter((sector) =>
-    catalog.skills.some((skill) => skill.sector === sector.slug),
-  );
   const sector = catalog.sectors.find((item) => item.slug === selected);
+  const industry = params.get('industry') ?? '';
+  const roots = broadSectors(catalog.sectors);
+  const collections = catalog.sectors.filter(
+    (item) =>
+      !item.aliasOf &&
+      (industry
+        ? item.parent === industry
+        : roots.some((root) => root.slug === item.slug)),
+  );
+  const count = (slug: string) =>
+    catalog.skills.filter((skill) =>
+      matchesSector(catalog.sectors, skill.sector, slug),
+    ).length;
   const capabilities = [
     ...new Set(catalog.skills.flatMap((skill) => skill.capabilities)),
   ].sort();
@@ -66,6 +77,7 @@ export function CatalogPage() {
       selectSkills(catalog, {
         query,
         sector: selected,
+        broadSector: industry,
         sort,
         capability,
         difficulty,
@@ -79,6 +91,7 @@ export function CatalogPage() {
       catalog,
       query,
       selected,
+      industry,
       sort,
       capability,
       difficulty,
@@ -99,8 +112,9 @@ export function CatalogPage() {
     }
     if (value) next.set(key, value);
     else next.delete(key);
+    if (key === 'industry') next.delete('sector');
     latestParams.current = next;
-    if (sectorRoute && key === 'sector')
+    if (sectorRoute && (key === 'sector' || key === 'industry'))
       navigate(`/skills${next.size ? `?${next}` : ''}`);
     else
       setParams(next, {
@@ -130,6 +144,11 @@ export function CatalogPage() {
             ? sector?.description
             : 'Practical instructions for your AI assistant. Explore by task, inspect the examples, and make a workflow your own.'}
         </p>
+        {sector && count(sector.slug) === 0 && (
+          <p className="mt-4 text-sm text-muted-foreground">
+            Planned collection · no skill packages available yet.
+          </p>
+        )}
       </div>
       <div className="grid items-start gap-8 lg:grid-cols-[210px_1fr] lg:gap-10">
         <aside aria-label="Sector filters" className="hidden lg:block">
@@ -144,9 +163,10 @@ export function CatalogPage() {
               className={`sector-button ${!selected ? 'sector-active' : ''}`}
               onClick={() => update('sector', '')}
             >
-              All skills<span>{catalog.skills.length}</span>
+              All skills
+              <span>{industry ? count(industry) : catalog.skills.length}</span>
             </button>
-            {populated.map((item) => (
+            {collections.map((item) => (
               <button
                 type="button"
                 aria-pressed={selected === item.slug}
@@ -155,12 +175,7 @@ export function CatalogPage() {
                 className={`sector-button ${selected === item.slug ? 'sector-active' : ''}`}
               >
                 <span className="text-left">{item.title}</span>
-                <span>
-                  {
-                    catalog.skills.filter((skill) => skill.sector === item.slug)
-                      .length
-                  }
-                </span>
+                <span>{count(item.slug) || 'Planned'}</span>
               </button>
             ))}
           </div>
@@ -194,6 +209,28 @@ export function CatalogPage() {
               onQueryChange={(value) => update('q', value)}
             />
           </div>
+          <div className="mt-4">
+            <label
+              htmlFor="industry"
+              className="mb-1 block text-xs text-muted-foreground"
+            >
+              Broad sector
+            </label>
+            <Select
+              id="industry"
+              className="w-full sm:max-w-sm"
+              value={industry}
+              onChange={(event) => update('industry', event.target.value)}
+            >
+              <option value="">All broad sectors</option>
+              {roots.map((root) => (
+                <option key={root.slug} value={root.slug}>
+                  {root.title}
+                  {count(root.slug) ? ` (${count(root.slug)})` : ' · Planned'}
+                </option>
+              ))}
+            </Select>
+          </div>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:flex lg:items-end">
             <div className="col-span-2 min-w-0 lg:hidden">
               <label
@@ -209,11 +246,20 @@ export function CatalogPage() {
                 className="w-full"
               >
                 <option value="">All sectors</option>
-                {populated.map((item) => (
-                  <option key={item.slug} value={item.slug}>
-                    {item.title}
-                  </option>
-                ))}
+                {catalog.sectors
+                  .filter(
+                    (item) =>
+                      (!item.aliasOf || item.slug === selected) &&
+                      (!industry ||
+                        item.parent === industry ||
+                        item.slug === industry),
+                  )
+                  .map((item) => (
+                    <option key={item.slug} value={item.slug}>
+                      {item.title}
+                      {count(item.slug) ? '' : ' · Planned'}
+                    </option>
+                  ))}
               </Select>
             </div>
             <div>

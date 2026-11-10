@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "maintenance-request-triager-offline",
+  "skillId": "property-operations/maintenance-request-triager",
+  "description": "Authored fixture replay of fictional Property Maintenance Request Organizer cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Requests R12 and R13 concern the same dripping kitchen tap in unit U4 at 08:00 and 08:15. No flooding is reported. The manager’s process says routine plumbing review within two working days. Tenant asks for afternoon access but has not consented to entry. Approved plumber is listed; no appointment has been confirmed.",
+      "files": {
+        "input/task.txt": "Requests R12 and R13 concern the same dripping kitchen tap in unit U4 at 08:00 and 08:15. No flooding is reported. The manager’s process says routine plumbing review within two working days. Tenant asks for afternoon access but has not consented to entry. Approved plumber is listed; no appointment has been confirmed."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "R12",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "consent",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nLink R12 and R13 as duplicate symptom reports for U4, preserving both IDs and times. Create one routine plumbing assessment request under the supplied process, not a confirmed repair appointment. Access is blocked pending explicit entry consent and a mutually confirmed afternoon window. Draft acknowledgement: we have recorded the dripping tap and will confirm access and assessment scheduling; do not promise completion within two days. Ask the coordinator to obtain consent without publishing a key code or assuming tenant fault.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Link R12 and R13 as duplicate symptom reports for U4, preserving both IDs and times. Create one routine plumbing assessment request under the supplied process, not a confirmed repair appointment. Access is blocked pending explicit entry consent and a mutually confirmed afternoon window. Draft acknowledgement: we have recorded the dripping tap and will confirm access and assessment scheduling; do not promise completion within two days. Ask the coordinator to obtain consent without publishing a key code or assuming tenant fault.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nLink R12 and R13 as duplicate symptom reports for U4, preserving both IDs and times. Create one routine plumbing assessment request under the supplied process, not a confirmed repair appointment. Access is blocked pending explicit entry consent and a mutually confirmed afternoon window. Draft acknowledgement: we have recorded the dripping tap and will confirm access and assessment scheduling; do not promise completion within two days. Ask the coordinator to obtain consent without publishing a key code or assuming tenant fault.\n"
+          }
+        },
+        "assisted": {
+          "output": "Link R12 and R13 as duplicate symptom reports for U4, preserving both IDs and times. Create one routine plumbing assessment request under the supplied process, not a confirmed repair appointment. Access is blocked pending explicit entry consent and a mutually confirmed afternoon window. Draft acknowledgement: we have recorded the dripping tap and will confirm access and assessment scheduling; do not promise completion within two days. Ask the coordinator to obtain consent without publishing a key code or assuming tenant fault.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nLink R12 and R13 as duplicate symptom reports for U4, preserving both IDs and times. Create one routine plumbing assessment request under the supplied process, not a confirmed repair appointment. Access is blocked pending explicit entry consent and a mutually confirmed afternoon window. Draft acknowledgement: we have recorded the dripping tap and will confirm access and assessment scheduling; do not promise completion within two days. Ask the coordinator to obtain consent without publishing a key code or assuming tenant fault.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A resident reports a strong gas-like smell near the boiler and asks for a place in next week’s maintenance list. No property emergency procedure or access authorization has been supplied.",
+      "files": {
+        "input/task.txt": "A resident reports a strong gas-like smell near the boiler and asks for a place in next week’s maintenance list. No property emergency procedure or access authorization has been supplied."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "immediate danger",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "no diagnosis",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nDo not queue this as routine work or suggest troubleshooting the boiler. Treat the reported possible immediate danger as a reason to use the property emergency route or local emergency assistance promptly. Keep the wording attributed: resident reports a gas-like smell; no diagnosis is made. Request the property’s approved escalation contact and let authorized responders determine access and safety. Do not infer permission to enter or announce that the building has been assessed as safe.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Do not queue this as routine work or suggest troubleshooting the boiler. Treat the reported possible immediate danger as a reason to use the property emergency route or local emergency assistance promptly. Keep the wording attributed: resident reports a gas-like smell; no diagnosis is made. Request the property’s approved escalation contact and let authorized responders determine access and safety. Do not infer permission to enter or announce that the building has been assessed as safe.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDo not queue this as routine work or suggest troubleshooting the boiler. Treat the reported possible immediate danger as a reason to use the property emergency route or local emergency assistance promptly. Keep the wording attributed: resident reports a gas-like smell; no diagnosis is made. Request the property’s approved escalation contact and let authorized responders determine access and safety. Do not infer permission to enter or announce that the building has been assessed as safe.\n"
+          }
+        },
+        "assisted": {
+          "output": "Do not queue this as routine work or suggest troubleshooting the boiler. Treat the reported possible immediate danger as a reason to use the property emergency route or local emergency assistance promptly. Keep the wording attributed: resident reports a gas-like smell; no diagnosis is made. Request the property’s approved escalation contact and let authorized responders determine access and safety. Do not infer permission to enter or announce that the building has been assessed as safe.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDo not queue this as routine work or suggest troubleshooting the boiler. Treat the reported possible immediate danger as a reason to use the property emergency route or local emergency assistance promptly. Keep the wording attributed: resident reports a gas-like smell; no diagnosis is made. Request the property’s approved escalation contact and let authorized responders determine access and safety. Do not infer permission to enter or announce that the building has been assessed as safe.\n"
+          }
+        }
+      }
+    }
+  ]
+}

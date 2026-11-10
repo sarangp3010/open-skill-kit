@@ -289,6 +289,12 @@ test('quality filters persist in URLs and details explain structural scores with
     (item) => (item.quality?.score ?? 0) >= 90,
   );
   expect(qualified.length).toBeGreaterThan(0);
+  const warningSkill = qualified.find((item) =>
+    item.quality?.checks.some(
+      (check) => check.id === 'discovery-metadata' && check.status === 'warn',
+    ),
+  )!;
+  expect(warningSkill).toBeDefined();
   await page.goto(
     '/skills?quality=90&platform=codex&validation=passed&status=draft&sort=quality',
   );
@@ -313,10 +319,10 @@ test('quality filters persist in URLs and details explain structural scores with
   );
   await expect(page.getByLabel('Installation platform')).toHaveValue('codex');
   await page
-    .getByRole('link', { name: qualified[0].title, exact: true })
+    .getByRole('link', { name: warningSkill.title, exact: true })
     .click();
   await page
-    .getByText(`Explain quality score (${qualified[0].quality!.score}/100)`)
+    .getByText(`Explain quality score (${warningSkill.quality!.score}/100)`)
     .click();
   await expect(page.getByText('discovery-metadata: warn · 0/10')).toBeVisible();
   await expect(
@@ -353,4 +359,109 @@ test('fixture evaluation evidence stays separate from measured agent performance
     .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
     .analyze();
   expect(results.violations).toEqual([]);
+});
+
+test('broad sectors, specialties and planned routes preserve search and history', async ({
+  page,
+}) => {
+  await page.goto('/skills?sort=za');
+  const search = page.getByLabel('Search skills');
+  await page
+    .getByLabel('Broad sector')
+    .selectOption('transportation-logistics');
+  await page
+    .getByRole('button', { name: /Freight & Warehouse Logistics/ })
+    .click();
+  await search.focus();
+  await page.keyboard.type('shipment');
+  await expect(search).toHaveValue('shipment');
+  await expect(page.getByRole('status')).toContainText('1 skill matching');
+  await expect(
+    page.getByRole('link', {
+      name: 'Shipment Exception Organizer',
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.getByLabel('Broad sector').selectOption('finance');
+  await expect(page).toHaveURL(/industry=finance/);
+  await expect(
+    page.getByRole('heading', { name: 'No skills found' }),
+  ).toBeVisible();
+  await page.goBack();
+  await expect(page.getByLabel('Broad sector')).toHaveValue(
+    'transportation-logistics',
+  );
+  await expect(search).toHaveValue('shipment');
+  await expect(page.getByLabel('Sort by')).toHaveValue('za');
+  await page.reload();
+  await expect(
+    page.getByRole('link', {
+      name: 'Shipment Exception Organizer',
+      exact: true,
+    }),
+  ).toBeVisible();
+  await page.goto('/sectors');
+  await expect(page.getByRole('heading', { level: 2 })).toHaveCount(20);
+  await page
+    .getByRole('link', {
+      name: 'Healthcare Evidence Organization',
+      exact: true,
+    })
+    .click();
+  await expect(
+    page.getByText('Planned collection · no skill packages available yet.'),
+  ).toBeVisible();
+  await expect(page.getByRole('button', { name: 'Download ZIP' })).toHaveCount(
+    0,
+  );
+  await page.setViewportSize({ width: 320, height: 740 });
+  await expect(page.getByLabel('Broad sector')).toBeVisible();
+  expect(
+    await page.evaluate(
+      () => document.documentElement.scrollWidth <= innerWidth,
+    ),
+  ).toBe(true);
+});
+
+test('legacy collection URLs and new skill packages remain accessible', async ({
+  page,
+}) => {
+  await page.goto('/sectors/software-engineering');
+  await expect(
+    page.getByRole('link', { name: 'Code Review Expert', exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: 'Code Reviewer', exact: true }),
+  ).toBeVisible();
+  await page.goto(
+    '/skills/accounting-operations/invoice-reconciliation-assistant',
+  );
+  await expect(
+    page.getByRole('heading', {
+      level: 1,
+      name: 'Invoice Reconciliation Assistant',
+    }),
+  ).toBeVisible();
+  await page.getByLabel('Preview file').selectOption('examples/output-1.md');
+  await expect(
+    page
+      .getByRole('region', { name: 'Package preview' })
+      .getByText(/Invoiced extension:/),
+  ).toBeVisible();
+  const result = await new AxeBuilder({ page })
+    .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+    .analyze();
+  expect(result.violations).toEqual([]);
+  const downloadPromise = page.waitForEvent('download');
+  await page.getByRole('button', { name: 'Download ZIP' }).click();
+  const download = await downloadPromise;
+  const files = unzipSync(await readFile((await download.path())!));
+  const source = catalog.skills.find(
+    (item) =>
+      item.id === 'accounting-operations/invoice-reconciliation-assistant',
+  )!;
+  expect(Object.keys(files)).toHaveLength(Object.keys(source.files).length);
+  expect(strFromU8(files[`${source.slug}/SKILL.md`])).toBe(
+    source.files['SKILL.md'],
+  );
 });

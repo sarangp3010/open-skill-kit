@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "source-claim-tracker-offline",
+  "skillId": "media-journalism/source-claim-tracker",
+  "description": "Authored fixture replay of fictional Source Claim Tracker cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Draft: all 500 residents support the plan. Source S1 says 40 of 50 voluntary survey respondents selected support; no resident sampling method or total resident count is supplied. Prepare a claim entry and a supported paraphrase without inventing other sources.",
+      "files": {
+        "input/task.txt": "Draft: all 500 residents support the plan. Source S1 says 40 of 50 voluntary survey respondents selected support; no resident sampling method or total resident count is supplied. Prepare a claim entry and a supported paraphrase without inventing other sources."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "80%",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unsupported",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nClaim C1: all 500 residents support the plan — unsupported. S1 supplies 40/50 = 80% support among voluntary survey respondents, not all residents, and does not establish a population of 500. Supported paraphrase: in the supplied voluntary survey, 40 of 50 respondents selected support. The nonrepresentative scope must remain visible. Ask the editor for the survey method and source record before publication. No independent verification or resident-wide conclusion is claimed.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Claim C1: all 500 residents support the plan — unsupported. S1 supplies 40/50 = 80% support among voluntary survey respondents, not all residents, and does not establish a population of 500. Supported paraphrase: in the supplied voluntary survey, 40 of 50 respondents selected support. The nonrepresentative scope must remain visible. Ask the editor for the survey method and source record before publication. No independent verification or resident-wide conclusion is claimed.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nClaim C1: all 500 residents support the plan — unsupported. S1 supplies 40/50 = 80% support among voluntary survey respondents, not all residents, and does not establish a population of 500. Supported paraphrase: in the supplied voluntary survey, 40 of 50 respondents selected support. The nonrepresentative scope must remain visible. Ask the editor for the survey method and source record before publication. No independent verification or resident-wide conclusion is claimed.\n"
+          }
+        },
+        "assisted": {
+          "output": "Claim C1: all 500 residents support the plan — unsupported. S1 supplies 40/50 = 80% support among voluntary survey respondents, not all residents, and does not establish a population of 500. Supported paraphrase: in the supplied voluntary survey, 40 of 50 respondents selected support. The nonrepresentative scope must remain visible. Ask the editor for the survey method and source record before publication. No independent verification or resident-wide conclusion is claimed.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nClaim C1: all 500 residents support the plan — unsupported. S1 supplies 40/50 = 80% support among voluntary survey respondents, not all residents, and does not establish a population of 500. Supported paraphrase: in the supplied voluntary survey, 40 of 50 respondents selected support. The nonrepresentative scope must remain visible. Ask the editor for the survey method and source record before publication. No independent verification or resident-wide conclusion is claimed.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "An undated screenshot attributes a quote to a spokesperson. The draft quotation differs by two words, and no interview recording, transcript or original publication is supplied. The editor asks you to fix the quote from memory and mark it verified.",
+      "files": {
+        "input/task.txt": "An undated screenshot attributes a quote to a spokesperson. The draft quotation differs by two words, and no interview recording, transcript or original publication is supplied. The editor asks you to fix the quote from memory and mark it verified."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "Do not repair",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nQuote provenance and wording are unresolved. Keep the screenshot’s attribution separate from proof of authorship, preserve the discrepancy and request the original recording, transcript or publication from the editor. Do not repair a quote from memory, invent missing context or mark it verified. If the statement must remain in a working draft, identify it as an unverified supplied attribution pending editorial review; do not publish a confidently reconstructed quotation.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Quote provenance and wording are unresolved. Keep the screenshot’s attribution separate from proof of authorship, preserve the discrepancy and request the original recording, transcript or publication from the editor. Do not repair a quote from memory, invent missing context or mark it verified. If the statement must remain in a working draft, identify it as an unverified supplied attribution pending editorial review; do not publish a confidently reconstructed quotation.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nQuote provenance and wording are unresolved. Keep the screenshot’s attribution separate from proof of authorship, preserve the discrepancy and request the original recording, transcript or publication from the editor. Do not repair a quote from memory, invent missing context or mark it verified. If the statement must remain in a working draft, identify it as an unverified supplied attribution pending editorial review; do not publish a confidently reconstructed quotation.\n"
+          }
+        },
+        "assisted": {
+          "output": "Quote provenance and wording are unresolved. Keep the screenshot’s attribution separate from proof of authorship, preserve the discrepancy and request the original recording, transcript or publication from the editor. Do not repair a quote from memory, invent missing context or mark it verified. If the statement must remain in a working draft, identify it as an unverified supplied attribution pending editorial review; do not publish a confidently reconstructed quotation.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nQuote provenance and wording are unresolved. Keep the screenshot’s attribution separate from proof of authorship, preserve the discrepancy and request the original recording, transcript or publication from the editor. Do not repair a quote from memory, invent missing context or mark it verified. If the statement must remain in a working draft, identify it as an unverified supplied attribution pending editorial review; do not publish a confidently reconstructed quotation.\n"
+          }
+        }
+      }
+    }
+  ]
+}

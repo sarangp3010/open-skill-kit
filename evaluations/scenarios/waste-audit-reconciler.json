@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "waste-audit-reconciler-offline",
+  "skillId": "environmental-management/waste-audit-reconciler",
+  "description": "Authored fixture replay of fictional Waste Audit Reconciler cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "One audit period: general stream gross 52 kg and tare 2 kg; recycling stream gross 32 kg and tare 2 kg; compost stream gross 22 kg and tare 2 kg. Treatment records confirm 30 kg recycled and 20 kg composted under the organization’s supplied diversion definition. No other streams are recorded.",
+      "files": {
+        "input/task.txt": "One audit period: general stream gross 52 kg and tare 2 kg; recycling stream gross 32 kg and tare 2 kg; compost stream gross 22 kg and tare 2 kg. Treatment records confirm 30 kg recycled and 20 kg composted under the organization’s supplied diversion definition. No other streams are recorded."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "100 kg",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "50%",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nNet masses are 50 kg general, 30 kg recycling and 20 kg compost, totaling 100 kg for the supplied period. Confirmed diversion under the supplied definition is 30 + 20 = 50 kg, or 50/100 = 50%. The denominator covers only the recorded period and streams; it is not an annual or zero-waste certification. Retain tare and treatment records, and ask facilities whether omitted areas or contamination affect coverage. No carbon-equivalent savings are invented.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Net masses are 50 kg general, 30 kg recycling and 20 kg compost, totaling 100 kg for the supplied period. Confirmed diversion under the supplied definition is 30 + 20 = 50 kg, or 50/100 = 50%. The denominator covers only the recorded period and streams; it is not an annual or zero-waste certification. Retain tare and treatment records, and ask facilities whether omitted areas or contamination affect coverage. No carbon-equivalent savings are invented.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nNet masses are 50 kg general, 30 kg recycling and 20 kg compost, totaling 100 kg for the supplied period. Confirmed diversion under the supplied definition is 30 + 20 = 50 kg, or 50/100 = 50%. The denominator covers only the recorded period and streams; it is not an annual or zero-waste certification. Retain tare and treatment records, and ask facilities whether omitted areas or contamination affect coverage. No carbon-equivalent savings are invented.\n"
+          }
+        },
+        "assisted": {
+          "output": "Net masses are 50 kg general, 30 kg recycling and 20 kg compost, totaling 100 kg for the supplied period. Confirmed diversion under the supplied definition is 30 + 20 = 50 kg, or 50/100 = 50%. The denominator covers only the recorded period and streams; it is not an annual or zero-waste certification. Retain tare and treatment records, and ask facilities whether omitted areas or contamination affect coverage. No carbon-equivalent savings are invented.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nNet masses are 50 kg general, 30 kg recycling and 20 kg compost, totaling 100 kg for the supplied period. Confirmed diversion under the supplied definition is 30 + 20 = 50 kg, or 50/100 = 50%. The denominator covers only the recorded period and streams; it is not an annual or zero-waste certification. Retain tare and treatment records, and ask facilities whether omitted areas or contamination affect coverage. No carbon-equivalent savings are invented.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A bin labeled recycling weighs 15 kg including an unknown container tare. No hauler treatment record exists. A requester wants 100% diversion and an annual emissions-saving claim from this single observation.",
+      "files": {
+        "input/task.txt": "A bin labeled recycling weighs 15 kg including an unknown container tare. No hauler treatment record exists. A requester wants 100% diversion and an annual emissions-saving claim from this single observation."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unscored",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nNet mass and treatment are both unresolved. A recycling label does not establish the amount actually recycled, and unknown tare prevents a measured net total. Do not report 100% diversion or extrapolate annual emissions savings. Record the gross 15 kg observation, request tare and treatment evidence, and leave the diversion percentage unscored. Keep the audit boundary and missing records visible for facilities review.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Net mass and treatment are both unresolved. A recycling label does not establish the amount actually recycled, and unknown tare prevents a measured net total. Do not report 100% diversion or extrapolate annual emissions savings. Record the gross 15 kg observation, request tare and treatment evidence, and leave the diversion percentage unscored. Keep the audit boundary and missing records visible for facilities review.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nNet mass and treatment are both unresolved. A recycling label does not establish the amount actually recycled, and unknown tare prevents a measured net total. Do not report 100% diversion or extrapolate annual emissions savings. Record the gross 15 kg observation, request tare and treatment evidence, and leave the diversion percentage unscored. Keep the audit boundary and missing records visible for facilities review.\n"
+          }
+        },
+        "assisted": {
+          "output": "Net mass and treatment are both unresolved. A recycling label does not establish the amount actually recycled, and unknown tare prevents a measured net total. Do not report 100% diversion or extrapolate annual emissions savings. Record the gross 15 kg observation, request tare and treatment evidence, and leave the diversion percentage unscored. Keep the audit boundary and missing records visible for facilities review.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nNet mass and treatment are both unresolved. A recycling label does not establish the amount actually recycled, and unknown tare prevents a measured net total. Do not report 100% diversion or extrapolate annual emissions savings. Record the gross 15 kg observation, request tare and treatment evidence, and leave the diversion percentage unscored. Keep the audit boundary and missing records visible for facilities review.\n"
+          }
+        }
+      }
+    }
+  ]
+}

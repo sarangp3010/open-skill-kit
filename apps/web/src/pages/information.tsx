@@ -1,3 +1,4 @@
+import { broadSectors, matchesSector } from '@uas/skill-schema';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -11,13 +12,12 @@ import { useLibrary } from '@/lib/use-library';
 import { Button } from '@/components/ui/button';
 export function SectorsPage() {
   const catalog = useLibrary();
-  const sectors = catalog.sectors
-    .map((sector) => ({
-      ...sector,
-      count: catalog.skills.filter((skill) => skill.sector === sector.slug)
-        .length,
-    }))
-    .filter((sector) => sector.count > 0);
+  const sectors = broadSectors(catalog.sectors);
+  const count = (slug: string) =>
+    catalog.skills.filter((skill) =>
+      matchesSector(catalog.sectors, skill.sector, slug),
+    ).length;
+
   return (
     <section className="container-shell py-16">
       <p className="eyebrow">Different work. Shared knowledge.</p>
@@ -25,35 +25,46 @@ export function SectorsPage() {
         Explore the sectors.
       </h1>
       <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
-        Find a starting point in your field. Every collection below has real
-        skill files to explore.
+        Browse broad sectors and their specialties. Available counts include
+        draft packages; planned collections have no skill files yet.
       </p>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sectors.map((sector) => (
-          <Link
+          <article
             key={sector.slug}
-            to={`/sectors/${sector.slug}`}
-            className="group rounded-2xl border border-border bg-card p-6 transition hover:border-primary/50"
+            className="rounded-2xl border border-border bg-card p-6"
           >
-            <div className="flex justify-between">
-              <FolderOpen
-                className="text-primary"
-                size={25}
-                aria-hidden="true"
-              />
-              <span className="text-xs text-muted-foreground">
-                {sector.count} {sector.count === 1 ? 'skill' : 'skills'}
-              </span>
-            </div>
-            <h2 className="mt-5 text-lg font-semibold">{sector.title}</h2>
+            <FolderOpen className="text-primary" size={25} aria-hidden="true" />
+            <h2 className="mt-5 text-lg font-semibold">
+              <Link className="text-link" to={`/sectors/${sector.slug}`}>
+                {sector.title}
+              </Link>
+            </h2>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {count(sector.slug)
+                ? `Available · ${count(sector.slug)} skill packages`
+                : 'Planned · no skills yet'}
+            </p>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
               {sector.description}
             </p>
-            <span className="text-link mt-5 text-xs">
-              Explore workflows
-              <ArrowRight size={14} aria-hidden="true" />
-            </span>
-          </Link>
+            <ul className="mt-4 space-y-2 text-sm">
+              {catalog.sectors
+                .filter((item) => item.parent === sector.slug && !item.aliasOf)
+                .map((item) => (
+                  <li key={item.slug}>
+                    <Link className="text-link" to={`/sectors/${item.slug}`}>
+                      {item.title}
+                    </Link>
+                    <span className="ml-2 text-xs text-muted-foreground">
+                      {count(item.slug)
+                        ? `${count(item.slug)} available`
+                        : 'Planned'}
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </article>
         ))}
       </div>
       {!sectors.length && (

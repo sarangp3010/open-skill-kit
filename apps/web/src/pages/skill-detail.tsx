@@ -68,11 +68,14 @@ function SkillActions({ skill }: { skill: DiscoverySkill }) {
 function Preview({ skill }: { skill: DiscoverySkill }) {
   const [file, setFile] = useState('SKILL.md');
   return (
-    <section className="overflow-hidden rounded-2xl border border-border bg-card">
+    <section
+      aria-labelledby="preview-title"
+      className="overflow-hidden rounded-2xl border border-border bg-card"
+    >
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-muted/40 px-5 py-4">
         <div className="flex items-center gap-2 text-sm font-medium">
           <FileText size={16} className="text-primary" aria-hidden="true" />
-          <h2>Package preview</h2>
+          <h2 id="preview-title">Package preview</h2>
         </div>
         <div className="min-w-0">
           <label htmlFor="preview-file" className="sr-only">
@@ -142,6 +145,11 @@ export function SkillDetailPage() {
   const sectorName =
     catalog.sectors.find((item) => item.slug === skill.sector)?.title ??
     skill.sector;
+  const parent = catalog.sectors.find(
+    (item) =>
+      item.slug ===
+      catalog.sectors.find((item) => item.slug === skill.sector)?.parent,
+  );
   return (
     <div className="container-shell py-10 sm:py-14">
       <nav
@@ -152,6 +160,14 @@ export function SkillDetailPage() {
           Skills
         </Link>
         <span aria-hidden="true">/</span>
+        {parent && (
+          <>
+            <Link to={`/sectors/${parent.slug}`} className="hover:text-primary">
+              {parent.title}
+            </Link>
+            <span aria-hidden="true">/</span>
+          </>
+        )}
         <Link to={`/sectors/${skill.sector}`} className="hover:text-primary">
           {sectorName}
         </Link>

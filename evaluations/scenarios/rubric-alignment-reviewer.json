@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "rubric-alignment-reviewer-offline",
+  "skillId": "assessment-design/rubric-alignment-reviewer",
+  "description": "Authored fixture replay of fictional Rubric Alignment Reviewer cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Create a 10-point rubric for explaining why plants near a window grew taller in a fictional class observation. Objectives: use one supplied observation and distinguish an observation from a causal claim. No experimental controls are provided. The teacher wants reasoning weighted more than formatting.",
+      "files": {
+        "input/task.txt": "Create a 10-point rubric for explaining why plants near a window grew taller in a fictional class observation. Objectives: use one supplied observation and distinguish an observation from a causal claim. No experimental controls are provided. The teacher wants reasoning weighted more than formatting."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "total 10",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "controls",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nProposed draft: observation evidence 3 points, distinction between observation and causation 5 points, clear explanation 2 points; total 10. Full evidence credit requires referring to the reported window-side growth, not inventing measurements. Full reasoning credit says the comparison alone does not establish that light caused the difference because controls are absent. Clarity concerns whether the explanation can be followed, not accent or stylistic conformity. Ask the teacher to calibrate partial credit for a response that notices missing controls but omits the observed difference.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Proposed draft: observation evidence 3 points, distinction between observation and causation 5 points, clear explanation 2 points; total 10. Full evidence credit requires referring to the reported window-side growth, not inventing measurements. Full reasoning credit says the comparison alone does not establish that light caused the difference because controls are absent. Clarity concerns whether the explanation can be followed, not accent or stylistic conformity. Ask the teacher to calibrate partial credit for a response that notices missing controls but omits the observed difference.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nProposed draft: observation evidence 3 points, distinction between observation and causation 5 points, clear explanation 2 points; total 10. Full evidence credit requires referring to the reported window-side growth, not inventing measurements. Full reasoning credit says the comparison alone does not establish that light caused the difference because controls are absent. Clarity concerns whether the explanation can be followed, not accent or stylistic conformity. Ask the teacher to calibrate partial credit for a response that notices missing controls but omits the observed difference.\n"
+          }
+        },
+        "assisted": {
+          "output": "Proposed draft: observation evidence 3 points, distinction between observation and causation 5 points, clear explanation 2 points; total 10. Full evidence credit requires referring to the reported window-side growth, not inventing measurements. Full reasoning credit says the comparison alone does not establish that light caused the difference because controls are absent. Clarity concerns whether the explanation can be followed, not accent or stylistic conformity. Ask the teacher to calibrate partial credit for a response that notices missing controls but omits the observed difference.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nProposed draft: observation evidence 3 points, distinction between observation and causation 5 points, clear explanation 2 points; total 10. Full evidence credit requires referring to the reported window-side growth, not inventing measurements. Full reasoning credit says the comparison alone does not establish that light caused the difference because controls are absent. Clarity concerns whether the explanation can be followed, not accent or stylistic conformity. Ask the teacher to calibrate partial credit for a response that notices missing controls but omits the observed difference.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A rubric awards 5 points for neat handwriting and 5 for scientific reasoning, but the task objective is comparing two data tables. A learner submits an accessible typed response that cites both tables and identifies a mismatch. The teacher has not supplied numerical scoring levels.",
+      "files": {
+        "input/task.txt": "A rubric awards 5 points for neat handwriting and 5 for scientific reasoning, but the task objective is comparing two data tables. A learner submits an accessible typed response that cites both tables and identifies a mismatch. The teacher has not supplied numerical scoring levels."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "handwriting",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "precise grade",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nThe handwriting criterion does not measure the supplied objective and conflicts with the accessible typed submission. Propose replacing it with accurate comparison of the two tables while keeping the total budget unchanged. The described response supplies comparison evidence, but do not assign a precise grade before level descriptors and the actual tables are available. Return the alignment issue and a draft descriptor for identifying the mismatch with citations; teacher review remains required.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "The handwriting criterion does not measure the supplied objective and conflicts with the accessible typed submission. Propose replacing it with accurate comparison of the two tables while keeping the total budget unchanged. The described response supplies comparison evidence, but do not assign a precise grade before level descriptors and the actual tables are available. Return the alignment issue and a draft descriptor for identifying the mismatch with citations; teacher review remains required.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nThe handwriting criterion does not measure the supplied objective and conflicts with the accessible typed submission. Propose replacing it with accurate comparison of the two tables while keeping the total budget unchanged. The described response supplies comparison evidence, but do not assign a precise grade before level descriptors and the actual tables are available. Return the alignment issue and a draft descriptor for identifying the mismatch with citations; teacher review remains required.\n"
+          }
+        },
+        "assisted": {
+          "output": "The handwriting criterion does not measure the supplied objective and conflicts with the accessible typed submission. Propose replacing it with accurate comparison of the two tables while keeping the total budget unchanged. The described response supplies comparison evidence, but do not assign a precise grade before level descriptors and the actual tables are available. Return the alignment issue and a draft descriptor for identifying the mismatch with citations; teacher review remains required.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nThe handwriting criterion does not measure the supplied objective and conflicts with the accessible typed submission. Propose replacing it with accurate comparison of the two tables while keeping the total budget unchanged. The described response supplies comparison evidence, but do not assign a precise grade before level descriptors and the actual tables are available. Return the alignment issue and a draft descriptor for identifying the mismatch with citations; teacher review remains required.\n"
+          }
+        }
+      }
+    }
+  ]
+}

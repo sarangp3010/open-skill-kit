@@ -14,6 +14,8 @@ import { act, cleanup, render, screen, waitFor } from '@testing-library/react';
 import userEvent from '@testing-library/user-event';
 import { MemoryRouter } from 'react-router-dom';
 import { resolve } from 'node:path';
+import { readFile } from 'node:fs/promises';
+import { sectorsSchema } from '../packages/skill-schema/src/index';
 import { App } from '../apps/web/src/App';
 import {
   TrustDetails,
@@ -30,7 +32,14 @@ import { generateCatalog } from '../packages/catalog-indexer/src/index';
 import type { DiscoveryCatalog } from '../packages/skill-schema/src/index';
 let catalog: DiscoveryCatalog;
 beforeAll(async () => {
-  catalog = (await generateCatalog(resolve('skills'))).catalog;
+  catalog = (
+    await generateCatalog(
+      resolve('skills'),
+      sectorsSchema.parse(
+        JSON.parse(await readFile(resolve('catalog/sectors.json'), 'utf8')),
+      ),
+    )
+  ).catalog;
 });
 beforeEach(() => {
   vi.stubGlobal(
@@ -325,7 +334,13 @@ it('shows generated quality and validation on cards and applies quality/trust fi
   expect(screen.getByRole('status')).toHaveTextContent(
     `${matches.length} skills`,
   );
-  expect(screen.getAllByText(/Quality 90\/100/)).toHaveLength(matches.length);
+  for (const score of new Set(matches.map((skill) => skill.quality!.score))) {
+    expect(
+      screen.getAllByText(`Quality ${score}/100 · structural`),
+    ).toHaveLength(
+      matches.filter((skill) => skill.quality!.score === score).length,
+    );
+  }
   expect(screen.getByLabelText('Minimum quality score')).toHaveValue('90');
   expect(screen.getByLabelText('Installation platform')).toHaveValue('codex');
   await user.selectOptions(
@@ -340,7 +355,11 @@ it('shows generated quality and validation on cards and applies quality/trust fi
 
 it('explains quality points and distinguishes documented installation from absent test evidence', async () => {
   const user = userEvent.setup();
-  const skill = catalog.skills[0];
+  const skill = catalog.skills.find((item) =>
+    item.quality?.checks.some(
+      (check) => check.id === 'discovery-metadata' && check.status === 'warn',
+    ),
+  )!;
   app(`/skills/${skill.sector}/${skill.slug}`);
   await screen.findByRole('heading', { name: skill.title, level: 1 });
   await user.click(
@@ -444,4 +463,54 @@ it('explains fixture evidence and hides stale scores without promoting compatibi
   ).not.toBeInTheDocument();
   expect(screen.getByText(/Comparison unscored/)).toBeInTheDocument();
   expect(screen.getByText('Package changed')).toBeInTheDocument();
+});
+
+it('shows broad sectors and planned specialties without duplicate legacy navigation', async () => {
+  app('/sectors');
+  await screen.findByRole('heading', { name: 'Explore the sectors.' });
+  expect(screen.getAllByRole('heading', { level: 2 })).toHaveLength(20);
+  expect(
+    screen.getByRole('link', { name: 'Technology & Data' }),
+  ).toHaveAttribute('href', '/sectors/technology');
+  expect(
+    screen.queryByRole('link', { name: 'Software Engineering' }),
+  ).not.toBeInTheDocument();
+  const planned = screen.getByRole('link', {
+    name: 'Healthcare Evidence Organization',
+  });
+  expect(planned.closest('li')).toHaveTextContent('Planned');
+  await userEvent.click(planned);
+  expect(
+    await screen.findByText(
+      'Planned collection · no skill packages available yet.',
+    ),
+  ).toBeInTheDocument();
+  expect(
+    screen.getByRole('heading', { name: 'No skills found' }),
+  ).toBeInTheDocument();
+});
+
+it('composes broad-sector selection with specialty filters and keeps typed input', async () => {
+  app('/skills?sort=za');
+  await screen.findByRole('heading', { name: 'Find your next skill.' });
+  await userEvent.selectOptions(
+    screen.getByLabelText('Broad sector'),
+    'technology',
+  );
+  await userEvent.click(
+    screen.getByRole('button', { name: /Software Development/ }),
+  );
+  const search = screen.getByLabelText('Search skills');
+  await userEvent.type(search, 'review');
+  expect(search).toHaveValue('review');
+  expect(screen.getByLabelText('Broad sector')).toHaveValue('technology');
+  expect(screen.getByLabelText('Sort by')).toHaveValue('za');
+  await userEvent.selectOptions(
+    screen.getByLabelText('Broad sector'),
+    'finance',
+  );
+  expect(search).toHaveValue('review');
+  expect(
+    screen.queryByRole('link', { name: 'Code Reviewer' }),
+  ).not.toBeInTheDocument();
 });

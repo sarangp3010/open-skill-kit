@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "invoice-reconciliation-assistant-offline",
+  "skillId": "accounting-operations/invoice-reconciliation-assistant",
+  "description": "Authored fixture replay of fictional Invoice Reconciliation Assistant cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Invoice INV-41 lists 12 filters at USD 15 each, USD 0 tax and USD 0 shipping. PO-9 orders 12 at USD 15. Receipt GR-8 confirms 10 filters. No partial-invoice tolerance is supplied. Match the records and state whether the invoice can be treated as fully received.",
+      "files": {
+        "input/task.txt": "Invoice INV-41 lists 12 filters at USD 15 each, USD 0 tax and USD 0 shipping. PO-9 orders 12 at USD 15. Receipt GR-8 confirms 10 filters. No partial-invoice tolerance is supplied. Match the records and state whether the invoice can be treated as fully received."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "USD 180",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "USD 30",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nINV-41 links to PO-9 and GR-8 by the supplied item. Invoiced extension: 12 × USD 15 = USD 180. Received extension at the order price: 10 × USD 15 = USD 150. Quantity exception: 2 filters, USD 30; price variance: USD 0. The invoice is not fully received. Partial-invoice tolerance is missing, so approval remains pending. Ask receiving to confirm the outstanding quantity and the reviewer to decide whether a corrected invoice or later receipt is required. No payment is initiated.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "INV-41 links to PO-9 and GR-8 by the supplied item. Invoiced extension: 12 × USD 15 = USD 180. Received extension at the order price: 10 × USD 15 = USD 150. Quantity exception: 2 filters, USD 30; price variance: USD 0. The invoice is not fully received. Partial-invoice tolerance is missing, so approval remains pending. Ask receiving to confirm the outstanding quantity and the reviewer to decide whether a corrected invoice or later receipt is required. No payment is initiated.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nINV-41 links to PO-9 and GR-8 by the supplied item. Invoiced extension: 12 × USD 15 = USD 180. Received extension at the order price: 10 × USD 15 = USD 150. Quantity exception: 2 filters, USD 30; price variance: USD 0. The invoice is not fully received. Partial-invoice tolerance is missing, so approval remains pending. Ask receiving to confirm the outstanding quantity and the reviewer to decide whether a corrected invoice or later receipt is required. No payment is initiated.\n"
+          }
+        },
+        "assisted": {
+          "output": "INV-41 links to PO-9 and GR-8 by the supplied item. Invoiced extension: 12 × USD 15 = USD 180. Received extension at the order price: 10 × USD 15 = USD 150. Quantity exception: 2 filters, USD 30; price variance: USD 0. The invoice is not fully received. Partial-invoice tolerance is missing, so approval remains pending. Ask receiving to confirm the outstanding quantity and the reviewer to decide whether a corrected invoice or later receipt is required. No payment is initiated.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nINV-41 links to PO-9 and GR-8 by the supplied item. Invoiced extension: 12 × USD 15 = USD 180. Received extension at the order price: 10 × USD 15 = USD 150. Quantity exception: 2 filters, USD 30; price variance: USD 0. The invoice is not fully received. Partial-invoice tolerance is missing, so approval remains pending. Ask receiving to confirm the outstanding quantity and the reviewer to decide whether a corrected invoice or later receipt is required. No payment is initiated.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "The import contains invoice INV-52 twice for the same vendor, date and USD 240 total. A credit note CN-3 for USD 20 has no invoice reference. The requester wants a net payable of USD 460 based on all three rows.",
+      "files": {
+        "input/task.txt": "The import contains invoice INV-52 twice for the same vendor, date and USD 240 total. A credit note CN-3 for USD 20 has no invoice reference. The requester wants a net payable of USD 460 based on all three rows."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "duplicate",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nDo not treat both INV-52 rows as separate liabilities. Flag the repeated invoice ID as a possible duplicate for reviewer confirmation, preserving both import row references. CN-3 is unmatched because its invoice reference is absent; do not silently apply it to INV-52. The requested USD 460 is not an approved payable. Report gross imported rows separately from a deduplicated candidate balance and leave the final payable unresolved until the duplicate and credit allocation are confirmed.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Do not treat both INV-52 rows as separate liabilities. Flag the repeated invoice ID as a possible duplicate for reviewer confirmation, preserving both import row references. CN-3 is unmatched because its invoice reference is absent; do not silently apply it to INV-52. The requested USD 460 is not an approved payable. Report gross imported rows separately from a deduplicated candidate balance and leave the final payable unresolved until the duplicate and credit allocation are confirmed.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDo not treat both INV-52 rows as separate liabilities. Flag the repeated invoice ID as a possible duplicate for reviewer confirmation, preserving both import row references. CN-3 is unmatched because its invoice reference is absent; do not silently apply it to INV-52. The requested USD 460 is not an approved payable. Report gross imported rows separately from a deduplicated candidate balance and leave the final payable unresolved until the duplicate and credit allocation are confirmed.\n"
+          }
+        },
+        "assisted": {
+          "output": "Do not treat both INV-52 rows as separate liabilities. Flag the repeated invoice ID as a possible duplicate for reviewer confirmation, preserving both import row references. CN-3 is unmatched because its invoice reference is absent; do not silently apply it to INV-52. The requested USD 460 is not an approved payable. Report gross imported rows separately from a deduplicated candidate balance and leave the final payable unresolved until the duplicate and credit allocation are confirmed.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDo not treat both INV-52 rows as separate liabilities. Flag the repeated invoice ID as a possible duplicate for reviewer confirmation, preserving both import row references. CN-3 is unmatched because its invoice reference is absent; do not silently apply it to INV-52. The requested USD 460 is not an approved payable. Report gross imported rows separately from a deduplicated candidate balance and leave the final payable unresolved until the duplicate and credit allocation are confirmed.\n"
+          }
+        }
+      }
+    }
+  ]
+}

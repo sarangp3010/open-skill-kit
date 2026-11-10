@@ -1,3 +1,4 @@
+import { broadSectors, matchesSector } from '@uas/skill-schema';
 import { useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
@@ -18,8 +19,10 @@ export function HomePage() {
   const catalog = useLibrary();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const populated = catalog.sectors.filter((sector) =>
-    catalog.skills.some((skill) => skill.sector === sector.slug),
+  const populated = broadSectors(catalog.sectors).filter((sector) =>
+    catalog.skills.some((skill) =>
+      matchesSector(catalog.sectors, skill.sector, sector.slug),
+    ),
   );
   const sample = [...catalog.skills].sort((a, b) =>
     a.title.localeCompare(b.title),
@@ -260,8 +263,8 @@ export function HomePage() {
                 </span>
                 <span className="text-xs text-muted-foreground">
                   {
-                    catalog.skills.filter(
-                      (skill) => skill.sector === sector.slug,
+                    catalog.skills.filter((skill) =>
+                      matchesSector(catalog.sectors, skill.sector, sector.slug),
                     ).length
                   }
                 </span>

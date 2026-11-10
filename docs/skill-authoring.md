@@ -25,3 +25,9 @@ The current specification scores clear triggering, actionable workflow, structur
 The [authoring template](../templates/skill/SKILL.md) includes portable frontmatter, a complete illustrative workflow, metadata, two input/output pairs and behavior cases. It is not indexed until copied into skills/<sector>/<slug>. Replace its sample task and placeholder author/provenance before requesting review.
 
 Use the existing validator and the quality CLI described in [quality and trust](skill-quality.md). The versioned 100-point rubric explains missing structural information without turning optional metadata into hard draft requirements. Platform compatibility declarations and completed test artifacts have separate fields; no score creates a verified badge or changes editorial status.
+
+## Selecting a sector or specialty
+
+Use the [canonical taxonomy](sector-taxonomy.md) before creating a folder. Prefer an existing specialty and use tags for synonyms. Keep existing IDs/paths stable. Broad sectors aggregate specialties; legacy alias collections remain readable but new authoring should use their canonical collection. A new planned registry entry does not require an empty SKILL.md package. Keep proposals in [the expansion plan](skill-expansion-plan.md), outside the active skill source root. Availability is derived from actual validated files and is separate from publication, review and assistant testing.
+
+The universal batch demonstrates 19 focused workflows with normal and uncertain-input examples, explicit boundaries and declared behavior cases. Its offline suites reuse the existing evaluation framework and intentionally use identical authored observations in both arms; no model improvement can be inferred. Real platform fields remain empty until actual authorized execution supplies evidence.
