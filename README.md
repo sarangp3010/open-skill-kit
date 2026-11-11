@@ -85,3 +85,5 @@ The [42 exact-package review packets and proposed 12-skill launch shortlist](rev
 ## First public release review
 
 Start with the [owner summaries for 12 candidates](docs/launch/SHORTLIST_REVIEW.md), [launch checklist and blockers](docs/launch/CHECKLIST.md), and [GitHub settings audit](docs/launch/GITHUB_SETTINGS.md). `pnpm release:review` regenerates the summaries; `pnpm release:check` checks them without creating approval. Technical checks passing do not authorize release: all 42 current packages remain drafts and the published catalog is empty.
+
+See [CI architecture and local pre-push checks](docs/CI_ARCHITECTURE.md) for the proposed checks/E2E split, the unchanged required validate gate, exact browser-image version, $0 safeguards and remaining Linux verification limits. No commit or push is authorized by a passing local suite.

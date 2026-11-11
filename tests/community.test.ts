@@ -1,3 +1,4 @@
+import { spawnSync } from 'node:child_process';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
   cp,
@@ -250,6 +251,8 @@ interface Workflow {
       if?: string;
       needs?: string | string[];
       environment?: { name: string };
+      container?: { image: string; options: string };
+      env?: Record<string, string>;
       'runs-on': string;
       strategy?: { matrix: { os: string[] } };
       permissions?: Record<string, string>;
@@ -279,9 +282,9 @@ describe('workflow and community configuration boundaries', () => {
             'macos-latest',
           ]);
           expect(job.if).toBe('github.event.repository.private == false');
-        } else expect(job['runs-on']).toBe('ubuntu-latest');
+        } else expect(job['runs-on']).toBe('ubuntu-24.04');
         expect(job.permissions).toEqual(
-          id === 'validate'
+          id === 'checks'
             ? { contents: 'read', 'pull-requests': 'read' }
             : { contents: 'read' },
         );
@@ -313,7 +316,12 @@ describe('workflow and community configuration boundaries', () => {
     ) as Workflow;
     expect(workflow.on.pull_request?.branches).toEqual(['main', 'develop']);
     expect(workflow.on.push?.branches).toEqual(['main', 'develop']);
-    expect(Object.keys(workflow.jobs)).toEqual(['validate', 'portability']);
+    expect(Object.keys(workflow.jobs)).toEqual([
+      'checks',
+      'e2e',
+      'validate',
+      'portability',
+    ]);
     expect(workflow.jobs['build-pages']).toBeUndefined();
     expect(workflow.jobs['deploy-pages']).toBeUndefined();
     for (const job of Object.values(workflow.jobs)) {
@@ -324,16 +332,103 @@ describe('workflow and community configuration boundaries', () => {
       ).toBe(false);
     }
     expect(
-      workflow.jobs.validate.steps.some(
+      workflow.jobs.checks.steps.some(
         (step) => step.run === 'pnpm release:check',
       ),
     ).toBe(true);
-    const tokenSteps = workflow.jobs.validate.steps.filter(
+    for (const command of [
+      'contributions:check',
+      'moderation:check',
+      'founding:check',
+      'release:check',
+      'lint',
+      'format:check',
+      'typecheck',
+      'test',
+      'portability:check',
+      'licensing:check',
+      'evaluate:fixtures',
+      'validate:skills',
+      'check:links',
+      'catalog:check',
+      'build:marketplace',
+      'build',
+      'catalog:check-assets',
+      'pack:npm',
+      'licensing:artifacts',
+    ])
+      expect(
+        workflow.jobs.checks.steps.some(
+          (step) => step.run === `pnpm ${command}`,
+        ),
+        command,
+      ).toBe(true);
+    const tokenSteps = workflow.jobs.checks.steps.filter(
       (step) => step.env?.GH_TOKEN,
     );
     expect(tokenSteps).toHaveLength(1);
     expect(tokenSteps[0].run).toBe('pnpm moderation:check');
     expect(tokenSteps[0].env?.GH_TOKEN).toBe('${{ github.token }}');
+  });
+  it('requires both independent suites under the existing validate check, including failed or skipped dependencies', async () => {
+    const workflow = parse(
+      await readFile(resolve('.github/workflows/ci.yml'), 'utf8'),
+    ) as Workflow;
+    const gate = workflow.jobs.validate;
+    expect(gate.if).toBe('always()');
+    expect(gate.needs).toEqual(['checks', 'e2e']);
+    expect(gate.steps).toHaveLength(1);
+    expect(gate.steps[0].uses).toBeUndefined();
+    expect(gate.steps[0].env).toEqual({
+      CHECKS_RESULT: '${{ needs.checks.result }}',
+      E2E_RESULT: '${{ needs.e2e.result }}',
+    });
+    // Execute the actual gate, rather than only searching its text. It must
+    // reject failed, skipped and cancelled prerequisites as well as failures.
+    for (const checks of ['success', 'failure', 'skipped', 'cancelled'])
+      for (const e2e of ['success', 'failure', 'skipped', 'cancelled']) {
+        const result = spawnSync('sh', ['-e', '-c', gate.steps[0].run!], {
+          env: { ...process.env, CHECKS_RESULT: checks, E2E_RESULT: e2e },
+        });
+        expect(result.error).toBeUndefined();
+        expect(result.status === 0).toBe(
+          checks === 'success' && e2e === 'success',
+        );
+      }
+  });
+  it('uses an immutable matching Playwright image without apt/browser installation or privileged container access', async () => {
+    const raw = await readFile(resolve('.github/workflows/ci.yml'), 'utf8');
+    const workflow = parse(raw) as Workflow;
+    const lock = parse(await readFile(resolve('pnpm-lock.yaml'), 'utf8')) as {
+      importers: Record<
+        string,
+        { devDependencies: Record<string, { version: string }> }
+      >;
+    };
+    const version =
+      lock.importers['.'].devDependencies['@playwright/test'].version;
+    const e2e = workflow.jobs.e2e;
+    expect(e2e.needs).toBe('checks');
+    expect(e2e.container?.image.split('@')[0]).toBe(
+      `mcr.microsoft.com/playwright:v${version}-noble`,
+    );
+    expect(e2e.container?.image.split('@')[1]).toMatch(/^sha256:[a-f0-9]{64}$/);
+    expect(e2e.container?.options).toBe('--user 1001 --shm-size=1gb');
+    expect(e2e.env?.PLAYWRIGHT_BROWSERS_PATH).toBe('/ms-playwright');
+    expect(e2e.env?.PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD).toBe('1');
+    expect(e2e.steps.some((step) => step.run === 'pnpm test:e2e')).toBe(true);
+    expect(e2e.steps.some((step) => step.env?.GH_TOKEN)).toBe(false);
+    expect(raw).not.toMatch(
+      /playwright install|apt-get|apt update|--privileged|--ipc=host|docker\.sock|continue-on-error/,
+    );
+    const scripts = JSON.parse(await readFile(resolve('package.json'), 'utf8'))
+      .scripts as Record<string, string>;
+    expect(scripts['check:duplicates']).toBe(scripts['validate:skills']);
+    expect(
+      workflow.jobs.checks.steps.some(
+        (step) => step.run === 'pnpm validate:skills',
+      ),
+    ).toBe(true);
   });
   it('provides parseable issue forms with unique IDs and required fields plus private-report guidance', async () => {
     for (const name of [

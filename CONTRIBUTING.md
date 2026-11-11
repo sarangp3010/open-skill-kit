@@ -88,3 +88,5 @@ Acceptance requires an authorized maintainer's exact-package decision, explicit 
 ## Founding skills and maintainer decisions
 
 See the [Founding Skills Review workflow](docs/founding-skills-review.md), [review packets and proposed shortlist](reviews/founding/README.md), and [human worksheet](templates/maintainer-review.md). Automated reports never grant approval. An approved ledger decision additionally requires an exact-hash completed human review with authentic evidence references, followed by actual GitHub approval and maintainer merge. Preserve unapproved drafts and previous completed review forms.
+
+See [CI architecture and local pre-push checks](docs/CI_ARCHITECTURE.md) for the proposed checks/E2E split, the unchanged required validate gate, exact browser-image version, $0 safeguards and remaining Linux verification limits. No commit or push is authorized by a passing local suite.
