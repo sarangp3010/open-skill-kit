@@ -1,4 +1,4 @@
-> Historical foundation record. Current architecture, features and validation are tracked in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md). Statements below describe earlier milestones, not current product limitations.
+> Historical foundation record. Hosted CI acceptance was subsequently observed at 48951e8; [the current merge review](PR1_MERGE_REVIEW.md) records 368 tests and 22 Linux browser/accessibility cases. Current architecture, features and validation are tracked in [IMPLEMENTATION_STATUS.md](IMPLEMENTATION_STATUS.md). Statements below describe earlier milestones, not current product limitations.
 
 # Implementation status
 

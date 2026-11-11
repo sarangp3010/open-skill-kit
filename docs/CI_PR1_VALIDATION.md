@@ -1,6 +1,8 @@
 # PR #1 CI investigation — 2026-11-11
 
-## Scope and isolation
+> Current status — 2026-11-11: the fixes below were subsequently committed/pushed with owner approval, culminating in `48951e86e5c6d3411a41da63caf10d413a34025c`. [CI](https://github.com/sarangp3010/open-skill-kit/actions/runs/43050871016) passed 368 tests plus all 22 Linux-container Playwright/accessibility tests; [Dependency security](https://github.com/sarangp3010/open-skill-kit/actions/runs/43050871139) passed. PR #1 remains Draft and unmerged. The earlier local-only, uncommitted and hosted-pending statements below are historical snapshots, superseded by this evidence. Current policy gaps and Docker socket limits are in [the merge review](PR1_MERGE_REVIEW.md). No current documentation edit has been committed or pushed.
+
+## Historical initial investigation: scope and isolation
 
 Reviewed the complete four-file PR diff from develop `2799067` to head `eaeab02`, its five commits, and the four failed hosted CI runs below. Fixes are uncommitted in the isolated checkout `.open-skill-kit/ci-pr1-eaeab02-Z2LHER` on `ci/develop-validation-release-safety`. The original working tree on `development/marketplace-v1`, including its uncommitted owner-decision work, is preserved. No hosted workflow was dispatched or rerun, and no commit, push, merge, publication, deployment or remote setting change was performed.
 
@@ -59,7 +61,7 @@ Environment: macOS arm64, Node **22.23.4** (matching the observed CI version), p
 
 Additional local CI-event-path moderation checks for main and develop both pass using the real empty ledger and develop base SHA. Git diff checks confirm skills, real approval ledger and generated catalog are unchanged. Temporary synthetic test approvals are isolated fixtures, never real approval records.
 
-## Security review and remaining limits
+## Historical initial security review and remaining limits
 
 No automatic deployment or publication exists. All jobs remain read-only, checkout credentials are not persisted, no privileged pull_request_target/workflow_run path is introduced, and the read token remains confined to moderation. New/changed publication decisions require main and this PR's identity; genuine current-head independent authorized reviews and authorized historical merges remain required. Structural/fixture checks do not manufacture human approval or agent-effectiveness evidence.
 
@@ -69,7 +71,7 @@ No Actions runs or paid features were introduced. Standard public runners are fr
 
 Existing launch/content/provenance owner decisions remain separate from CI readiness; all 42 skills remain drafts and the publication ledger remains empty. Recommendation: the local fixes are ready for maintainer review, pending an authorized push and fresh hosted validation; this is not release or merge authorization.
 
-## Local-only follow-up: release-readiness timeouts
+## Historical local-only follow-up: release-readiness timeouts
 
 After separate explicit approvals, 557e6c27b9829e65cf95ad86a0af3cacf5c3aaf3 was committed and normally pushed to the existing branch. PR #1 contains that head and remains an open draft. Hosted CI run 43038084702 then failed at pnpm test: two tests in tests/release-readiness.test.ts (original lines 28 and 51) exceeded 5000 ms, at 5008 and 5047 ms respectively. Dependency security passed; subsequent validation steps were skipped. No automatic retry was requested. This follow-up is local only under the owner's new strict $0/no-hosted-operations instruction.
 
@@ -88,3 +90,7 @@ The external advisory API command audit:dependencies was deliberately not run ag
 ### Spending and authorization boundary
 
 No commit, push, hosted run, remote API query, deployment, publication or GitHub setting change was performed during this follow-up. Current account billing controls have not been verified, so no further push or hosted Actions operation is authorized. Continue using these existing local checks as the $0 alternative. Before any future operation that could incur charges, stop for explicit owner approval; previous push approval is not a spending approval. No application behavior or genuine review/effectiveness claim is changed. Hosted confirmation of the local test refactor remains pending and must not be triggered until the owner's billing condition and separate authorization are satisfied.
+
+## Hosted outcome after explicit approvals
+
+557e6c2 fixed the initial errors, 8664d98 reduced redundant release-readiness test work, and 48951e8 introduced the approved checks → e2e → validate architecture. Predecessor run 43045797454 passed all 366 tests but failed browser provisioning because Ubuntu DNS/package downloads failed. The replacement [run](https://github.com/sarangp3010/open-skill-kit/actions/runs/43050871016) passed checks, E2E and the final gate without the per-run apt/browser install; native portability was skipped. The separate advisory audit passed. No publication approval record, source promotion, deployment or merge was created. The budget's $0 hard stop/no payment method was manually attested by the owner, not independently certified by these reports.

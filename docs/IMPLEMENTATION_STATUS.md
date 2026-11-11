@@ -1,5 +1,7 @@
 # Open Skill Kit — Implementation checklist and plan
 
+> Current CI status — 2026-11-11: `48951e86e5c6d3411a41da63caf10d413a34025c` is committed/pushed and verified by [CI](https://github.com/sarangp3010/open-skill-kit/actions/runs/43050871016) (368 tests, 22 Linux-container browser/accessibility tests, builds and packaging) and [Dependency security](https://github.com/sarangp3010/open-skill-kit/actions/runs/43050871139). PR #1 remains Draft/unmerged; all 42 skills remain drafts. Earlier phase entries are historical snapshots. Their uncommitted, Linux-unverified and pending-hosted statements describe those stages, not this head. See [merge-readiness findings](PR1_MERGE_REVIEW.md) for current ruleset observations and Docker socket limitations. Only the present documentation cleanup remains local and uncommitted.
+
 Planning snapshot: 2026-11-09. Authority: [OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md](../OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md), read completely (445 lines).
 
 The initial review was **inspection and planning only**, as explicitly requested. The subsequent scaffold-only implementation is recorded at the end of this document. The specification's instruction to implement Milestone 1 is deferred until implementation is requested. No application code, package manifests, dependency versions, existing skills or configuration are changed in this planning turn. No install, publishing, deployment, Git commit or push is performed.
@@ -617,13 +619,13 @@ Continued from the full existing local tree without restarting launch assessment
 
 Direct catalog publication now uses the same validated immutable registry as legacy/web/npm exporters. Raw/cloned receipts and authored published flags cannot authorize distribution. npm's generated guard binds catalog/package bytes and rejects post-build changes or unlisted packages. Added per-package and installed-dependency provenance/notice inventories, actual bundle dependency manifests, and an ignored full-artifact file audit. Missing evidence is recorded as requiring human confirmation.
 
-Reserved Windows names, Unicode/case aliases, native path separators, Windows drive/UNC identity, BOM-sensitive hashing and LF checkout policy have regression coverage. The prior case-only status filename warning was incorrect: underscore and hyphen differ. Both documents remain intact with their existing links. Public-only native portability jobs are configured; Pages waits for them and validate. No hosted run or remote settings change is claimed.
+Reserved Windows names, Unicode/case aliases, native path separators, Windows drive/UNC identity, BOM-sensitive hashing and LF checkout policy have regression coverage. The prior case-only status filename warning was incorrect: underscore and hyphen differ. Both documents remain intact with their existing links. At that historical stage, public-only native portability jobs were configured and Pages depended on validation/native checks. PR #1 subsequently removed the Pages jobs. No hosted result was claimed at that stage; current successful Linux evidence is linked above.
 
 Complete local pnpm validate:all passes: **362 tests / 17 files**, **22 Playwright tests**, lint/format/types, all 42 skill/catalog/contribution/duplicate/reference/founding/owner checks, portability and licensing inventories, **20 offline suites / 40 paired comparisons**, normal/Pages builds (120 routes), npm packaging, dependency advisory audit (no known vulnerabilities) and full artifact audit. Actual output contains 27 npm dependency records and 115 browser dependency records, with 8 npm and 141 web files hashed. Native Windows/Linux hosted results remain unobserved; the native matrix is configured without claiming it ran.
 
 Only unresolved human/remote decisions remain in [unresolved owner blockers](launch/UNRESOLVED_BLOCKERS.md). Cached registry authority now also expires when ledger, roster, review/package or evidence bytes change; copied receipts cannot bypass direct/legacy/npm publication. No actual approvals or domain/provenance/effectiveness attestations were created. All 42 sources stay draft, the real ledger stays empty, HEAD remains 8bb0057 and all existing/new work is local and uncommitted. No commit, push, PR, publication, deployment, GitHub setting or visibility change occurred.
 
-## PR #1 develop validation and release safety — 2026-11-11
+## Historical PR #1 local preparation: develop validation and release safety — 2026-11-11
 
 Inspected the complete eaeab02 PR diff against develop and four failed hosted CI runs. Fixed strict workflow event typing; explicitly restrict publication decision changes to main while allowing unchanged develop validation; added negative branch/approval regressions and removed obsolete deployment permission exceptions. Optimized founding-review input copying, retaining its existing bounded five-pass integration timeout and all assertions. Refreshed the clean-install dependency notice inventory to remove 67 obsolete versions. Corrected documentation that still described automatic Pages deployment.
 
@@ -631,7 +633,7 @@ Node 22.23.4 / pnpm 10.20.0 complete pnpm validate:all passes: 364 unit/integrat
 
 All fixes remain uncommitted in an isolated ignored checkout to preserve the original working tree. No hosted rerun, commit, push, merge, deployment, publication or remote configuration change. Fresh hosted validation and account-level $0 budget confirmation remain unverified; existing release approvals and provenance decisions remain owner blockers.
 
-## Local-only release-readiness timeout follow-up — 2026-11-11
+## Historical local-only release-readiness timeout follow-up — 2026-11-11
 
 Investigated the two release-readiness timeouts from hosted run 43038084702 without further remote operations. Both original cases bundled five full-library scans within default 5000 ms tests. Removed duplicate owner-summary generation and split independent generation/catalog integrity operations into separate isolated cases, each preserving exact before/after package hashes and all existing draft, ledger, attribution and unsigned-review assertions. No timeouts, production checks or workflows were changed.
 
@@ -639,7 +641,7 @@ All 22 offline local validation commands pass on Node 22.23.4 / pnpm 10.20.0: 36
 
 Changes are local and uncommitted. No new commit, push, hosted run, remote API request, merge, deployment, publication or settings change. Billing controls remain unverified; all further pushes/Actions are blocked pending the owner's $0 billing condition and separate authorization. Existing local tooling is the free alternative. The real 42 skill packages, catalog and empty publication ledger remain unchanged.
 
-## CI architecture stabilization proposal — 2026-11-11
+## Historical CI architecture local proposal — 2026-11-11
 
 Reviewed all workflows, CI/local scripts, locked dependencies, Playwright configuration and public guidance after run 43045797454. The observed failure was approximately ten minutes of Ubuntu DNS/package-install retries; all 366 original tests had passed. Compared official images, one-image jobs, host/browser-only installation, caching, local-only E2E and self-hosting. Implemented checks → e2e with a final always-running validate result gate, preserving the required context and failing for failed/skipped/cancelled dependencies. Browser execution uses the exact lockfile-matching Playwright 1.65.0 official Noble image pinned by verified index digest; no apt/browser installation step. The small registry manifest was read and hashed, but no image layer or container was run. Local Docker daemon is unavailable; Linux behavior remains unverified.
 
@@ -648,3 +650,13 @@ Retained all moderation/main-only exact-package approval safeguards, all browser
 Final 22-command offline validation passes with CI=true on Node 22.23.4 / pnpm 10.20.0: **368 tests / 17 files**, **22 Playwright/accessibility cases**, all 42 skill/catalog/contribution/moderation/founding/release/licensing/portability checks, 20 offline evaluation suites, builds, local npm packing and artifact notices. The online dependency advisory audit was intentionally not rerun. An initial CI-mode attempt hit occupied port 5173; the existing server was preserved and all subsequent isolated-port checks pass. No individual test timeout or assertion was relaxed.
 
 See [architecture, exact changes and verification limits](CI_ARCHITECTURE.md). The official image still needs downloading on a cold runner; a container is neither free compute nor proof of security. A 5–8 minute future CI duration is only a planning estimate, not a Linux benchmark. The owner-reported account-wide $0 hard stop/no payment method remains a prerequisite; no billing settings were read or changed. No Actions run, commit, push, merge, deployment, publication, protection/visibility change or paid feature was introduced. All 42 source packages remain drafts, the real ledger remains empty and this isolated checkout's changes remain uncommitted.
+
+## Merge-readiness review — 2026-11-11
+
+Reviewed all 17 PR files at 48951e8 against develop 2799067; no unrelated product/skill change or new CI-code blocker found. The 67 removed provenance dependency records are obsolete versions; no retained record, skill hash, declared source right or actual approval changed. Existing structural/fixture evidence still does not prove agent effectiveness. Hosted checks/e2e/validate and the dependency audit pass; Windows/macOS remain unexecuted for this private-repository run.
+
+Read-only API observations: active main/develop rulesets have no bypass actors, require PRs with resolved conversations and squash/linear history, but both require zero approving reviews and disable Code Owner review/stale dismissal/latest-push approval. Main requires validate from GitHub Actions app 15368, exactly matching the successful check; develop requires no status checks. Classic protection endpoints returning 404 do not negate the active rulesets. Requiring validate on develop is a proposed owner policy change, not an implementation edit; no remote rule was changed.
+
+The runner automatically mounted its Docker socket despite no explicit YAML socket volume. Socket access under UID 1001 was not measured; container isolation is not certified. The disposable VM/read-only token/no production secrets/no privileged downstream consumer remain the boundaries. No immediate CI implementation change is justified by socket presence alone; optional non-mutating permission diagnostics and stronger review policy need separate approval. Documentation now records actual commits and Linux results without erasing historical validation snapshots.
+
+Local documentation checks and focused workflow/publication regressions are recorded in the merge review. No current documentation edit is committed or pushed; no run, rerun, merge, approval, deployment, publication, billing or protection-setting change was performed. Existing original-worktree edits remain preserved.
