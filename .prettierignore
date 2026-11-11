@@ -30,3 +30,6 @@ docs/launch/SHORTLIST_REVIEW.md
 
 # Generated licensing inventory
 docs/launch/PROVENANCE_INVENTORY.json
+
+# Unsigned owner worksheets: preserve exact instruction text and owner edits
+docs/owner-decision/

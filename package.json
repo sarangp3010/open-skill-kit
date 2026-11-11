@@ -44,7 +44,9 @@
     "licensing:audit": "tsx scripts/audit-provenance.ts",
     "licensing:check": "tsx scripts/audit-provenance.ts --check",
     "licensing:artifacts": "tsx scripts/audit-provenance.ts --artifacts",
-    "portability:check": "tsx scripts/check-portability.ts"
+    "portability:check": "tsx scripts/check-portability.ts",
+    "owner:prepare": "tsx scripts/owner-decision-package.ts",
+    "owner:check": "tsx scripts/owner-decision-package.ts --check"
   },
   "devDependencies": {
     "@eslint/js": "^10.0.1",

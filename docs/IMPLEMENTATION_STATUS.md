@@ -264,7 +264,7 @@ Environment: macOS, Node 24.21.0, pnpm 10.20.0. A temporary pinned pnpm executab
 | Headless Chrome via installed Playwright | HTTP 200, Open Skill Kit heading rendered, Button updated React state, Tailwind background/radius applied, no page errors and no horizontal overflow at 320px. This is a one-off smoke test, not a full accessibility audit. |
 | Preservation check                       | SHA-256 comparison confirms all 134 pre-existing skills/packages/scripts/catalog/tests files unchanged.                                                                                                                      |
 
-Fresh verification directory: `/private/tmp/osk-scaffold-clean-qvx1jb7b`. Production output: 0.52 kB HTML, 12.21 kB CSS and 257.48 kB JS before gzip. No catalog or ZIP generation was run by the scaffold build.
+Fresh verification used an isolated temporary directory (machine-local location omitted). Production output: 0.52 kB HTML, 12.21 kB CSS and 257.48 kB JS before gzip. No catalog or ZIP generation was run by the scaffold build.
 
 ### Remaining work
 
@@ -365,7 +365,7 @@ Six actual populated specification sectors were added alongside the original reg
 - `pnpm catalog:check` and `pnpm catalog:check-assets`: pass.
 - `pnpm build`: production build passes with the new catalog. Existing non-blocking upstream Zod annotation notices remain.
 - `pnpm check:links`: pass for repository documentation file targets; package-local references are also covered by per-package validation.
-- The skill-creator quick_validate.py accepts all ten entry points. Its initially missing PyYAML dependency was installed only in a temporary validation environment under /private/tmp; project/system dependencies were not changed.
+- The skill-creator quick_validate.py accepts all ten entry points. Its initially missing PyYAML dependency was installed only in an isolated temporary validation environment; project/system dependencies were not changed.
 
 The tests/cases.json files describe **60 new behavioral scenarios**, not 60 executed model runs. Authoring walkthroughs and deterministic invariants establish internal consistency; independent forward-testing and human/editorial review are still pending. C01–C05 and the authoring rubric documentation are complete for this authoring scope: C04 evidence consists of deterministic validation and documented authoring sample walkthroughs, not independent assistant execution. Human editorial review and model forward-testing remain separate pending evidence, not claims made by this batch.
 
@@ -660,3 +660,23 @@ Read-only API observations: active main/develop rulesets have no bypass actors, 
 The runner automatically mounted its Docker socket despite no explicit YAML socket volume. Socket access under UID 1001 was not measured; container isolation is not certified. The disposable VM/read-only token/no production secrets/no privileged downstream consumer remain the boundaries. No immediate CI implementation change is justified by socket presence alone; optional non-mutating permission diagnostics and stronger review policy need separate approval. Documentation now records actual commits and Linux results without erasing historical validation snapshots.
 
 Local documentation checks and focused workflow/publication regressions are recorded in the merge review. No current documentation edit is committed or pushed; no run, rerun, merge, approval, deployment, publication, billing or protection-setting change was performed. Existing original-worktree edits remain preserved.
+
+## Historical original unsigned owner decision package — 2026-11-11
+
+Started from the clean existing owner commit 2799067. Preparing a source/artifact-bound decision package with all 12 complete instruction sets, preliminary risks, exact current package hashes, evidence limitations and unselected approve/reject/defer fields. Dependency triage retains the runtime scroll-bar exception and all ten development/native/local cases. Exact keyv@4.5.4 and stackback@0.0.2 records are retained locally but absent from current lockfile headings; active use is not inferred.
+
+The GitHub walkthrough now includes confidential reporting steps and explicit public/private plan limitations, separate from actual unverified settings. Release paperwork remains unsigned, unnamed and unauthorized. The packet generator/freshness checker cannot import decisions into publication or overwrite changed owner worksheets. Source packages, metadata, approval ledgers and remote state remain unchanged. Lint, formatting, root/web typechecking, **368 tests across 18 files**, skill/catalog/contribution/moderation/founding/owner-summary/licensing/portability checks, production build, npm packing and artifact-license validation pass. Six new regressions cover complete instructions, blank hash-bound fields, all notice cases, stale inputs, traversal and preservation of owner notes. The unsigned packet and final read-only link/freshness results are recorded in its local validation receipt. No marketplace code changed; Playwright and real-agent/hosted evaluations are not newly claimed. Initial new-tool lint findings were corrected; no remaining relevant-check failures were observed.
+
+## Marketplace V1 isolated integration — 2026-11-11
+
+Created a complete, verified local preservation snapshot before integration, including tracked/untracked/ignored files and Git metadata. The original checkout, owner worksheets and Vite server on port 5173 remain untouched. The new independent integration checkout is based on merged develop 24dc135; no merge, rebase, commit, push or remote setting change is part of this work.
+
+Transferred the existing owner-package tool/tests/commands and preserved the seven original packet files byte-for-byte. Reconciled README/status/GitHub guidance additively with the verified CI foundation. The tool now writes to docs/owner-decision/current, with corrected relative links and no automatic deployment claim. It uses nine active inventory cases plus exact hash-bound historical-only keyv/stackback records, never restoring them to the active inventory. Actual source/artifact hashes bind the new unsigned packet; its observed baseline is not a claim of a clean or attested build commit. Read-only freshness checks require a real baseline ancestor and unchanged source/artifact bytes.
+
+All actual decisions/signatures/authorization remain blank. Skill sources, approval ledgers, CI workflows, dependency versions and lockfile are unchanged from develop. Integration-local validation and the final owner freshness result are recorded separately in docs/owner-decision/current/VALIDATION.md and the local integration report; no new hosted/Linux or real-agent result is claimed.
+
+## Marketplace V1 integration readiness follow-up — 2026-11-11
+
+Removed machine-local checkout/snapshot and historical temporary-directory references from the proposed documentation. Preserved the seven current refreshed packet files in a verified ignored archive before regenerating their separate replacement against the corrected source snapshot; the seven original parent worksheets remain byte-identical. All nine active notice cases and two historical-only cases retain their existing classifications, with no owner decisions or authorization supplied.
+
+Read-only comparison found no tracked, untracked or ignored development-content loss. The original snapshot remains intact; the original checkout has Codex turn-diff ref changes and 22 Git object timestamp changes, with identical existing object bytes and unchanged development branch/index/config. These are bookkeeping differences, not an entirely byte-identical Git directory. No metadata was restored or rewritten. The integration report explains the observation and attribution limits. Current targeted checks and the separately identified prior full-suite evidence are recorded in docs/owner-decision/current/VALIDATION.md. No commit, push, PR, hosted run, paid service, deployment or publication is part of this step.

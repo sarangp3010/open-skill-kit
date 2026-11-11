@@ -1,0 +1,1063 @@
+{
+  "schemaVersion": 1,
+  "kind": "local-observations-not-approval",
+  "inventory": {
+    "path": "docs/launch/PROVENANCE_INVENTORY.json",
+    "sha256": "63b561ec01b21996277c588a025f3b3c44ff049e062b0b22c00dbf6accb77463"
+  },
+  "inventoryPlatform": "darwin-arm64",
+  "observedBundles": [
+    {
+      "root": "dist/npm",
+      "manifest": {
+        "path": "dist/npm/DEPENDENCY_MANIFEST.json",
+        "sha256": "53e78babcc176a1c41e1f6e006e9f85807ed27372d0bdecefff02138fd5dffa6"
+      },
+      "dependencies": [
+        {
+          "name": "character-entities",
+          "version": "2.0.2",
+          "manifestSha256": "3eaa974f1a9ede7187797d85eb1c799616144cd5ff75d094d30a44bec7d07d88"
+        },
+        {
+          "name": "decode-named-character-reference",
+          "version": "1.3.0",
+          "manifestSha256": "b034b006d03650d0995148196898eac08012de40712cb984e968c7b99d96b55e"
+        },
+        {
+          "name": "mdast-util-from-markdown",
+          "version": "2.1.0",
+          "manifestSha256": "ae4b7f17ad9c5a0749b005994e8c501b954977a8b40286ee0253eb099697e785"
+        },
+        {
+          "name": "mdast-util-to-string",
+          "version": "4.0.0",
+          "manifestSha256": "0acb725dee2ee1c9d374b240c7a972da04cc94d13663b58fa52be009c3271a13"
+        },
+        {
+          "name": "micromark-core-commonmark",
+          "version": "2.0.4",
+          "manifestSha256": "deb12063e794567270a59ac3746c3a17968ab45e3e45d556dc658161f117aadb"
+        },
+        {
+          "name": "micromark-factory-destination",
+          "version": "2.0.1",
+          "manifestSha256": "71e61f23d5e171525c8934e9a8ac51e649107e4658082938d19dab172533b483"
+        },
+        {
+          "name": "micromark-factory-label",
+          "version": "2.0.1",
+          "manifestSha256": "2c1c73d0087a1195a34bff62b47d5119a49f210636b3759c6d459886b559ee5e"
+        },
+        {
+          "name": "micromark-factory-space",
+          "version": "2.1.0",
+          "manifestSha256": "69fbe941b8151b55316408f23e21864377ac337b3f597ca369a3059fda02575d"
+        },
+        {
+          "name": "micromark-factory-title",
+          "version": "2.0.1",
+          "manifestSha256": "5b7d184aeb5ff4fa8b63a338800e80400a631ee594ff0d698a5a4668eddc9a16"
+        },
+        {
+          "name": "micromark-factory-whitespace",
+          "version": "2.0.1",
+          "manifestSha256": "ea0cbec4d722111585387048046a248ce272e3c587e228cc3cf98fe4919e48c6"
+        },
+        {
+          "name": "micromark-util-character",
+          "version": "2.1.1",
+          "manifestSha256": "bf43c5df782cf1cf985d89a8f01fd1a7b7b4bae9bf2b9c07e633c2379b1dbd7f"
+        },
+        {
+          "name": "micromark-util-chunked",
+          "version": "2.0.1",
+          "manifestSha256": "20e4e68a94fb62188c9139721be97740ec32f77464b23c40677a89aee72584f6"
+        },
+        {
+          "name": "micromark-util-classify-character",
+          "version": "2.0.1",
+          "manifestSha256": "f84c7e2b5f54a05fa725645d31810ad8531c278901d661c714d114ad978e634d"
+        },
+        {
+          "name": "micromark-util-combine-extensions",
+          "version": "2.0.1",
+          "manifestSha256": "43686ee41cc83e2460aaa49821d7f36b0b7fd525e88b253e10b1556520196554"
+        },
+        {
+          "name": "micromark-util-decode-numeric-character-reference",
+          "version": "2.0.2",
+          "manifestSha256": "b4eda7dc69734392cf0c79313423b21dacfe03ae43002e5fc18151613f37f532"
+        },
+        {
+          "name": "micromark-util-decode-string",
+          "version": "2.0.1",
+          "manifestSha256": "3fde5acb664658ceef73bd64e17041e9762819a06ccee998d058d04e8ec34a2e"
+        },
+        {
+          "name": "micromark-util-edit-map",
+          "version": "1.0.0",
+          "manifestSha256": "cb3c2769b1f0184de725e04b83b000bc111601b1572bcf25fe2558ac6ff4199d"
+        },
+        {
+          "name": "micromark-util-encode",
+          "version": "2.0.1",
+          "manifestSha256": "1758618d3101cb94280c1ddb827bb329790f7d95058cdc616d50352811c7d5ba"
+        },
+        {
+          "name": "micromark-util-html-tag-name",
+          "version": "2.0.1",
+          "manifestSha256": "d541066042522d8c5247964225d3a9f08f7b902b75682ab57ceecfeee45ed90c"
+        },
+        {
+          "name": "micromark-util-normalize-identifier",
+          "version": "2.0.1",
+          "manifestSha256": "b22a2066064ff412b8f9ded011a14d3fac87c37c696da2d8e8a57a0c9c88dea0"
+        },
+        {
+          "name": "micromark-util-resolve-all",
+          "version": "2.0.1",
+          "manifestSha256": "f786149ff20e6ab653b42ddf8109d4f14e839b80800513698f7de790b3819628"
+        },
+        {
+          "name": "micromark-util-sanitize-uri",
+          "version": "2.0.1",
+          "manifestSha256": "a694d9800a68d5d52916675f9231c16bf7e764658a9045d86b74c29736b59dd6"
+        },
+        {
+          "name": "micromark-util-subtokenize",
+          "version": "2.1.0",
+          "manifestSha256": "8dd7a96c44ac602941d16b0078cef059821871b047a6f6309ffd61bb470cd420"
+        },
+        {
+          "name": "micromark",
+          "version": "4.0.3",
+          "manifestSha256": "3a03c47fcb20ceb65d5a938816b1e3ef047fc2e43e9991dbc9638e44d010811d"
+        },
+        {
+          "name": "unist-util-stringify-position",
+          "version": "4.0.0",
+          "manifestSha256": "2fb7e8fcbf4e701e62f07887bd9f16e699e29c87a19acd128c11788fb9e27c0e"
+        },
+        {
+          "name": "yaml",
+          "version": "2.9.1",
+          "manifestSha256": "1c6441703d8204a23ded0d37ddf57c3b69d821dc392f20852d1f605bb9b8861c"
+        },
+        {
+          "name": "zod",
+          "version": "4.6.7",
+          "manifestSha256": "c2d190d9ee4e0bdb60332aaa2130a6a98d65ddb903fe1d29248b15de57832c45"
+        }
+      ],
+      "buildCommit": null
+    },
+    {
+      "root": "apps/web/dist",
+      "manifest": {
+        "path": "apps/web/dist/DEPENDENCY_MANIFEST.json",
+        "sha256": "d71b8aa7dd2f929e476d3d770f4aab9017f0aa538cfcc7271af761d3ef4665b7"
+      },
+      "dependencies": [
+        {
+          "name": "@radix-ui/primitive",
+          "version": "1.2.0",
+          "manifestSha256": "26081a6fa5ec5b996d0f9f86d798a6df5b2583461f26b66d440de223de35f7be"
+        },
+        {
+          "name": "@radix-ui/react-compose-refs",
+          "version": "1.1.5",
+          "manifestSha256": "9422da6cb4b0004d394d5f9f521ebd5ede2018400c857abf222dfe2061cfed0e"
+        },
+        {
+          "name": "@radix-ui/react-context",
+          "version": "1.3.0",
+          "manifestSha256": "3759b2d1fd0fc66692d97a13c3b6473c2cb0179082ebc2f7c2e936e53f4d4800"
+        },
+        {
+          "name": "@radix-ui/react-dialog",
+          "version": "1.3.1",
+          "manifestSha256": "263dbd07d8e4ead9e43603b8a4a97e17ee50362f82096012207445ec13d71b0a"
+        },
+        {
+          "name": "@radix-ui/react-dismissable-layer",
+          "version": "1.2.1",
+          "manifestSha256": "2d7be89743721b605a02c5c3e3577a87168327976cc247c17d5d4204be878990"
+        },
+        {
+          "name": "@radix-ui/react-focus-guards",
+          "version": "1.2.0",
+          "manifestSha256": "de9e1907cc25a72e4c7ea5c341234a99a3b1071531bb3961733c857f4c846f83"
+        },
+        {
+          "name": "@radix-ui/react-focus-scope",
+          "version": "1.3.1",
+          "manifestSha256": "27f8d91c2eeb315a843f4aa859b8565dd8ea9d0f1828fe2d62432e742763aaa5"
+        },
+        {
+          "name": "@radix-ui/react-id",
+          "version": "1.1.4",
+          "manifestSha256": "e7e0ebe622944df861305093a71a63241b75d83f5512195d8d43d8dbbbf71d32"
+        },
+        {
+          "name": "@radix-ui/react-portal",
+          "version": "1.2.0",
+          "manifestSha256": "1b15381a6b085c9da6472ee1bb595b7563748cab54c18b463cb9b3ca2aa77831"
+        },
+        {
+          "name": "@radix-ui/react-presence",
+          "version": "1.1.11",
+          "manifestSha256": "f18c8e3a59aeb29796d9b55f8be683674b994b68e43c8f9adf97f218cae15af7"
+        },
+        {
+          "name": "@radix-ui/react-primitive",
+          "version": "2.2.0",
+          "manifestSha256": "ee3d3d2b637f6bae33fb5a9f455c9d42df836ace6f52258e0e06e9589814bfbb"
+        },
+        {
+          "name": "@radix-ui/react-slot",
+          "version": "1.5.0",
+          "manifestSha256": "904847542040d15d407ef35e21e782c0082453b504ac25c209c18164042f5dc6"
+        },
+        {
+          "name": "@radix-ui/react-use-callback-ref",
+          "version": "1.1.5",
+          "manifestSha256": "c3ca07813d08dc65774d711ed72e97cb80bdaf8adad95cedbcf61a70e027a7fd"
+        },
+        {
+          "name": "@radix-ui/react-use-controllable-state",
+          "version": "1.3.0",
+          "manifestSha256": "218e5d780291d242f54435dcfd93698dc0a4d8534218dd7e8cb02b6f1ae69d5c"
+        },
+        {
+          "name": "@radix-ui/react-use-effect-event",
+          "version": "0.0.5",
+          "manifestSha256": "fa52035177fd41d2c4004239992c395f6eb493ea8b0cff0083153f9d07d311c2"
+        },
+        {
+          "name": "@radix-ui/react-use-layout-effect",
+          "version": "1.1.4",
+          "manifestSha256": "5612665d1acb0647bce0e3ceee72bdcb407821d2cb2267a560f92b9b8d0ae549"
+        },
+        {
+          "name": "@ungap/structured-clone",
+          "version": "1.4.0",
+          "manifestSha256": "8f931c21e4c0b37c35d5ffef35e0bc057f3cbd0224b026b21a5bdb82a98cbd8f"
+        },
+        {
+          "name": "aria-hidden",
+          "version": "1.2.6",
+          "manifestSha256": "46d066afef535db19d7ba05d8e38ac50662b17a515845deb3ca70613f9623933"
+        },
+        {
+          "name": "bail",
+          "version": "2.0.2",
+          "manifestSha256": "337981479ea353a473e2b8126adf545c299e368cf7fa31f21d92fd9b40cb029f"
+        },
+        {
+          "name": "ccount",
+          "version": "2.0.1",
+          "manifestSha256": "007abbcac7038e503a221330fac2515793aa0dfba231b2d54734d2af76b32ed9"
+        },
+        {
+          "name": "class-variance-authority",
+          "version": "0.7.1",
+          "manifestSha256": "f487885eb010b36aec829ab8fb5fc845918006c4633e3c88c750e73bd35c6381"
+        },
+        {
+          "name": "clsx",
+          "version": "2.1.1",
+          "manifestSha256": "a5e616b9883177fb47c1fca22b6a4ab42be1c3ed6ffae8595a5c7d88630eeec2"
+        },
+        {
+          "name": "comma-separated-tokens",
+          "version": "2.0.3",
+          "manifestSha256": "c474231549263b0173a3d66f4fc1c4bac2c7517390b2a8e3f09ea1a1f401726b"
+        },
+        {
+          "name": "cookie",
+          "version": "1.1.1",
+          "manifestSha256": "e13337a4eb106b201e0502361f3214af9cc22ae88b2bfac2368996bb949a102f"
+        },
+        {
+          "name": "decode-named-character-reference",
+          "version": "1.3.0",
+          "manifestSha256": "b034b006d03650d0995148196898eac08012de40712cb984e968c7b99d96b55e"
+        },
+        {
+          "name": "detect-node-es",
+          "version": "1.1.0",
+          "manifestSha256": "06f9cfd73b6c401019dfa5cbdf4b4a5b346b1b15c4fca2d6f3ecc1a830528b06"
+        },
+        {
+          "name": "devlop",
+          "version": "1.1.0",
+          "manifestSha256": "fbb56102cf3bd0e07a8075bfda80825b3ccd78a37642c92cef54a55fbed709dd"
+        },
+        {
+          "name": "escape-string-regexp",
+          "version": "5.0.0",
+          "manifestSha256": "6d7ae0240943e38cb8a8dd35242584b2c3415a2bca83aa86497d3b7b1bef08ef"
+        },
+        {
+          "name": "estree-util-is-identifier-name",
+          "version": "3.0.0",
+          "manifestSha256": "d0f734156695c70baee2e43c094adde322839ddc23a517ea0039b3ff6a6567f9"
+        },
+        {
+          "name": "extend",
+          "version": "3.0.2",
+          "manifestSha256": "8d891b3f00bead114c4741d8a594e7aaa59114f53782ec9a9319a619709dc14f"
+        },
+        {
+          "name": "fflate",
+          "version": "0.8.3",
+          "manifestSha256": "5922d8150b307bc0e4e441491c779c45379e9913d348848fca8d5cf02db4d134"
+        },
+        {
+          "name": "get-nonce",
+          "version": "1.0.1",
+          "manifestSha256": "cd0262ed52e44beb166ba0ed31081587074d48602bd057d1d438103ec169ef8b"
+        },
+        {
+          "name": "hast-util-sanitize",
+          "version": "5.0.2",
+          "manifestSha256": "c0d256d8aa34d042cc20cae78f944eb53333d6e7d1724509996c81888ac43d0a"
+        },
+        {
+          "name": "hast-util-to-jsx-runtime",
+          "version": "2.3.7",
+          "manifestSha256": "29ebcde03f6127d97cb7f98993831954f19411b5965c2697fc85e1e2dd580b02"
+        },
+        {
+          "name": "hast-util-whitespace",
+          "version": "3.0.0",
+          "manifestSha256": "50a1eeeab4c354912b9f61e5b7aad22762dcbd96f740e58146f303bc4826f0b4"
+        },
+        {
+          "name": "html-url-attributes",
+          "version": "3.0.1",
+          "manifestSha256": "0bd29e79398437b88c9647434c40c48168d87b22f7448f5f083f4f2d8ab063d8"
+        },
+        {
+          "name": "inline-style-parser",
+          "version": "0.2.9",
+          "manifestSha256": "54bfc652cbe4bdc962672b8ff3823bb1da386efa30a48853d3b44bf02b45b654"
+        },
+        {
+          "name": "is-plain-obj",
+          "version": "4.1.0",
+          "manifestSha256": "ac84142050cd4d1854c489a3d61e0c991550195ae5ae37d9347b736424b09c59"
+        },
+        {
+          "name": "longest-streak",
+          "version": "3.1.0",
+          "manifestSha256": "fe48cd537de554b59fcb057d28c4b10cfef569817040ae61beb8a9b323bf82df"
+        },
+        {
+          "name": "lucide-react",
+          "version": "0.468.0",
+          "manifestSha256": "609e78dffe97aab720c105246eca516f0aaac1de60725e53c0f5abb908b08320"
+        },
+        {
+          "name": "markdown-table",
+          "version": "3.1.0",
+          "manifestSha256": "9189d5db078ff825e222997b61725ece89f64b91a892a17eb0ae931e3aab0134"
+        },
+        {
+          "name": "mdast-util-find-and-replace",
+          "version": "3.0.4",
+          "manifestSha256": "800dec10be2edf4658d4b07611b07bf5d3d62ddec26a4c78c542c05b0d1879c9"
+        },
+        {
+          "name": "mdast-util-from-markdown",
+          "version": "2.1.0",
+          "manifestSha256": "ae4b7f17ad9c5a0749b005994e8c501b954977a8b40286ee0253eb099697e785"
+        },
+        {
+          "name": "mdast-util-gfm-autolink-literal",
+          "version": "2.1.0",
+          "manifestSha256": "6ffaf3ebd566d18e9f522949266d6461d30b5f0a2d90a9742f46713a182fbfcb"
+        },
+        {
+          "name": "mdast-util-gfm-footnote",
+          "version": "2.1.0",
+          "manifestSha256": "b91f4521e33413134bda4b3a481b165c764efd453cb7fb379f5b71b09309e11a"
+        },
+        {
+          "name": "mdast-util-gfm-strikethrough",
+          "version": "2.0.1",
+          "manifestSha256": "78d21e77dfc0ae9b54c765ba111f4dfa246e3515a67c8081b2990ef77b9e6e60"
+        },
+        {
+          "name": "mdast-util-gfm-table",
+          "version": "2.0.1",
+          "manifestSha256": "22e0ae8016c649403f0f9ff3dce7b6bbee02099e55eaa283c2754020943e87c2"
+        },
+        {
+          "name": "mdast-util-gfm-task-list-item",
+          "version": "2.0.1",
+          "manifestSha256": "9327b2496938f69daa3009c57343dd161b425853e64437c055066c3659e41ed4"
+        },
+        {
+          "name": "mdast-util-gfm",
+          "version": "3.1.0",
+          "manifestSha256": "5d3d27f68e6aac77039850c2587d49b2d8047f1fb46914d1f67eaec0a52c8fe1"
+        },
+        {
+          "name": "mdast-util-phrasing",
+          "version": "4.1.0",
+          "manifestSha256": "c020a54303d9d422c9def6ba5416db74c0f30b2783f2a84b7248b0d61c2ac113"
+        },
+        {
+          "name": "mdast-util-to-hast",
+          "version": "13.2.1",
+          "manifestSha256": "aa1e17fedf46914534ba0c67016734edc6d0fc919057556eb1034160f795b596"
+        },
+        {
+          "name": "mdast-util-to-markdown",
+          "version": "2.2.3",
+          "manifestSha256": "452ef15da0b3c82ae04ddf1b8fd9d0af429e55a6b5e3a4e88c66b5ba436a9804"
+        },
+        {
+          "name": "mdast-util-to-string",
+          "version": "4.0.0",
+          "manifestSha256": "0acb725dee2ee1c9d374b240c7a972da04cc94d13663b58fa52be009c3271a13"
+        },
+        {
+          "name": "micromark-core-commonmark",
+          "version": "2.0.4",
+          "manifestSha256": "deb12063e794567270a59ac3746c3a17968ab45e3e45d556dc658161f117aadb"
+        },
+        {
+          "name": "micromark-extension-gfm-autolink-literal",
+          "version": "2.1.0",
+          "manifestSha256": "778b72859fb329cbca8ea93653b8b11da652f93147e2752773eef42b9091eaca"
+        },
+        {
+          "name": "micromark-extension-gfm-footnote",
+          "version": "2.1.0",
+          "manifestSha256": "6d01f1d739fa38fbe2784fcb9143554b2f19e4c1193f7d62efae46fb7d3b36d6"
+        },
+        {
+          "name": "micromark-extension-gfm-strikethrough",
+          "version": "2.1.0",
+          "manifestSha256": "5a115643dd899a6c828ab236bbeab6aaf2108276f5cbc989662d6204f5ab677a"
+        },
+        {
+          "name": "micromark-extension-gfm-table",
+          "version": "2.1.2",
+          "manifestSha256": "02cb174d3d305526d0594c5bb9488f37afdd5cae00c286b2f7e8607c165b386a"
+        },
+        {
+          "name": "micromark-extension-gfm-tagfilter",
+          "version": "2.0.0",
+          "manifestSha256": "6ae932bac51e13e4b1fe4071c2a60f567b68e7a26ef60649d6401bab94bdf0b4"
+        },
+        {
+          "name": "micromark-extension-gfm-task-list-item",
+          "version": "2.1.0",
+          "manifestSha256": "2497c18c449db1459392e6e70bca781256cab6a69b3a35fc55acbd0360ceb85c"
+        },
+        {
+          "name": "micromark-extension-gfm",
+          "version": "3.0.0",
+          "manifestSha256": "f0c6ffb3bbbf52b1e5d939566b8d68097cbdd061598f09fde72af8a38c948bee"
+        },
+        {
+          "name": "micromark-factory-destination",
+          "version": "2.0.1",
+          "manifestSha256": "71e61f23d5e171525c8934e9a8ac51e649107e4658082938d19dab172533b483"
+        },
+        {
+          "name": "micromark-factory-label",
+          "version": "2.0.1",
+          "manifestSha256": "2c1c73d0087a1195a34bff62b47d5119a49f210636b3759c6d459886b559ee5e"
+        },
+        {
+          "name": "micromark-factory-space",
+          "version": "2.1.0",
+          "manifestSha256": "69fbe941b8151b55316408f23e21864377ac337b3f597ca369a3059fda02575d"
+        },
+        {
+          "name": "micromark-factory-title",
+          "version": "2.0.1",
+          "manifestSha256": "5b7d184aeb5ff4fa8b63a338800e80400a631ee594ff0d698a5a4668eddc9a16"
+        },
+        {
+          "name": "micromark-factory-whitespace",
+          "version": "2.0.1",
+          "manifestSha256": "ea0cbec4d722111585387048046a248ce272e3c587e228cc3cf98fe4919e48c6"
+        },
+        {
+          "name": "micromark-util-character",
+          "version": "2.1.1",
+          "manifestSha256": "bf43c5df782cf1cf985d89a8f01fd1a7b7b4bae9bf2b9c07e633c2379b1dbd7f"
+        },
+        {
+          "name": "micromark-util-chunked",
+          "version": "2.0.1",
+          "manifestSha256": "20e4e68a94fb62188c9139721be97740ec32f77464b23c40677a89aee72584f6"
+        },
+        {
+          "name": "micromark-util-classify-character",
+          "version": "2.0.1",
+          "manifestSha256": "f84c7e2b5f54a05fa725645d31810ad8531c278901d661c714d114ad978e634d"
+        },
+        {
+          "name": "micromark-util-combine-extensions",
+          "version": "2.0.1",
+          "manifestSha256": "43686ee41cc83e2460aaa49821d7f36b0b7fd525e88b253e10b1556520196554"
+        },
+        {
+          "name": "micromark-util-decode-numeric-character-reference",
+          "version": "2.0.2",
+          "manifestSha256": "b4eda7dc69734392cf0c79313423b21dacfe03ae43002e5fc18151613f37f532"
+        },
+        {
+          "name": "micromark-util-decode-string",
+          "version": "2.0.1",
+          "manifestSha256": "3fde5acb664658ceef73bd64e17041e9762819a06ccee998d058d04e8ec34a2e"
+        },
+        {
+          "name": "micromark-util-edit-map",
+          "version": "1.0.0",
+          "manifestSha256": "cb3c2769b1f0184de725e04b83b000bc111601b1572bcf25fe2558ac6ff4199d"
+        },
+        {
+          "name": "micromark-util-encode",
+          "version": "2.0.1",
+          "manifestSha256": "1758618d3101cb94280c1ddb827bb329790f7d95058cdc616d50352811c7d5ba"
+        },
+        {
+          "name": "micromark-util-html-tag-name",
+          "version": "2.0.1",
+          "manifestSha256": "d541066042522d8c5247964225d3a9f08f7b902b75682ab57ceecfeee45ed90c"
+        },
+        {
+          "name": "micromark-util-normalize-identifier",
+          "version": "2.0.1",
+          "manifestSha256": "b22a2066064ff412b8f9ded011a14d3fac87c37c696da2d8e8a57a0c9c88dea0"
+        },
+        {
+          "name": "micromark-util-resolve-all",
+          "version": "2.0.1",
+          "manifestSha256": "f786149ff20e6ab653b42ddf8109d4f14e839b80800513698f7de790b3819628"
+        },
+        {
+          "name": "micromark-util-sanitize-uri",
+          "version": "2.0.1",
+          "manifestSha256": "a694d9800a68d5d52916675f9231c16bf7e764658a9045d86b74c29736b59dd6"
+        },
+        {
+          "name": "micromark-util-subtokenize",
+          "version": "2.1.0",
+          "manifestSha256": "8dd7a96c44ac602941d16b0078cef059821871b047a6f6309ffd61bb470cd420"
+        },
+        {
+          "name": "micromark",
+          "version": "4.0.3",
+          "manifestSha256": "3a03c47fcb20ceb65d5a938816b1e3ef047fc2e43e9991dbc9638e44d010811d"
+        },
+        {
+          "name": "property-information",
+          "version": "7.2.0",
+          "manifestSha256": "6cacc66c65e31d11d9d4e5677c1375667faf334e585b69a9d319a0ca25676530"
+        },
+        {
+          "name": "react-dom",
+          "version": "19.3.1",
+          "manifestSha256": "89d54f11575c9b0f7819962d9d72a31970dfb4d103f07e8b1d1b37e6d1fc3258"
+        },
+        {
+          "name": "react-markdown",
+          "version": "10.1.0",
+          "manifestSha256": "c6b7d280b5e5a6b620ad252abfd318560f2223562e67414fcc3dcd1f784e89c5"
+        },
+        {
+          "name": "react-remove-scroll-bar",
+          "version": "2.3.8",
+          "manifestSha256": "e372f857ce05f266137c65293436b5380fec42ac311e6acb9378ed78b98d75d0"
+        },
+        {
+          "name": "react-remove-scroll",
+          "version": "2.7.2",
+          "manifestSha256": "35db8a2ffa5161d98795cff1b1f56dc775c94fea5f80eda128f083db59b40ab2"
+        },
+        {
+          "name": "react-router-dom",
+          "version": "7.18.5",
+          "manifestSha256": "8c7dc62cba0383b1a26f24230dff69954e6abd23580006b59b6d10a581e15043"
+        },
+        {
+          "name": "react-router",
+          "version": "7.18.5",
+          "manifestSha256": "520a73d59a03e461c465b9171184d6850691819cde13aa766be1efb12c7b2b48"
+        },
+        {
+          "name": "react-style-singleton",
+          "version": "2.2.3",
+          "manifestSha256": "c6d832faf8d9d54cd854d47f23b5b747928fe7554f548b093a7faaf239185d08"
+        },
+        {
+          "name": "react",
+          "version": "19.3.1",
+          "manifestSha256": "9cc9c3de5441a2eea7f41f52f3f2a15a4fc51f90c0b72741f0d7638643a85e67"
+        },
+        {
+          "name": "rehype-sanitize",
+          "version": "6.0.0",
+          "manifestSha256": "b8c794050d76ff903a42c31e8f7a18e85e966cf231b67d9363a81c0dd5157465"
+        },
+        {
+          "name": "remark-gfm",
+          "version": "4.0.1",
+          "manifestSha256": "c199482a69355b610bd1ff225b097776d4a990445b11e5f4c618930dacc8c79d"
+        },
+        {
+          "name": "remark-parse",
+          "version": "11.0.0",
+          "manifestSha256": "47be70916ff853a6c35d8d858844c7b104d100f70999d579884859cf8d88a50c"
+        },
+        {
+          "name": "remark-rehype",
+          "version": "11.1.2",
+          "manifestSha256": "f9886f99f9f38652d56ca256aa713e359e085ed42f7d89fd66671b49f4b83b64"
+        },
+        {
+          "name": "scheduler",
+          "version": "0.28.0",
+          "manifestSha256": "06290718f22bcd93f29eaa1ac8d2ec9a7592ba4fec12bf1230e7cdd9a871b324"
+        },
+        {
+          "name": "set-cookie-parser",
+          "version": "2.7.3",
+          "manifestSha256": "a097406d018cb6be5fb90e22951a36aa549daf746e0c6102536857ae1f4d3b60"
+        },
+        {
+          "name": "space-separated-tokens",
+          "version": "2.0.2",
+          "manifestSha256": "ca188b0d34a0cfcfa025597058c3302401155788219f78682243a34f8e5092f1"
+        },
+        {
+          "name": "style-to-object",
+          "version": "2.0.2",
+          "manifestSha256": "d083cadbecda5b5125796f8b1ad5d5e05c2a18bded35eee3bf50ec86bc96a73e"
+        },
+        {
+          "name": "tailwind-merge",
+          "version": "3.7.0",
+          "manifestSha256": "048ace99e7a0c877d540e21fd3991795bfca07efe409aacd54465dfc51845939"
+        },
+        {
+          "name": "tailwindcss",
+          "version": "4.3.5",
+          "manifestSha256": "0bebd8cd02b53e6b7d24bacdec146bf9461f5491b61cb06dfb5cd69c8cadea90"
+        },
+        {
+          "name": "trim-lines",
+          "version": "3.0.1",
+          "manifestSha256": "c279da1994b06098ed6f7fde2755c78c017e91e245c35bb4770232f116597c21"
+        },
+        {
+          "name": "trough",
+          "version": "2.2.0",
+          "manifestSha256": "ced4e1e0914cb51aac812dee30936fa47b15286927180dd97c0e257f05f07e1e"
+        },
+        {
+          "name": "tslib",
+          "version": "2.9.1",
+          "manifestSha256": "7e9ccc6977540dd94f86f98d0ab9ac405cd3507ac5a2c34752498b250718366b"
+        },
+        {
+          "name": "unified",
+          "version": "11.0.5",
+          "manifestSha256": "f91a44220f8b7c4a4de6ebaab6fc23b92d29a95cb7e5e6a7f0f24d199779fbad"
+        },
+        {
+          "name": "unist-util-is",
+          "version": "6.0.1",
+          "manifestSha256": "0838fa706c4cbda37f47ac4c915fab0b6be3c99aeeb81060d22ec6532fae6272"
+        },
+        {
+          "name": "unist-util-position",
+          "version": "5.0.0",
+          "manifestSha256": "dc3ad29ef3bd19907cbeeda81cf6ea872f15cfff319b4663c7206d16a2a1cf40"
+        },
+        {
+          "name": "unist-util-stringify-position",
+          "version": "4.0.0",
+          "manifestSha256": "2fb7e8fcbf4e701e62f07887bd9f16e699e29c87a19acd128c11788fb9e27c0e"
+        },
+        {
+          "name": "unist-util-visit-parents",
+          "version": "6.1.0",
+          "manifestSha256": "7e6b2793031d34ef7c34777604555178374e2447505757e147ea900f6714eb8f"
+        },
+        {
+          "name": "unist-util-visit",
+          "version": "5.2.0",
+          "manifestSha256": "6f544a847f95a9fcb7d8c1475e97998153fb933b72ee7a9dd60cb5f2abc845dd"
+        },
+        {
+          "name": "use-callback-ref",
+          "version": "1.3.3",
+          "manifestSha256": "1fb8f0b34573d1d4057710e559488dbfdff0436cd01d318e20bf66e4cd165318"
+        },
+        {
+          "name": "use-sidecar",
+          "version": "1.1.3",
+          "manifestSha256": "a8703897c0caeb8ddfa35ef4b622bd7ebd677ea3fc6c97a0264574552e9404e1"
+        },
+        {
+          "name": "vfile-message",
+          "version": "4.0.4",
+          "manifestSha256": "08af35237dfdb95e3e3ecca9f5133faba31e85747728eaaaf7a85e1cc9500967"
+        },
+        {
+          "name": "vfile",
+          "version": "6.0.3",
+          "manifestSha256": "359ca117da48c3c42c73b9032369a412c5ad3462549d85aba090461e35227745"
+        },
+        {
+          "name": "yaml",
+          "version": "2.9.1",
+          "manifestSha256": "1c6441703d8204a23ded0d37ddf57c3b69d821dc392f20852d1f605bb9b8861c"
+        },
+        {
+          "name": "zod",
+          "version": "4.6.7",
+          "manifestSha256": "c2d190d9ee4e0bdb60332aaa2130a6a98d65ddb903fe1d29248b15de57832c45"
+        },
+        {
+          "name": "zwitch",
+          "version": "2.0.4",
+          "manifestSha256": "01d215553746b3bd19ae5b31cab656830d38e40b6edea656b9b18256916cda0a"
+        }
+      ],
+      "buildCommit": null
+    }
+  ],
+  "triage": [
+    {
+      "evidenceId": "D1",
+      "key": "@esbuild/darwin-arm64@0.28.2",
+      "name": "@esbuild/darwin-arm64",
+      "version": "0.28.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/evanw/esbuild.git"
+      },
+      "manifestSha256": "4e652c9e4410daf03da852a664940153601fac397233cdcf276b4b1a312454b9",
+      "notices": [],
+      "role": "native-build-tooling",
+      "distributedIn": [],
+      "purpose": "Native esbuild build executable",
+      "lockHeadings": [
+        {
+          "line": 421,
+          "text": "  '@esbuild/darwin-arm64@0.28.2':"
+        },
+        {
+          "line": 2595,
+          "text": "  '@esbuild/darwin-arm64@0.28.2':"
+        }
+      ],
+      "recordedException": null,
+      "question": "Confirm which upstream MIT notice and release cover this exact native artifact. If redistributing the binary, retain its applicable notices; an installed binary is not proof it was shipped or executed.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D2",
+      "key": "@humanfs/types@0.15.0",
+      "name": "@humanfs/types",
+      "version": "0.15.0",
+      "license": "Apache-2.0",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/humanwhocodes/humanfs.git"
+      },
+      "manifestSha256": "1b849aa49814883fc0e70ca461c9faccb675ed1c801e784f1858e75e3b36eec5",
+      "notices": [],
+      "role": "development-only-js-or-types",
+      "distributedIn": [],
+      "purpose": "ESLint filesystem type definitions",
+      "lockHeadings": [
+        {
+          "line": 600,
+          "text": "  '@humanfs/types@0.15.0':"
+        },
+        {
+          "line": 2705,
+          "text": "  '@humanfs/types@0.15.0': {}"
+        }
+      ],
+      "recordedException": null,
+      "question": "Locate the applicable Apache-2.0 license and any NOTICE in the exact upstream release; confirm whether package-level inheritance covers these type declarations.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D3",
+      "key": "@rollup/rollup-darwin-arm64@4.68.1",
+      "name": "@rollup/rollup-darwin-arm64",
+      "version": "4.68.1",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/rollup/rollup.git"
+      },
+      "manifestSha256": "0d3727b09e0160b327f17c5e71ae4bf07e8ede2789d40c1e3c199b5cd582b1c0",
+      "notices": [],
+      "role": "native-build-tooling",
+      "distributedIn": [],
+      "purpose": "Native Rollup/Vite build binding",
+      "lockHeadings": [
+        {
+          "line": 825,
+          "text": "  '@rollup/rollup-darwin-arm64@4.68.1':"
+        },
+        {
+          "line": 2893,
+          "text": "  '@rollup/rollup-darwin-arm64@4.68.1':"
+        }
+      ],
+      "recordedException": null,
+      "question": "Identify the notice and release linkage for this exact native binding, including any native components; confirm requirements before binary redistribution.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D4",
+      "key": "@tailwindcss/oxide-wasm32-wasi@4.3.5",
+      "name": "@tailwindcss/oxide-wasm32-wasi",
+      "version": "4.3.5",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/tailwindlabs/tailwindcss.git",
+        "directory": "crates/node"
+      },
+      "manifestSha256": "f7fbfd8769992c4b48e75661a19851b5302ca87f679f949c9f69ba395a6275d2",
+      "notices": [],
+      "role": "native-build-tooling",
+      "distributedIn": [],
+      "purpose": "Optional WASM/native Tailwind build tooling",
+      "lockHeadings": [
+        {
+          "line": 997,
+          "text": "  '@tailwindcss/oxide-wasm32-wasi@4.3.5':"
+        },
+        {
+          "line": 2999,
+          "text": "  '@tailwindcss/oxide-wasm32-wasi@4.3.5':"
+        }
+      ],
+      "recordedException": null,
+      "question": "Confirm the exact WASM/native artifact notices and any component obligations. Locked/installed presence does not establish execution; inspect the artifact before redistributing tooling.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D5",
+      "key": "esrecurse@4.3.0",
+      "name": "esrecurse",
+      "version": "4.3.0",
+      "license": "BSD-2-Clause",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/estools/esrecurse.git"
+      },
+      "manifestSha256": "3bc67cb54672ec6957b53947613c23599371bf9222dbbe97275d20516a561a20",
+      "notices": [],
+      "role": "development-only-js-or-types",
+      "distributedIn": [],
+      "purpose": "ESLint AST traversal tooling",
+      "lockHeadings": [
+        {
+          "line": 1437,
+          "text": "  esrecurse@4.3.0:"
+        },
+        {
+          "line": 3500,
+          "text": "  esrecurse@4.3.0:"
+        }
+      ],
+      "recordedException": null,
+      "question": "Inspect embedded source copyright/BSD-2-Clause text and the exact upstream release. Does the embedded text supply the complete notice, and would it survive any intended redistribution?",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D6",
+      "key": "imurmurhash@0.1.4",
+      "name": "imurmurhash",
+      "version": "0.1.4",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "https://github.com/jensyt/imurmurhash-js"
+      },
+      "manifestSha256": "aa3b07e7fa3d63aa96e401c3842b8cca1dd3247954baf92377094766e903c185",
+      "notices": [],
+      "role": "development-only-js-or-types",
+      "distributedIn": [],
+      "purpose": "Development lint/hash tooling",
+      "lockHeadings": [
+        {
+          "line": 1572,
+          "text": "  imurmurhash@0.1.4:"
+        },
+        {
+          "line": 3634,
+          "text": "  imurmurhash@0.1.4: {}"
+        }
+      ],
+      "recordedException": null,
+      "question": "Locate complete MIT copyright/permission text for this exact release, including embedded or upstream material; confirm retention if redistributing it.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D7",
+      "key": "keyv@4.5.4",
+      "name": "keyv",
+      "version": "4.5.4",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git+https://github.com/jaredwray/keyv.git"
+      },
+      "manifestSha256": "e8afd30f2f2a40ef5023928b50fdaed3a3338aa7e1c4e86205413afb05e8a099",
+      "notices": [],
+      "role": "unreferenced-local-record",
+      "distributedIn": [],
+      "purpose": "Retained local JS inventory record; active use unproven",
+      "lockHeadings": [],
+      "recordedException": null,
+      "question": "This exact 4.5.4 record is absent from the current lockfile; current keyv entries use a different version. Reproduce a frozen install before claiming active use, and inspect applicable notices if retaining/redistributing this local copy.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D8",
+      "key": "natural-compare@1.4.0",
+      "name": "natural-compare",
+      "version": "1.4.0",
+      "license": "MIT",
+      "repository": "git://github.com/litejs/natural-compare-lite.git",
+      "manifestSha256": "3d99911ccfa0ca34ae0c68bfd32c038b952542e55db7c649c37b11dd1573f6af",
+      "notices": [],
+      "role": "development-only-js-or-types",
+      "distributedIn": [],
+      "purpose": "ESLint comparison tooling",
+      "lockHeadings": [
+        {
+          "line": 1898,
+          "text": "  natural-compare@1.4.0:"
+        },
+        {
+          "line": 4149,
+          "text": "  natural-compare@1.4.0: {}"
+        }
+      ],
+      "recordedException": null,
+      "question": "Locate the exact release copyright and complete MIT notice in source/upstream materials. A license label alone does not supply that evidence.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D9",
+      "key": "react-remove-scroll-bar@2.3.8",
+      "name": "react-remove-scroll-bar",
+      "version": "2.3.8",
+      "license": "MIT",
+      "repository": "https://github.com/theKashey/react-remove-scroll-bar",
+      "manifestSha256": "e372f857ce05f266137c65293436b5380fec42ac311e6acb9378ed78b98d75d0",
+      "notices": [],
+      "role": "distributed-runtime",
+      "distributedIn": [
+        "apps/web/dist"
+      ],
+      "purpose": "Browser modal/scroll runtime",
+      "lockHeadings": [
+        {
+          "line": 2001,
+          "text": "  react-remove-scroll-bar@2.3.8:"
+        }
+      ],
+      "recordedException": {
+        "license": "MIT",
+        "file": "react-remove-scroll-bar-2.3.8-LICENSE.txt",
+        "sha256": "a79aae0c0f21990d9d963bb3c5a79cdcea9a46f8523ba55c58d7fe776b6ebc84",
+        "source": "https://raw.githubusercontent.com/theKashey/react-remove-scroll-bar/8ca9ba5ea52de03308fe8ced94f7b159a44d28ff/LICENSE",
+        "sourceVersion": "2.3.7",
+        "note": "Installed 2.3.8 declares MIT but omits LICENSE. Its npm gitHead was unavailable upstream. This is the available upstream MIT notice, not a claim of exact-release source verification."
+      },
+      "question": "Obtain exact 2.3.8 source/notice provenance or a reviewed replacement. The retained notice is from a 2.3.7 commit; matching MIT declarations do not establish exact-release provenance. Do not accept the exception automatically.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D10",
+      "key": "saxes@6.0.0",
+      "name": "saxes",
+      "version": "6.0.0",
+      "license": "ISC",
+      "repository": "https://github.com/lddubeau/saxes.git",
+      "manifestSha256": "32052572b41c2a890ed0854798c48454cc5991dcaafe5fb1718a4253046acfd3",
+      "notices": [],
+      "role": "development-only-js-or-types",
+      "distributedIn": [],
+      "purpose": "jsdom/test XML parsing",
+      "lockHeadings": [
+        {
+          "line": 2082,
+          "text": "  saxes@6.0.0:"
+        },
+        {
+          "line": 4376,
+          "text": "  saxes@6.0.0:"
+        }
+      ],
+      "recordedException": null,
+      "question": "Inspect the exact release source for complete ISC copyright/permission text and verify notice retention if redistributing testing tools.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    },
+    {
+      "evidenceId": "D11",
+      "key": "stackback@0.0.2",
+      "name": "stackback",
+      "version": "0.0.2",
+      "license": "MIT",
+      "repository": {
+        "type": "git",
+        "url": "git://github.com/shtylman/node-stackback.git"
+      },
+      "manifestSha256": "4d984909b27d37d2f1a379b9cda7292a6e3a133c076df166d740a17514ac6e60",
+      "notices": [],
+      "role": "unreferenced-local-record",
+      "distributedIn": [],
+      "purpose": "Retained local JS inventory record; active use unproven",
+      "lockHeadings": [],
+      "recordedException": null,
+      "question": "The exact 0.0.2 record is absent from the current lockfile. Reproduce current installation and establish whether this copy is needed; locate full MIT notice evidence before any redistribution.",
+      "disposition": null,
+      "reviewer": null,
+      "reviewedAt": null
+    }
+  ]
+}
