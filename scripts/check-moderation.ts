@@ -44,7 +44,15 @@ export function validateDecisionChanges(
   previous: PublicationRegistry,
   current: PublicationRegistry,
   pullRequest: number,
+  targetBranch: string,
 ) {
+  // Ordinary develop validation may retain historical main approvals, but it
+  // cannot introduce, modify or remove publication decisions.
+  if (
+    targetBranch !== 'main' &&
+    JSON.stringify(previous.decisions) !== JSON.stringify(current.decisions)
+  )
+    throw new Error('Publication decision changes must target main');
   for (const old of previous.decisions)
     if (!current.decisions.some((record) => record.skillId === old.skillId))
       throw new Error(
@@ -241,7 +249,12 @@ if (
         } catch {
           /* No approvals before initial rollout. */
         }
-        validateDecisionChanges(previous, registry, event.pull_request.number);
+        validateDecisionChanges(
+          previous,
+          registry,
+          event.pull_request.number,
+          event.pull_request.base.ref,
+        );
         const changed = execFileSync(
           'git',
           [

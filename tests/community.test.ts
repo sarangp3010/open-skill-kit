@@ -239,7 +239,10 @@ describe('maintainer-recorded attribution, not self-declared verification', () =
   });
 });
 interface Workflow {
-  on: Record<string, unknown>;
+  on: Record<string, unknown> & {
+    pull_request?: { branches: string[] };
+    push?: { branches: string[] };
+  };
   permissions: Record<string, string>;
   jobs: Record<
     string,
@@ -277,13 +280,16 @@ describe('workflow and community configuration boundaries', () => {
           ]);
           expect(job.if).toBe('github.event.repository.private == false');
         } else expect(job['runs-on']).toBe('ubuntu-latest');
-        if (id !== 'deploy-pages')
-          expect(job.permissions).toEqual(
-            id === 'validate'
-              ? { contents: 'read', 'pull-requests': 'read' }
-              : { contents: 'read' },
-          );
+        expect(job.permissions).toEqual(
+          id === 'validate'
+            ? { contents: 'read', 'pull-requests': 'read' }
+            : { contents: 'read' },
+        );
+        expect(job.environment).toBeUndefined();
         for (const step of job.steps) {
+          expect(step.uses ?? '').not.toMatch(
+            /deploy-pages|configure-pages|upload-pages-artifact/,
+          );
           if (step.uses)
             expect(step.uses).toMatch(
               /^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+@[a-f0-9]{40}$/,
@@ -305,8 +311,8 @@ describe('workflow and community configuration boundaries', () => {
     const workflow = parse(
       await readFile(resolve('.github/workflows/ci.yml'), 'utf8'),
     ) as Workflow;
-    expect(workflow.on.pull_request.branches).toEqual(['main', 'develop']);
-    expect(workflow.on.push.branches).toEqual(['main', 'develop']);
+    expect(workflow.on.pull_request?.branches).toEqual(['main', 'develop']);
+    expect(workflow.on.push?.branches).toEqual(['main', 'develop']);
     expect(Object.keys(workflow.jobs)).toEqual(['validate', 'portability']);
     expect(workflow.jobs['build-pages']).toBeUndefined();
     expect(workflow.jobs['deploy-pages']).toBeUndefined();

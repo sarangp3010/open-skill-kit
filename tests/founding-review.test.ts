@@ -162,8 +162,21 @@ describe('reproducible founding content triage', () => {
       join(await realpath(tmpdir()), 'osk-founding-copy-'),
     );
     temporary.push(dir);
-    for (const name of ['skills', 'evaluations', 'catalog', 'reviews/founding'])
-      await cp(join(root, name), join(dir, name), { recursive: true });
+    // Copy inputs only, not the generated catalog/review output. Each of the
+    // five passes below scans all 42 packages; keep their integration budget
+    // explicit rather than changing Vitest's timeout for ordinary unit tests.
+    await Promise.all(
+      [
+        'skills',
+        'evaluations',
+        'catalog/sectors.json',
+        'catalog/publication-reviews.json',
+        'reviews/founding/editorial-notes.json',
+      ].map(async (name) => {
+        await mkdir(join(dir, name, '..'), { recursive: true });
+        await cp(join(root, name), join(dir, name), { recursive: true });
+      }),
+    );
     const before = await readFile(
       join(dir, 'catalog/publication-reviews.json'),
       'utf8',
