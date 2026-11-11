@@ -324,6 +324,69 @@ describe('publication admission and real-review requirements', () => {
       ),
     ).rejects.toThrow('missing current-head approval');
   });
+  it('allows develop validation but requires main for every publication decision change', () => {
+    const empty = { schemaVersion: 1 as const, decisions: [] };
+    const approval = registry('0'.repeat(64));
+    expect(() =>
+      validateDecisionChanges(empty, empty, 12, 'develop'),
+    ).not.toThrow();
+    expect(() =>
+      validateDecisionChanges(approval, approval, 99, 'develop'),
+    ).not.toThrow();
+    for (const [previous, current] of [
+      [empty, approval],
+      [approval, empty],
+      [
+        approval,
+        {
+          ...approval,
+          decisions: approval.decisions.map((record) => ({
+            ...record,
+            decision: 'withdrawn' as const,
+          })),
+        },
+      ],
+    ]) {
+      expect(() =>
+        validateDecisionChanges(previous, current, 12, 'develop'),
+      ).toThrow('must target main');
+    }
+    expect(() =>
+      validateDecisionChanges(empty, approval, 12, 'main'),
+    ).not.toThrow();
+  });
+  it.each(['develop', 'feature/untrusted'])(
+    'rejects GitHub publication approval targeting %s even with a valid review',
+    async (branch) => {
+      await expect(
+        githubModeration(
+          registry('0'.repeat(64)),
+          ['sarangp3010'],
+          12,
+          async (path) =>
+            path.includes('/reviews?')
+              ? [
+                  {
+                    id: 1,
+                    state: 'APPROVED',
+                    commit_id: 'head',
+                    user: { login: 'sarangp3010' },
+                  },
+                ]
+              : {
+                  head: { sha: 'head' },
+                  base: {
+                    ref: branch,
+                    repo: { full_name: 'sarangp3010/open-skill-kit' },
+                  },
+                  user: { login: 'contributor' },
+                  merged: false,
+                  merged_by: null,
+                },
+        ),
+      ).rejects.toThrow('PR to main');
+    },
+  );
   it('prevents borrowing old PR approvals or erasing withdrawal history', () => {
     const approval = registry('0'.repeat(64));
     expect(() =>
@@ -331,6 +394,7 @@ describe('publication admission and real-review requirements', () => {
         { schemaVersion: 1, decisions: [] },
         approval,
         99,
+        'main',
       ),
     ).toThrow('this PR');
     expect(() =>
@@ -338,6 +402,7 @@ describe('publication admission and real-review requirements', () => {
         approval,
         { schemaVersion: 1, decisions: [] },
         12,
+        'main',
       ),
     ).toThrow('withdrawal');
     expect(() =>
@@ -345,6 +410,7 @@ describe('publication admission and real-review requirements', () => {
         { schemaVersion: 1, decisions: [] },
         approval,
         12,
+        'main',
       ),
     ).not.toThrow();
   });

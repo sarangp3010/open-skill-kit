@@ -1,15 +1,19 @@
 name: Dependency security
 on:
   pull_request:
+    branches: [main, develop]
   schedule:
     - cron: '17 13 * * 1'
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: audit-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
   # pnpm audit uses the free registry advisory endpoint; no paid GitHub feature.
   audit:
-    runs-on: ubuntu-latest
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read

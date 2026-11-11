@@ -2447,23 +2447,6 @@
     },
     {
       "name": "@eslint/config-array",
-      "version": "0.21.2",
-      "license": "Apache-2.0",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eslint/rewrite.git",
-        "directory": "packages/config-array"
-      },
-      "manifestSha256": "b42773cfa9a04f5cd7b0825ba8fe29a95aea7b1a1e31017b3628077f6ec1e020",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
-      "name": "@eslint/config-array",
       "version": "0.23.5",
       "license": "Apache-2.0",
       "repository": {
@@ -2472,23 +2455,6 @@
         "directory": "packages/config-array"
       },
       "manifestSha256": "865f769edb92c7eaf452c9cf0194a7f3c925636a5ab4be826510a518165a6473",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
-      "name": "@eslint/config-helpers",
-      "version": "0.4.2",
-      "license": "Apache-2.0",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eslint/rewrite.git",
-        "directory": "packages/config-helpers"
-      },
-      "manifestSha256": "9eeb5b6fc0a17a5552a53fe5c02d98854930acff99fa0cd75e26d6166365529d",
       "notices": [
         {
           "file": "LICENSE",
@@ -2515,23 +2481,6 @@
     },
     {
       "name": "@eslint/core",
-      "version": "0.17.0",
-      "license": "Apache-2.0",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eslint/rewrite.git",
-        "directory": "packages/core"
-      },
-      "manifestSha256": "65aa1d2127fd7d10d6041db32f47439d9aa6abc98f55aaed300b575e7bd71993",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
-      "name": "@eslint/core",
       "version": "1.2.1",
       "license": "Apache-2.0",
       "repository": {
@@ -2544,19 +2493,6 @@
         {
           "file": "LICENSE",
           "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
-      "name": "@eslint/eslintrc",
-      "version": "3.3.7",
-      "license": "MIT",
-      "repository": "eslint/eslintrc",
-      "manifestSha256": "764fdc3e4eb545eb1f75d21ddfd8cad02c2c8a8e8ced548302d48dbb359c97aa",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "3b6be04f862a077a4b97929dbf247299360824d9365f8603c263769303ace18c"
         }
       ]
     },
@@ -2578,40 +2514,6 @@
       ]
     },
     {
-      "name": "@eslint/js",
-      "version": "9.39.5",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/eslint/eslint.git",
-        "directory": "packages/js"
-      },
-      "manifestSha256": "b7a13312c28d9e0d078055362e45545522c7ae9a67f6702e280e1cdcd25cfdc1",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "3b6be04f862a077a4b97929dbf247299360824d9365f8603c263769303ace18c"
-        }
-      ]
-    },
-    {
-      "name": "@eslint/object-schema",
-      "version": "2.1.7",
-      "license": "Apache-2.0",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eslint/rewrite.git",
-        "directory": "packages/object-schema"
-      },
-      "manifestSha256": "bda6acdfdddc3dbfacf8669e568d66754af7963c3c58935f9573cc32701dc26b",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
       "name": "@eslint/object-schema",
       "version": "3.0.5",
       "license": "Apache-2.0",
@@ -2621,23 +2523,6 @@
         "directory": "packages/object-schema"
       },
       "manifestSha256": "a99516869f9bc974bc95fae5a890af43d8b2a0cfe9828d3f757e87ad67d79e05",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
-      "name": "@eslint/plugin-kit",
-      "version": "0.4.1",
-      "license": "Apache-2.0",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/eslint/rewrite.git",
-        "directory": "packages/plugin-kit"
-      },
-      "manifestSha256": "fe173d1b3cc381fce094f316e9d21296e83ea781ad7f2900fa2f4ee77c1c1af0",
       "notices": [
         {
           "file": "LICENSE",
@@ -3282,22 +3167,6 @@
     },
     {
       "name": "@testing-library/jest-dom",
-      "version": "6.10.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/testing-library/jest-dom"
-      },
-      "manifestSha256": "5a4fafc49f00d21096da8f4061c754a60300f8def82695b0847b1f1514f17e0b",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "bf8fd38056b7606deccfcadb4d8ca1c210082d8ef5513426d2650daedc30bed3"
-        }
-      ]
-    },
-    {
-      "name": "@testing-library/jest-dom",
       "version": "6.9.1",
       "license": "MIT",
       "repository": {
@@ -3888,40 +3757,6 @@
       ]
     },
     {
-      "name": "@vitest/expect",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/expect"
-      },
-      "manifestSha256": "329cbb991e3265ae53272bbb710d02d8da7794fdf8cc385522fd4210ae1ffb0f",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
-      "name": "@vitest/mocker",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/mocker"
-      },
-      "manifestSha256": "6f9a21f0164a5dc5c57f1c135c82423938c70b573fafb805545c645a931a68ed",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
       "name": "@vitest/mocker",
       "version": "5.1.0",
       "license": "MIT",
@@ -3939,74 +3774,6 @@
       ]
     },
     {
-      "name": "@vitest/pretty-format",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/pretty-format"
-      },
-      "manifestSha256": "45d80489327eca387a3bfb8bd70ad2851f7044e89376776678d0b0f54e19e97b",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
-      "name": "@vitest/runner",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/runner"
-      },
-      "manifestSha256": "43fa1b19947fe8434a6bc04c428488a7edb44c5d87d76d4b37a167e6b2b251e5",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
-      "name": "@vitest/snapshot",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/snapshot"
-      },
-      "manifestSha256": "42d0d7e9522464cfd7d6aa8211cb8ed36820246c29f4ebc906fe719989091837",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
-      "name": "@vitest/spy",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/spy"
-      },
-      "manifestSha256": "71c7a2a0b747125cf83aad2009eb40b9ba4b28d0866406178ee4cd131bb0238b",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
       "name": "@vitest/spy",
       "version": "5.1.0",
       "license": "MIT",
@@ -4020,23 +3787,6 @@
         {
           "file": "LICENSE",
           "sha256": "04575fc5bfae19a9b63100f8691f901a2e15a399011ac02db435a9ef27295551"
-        }
-      ]
-    },
-    {
-      "name": "@vitest/utils",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/utils"
-      },
-      "manifestSha256": "6c8addb8935417adf48bcc08b7c190a12364ab8ceb406b819455d1a4687e8d48",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
         }
       ]
     },
@@ -4120,19 +3870,6 @@
     },
     {
       "name": "ansi-styles",
-      "version": "4.3.0",
-      "license": "MIT",
-      "repository": "chalk/ansi-styles",
-      "manifestSha256": "d405f010681d53f77691015e98461f8484b2afe6a9edfdd2ddb27b1e8a8e883d",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
-        }
-      ]
-    },
-    {
-      "name": "ansi-styles",
       "version": "5.2.0",
       "license": "MIT",
       "repository": "chalk/ansi-styles",
@@ -4141,19 +3878,6 @@
         {
           "file": "license",
           "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
-        }
-      ]
-    },
-    {
-      "name": "argparse",
-      "version": "2.0.1",
-      "license": "Python-2.0",
-      "repository": "nodeca/argparse",
-      "manifestSha256": "688bace28e14392b3a1c4137eb56bc48b684dbf5cb56278ed7056cd2ece07990",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "de4d1f2d2ad5ad0cfd1657a106476b31cb5db5ef9d1ff842b237c0c81f0c8a23"
         }
       ]
     },
@@ -4256,22 +3980,6 @@
     },
     {
       "name": "balanced-match",
-      "version": "1.0.2",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/juliangruber/balanced-match.git"
-      },
-      "manifestSha256": "b30c328501dead1870b894ad604405b2284b571c1f12664cdc61d92a2e3397c2",
-      "notices": [
-        {
-          "file": "LICENSE.md",
-          "sha256": "a1bd5deadb6a06dd74efa852c1b8b23f63b67f2214fbe9c8bd591da51da69268"
-        }
-      ]
-    },
-    {
-      "name": "balanced-match",
       "version": "4.0.4",
       "license": "MIT",
       "repository": {
@@ -4299,22 +4007,6 @@
         {
           "file": "LICENSE.txt",
           "sha256": "c71d239df91726fc519c6eb72d318ec65820627232b2f796219e87dcf35d0ab4"
-        }
-      ]
-    },
-    {
-      "name": "brace-expansion",
-      "version": "1.1.21",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/juliangruber/brace-expansion.git"
-      },
-      "manifestSha256": "3183ac1fc70f2bdd53b876019fe35fafc25536889529352db26da06e047e8a00",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "68f12f6e2c33688699249c01d8f9623c534da20aa71989c57b061b7bc1676d14"
         }
       ]
     },
@@ -4348,22 +4040,6 @@
       ]
     },
     {
-      "name": "cac",
-      "version": "6.7.14",
-      "license": "MIT",
-      "repository": {
-        "url": "egoist/cac",
-        "type": "git"
-      },
-      "manifestSha256": "8677bbbe7404ce455200b5f088a45f841bd8a40e7d63475ac711b631516ddcdf",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "709131d7af352b81204ada2a3d812e245a83576e327b364f92ba24c578ba9408"
-        }
-      ]
-    },
-    {
       "name": "cacheable",
       "version": "2.5.0",
       "license": "MIT",
@@ -4377,19 +4053,6 @@
         {
           "file": "LICENSE",
           "sha256": "465e8da349d50d8512e4a0e9b26d2bee50392c394f17edaa3be6e0df7c2b27ad"
-        }
-      ]
-    },
-    {
-      "name": "callsites",
-      "version": "3.1.0",
-      "license": "MIT",
-      "repository": "sindresorhus/callsites",
-      "manifestSha256": "9c27ea7f90c3a348c038fd6b3213848552ed1ec5dd38e0a06016af19d19e526a",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
         }
       ]
     },
@@ -4421,22 +4084,6 @@
     },
     {
       "name": "chai",
-      "version": "5.3.3",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/chaijs/chai"
-      },
-      "manifestSha256": "25ef536c7435582fe1bfa2c299c691517763bb7a6aac25c4e33a508a5905f02e",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "b181da80336ff9dd1043fc8be1a764d7382363433319aa872e4d2cb5ce2a3066"
-        }
-      ]
-    },
-    {
-      "name": "chai",
       "version": "6.3.0",
       "license": "MIT",
       "repository": {
@@ -4448,19 +4095,6 @@
         {
           "file": "LICENSE",
           "sha256": "b181da80336ff9dd1043fc8be1a764d7382363433319aa872e4d2cb5ce2a3066"
-        }
-      ]
-    },
-    {
-      "name": "chalk",
-      "version": "4.1.2",
-      "license": "MIT",
-      "repository": "chalk/chalk",
-      "manifestSha256": "9cd907d34a45cb73b5c8a459d5602a36ccd456794665c529a3a5b0f02e196f26",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
         }
       ]
     },
@@ -4517,22 +4151,6 @@
       ]
     },
     {
-      "name": "check-error",
-      "version": "2.1.3",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/chaijs/check-error.git"
-      },
-      "manifestSha256": "0a58f4d67c1455b141c79b8cdabc009baeba2729b37d4b3b528c0af493d09185",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "e5aee0714b6ecc416454b968d1017570ef609f20d8722ab84b07acd550b78198"
-        }
-      ]
-    },
-    {
       "name": "class-variance-authority",
       "version": "0.7.1",
       "license": "Apache-2.0",
@@ -4559,35 +4177,6 @@
       ]
     },
     {
-      "name": "color-convert",
-      "version": "2.0.1",
-      "license": "MIT",
-      "repository": "Qix-/color-convert",
-      "manifestSha256": "9471d21744ca3137410448da6b3bd7b30ee91d42edce3b82ebcbf84faef74fb4",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "693866fc419c6f61c8570438ec00659d156ec2b4d4a4d04091711f5f11a365d4"
-        }
-      ]
-    },
-    {
-      "name": "color-name",
-      "version": "1.1.4",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git@github.com:colorjs/color-name.git"
-      },
-      "manifestSha256": "4a557ea373907e4643badb89ff21b3f4b969d20631086d78eab2e03d05c2efa4",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "c064f7a3e353bc1bc977f3c897941c75ef763f44f41677e0a15370ca0853d6e2"
-        }
-      ]
-    },
-    {
       "name": "comma-separated-tokens",
       "version": "2.0.3",
       "license": "MIT",
@@ -4597,22 +4186,6 @@
         {
           "file": "license",
           "sha256": "ca4662cb5d1b738fbe5350c0d5485ba11773b4b7208974082ae6e129a52d631d"
-        }
-      ]
-    },
-    {
-      "name": "concat-map",
-      "version": "0.0.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/substack/node-concat-map.git"
-      },
-      "manifestSha256": "4fe5e8089b65ebfd55bb86f465ba896ba6a8e24b7b61de1e0f420f590616b118",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "435a6722c786b0a56fbe7387028f1d9d3f3a2d0fb615bb8fee118727c3f59b7b"
         }
       ]
     },
@@ -4758,22 +4331,6 @@
         {
           "file": "license",
           "sha256": "dd1081884a92952802f4803110a6bb543acea9a814c786d58605b4c1219b5ebb"
-        }
-      ]
-    },
-    {
-      "name": "deep-eql",
-      "version": "5.0.2",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git@github.com:chaijs/deep-eql.git"
-      },
-      "manifestSha256": "0ee7e49522979ad93908876af0e32a812da311ba86d720ebd1f226a4c8c74635",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "e5aee0714b6ecc416454b968d1017570ef609f20d8722ab84b07acd550b78198"
         }
       ]
     },
@@ -4933,22 +4490,6 @@
     },
     {
       "name": "es-module-lexer",
-      "version": "1.7.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/guybedford/es-module-lexer.git"
-      },
-      "manifestSha256": "de68b22f72517f94d53290ecdbaf975f5e79ca26d8757768b07c5b466749c494",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "fecc38b5e10d889686b3862e7ade17e8b3e5c94b24b7256b05a354d8524b3274"
-        }
-      ]
-    },
-    {
-      "name": "es-module-lexer",
       "version": "2.3.2",
       "license": "MIT",
       "repository": {
@@ -5037,19 +4578,6 @@
     },
     {
       "name": "eslint-plugin-react-refresh",
-      "version": "0.4.26",
-      "license": "MIT",
-      "repository": "github:ArnaudBarre/eslint-plugin-react-refresh",
-      "manifestSha256": "94e90685e4bb01e09813de7d8d50a970725c794eae6920e72fc8794173606d42",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "fba570176c68f716676e04cad6c39fb56b763e44fc11be22fe6863ff19092a9b"
-        }
-      ]
-    },
-    {
-      "name": "eslint-plugin-react-refresh",
       "version": "0.5.7",
       "license": "MIT",
       "repository": "github:ArnaudBarre/eslint-plugin-react-refresh",
@@ -5058,23 +4586,6 @@
         {
           "file": "LICENSE",
           "sha256": "fba570176c68f716676e04cad6c39fb56b763e44fc11be22fe6863ff19092a9b"
-        }
-      ]
-    },
-    {
-      "name": "eslint-scope",
-      "version": "8.4.0",
-      "license": "BSD-2-Clause",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/eslint/js.git",
-        "directory": "packages/eslint-scope"
-      },
-      "manifestSha256": "5d0d647be190cc44954e520036832957f55dd4738536b9f85eaf479b4a279ab8",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "d3a724e2ed749f172ff70b62a1d0631b7d4b0ea273782365a3464d4e2d6b6dbd"
         }
       ]
     },
@@ -5110,23 +4621,6 @@
     },
     {
       "name": "eslint-visitor-keys",
-      "version": "4.2.1",
-      "license": "Apache-2.0",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/eslint/js.git",
-        "directory": "packages/eslint-visitor-keys"
-      },
-      "manifestSha256": "f479c384cbd48ab3d95ba3f02f332ee42320b408a09f1cb8f1d3da96273ed4d3",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "d8bf34ff6d190640a01e7704ad78253fc181bc128949d71273fbbaa12f33c0b4"
-        }
-      ]
-    },
-    {
-      "name": "eslint-visitor-keys",
       "version": "5.0.1",
       "license": "Apache-2.0",
       "repository": {
@@ -5152,36 +4646,6 @@
         {
           "file": "LICENSE",
           "sha256": "3b6be04f862a077a4b97929dbf247299360824d9365f8603c263769303ace18c"
-        }
-      ]
-    },
-    {
-      "name": "eslint",
-      "version": "9.39.5",
-      "license": "MIT",
-      "repository": "eslint/eslint",
-      "manifestSha256": "361210aa42b55fd814c48a01e3724559ec6f0f3e1c021d0f8aa2e8b00276060e",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "3b6be04f862a077a4b97929dbf247299360824d9365f8603c263769303ace18c"
-        }
-      ]
-    },
-    {
-      "name": "espree",
-      "version": "10.4.0",
-      "license": "BSD-2-Clause",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/eslint/js.git",
-        "directory": "packages/espree"
-      },
-      "manifestSha256": "76d68e5b8ac5aae00882165c4feae4a8a8825ccb4ea76ab8af0f02ba320fd250",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "26c95937762a3dc17a3934a0a2773c70259ba4bf28dab713c225e4af8eb9d349"
         }
       ]
     },
@@ -5417,19 +4881,6 @@
       ]
     },
     {
-      "name": "file-entry-cache",
-      "version": "8.0.0",
-      "license": "MIT",
-      "repository": "jaredwray/file-entry-cache",
-      "manifestSha256": "1d88b9fe323d9766712599c0ee134c56e02a472e1fa633f304bc7be8cdc4dcec",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "a0e2f73971f663b49d3c66cc6749fc88de0f475680ccf5b980a9cbcc0c52490f"
-        }
-      ]
-    },
-    {
       "name": "find-up",
       "version": "5.0.0",
       "license": "MIT",
@@ -5439,19 +4890,6 @@
         {
           "file": "license",
           "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
-        }
-      ]
-    },
-    {
-      "name": "flat-cache",
-      "version": "4.0.1",
-      "license": "MIT",
-      "repository": "jaredwray/flat-cache",
-      "manifestSha256": "8086a3cb7efb10e538f6d55d820c22c237d686454f8b0e6b144c4baf92ea7e1e",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "a6a23fb76d91d98669f5ed6eb58213df594ab2d56c9e981ae021b194e3d662a7"
         }
       ]
     },
@@ -5548,19 +4986,6 @@
     },
     {
       "name": "globals",
-      "version": "14.0.0",
-      "license": "MIT",
-      "repository": "sindresorhus/globals",
-      "manifestSha256": "7825cb9a75020bbeba926f89926588ccc21322d4e8be27a0c5c70fec340f6ec1",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
-        }
-      ]
-    },
-    {
-      "name": "globals",
       "version": "16.5.0",
       "license": "MIT",
       "repository": "sindresorhus/globals",
@@ -5585,19 +5010,6 @@
         {
           "file": "LICENSE",
           "sha256": "f65c5d9f22a317b2a10803bd1868461ce6499c2ed7217bc80c0cc772a748789c"
-        }
-      ]
-    },
-    {
-      "name": "has-flag",
-      "version": "4.0.0",
-      "license": "MIT",
-      "repository": "sindresorhus/has-flag",
-      "manifestSha256": "3fef4b52efbeabeadfffd5994e90b1025eb24263286e34170675956637d368b1",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
         }
       ]
     },
@@ -5826,19 +5238,6 @@
       ]
     },
     {
-      "name": "import-fresh",
-      "version": "3.3.1",
-      "license": "MIT",
-      "repository": "sindresorhus/import-fresh",
-      "manifestSha256": "c71eb71fede603ba3191c01c55c9d5a3977dd5f8d91f24835aaffc9785c19534",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
-        }
-      ]
-    },
-    {
       "name": "imurmurhash",
       "version": "0.1.4",
       "license": "MIT",
@@ -6028,32 +5427,6 @@
       ]
     },
     {
-      "name": "js-tokens",
-      "version": "9.0.1",
-      "license": "MIT",
-      "repository": "lydell/js-tokens",
-      "manifestSha256": "3409fe9f61aebdb37b9ebadea6d47f44a2da768e7bbca200bd66dd81f28777b6",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "33038d552d766f4501d8da25b66053ed217c61274ffce1c6bee413bb037c259c"
-        }
-      ]
-    },
-    {
-      "name": "js-yaml",
-      "version": "4.3.2",
-      "license": "MIT",
-      "repository": "nodeca/js-yaml",
-      "manifestSha256": "3eeb05aa0ceb4c3686e44c9b5d9b88f914b099ba9a7426b36947e65c6373d9a5",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "a07bc24468b9654ce76a547d47a2db282d07733b715db4c73a98bd63961f9550"
-        }
-      ]
-    },
-    {
       "name": "jsdom",
       "version": "26.1.0",
       "license": "MIT",
@@ -6082,22 +5455,6 @@
         {
           "file": "LICENSE-MIT.txt",
           "sha256": "483acb265f182907d1caf6cff9c16c96f31325ed23792832cc5d8b12d5f88c8a"
-        }
-      ]
-    },
-    {
-      "name": "json-buffer",
-      "version": "3.0.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/dominictarr/json-buffer.git"
-      },
-      "manifestSha256": "67bd0213396ba4664a9f2fafa3d2d25864a29f4f3800e766ea17c2aa3f4dbef9",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "715f1f0f2eb7688e53e4e958acdc7fc9e365ae3eaf26efc2604b93cc65fdc3f5"
         }
       ]
     },
@@ -6148,17 +5505,6 @@
           "sha256": "53e59feb13058722d977c699eb0407c7bce2f93c949b681bbd2ff31698535927"
         }
       ]
-    },
-    {
-      "name": "keyv",
-      "version": "4.5.4",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/jaredwray/keyv.git"
-      },
-      "manifestSha256": "e8afd30f2f2a40ef5023928b50fdaed3a3338aa7e1c4e86205413afb05e8a099",
-      "notices": []
     },
     {
       "name": "keyv",
@@ -6238,19 +5584,6 @@
       ]
     },
     {
-      "name": "lodash.merge",
-      "version": "4.6.2",
-      "license": "MIT",
-      "repository": "lodash/lodash",
-      "manifestSha256": "5aaf4c24df9052e680d0728754c249fb94c11aef2e76ec3f76320431915c92f1",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "f71e8ed126b46346494aad5486874cd8f0aafe95092ed67d2e3cb6110f939abc"
-        }
-      ]
-    },
-    {
       "name": "longest-streak",
       "version": "3.1.0",
       "license": "MIT",
@@ -6260,22 +5593,6 @@
         {
           "file": "license",
           "sha256": "9f084fac69d8cf1e6ce983ba5a3499c7695ed74a26ec625c38f0fd19fddd5e10"
-        }
-      ]
-    },
-    {
-      "name": "loupe",
-      "version": "3.2.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/chaijs/loupe"
-      },
-      "manifestSha256": "576be81053b77e14f3ccb78111e9c0dbf19164f59d3eeff9763d620d21ef2591",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "592141f7b861426ceeff937d85ad04ada5f66e386c5a8696ed1bd680f2cdb552"
         }
       ]
     },
@@ -6338,22 +5655,6 @@
         {
           "file": "LICENSE",
           "sha256": "433fc9dfe659dbfb1e91eed8351f13651e97bfa3ac6d03394c3d63f61d4bbc80"
-        }
-      ]
-    },
-    {
-      "name": "magic-string",
-      "version": "0.30.21",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/Rich-Harris/magic-string.git"
-      },
-      "manifestSha256": "86814aaf7dacba9d31fbf361c3285981f1cbbda0a87108caa4131d297bd9eba2",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "1cbe51b907662f6cb1492b16c359384a595180bf0e4d101603ed525e75c4e484"
         }
       ]
     },
@@ -6973,22 +6274,6 @@
     },
     {
       "name": "minimatch",
-      "version": "10.2.6",
-      "license": "BlueOak-1.0.0",
-      "repository": {
-        "type": "git",
-        "url": "git@github.com:isaacs/minimatch"
-      },
-      "manifestSha256": "bb847ba240909c9a36d4eaeb4e0efdc3e31182aeef208c1611259a48f282ea75",
-      "notices": [
-        {
-          "file": "LICENSE.md",
-          "sha256": "2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901"
-        }
-      ]
-    },
-    {
-      "name": "minimatch",
       "version": "11.0.5",
       "license": "BlueOak-1.0.0",
       "repository": {
@@ -7000,22 +6285,6 @@
         {
           "file": "LICENSE.md",
           "sha256": "2c7c5d22ed5a8ee968c64757710979afcd77438c48b4a265b94e615babd8a901"
-        }
-      ]
-    },
-    {
-      "name": "minimatch",
-      "version": "3.1.5",
-      "license": "ISC",
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/isaacs/minimatch.git"
-      },
-      "manifestSha256": "eefa1c89527d52bbb2e8b053fe8ecf3e3ced399bdba82cf27e0e92edfd833938",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
         }
       ]
     },
@@ -7144,19 +6413,6 @@
       ]
     },
     {
-      "name": "parent-module",
-      "version": "1.0.1",
-      "license": "MIT",
-      "repository": "sindresorhus/parent-module",
-      "manifestSha256": "4c6c519739db25dabf32a8fe29b08e34fb763ca897f14b776a0e2e99fc40afed",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
-        }
-      ]
-    },
-    {
       "name": "parse-entities",
       "version": "4.0.2",
       "license": "MIT",
@@ -7208,35 +6464,6 @@
         {
           "file": "license",
           "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
-        }
-      ]
-    },
-    {
-      "name": "pathe",
-      "version": "2.0.3",
-      "license": "MIT",
-      "repository": "unjs/pathe",
-      "manifestSha256": "6cccffe6bb2a39e2e4f257aefc3f5d553d98199a0c79558bdb5ea2880fa030a3",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "52e92576851154bad7737e90cc72818936f43665cb0e3f7428ed8edc8cc5709b"
-        }
-      ]
-    },
-    {
-      "name": "pathval",
-      "version": "2.0.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+ssh://git@github.com/chaijs/pathval.git"
-      },
-      "manifestSha256": "66c51bced00e284db042748deb34d3ab3d4428982818a10f78064cea4bc9a991",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "5d45910e7ed82fecc3e29b40a5b3a17ceb609fda19f860aa2ec180d87f4f9d4a"
         }
       ]
     },
@@ -7641,19 +6868,6 @@
       ]
     },
     {
-      "name": "resolve-from",
-      "version": "4.0.0",
-      "license": "MIT",
-      "repository": "sindresorhus/resolve-from",
-      "manifestSha256": "dd5b0fa6d310443ccf3e93e9eb6277bd7004c18f5263ca2ac2ebf52f3708f39f",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
-        }
-      ]
-    },
-    {
       "name": "rollup",
       "version": "4.68.1",
       "license": "MIT",
@@ -7795,22 +7009,6 @@
       ]
     },
     {
-      "name": "siginfo",
-      "version": "2.0.0",
-      "license": "ISC",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/emilbayes/siginfo.git"
-      },
-      "manifestSha256": "ff13b85283144b84f297d757a7b5dcffc7abcc469b3b22bb6fc94b6b1ae5f662",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "3bdddf0b9b08aaa2fe4365b803fc958ed32c0597ca0bd727be8d9fcb8b248d18"
-        }
-      ]
-    },
-    {
       "name": "source-map-js",
       "version": "1.2.2",
       "license": "BSD-3-Clause",
@@ -7833,30 +7031,6 @@
         {
           "file": "license",
           "sha256": "ca4662cb5d1b738fbe5350c0d5485ba11773b4b7208974082ae6e129a52d631d"
-        }
-      ]
-    },
-    {
-      "name": "stackback",
-      "version": "0.0.2",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git://github.com/shtylman/node-stackback.git"
-      },
-      "manifestSha256": "4d984909b27d37d2f1a379b9cda7292a6e3a133c076df166d740a17514ac6e60",
-      "notices": []
-    },
-    {
-      "name": "std-env",
-      "version": "3.10.0",
-      "license": "MIT",
-      "repository": "unjs/std-env",
-      "manifestSha256": "47978ed306b2a6054d237c3d48f37681aac1de0648ab1544fc6ce44295024a83",
-      "notices": [
-        {
-          "file": "LICENCE",
-          "sha256": "a6f36438e46fb911859f3b9c4cad045ba64e1af3d8f4512c60258fa2d7552d28"
         }
       ]
     },
@@ -7903,35 +7077,6 @@
       ]
     },
     {
-      "name": "strip-json-comments",
-      "version": "3.1.1",
-      "license": "MIT",
-      "repository": "sindresorhus/strip-json-comments",
-      "manifestSha256": "92b83192db22eb46049920e4b750555193d10eafe609cf2adc4f14125c951ed4",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "5c932d88256b4ab958f64a856fa48e8bd1f55bc1d96b8149c65689e0c61789d3"
-        }
-      ]
-    },
-    {
-      "name": "strip-literal",
-      "version": "3.1.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/antfu/strip-literal.git"
-      },
-      "manifestSha256": "449a78d5321c299b0ea753390cc04a31750d1d66b608870ca9829ca524cb7188",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "af32efdd008a371c77b13eef5010c81d6c5c2f67c054b6bb74317e13ac38c171"
-        }
-      ]
-    },
-    {
       "name": "style-to-object",
       "version": "2.0.2",
       "license": "MIT",
@@ -7944,19 +7089,6 @@
         {
           "file": "LICENSE",
           "sha256": "896c9fd6b5fc48ac31800b9d29a6e3ffcb0c2d534ed077ebfa5c2fa388cc38b7"
-        }
-      ]
-    },
-    {
-      "name": "supports-color",
-      "version": "7.2.0",
-      "license": "MIT",
-      "repository": "chalk/supports-color",
-      "manifestSha256": "d410a772f9f64b224482ec13815a4bbf1837c533e1be04b3687755c48b2efa1f",
-      "notices": [
-        {
-          "file": "license",
-          "sha256": "48da2f39e100d4085767e94966b43f4fa95ff6a0698fba57ed460914e35f94a0"
         }
       ]
     },
@@ -8028,19 +7160,6 @@
     },
     {
       "name": "tinybench",
-      "version": "2.9.0",
-      "license": "MIT",
-      "repository": "tinylibs/tinybench",
-      "manifestSha256": "74cf001e0ad7780cb3f596a75a2595d737337741ba76f734811387a5139ff327",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "cebc084d54e6dd99e53292ddb4bc1cdb63d9bfcd9ce438fe3aa6eb106d79e2ea"
-        }
-      ]
-    },
-    {
-      "name": "tinybench",
       "version": "6.2.3",
       "license": "MIT",
       "repository": {
@@ -8052,22 +7171,6 @@
         {
           "file": "LICENSE",
           "sha256": "cebc084d54e6dd99e53292ddb4bc1cdb63d9bfcd9ce438fe3aa6eb106d79e2ea"
-        }
-      ]
-    },
-    {
-      "name": "tinyexec",
-      "version": "0.3.2",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tinylibs/tinyexec.git"
-      },
-      "manifestSha256": "37b9e1a7b215d99d4696da75b08818204c8b382387db8591fb7ae8d5d7b1be78",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "f95f668fe64081ddb4153b322e34fdd719b991285ed08177d5ad7133b7988d92"
         }
       ]
     },
@@ -8100,54 +7203,6 @@
         {
           "file": "LICENSE",
           "sha256": "22c68811e174cbbfb3813d4135918df4f540959c14d872e601d9abe83d3cde8f"
-        }
-      ]
-    },
-    {
-      "name": "tinypool",
-      "version": "1.1.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/tinylibs/tinypool.git"
-      },
-      "manifestSha256": "fab0aa2756e7cf5c2dc020daafa86c2b5fa3cfd2f9087393418b9a7379dc3dda",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0d506ca1b2adc4ee63a9e2384a85d6cf9f014b4cf3d00c162cd60216450324fa"
-        }
-      ]
-    },
-    {
-      "name": "tinyrainbow",
-      "version": "2.0.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tinylibs/tinyrainbow.git"
-      },
-      "manifestSha256": "0cb71f642cec4eaf8db6e4142e12482e32ed4914bbefe5cb2a699c3b2fd39ae7",
-      "notices": [
-        {
-          "file": "LICENCE",
-          "sha256": "cebc084d54e6dd99e53292ddb4bc1cdb63d9bfcd9ce438fe3aa6eb106d79e2ea"
-        }
-      ]
-    },
-    {
-      "name": "tinyspy",
-      "version": "4.0.6",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/tinylibs/tinyspy.git"
-      },
-      "manifestSha256": "9aee3f40fb09882369f84a7bf602102d8061b3b5a86963d3e97ddf2f62d7efc7",
-      "notices": [
-        {
-          "file": "LICENCE",
-          "sha256": "cebc084d54e6dd99e53292ddb4bc1cdb63d9bfcd9ce438fe3aa6eb106d79e2ea"
         }
       ]
     },
@@ -8511,23 +7566,6 @@
       ]
     },
     {
-      "name": "vite-node",
-      "version": "3.2.4",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/vite-node"
-      },
-      "manifestSha256": "6c53b6d8ff3e8c3a46950d4062b0d7c04c26545aadefb654ffe7fc488c2650fb",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "ddc110f3b89cc397cee99d3d64c4f746928b7a3bac02fed15101eb4d367079f6"
-        }
-      ]
-    },
-    {
       "name": "vite",
       "version": "7.3.8",
       "license": "MIT",
@@ -8541,23 +7579,6 @@
         {
           "file": "LICENSE.md",
           "sha256": "a77a1c089806b39ad339535bdf3677f636c91d96693e8ad7b11fe733f650ea64"
-        }
-      ]
-    },
-    {
-      "name": "vitest",
-      "version": "3.2.7",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/vitest-dev/vitest.git",
-        "directory": "packages/vitest"
-      },
-      "manifestSha256": "3f3dc1ef7acc6ffac8d0a7f10c4460f98e36026837b57f774426d962d546d740",
-      "notices": [
-        {
-          "file": "LICENSE.md",
-          "sha256": "6b861d7554fbc8488a08ee59e613bd488785a2e27bd87b80142e5125abec6f4c"
         }
       ]
     },
@@ -8656,22 +7677,6 @@
         {
           "file": "LICENSE",
           "sha256": "4ec3d4c66cd87f5c8d8ad911b10f99bf27cb00cdfcff82621956e379186b016b"
-        }
-      ]
-    },
-    {
-      "name": "why-is-node-running",
-      "version": "2.3.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/mafintosh/why-is-node-running.git"
-      },
-      "manifestSha256": "c762d49d3da5e8d8fdaa840ba1f18d68bb433e61c671b66b3127f8430d490fe2",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "6a134e51aa31496c15a741592fc5d782b2dbf8d8b6b8524e15c8520ae0cd6374"
         }
       ]
     },
@@ -8806,22 +7811,6 @@
     },
     {
       "name": "zod",
-      "version": "3.25.76",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/colinhacks/zod.git"
-      },
-      "manifestSha256": "70eedbe34fd52385a4ae2f3e5759b19682189f0118ea73a6e7c32c677f61668e",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "3f1189b28e3866e0d979968d466b78f813f76827cfdca1fbb124cc0a5c8841f8"
-        }
-      ]
-    },
-    {
-      "name": "zod",
       "version": "4.6.7",
       "license": "MIT",
       "repository": {
@@ -8904,13 +7893,6 @@
       "status": "human-confirmation-required"
     },
     {
-      "name": "keyv",
-      "version": "4.5.4",
-      "declaredLicense": "MIT",
-      "recordedException": null,
-      "status": "human-confirmation-required"
-    },
-    {
       "name": "natural-compare",
       "version": "1.4.0",
       "declaredLicense": "MIT",
@@ -8935,13 +7917,6 @@
       "name": "saxes",
       "version": "6.0.0",
       "declaredLicense": "ISC",
-      "recordedException": null,
-      "status": "human-confirmation-required"
-    },
-    {
-      "name": "stackback",
-      "version": "0.0.2",
-      "declaredLicense": "MIT",
       "recordedException": null,
       "status": "human-confirmation-required"
     }

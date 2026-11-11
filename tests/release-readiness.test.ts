@@ -6,11 +6,9 @@ import {
   foundingReports,
   generateFoundingReview,
   unsignedReviewTemplate,
+  type FoundingReport,
 } from '../scripts/founding-review';
-import {
-  generateOwnerReview,
-  ownerReleaseReview,
-} from '../scripts/release-review';
+import { generateOwnerReview } from '../scripts/release-review';
 import { regenerateCatalog } from '../scripts/catalog';
 import { buildMarketplace } from '../scripts/build-marketplace';
 import {
@@ -26,7 +24,8 @@ afterEach(async () => {
 });
 describe('first public release review preparation', () => {
   it('summarizes all twelve shortlist purposes, full hashes, risks, evidence and pending approvals', async () => {
-    const content = await ownerReleaseReview(root);
+    // This checks freshness and returns the same fully validated content.
+    const content = await generateOwnerReview(root, true);
     const reports = (await foundingReports(root)).filter(
       (report) => report.launchRecommendation.rank !== null,
     );
@@ -46,52 +45,75 @@ describe('first public release review preparation', () => {
     expect(content).toContain(
       '**42 drafts**; **0 recorded publication approvals**',
     );
-    await generateOwnerReview(root, true);
   });
-  it('reproduces automated review/catalog operations without creating actual decisions or changing any package', async () => {
-    const root = await mkdtemp(
-      join(await realpath(tmpdir()), 'osk-review-operations-'),
-    );
-    temporary.push(root);
-    for (const name of ['skills', 'catalog', 'evaluations', 'reviews'])
-      await cp(resolve(name), join(root, name), { recursive: true });
-    const before = await foundingReports(root);
-    const ledger = await readFile(
-      join(root, 'catalog/publication-reviews.json'),
-      'utf8',
-    );
-    const attribution = await readFile(
-      join(root, 'catalog/attributions.json'),
-      'utf8',
-    );
-    const records = await readdir(join(root, 'reviews/maintainer'));
-    await generateFoundingReview(root);
-    await generateOwnerReview(root);
-    const result = await regenerateCatalog(root, { validateOnly: true });
-    for (const report of before) {
-      const unsigned = unsignedReviewTemplate(report);
-      expect(unsigned.reviewer).toBeNull();
-      expect(unsigned.reviewedAt).toBeNull();
-      expect(unsigned.decision).toBeNull();
-      expect(
-        publicationDigest(
-          await readSkillFiles(join(root, 'skills', report.skillId)),
+  // Each operation gets an isolated copy and the same complete integrity
+  // assertions. Avoid putting five full-library scans into one 5-second test.
+  it.each(['founding review', 'owner review', 'catalog validation'] as const)(
+    '%s preserves all 42 packages and creates no approval or attribution records',
+    async (operation) => {
+      const root = await mkdtemp(
+        join(await realpath(tmpdir()), 'osk-review-operations-'),
+      );
+      temporary.push(root);
+      await Promise.all(
+        ['skills', 'catalog', 'evaluations', 'reviews'].map((name) =>
+          cp(resolve(name), join(root, name), { recursive: true }),
         ),
-      ).toBe(report.packageDigest);
-    }
-    expect(result.published.skills).toEqual([]);
-    expect(result.catalog.skills).toHaveLength(42);
-    expect(
-      result.catalog.skills.every((skill) => skill.status === 'draft'),
-    ).toBe(true);
-    expect(
-      await readFile(join(root, 'catalog/publication-reviews.json'), 'utf8'),
-    ).toBe(ledger);
-    expect(
-      await readFile(join(root, 'catalog/attributions.json'), 'utf8'),
-    ).toBe(attribution);
-    expect(await readdir(join(root, 'reviews/maintainer'))).toEqual(records);
-  });
+      );
+      // The committed packets are expected hashes, not an approval capability.
+      // Check them against actual package bytes before AND after the operation.
+      const reportDirectory = join(root, 'reviews/founding/reports');
+      const before: FoundingReport[] = await Promise.all(
+        (await readdir(reportDirectory, { recursive: true }))
+          .filter((name) => name.endsWith('.json'))
+          .map(async (name) =>
+            JSON.parse(await readFile(join(reportDirectory, name), 'utf8')),
+          ),
+      );
+      expect(before).toHaveLength(42);
+      for (const report of before)
+        expect(
+          publicationDigest(
+            await readSkillFiles(join(root, 'skills', report.skillId)),
+          ),
+        ).toBe(report.packageDigest);
+      const ledger = await readFile(
+        join(root, 'catalog/publication-reviews.json'),
+        'utf8',
+      );
+      const attribution = await readFile(
+        join(root, 'catalog/attributions.json'),
+        'utf8',
+      );
+      const records = await readdir(join(root, 'reviews/maintainer'));
+      if (operation === 'founding review') await generateFoundingReview(root);
+      if (operation === 'owner review') await generateOwnerReview(root);
+      const result = await regenerateCatalog(root, { validateOnly: true });
+      for (const report of before) {
+        const unsigned = unsignedReviewTemplate(report);
+        expect(unsigned.reviewer).toBeNull();
+        expect(unsigned.reviewedAt).toBeNull();
+        expect(unsigned.decision).toBeNull();
+        expect(
+          publicationDigest(
+            await readSkillFiles(join(root, 'skills', report.skillId)),
+          ),
+        ).toBe(report.packageDigest);
+      }
+      expect(result.published.skills).toEqual([]);
+      expect(result.catalog.skills).toHaveLength(42);
+      expect(
+        result.catalog.skills.every((skill) => skill.status === 'draft'),
+      ).toBe(true);
+      expect(
+        await readFile(join(root, 'catalog/publication-reviews.json'), 'utf8'),
+      ).toBe(ledger);
+      expect(
+        await readFile(join(root, 'catalog/attributions.json'), 'utf8'),
+      ).toBe(attribution);
+      expect(await readdir(join(root, 'reviews/maintainer'))).toEqual(records);
+    },
+  );
   it('keeps the legacy export entry point on the current typed catalog and approval gate', async () => {
     const fixture = await createReleaseFixture();
     temporary.push(fixture.root);

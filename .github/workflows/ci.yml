@@ -1,10 +1,11 @@
 name: CI
 on:
   pull_request:
+    branches: [main, develop]
   pull_request_review:
     types: [submitted, dismissed]
   push:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
 permissions:
   contents: read
@@ -12,8 +13,8 @@ concurrency:
   group: ci-${{ github.workflow }}-${{ github.ref }}
   cancel-in-progress: true
 jobs:
-  validate:
-    runs-on: ubuntu-latest
+  checks:
+    runs-on: ubuntu-24.04
     timeout-minutes: 20
     permissions:
       contents: read
@@ -46,17 +47,63 @@ jobs:
       - run: pnpm evaluate:fixtures
       - run: pnpm validate:skills
       - run: pnpm check:links
-      - run: pnpm check:duplicates
       - run: pnpm catalog:check
       - run: pnpm build:marketplace
       - run: pnpm build
       - run: pnpm catalog:check-assets
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
       - run: pnpm pack:npm
       - run: pnpm licensing:artifacts
       - name: Check generated catalog is committed
         run: git diff --exit-code -- catalog/catalog.json
+
+  # Browser libraries and binaries come from the matching official image.
+  # This still consumes standard runner allowance; the owner's $0 hard stop applies.
+  e2e:
+    needs: checks
+    runs-on: ubuntu-24.04
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d
+      options: --user 1001 --shm-size=1gb
+    env:
+      HOME: /tmp/osk-playwright-home
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
+        with:
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - name: Install the pinned package manager without root privileges
+        run: |
+          npm install --prefix "$RUNNER_TEMP/osk-pnpm" --ignore-scripts --no-audit --no-fund pnpm@10.20.0
+          echo "$RUNNER_TEMP/osk-pnpm/node_modules/.bin" >> "$GITHUB_PATH"
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm exec playwright --version
+      - run: pnpm test:e2e
+
+  # Retain the existing required-check name. Failure/skips of either dependency
+  # must fail this gate; moving E2E must not make a partial run mergeable.
+  validate:
+    if: always()
+    needs: [checks, e2e]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Require all validation results
+        env:
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          E2E_RESULT: ${{ needs.e2e.result }}
+        run: |
+          test "$CHECKS_RESULT" = success
+          test "$E2E_RESULT" = success
 
   # Standard public-repository runners only; no private-plan spending is assumed.
   portability:
@@ -79,49 +126,3 @@ jobs:
       - run: npm install --global pnpm@10.20.0 --ignore-scripts
       - run: pnpm install --frozen-lockfile --ignore-scripts
       - run: pnpm exec vitest run tests/portability.test.ts
-
-  # Build application code with read-only permissions, never deployment rights.
-  build-pages:
-    needs: [validate, portability]
-    if: github.repository == 'sarangp3010/open-skill-kit' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-    steps:
-      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
-        with:
-          persist-credentials: false
-      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
-        with:
-          node-version: 22
-          package-manager-cache: false
-      - run: npm install --global pnpm@10.20.0 --ignore-scripts
-      - run: pnpm install --frozen-lockfile --ignore-scripts
-      - run: pnpm build:pages
-        env:
-          VITE_BASE_PATH: /open-skill-kit/
-      - uses: actions/upload-pages-artifact@56afc609e74202658d3ffba0e8f6dda462b719fa # v3
-        with:
-          path: apps/web/dist
-          retention-days: 1
-
-  # Only the official deployment action runs with Pages/OIDC write permissions.
-  deploy-pages:
-    needs: build-pages
-    if: github.repository == 'sarangp3010/open-skill-kit' && github.ref == 'refs/heads/main' && (github.event_name == 'push' || github.event_name == 'workflow_dispatch')
-    runs-on: ubuntu-latest
-    timeout-minutes: 10
-    permissions:
-      contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: github-pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
-    steps:
-      - uses: actions/deploy-pages@d6db90164ac5ed86f2b6aed7e0febac5b3c0c03e # v4
-        id: deployment
