@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "unsigned-owner-decision-package",
   "notAnApprovalRecord": true,
-  "headObserved": "24dc135a95a8fd4e65a37c3de727c9057735af95",
+  "headObserved": "d3dab62aeb5c8ed221ee116299cde3c3c3daa9ca",
   "candidateVersionObserved": "0.1.0",
   "sourceSnapshot": {
     "files": [
@@ -60,7 +60,7 @@
       },
       {
         "path": "CHANGELOG.md",
-        "sha256": "cea1c010b60973c2dc4a3ea3103d2a2701098617a63817012e1a7bb0c219dc0f"
+        "sha256": "eac9c6edb52e2a35fa10a1ec6354ae4607e235dff1a7b95a1f8d6bffd2840004"
       },
       {
         "path": "CODE_OF_CONDUCT.md",
@@ -88,7 +88,7 @@
       },
       {
         "path": "SECURITY.md",
-        "sha256": "65e1dbe100a98d9f0885627ee6e93961461ad0efe424a324d55e68229a4e15e2"
+        "sha256": "ade1e99210d6eb222efd828433ebec0aa20145f6cf971f0ad73223c73c31fde6"
       },
       {
         "path": "UNIVERSAL_AI_SKILLS_CODEX_MASTER_PLAN.md",
@@ -344,7 +344,7 @@
       },
       {
         "path": "docs/IMPLEMENTATION_STATUS.md",
-        "sha256": "a0c0a42cc186dab548f671a8321f77470fa0bbbb58a8b71c25c27a79ed1debba"
+        "sha256": "175bd01df71fcc6c5b39d12cfe24fb1d3891e62ecacc84ce389f7a90afb5b6bb"
       },
       {
         "path": "docs/MARKETPLACE_V1_INTEGRATION.md",
@@ -396,11 +396,11 @@
       },
       {
         "path": "docs/launch/CHECKLIST.md",
-        "sha256": "3ea3313918af79b6a25f20749f0aff855ee2286d71a5dc556ca319765b63bf87"
+        "sha256": "2ec96efc4da84ac736085f8650179ad415626bc939d309820b6f6a8cb94975b1"
       },
       {
         "path": "docs/launch/GITHUB_SETTINGS.md",
-        "sha256": "45c89ef9155aed1e95721ea8b0d3923810a678e521bf89ddad0b98090c3c8d68"
+        "sha256": "0c93a9ab5f5dc67b50b794e5571b23168aa54d577649587a7ff7174e6d4344f4"
       },
       {
         "path": "docs/launch/PREPARATION_REPORT.md",
@@ -416,7 +416,7 @@
       },
       {
         "path": "docs/launch/UNRESOLVED_BLOCKERS.md",
-        "sha256": "79a9949d85f309c0ed2f3e6a0cd90fb041312db13d17d474e7d14bd8d380e0d9"
+        "sha256": "1b6cc160bfe0dc0bc4ab859992b4a894d1e080c8e54e0ef53921cb81308a0f06"
       },
       {
         "path": "docs/licensing.md",
@@ -936,7 +936,7 @@
       },
       {
         "path": "scripts/audit-provenance.ts",
-        "sha256": "140f8fc9df23534991accac4b101d41deaca0042e87cedb04dd567b1d909f941"
+        "sha256": "53b9b14010c2d5c876878b48a8864ab436cd33d247cf0fd9bfa8150156a867e4"
       },
       {
         "path": "scripts/build-marketplace.ts",
@@ -2436,7 +2436,7 @@
       },
       {
         "path": "tests/community.test.ts",
-        "sha256": "8fe67e40e3c0f0ce0344cf63f05a505bc72d40ff62a33c5708bbbf83b7ddb54c"
+        "sha256": "778f3e6af0c790fb31c6ca4dc3e8216fd653326aa0196a601cbf24dff7af094c"
       },
       {
         "path": "tests/content-engine.test.ts",
@@ -2532,7 +2532,7 @@
       },
       {
         "path": "tests/publication-boundaries.test.ts",
-        "sha256": "319832c257875423940e6c50096db1e011b338358b02647d89246997ef1e4c8f"
+        "sha256": "df26e943037f838e7b66f24a8d6995ac92fcb1b92a7132ade9ae01438045561f"
       },
       {
         "path": "tests/release-readiness.test.ts",
@@ -2571,7 +2571,7 @@
         "sha256": "a36196f100e945aa30f6a77b5689c489105a720ed2a017e5785d95f973939084"
       }
     ],
-    "sha256": "5757f7c32f1b6b12a45e95b12371479c10322df6994085eb2a7f8dc7c0ba9a7f"
+    "sha256": "872caed66ce7d6d27cf7469cb13db58630d2526fca081786fdd346b860b50aca"
   },
   "observedArtifacts": {
     "buildCommit": null,

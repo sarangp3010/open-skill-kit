@@ -1,8 +1,8 @@
 # GitHub review and Pages configuration
 
-> Local integration at develop 24dc135: earlier rule observations below describe the pre-update review. The owner subsequently independently confirmed active develop ruleset 26980031, required validate from GitHub Actions app 15368, strict checking and preserved protections. This integration makes no remote settings request or new hosted-run claim. The existing CI evidence remains tied to its recorded commits, not these uncommitted changes.
+> Current preparation baseline: PR #1 merged as 24dc135 and PR #2 as d3dab62 on develop. The owner independently confirmed active develop ruleset 26980031, required validate from GitHub Actions app 15368, strict checking and preserved protections. The historical observations and original configuration instructions below are retained as history. No new remote settings inspection or hosted-run claim is made, and publication/deployment remain unauthorized.
 
-This guide was updated and selected remote controls inspected read-only on 2026-11-11. No setting, visibility, permission, workflow execution, billing control, deployment or publication was changed during this review. The branch/ruleset facts below are observations; other settings remain unverified. The owner separately attested an account-wide $0 hard stop, alerts and no payment method. No plan upgrade is proposed. Historical local-only claims in other reports are superseded by the hosted evidence linked below.
+Selected remote controls were inspected read-only in the historical 2026-11-11 review. This preparation updates guidance without a new remote inspection. No setting, visibility, permission, workflow execution, billing control, deployment or publication was changed during this review. The branch/ruleset facts below are observations; other settings remain unverified. The owner separately attested an account-wide $0 hard stop, alerts and no payment method. No plan upgrade is proposed. Historical local-only claims in other reports are superseded by the hosted evidence linked below.
 
 ## Local workflow audit
 
@@ -37,7 +37,7 @@ Proposed owner action, only after separate approval: add required validate/app 1
 
 See [the complete merge review](../PR1_MERGE_REVIEW.md). PR #1 remains Draft and has no submitted GitHub review. No rule or PR state was modified.
 
-## Manual edit of Protect Develop Branch (owner only)
+## Historical manual edit instructions for Protect Develop Branch
 
 Prepared instructions only: this review did not save or submit any GitHub setting. Edit the existing ruleset; do not create a new ruleset or classic branch-protection rule. The only proposed rule change in this step is required validate plus strict/up-to-date checking. Review-policy, audit and CODEOWNERS recommendations elsewhere are separate proposals, not part of this edit.
 
@@ -49,11 +49,11 @@ Prepared instructions only: this review did not save or submit any GitHub settin
 6. Review the proposed change before saving. The final rules list should retain deletion, non_fast_forward, required_linear_history and pull_request, and add one required_status_checks rule with validate/app 15368 and strict_required_status_checks_policy=true. Leave all other values unchanged. No new bypass, approval requirement, duplicate ruleset, paid feature, billing change, visibility change or workflow is included. If GitHub requests an upgrade/payment, stop rather than purchase or bypass it.
 7. When you choose to apply the change, use **Save changes** on that existing ruleset. Reopen it and confirm the same ID/name, Active state, develop-only target and all original rules remain. Verify required validate has source GitHub Actions and up-to-date checking enabled. Return to PR #1 and inspect its checks without marking it Ready or merging. Saving a settings change is an owner action; it has not been performed by this assistant.
 
-### Existing check evidence and strict-checking consequences
+### Historical PR #1 check evidence and strict-checking consequences
 
 Read-only verification on 2026-11-11 found PR #1 at head 48951e86e5c6d3411a41da63caf10d413a34025c, target develop, with **validate completed/success** from app **15368**, slug github-actions, name GitHub Actions. Its [successful check](https://github.com/sarangp3010/open-skill-kit/actions/runs/43050871016/job/130629895543) is already associated with the PR. No new check name or workflow run is needed merely to identify the requirement.
 
-The current develop tip is 2799067a6a68680cbdc5ad514c1263ad9ce7866f, which is an ancestor of that PR head. Therefore the branch is currently up to date; enabling strict policy does not by itself require changing its source history. GitHub will reevaluate mergeability under the saved rules. This is not merge authorization: the PR remains Draft, and publication/release approvals remain separate.
+At that historical review, develop was 2799067a6a68680cbdc5ad514c1263ad9ce7866f, an ancestor of that PR head. The branch was then up to date; enabling strict policy does not by itself require changing its source history. GitHub will reevaluate mergeability under the saved rules. This is not merge authorization: the PR remains Draft, and publication/release approvals remain separate.
 
 If develop advances later, strict checking can block merge despite an earlier green run. Bringing the PR branch up to date can change its head/tested merge and trigger fresh CI; likewise, a future documentation commit changes the head and the old 48951e8 result must not be presented as validation of the new commit. Any branch update, push or new run still requires separate approval under the $0 policy. Do not force-push, manually dispatch/rerun workflows, weaken strict checking, or bypass a budget block to resolve this state. Local validation remains available if hosted execution is blocked.
 
@@ -103,7 +103,7 @@ No Pages jobs exist. A future deployment design must require validate and succes
 
 ## Owner walkthrough: availability and evidence worksheet
 
-No setting below has been applied. Record observed visibility, plan, date and actual checker in the unsigned owner manifest; leave unknown values blank. The root package.json private flag protects the workspace from npm publication and does **not** establish GitHub repository visibility.
+This task applies no settings. The owner-confirmed develop requirement above already exists; do not recreate it. Record observed visibility, plan, date and actual checker in the unsigned owner manifest; leave unknown values blank. The root package.json private flag protects the workspace from npm publication and does **not** establish GitHub repository visibility.
 
 | Repository / plan     | Review and hosting capability                                                                                                                                              | Consequence for this repository                                                                                                                                      |
 | --------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------------------------------------------- |
