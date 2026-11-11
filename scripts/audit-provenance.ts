@@ -174,26 +174,122 @@ export async function auditBundleManifests(root: string) {
     }),
   );
 }
+type Inventory = Awaited<ReturnType<typeof provenanceInventory>>;
+type Dependency = Inventory['dependencies'][number];
+const dependencyKey = (record: Dependency) =>
+  `${record.name}@${record.version}`;
+
+/** Read-only diagnosis. The recorded inventory is evidence, never a repair target. */
+export function provenanceDrift(
+  expected: Inventory,
+  actual: Inventory,
+): string | null {
+  const samePlatform =
+    expected.dependencyInventoryPlatform === actual.dependencyInventoryPlatform;
+  const hostFields = new Set([
+    'dependencies',
+    'unresolvedDependencyNotices',
+    'dependencyInventoryPlatform',
+  ]);
+  const sourceFields = Object.keys({ ...expected, ...actual }).filter(
+    (key) => !hostFields.has(key),
+  ) as (keyof Inventory)[];
+  const changedSource = sourceFields.filter(
+    (key) => json(expected[key]) !== json(actual[key]),
+  );
+  // Preserve the existing host-scoped comparison policy; never mutate either input.
+  if (!samePlatform)
+    return changedSource.length
+      ? `Canonical/source evidence drift: ${changedSource.join(', ')}. Installed dependency records are not compared across inventory platforms. Investigate the source/lockfile evidence; do not automatically regenerate the canonical inventory.`
+      : null;
+  if (json(expected) === json(actual)) return null;
+
+  const unmatched = [...actual.dependencies];
+  const missing: Dependency[] = [];
+  for (const record of expected.dependencies) {
+    const index = unmatched.findIndex(
+      (candidate) => json(candidate) === json(record),
+    );
+    if (index >= 0) unmatched.splice(index, 1);
+    else missing.push(record);
+  }
+  const changed: string[] = [];
+  for (let index = missing.length - 1; index >= 0; index--) {
+    const record = missing[index];
+    const other = unmatched.findIndex(
+      (candidate) => dependencyKey(candidate) === dependencyKey(record),
+    );
+    if (other < 0) continue;
+    const installed = unmatched.splice(other, 1)[0];
+    missing.splice(index, 1);
+    const fields = Object.keys({ ...record, ...installed }).filter(
+      (key) =>
+        json(record[key as keyof Dependency]) !==
+        json(installed[key as keyof Dependency]),
+    );
+    changed.push(
+      `${dependencyKey(record)}: ${fields.join(', ')}; expected manifest ${record.manifestSha256}, installed ${installed.manifestSha256}`,
+    );
+  }
+  const versions = [...new Set(missing.map((record) => record.name))]
+    .sort()
+    .flatMap((name) => {
+      const installed = unmatched.filter((record) => record.name === name);
+      return installed.length
+        ? [
+            `${name}: missing ${missing
+              .filter((record) => record.name === name)
+              .map((record) => record.version)
+              .sort()
+              .join(', ')}; extra installed ${installed
+              .map((record) => record.version)
+              .sort()
+              .join(', ')}`,
+          ]
+        : [];
+    });
+  const expectedKeys = new Set(expected.dependencies.map(dependencyKey));
+  const retainedNotices = actual.unresolvedDependencyNotices.filter((record) =>
+    expectedKeys.has(`${record.name}@${record.version}`),
+  );
+  const installationOnly =
+    unmatched.length > 0 &&
+    unmatched.every((record) => !expectedKeys.has(dependencyKey(record))) &&
+    !missing.length &&
+    !changed.length &&
+    !changedSource.length &&
+    json(expected.unresolvedDependencyNotices) === json(retainedNotices);
+  const describe = (records: Dependency[]) =>
+    records
+      .map(
+        (record) =>
+          `${dependencyKey(record)} [manifest ${record.manifestSha256}]`,
+      )
+      .sort();
+  return [
+    installationOnly
+      ? 'Possible obsolete local installation: extra records remain beyond the canonical inventory.'
+      : 'Provenance evidence mismatch against the canonical inventory.',
+    `Extra installed dependency records (${unmatched.length}): ${json(describe(unmatched)).trim()}`,
+    `Missing expected dependency records (${missing.length}): ${json(describe(missing)).trim()}`,
+    `Changed manifest/notice evidence (${changed.length}): ${json(changed.sort()).trim()}`,
+    `Changed version evidence (${versions.length}): ${json(versions).trim()}`,
+    `Canonical/source fields changed: ${changedSource.join(', ') || 'none'}.`,
+    `Unresolved notice-case evidence changed: ${json(expected.unresolvedDependencyNotices) === json(actual.unresolvedDependencyNotices) ? 'no' : 'yes'}.`,
+    'Validation failed. Preserve the existing installation and compare in an isolated frozen-lockfile workspace. Investigate all drift before changing evidence; do not regenerate the canonical inventory to absorb obsolete or unexplained records.',
+  ].join('\n');
+}
+
 export async function writeProvenanceInventory(root: string, check = false) {
   const content = json(await provenanceInventory(root)),
     path = join(root, 'docs/launch/PROVENANCE_INVENTORY.json');
   if (check) {
-    const previous = JSON.parse(await readFile(path, 'utf8')),
-      current = JSON.parse(content);
-    if (
-      previous.dependencyInventoryPlatform !==
-      current.dependencyInventoryPlatform
-    ) {
-      for (const value of [previous, current]) {
-        delete value.dependencies;
-        delete value.unresolvedDependencyNotices;
-        delete value.dependencyInventoryPlatform;
-      }
-    }
-    if (json(previous) !== json(current))
-      throw new Error(
-        'Stale provenance inventory; run pnpm licensing:audit and inspect changed declarations/hashes',
-      );
+    const previous = JSON.parse(await readFile(path, 'utf8')) as Inventory;
+    const diagnostic = provenanceDrift(
+      previous,
+      JSON.parse(content) as Inventory,
+    );
+    if (diagnostic) throw new Error(diagnostic);
   } else {
     await mkdir(dirname(path), { recursive: true });
     await writeFile(path, content);

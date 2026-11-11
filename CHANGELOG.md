@@ -10,7 +10,7 @@ Use [Semantic Versioning](https://semver.org/) and the [release policy](docs/rel
 - Safe native lifecycle adapters for Codex, Claude Code, Cursor and Gemini CLI, with local/project installation, inspection, updates and removal.
 - Browser authoring, validation, preview and proposal export; moderated GitHub review/merge gates, exact-package/evidence hashes and approved-only npm/publication artifacts.
 - Reproducible founding reviews, a 12-skill owner-review shortlist, unsigned human review worksheets, launch checklist, permission/settings guide and additional publication/download regressions.
-- Read-only contribution CI, separate Pages build/deploy permissions, route metadata/sitemap and contributor onboarding. No release, deployment or skill approval is created by these changes.
+- Read-only contribution CI with validation-only checks → e2e → validate; no Pages deployment jobs. Route metadata/sitemap and contributor onboarding remain available for separately authorized hosting. No release, deployment or skill approval is created by these changes.
 
 ### Added
 
@@ -21,6 +21,10 @@ Use [Semantic Versioning](https://semver.org/) and the [release policy](docs/rel
 - npm distribution build and CLI for listing, previewing and safely copying published skill packages, with offline tarball installation tests and an empty-release guard.
 
 ### Changed
+
+- PR #1 and PR #2 are merged into develop; documented the owner-confirmed strict required validate protection without authorizing publication or deployment.
+- Licensing checks now explain extra/missing installed records, version changes and manifest/notice or source drift while failing closed and preserving canonical evidence.
+- Corrected security and launch guidance that still described removed automatic Pages jobs or outdated develop protection.
 
 - Kept portable skills and the independent `apps/web` React workspace in the monorepo; the app consumes the generated catalog, with separate discovery and approved publication artifacts.
 

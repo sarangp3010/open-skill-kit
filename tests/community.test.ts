@@ -266,6 +266,33 @@ interface Workflow {
   >;
 }
 describe('workflow and community configuration boundaries', () => {
+  it('documents the actual validation-only workflow boundary without implying deployment authorization', async () => {
+    const policy = await readFile(resolve('SECURITY.md'), 'utf8');
+    expect(policy).toContain('CI workflows validate only');
+    expect(policy).toContain('No Pages build/deploy jobs');
+    expect(policy).toContain('no Pages/OIDC write permissions');
+    expect(policy).toContain('Publication and deployment remain unauthorized');
+    expect(policy).not.toContain('Pages application builds run in a separate');
+    expect(policy).not.toContain('Only the pinned official deployment action');
+    for (const name of await readdir(resolve('.github/workflows'))) {
+      const workflow = parse(
+        await readFile(resolve('.github/workflows', name), 'utf8'),
+      ) as Workflow;
+      expect(workflow.permissions).toEqual({ contents: 'read' });
+      for (const job of Object.values(workflow.jobs)) {
+        expect(job.permissions).not.toHaveProperty('pages');
+        expect(job.permissions).not.toHaveProperty('id-token');
+        expect(job.environment).toBeUndefined();
+        for (const step of job.steps) {
+          expect(step.uses ?? '').not.toMatch(
+            /deploy-pages|configure-pages|upload-pages-artifact/,
+          );
+          expect(step.run ?? '').not.toMatch(/(?:npm|pnpm) publish/);
+        }
+      }
+    }
+  });
+
   it('keeps every PR-capable job read-only, secret-free and on hosted runners', async () => {
     for (const name of await readdir(resolve('.github/workflows'))) {
       const raw = await readFile(resolve('.github/workflows', name), 'utf8'),
