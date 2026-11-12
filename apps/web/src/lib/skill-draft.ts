@@ -2,8 +2,13 @@ import {
   safePathSchema,
   slugSchema,
   submissionRequestSchema,
-  type DiscoveryCatalog,
+  type Sector,
 } from '@uas/skill-schema';
+/** Draft checks need sector names and existing identities only, not file contents. */
+export type DraftCatalog = {
+  sectors: Sector[];
+  skills: { id: string; slug: string }[];
+};
 import { validateSkill, LIMITS } from '@uas/skill-validator';
 export interface BrowserDraft {
   schemaVersion: 1;
@@ -64,7 +69,7 @@ export function safeDraft(input: unknown): BrowserDraft {
     files: Object.fromEntries(paths.map((path) => [path, draft.files[path]])),
   };
 }
-export function checkDraft(draft: BrowserDraft, catalog: DiscoveryCatalog) {
+export function checkDraft(draft: BrowserDraft, catalog: DraftCatalog) {
   const checked = validateSkill(draft.files, draft.id);
   const errors = [...checked.errors];
   if (
@@ -102,7 +107,7 @@ export function checkDraft(draft: BrowserDraft, catalog: DiscoveryCatalog) {
     errors.push('An update must target an existing source skill');
   return { ...checked, valid: checked.valid && errors.length === 0, errors };
 }
-export function proposalSkill(draft: BrowserDraft, catalog: DiscoveryCatalog) {
+export function proposalSkill(draft: BrowserDraft, catalog: DraftCatalog) {
   const result = checkDraft(draft, catalog);
   if (!result.valid || !result.skill)
     throw new Error('Fix validation errors before exporting a skill package');

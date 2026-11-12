@@ -1,8 +1,8 @@
 import { useEffect } from 'react';
 import { useLocation } from 'react-router-dom';
-import type { DiscoveryCatalog } from '@/lib/catalog';
+import type { BrowseCatalog } from '@/lib/catalog';
 import { applyMetadata, pageMetadata } from '@/lib/site-metadata';
-export function PageMetadata({ catalog }: { catalog: DiscoveryCatalog }) {
+export function PageMetadata({ catalog }: { catalog: BrowseCatalog }) {
   const { pathname } = useLocation();
   useEffect(() => {
     applyMetadata(

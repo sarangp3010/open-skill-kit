@@ -7,7 +7,7 @@ import {
   type ReactNode,
 } from 'react';
 import { Route, Routes } from 'react-router-dom';
-import { loadCatalog } from '@/lib/catalog';
+import { loadCatalogIndex } from '@/lib/catalog';
 import { Layout, type CatalogState } from '@/components/layout';
 import { HomePage } from '@/pages/home';
 import { CatalogPage } from '@/pages/catalog';
@@ -67,7 +67,7 @@ export function App() {
   const [attempt, setAttempt] = useState(0);
   useEffect(() => {
     const controller = new AbortController();
-    loadCatalog(controller.signal)
+    loadCatalogIndex(controller.signal)
       .then((catalog) => setState({ status: 'ready', catalog }))
       .catch((error: unknown) => {
         if (!controller.signal.aborted)

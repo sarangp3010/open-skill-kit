@@ -1,5 +1,5 @@
 import { platforms } from '@uas/platform-adapters';
-import type { DiscoverySkill } from '@/lib/catalog';
+import type { DiscoverySkill, IndexSkill } from '@/lib/catalog';
 import { sourceUrl } from '@/lib/catalog';
 import { EvaluationDetails, EvaluationSummary } from './skill-evaluations';
 
@@ -9,7 +9,7 @@ const testingLabels = {
   'recorded-fail': 'Recorded failure',
   stale: 'Stale test evidence',
 } as const;
-export function TrustSummary({ skill }: { skill: DiscoverySkill }) {
+export function TrustSummary({ skill }: { skill: IndexSkill }) {
   const passed =
     skill.compatibility?.filter((row) => row.testing === 'recorded-pass')
       .length ?? 0;

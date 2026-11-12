@@ -20,6 +20,7 @@ third-party/*-LICENSE.txt
 
 apps/web/public/published.json
 catalog/published.json
+apps/web/public/data/
 
 # Reproducible founding review artifacts
 reviews/founding/reports/

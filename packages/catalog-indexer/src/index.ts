@@ -12,6 +12,12 @@ import { assessAttribution, readAttributions } from './attributions';
 export { readAttributions, assessAttribution } from './attributions';
 export { packageDigest, assessCompatibility } from './trust';
 export {
+  webArtifacts,
+  skillDetailPath,
+  INDEX_BUDGET_BYTES,
+  WEB_DATA_DIRECTORY,
+} from './web-artifacts';
+export {
   readPublicationRegistry,
   publishedCatalog,
   isApprovedPackage,

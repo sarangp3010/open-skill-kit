@@ -12,6 +12,24 @@ const catalog = discoveryCatalogSchema.parse(
   ),
 );
 const skill = catalog.skills[0];
+/** Finds a result card link by exact title, using Load more until it is shown. */
+async function revealSkillLink(
+  page: import('@playwright/test').Page,
+  title: string,
+) {
+  const cards = page.getByRole('article');
+  const link = page.getByRole('link', { name: title, exact: true });
+  const more = page.getByRole('button', { name: 'Load more skills' });
+  await expect(cards.first()).toBeVisible();
+  while (!(await link.count())) {
+    if (!(await more.count()))
+      throw new Error(`${title} is not in the results`);
+    const shown = await cards.count();
+    await more.click();
+    await expect(cards).not.toHaveCount(shown);
+  }
+  return link;
+}
 
 test('search, URL filters, detail and a complete ZIP download', async ({
   page,
@@ -302,7 +320,13 @@ test('quality filters persist in URLs and details explain structural scores with
     `${qualified.length} skills`,
   );
   await expect(page.getByLabel('Minimum quality score')).toHaveValue('90');
-  await page.getByLabel('Test evidence').selectOption('recorded-pass');
+  // Zero-result options are disabled; a shared URL can still request one.
+  await expect(
+    page.getByRole('option', { name: 'Recorded pass (0)' }),
+  ).toBeDisabled();
+  await page.goto(
+    '/skills?quality=90&platform=codex&validation=passed&status=draft&sort=quality&testing=recorded-pass',
+  );
   await expect(
     page.getByRole('heading', { name: 'No skills found' }),
   ).toBeVisible();
@@ -318,9 +342,7 @@ test('quality filters persist in URLs and details explain structural scores with
     `${qualified.length} skills`,
   );
   await expect(page.getByLabel('Installation platform')).toHaveValue('codex');
-  await page
-    .getByRole('link', { name: warningSkill.title, exact: true })
-    .click();
+  await (await revealSkillLink(page, warningSkill.title)).click();
   await page
     .getByText(`Explain quality score (${warningSkill.quality!.score}/100)`)
     .click();
@@ -385,7 +407,11 @@ test('broad sectors, specialties and planned routes preserve search and history'
       exact: true,
     }),
   ).toBeVisible();
-  await page.getByLabel('Broad sector').selectOption('finance');
+  // Finance has no "shipment" match, so its option is disabled; request it by URL.
+  await expect(
+    page.getByRole('option', { name: 'Finance & Accounting (0)' }),
+  ).toBeDisabled();
+  await page.goto('/skills?sort=za&q=shipment&industry=finance');
   await expect(page).toHaveURL(/industry=finance/);
   await expect(
     page.getByRole('heading', { name: 'No skills found' }),
@@ -658,7 +684,7 @@ test('published catalog excludes drafts and update proposals bind to their sourc
     page.getByRole('heading', { name: 'Published skills' }),
   ).toBeVisible();
   await expect(
-    page.getByRole('heading', { name: 'No skills found' }),
+    page.getByRole('heading', { name: 'No skills have been published yet' }),
   ).toBeVisible();
   await expect(
     page.getByRole('link', { name: skill.title, exact: true }),
@@ -680,4 +706,135 @@ test('published catalog excludes drafts and update proposals bind to their sourc
   const request = JSON.parse(strFromU8(files[`${skill.slug}/submission.json`]));
   expect(request.operation).toBe('update');
   expect(request.basePackageDigest).toMatch(/^[a-f0-9]{64}$/);
+});
+
+const dataRequests = (page: import('@playwright/test').Page) => {
+  const paths: string[] = [];
+  page.on('request', (request) => {
+    const { pathname } = new URL(request.url());
+    if (
+      pathname.startsWith('/data/') ||
+      /^\/(catalog|published)\.json$/.test(pathname)
+    )
+      paths.push(pathname);
+  });
+  return paths;
+};
+
+test('initial browsing loads only the lightweight index; search and details load on demand', async ({
+  page,
+}) => {
+  const requests = dataRequests(page);
+  const index = page.waitForResponse((response) =>
+    response.url().endsWith('/data/index.json'),
+  );
+  await page.goto('/skills');
+  expect((await (await index).body()).byteLength).toBeLessThanOrEqual(150_000);
+  await expect(page.getByRole('status')).toContainText(
+    `${catalog.skills.length} skills`,
+  );
+  // Development StrictMode may repeat the start-up effect; only the index loads.
+  expect([...new Set(requests)]).toEqual(['/data/index.json']);
+  await page.getByLabel('Search skills').pressSequentially('review');
+  await expect(page.getByRole('status')).toContainText('matching “review”');
+  expect(requests.filter((path) => path === '/data/search.json')).toHaveLength(
+    1,
+  );
+  const first = page.getByRole('article').first().getByRole('link');
+  const title = (await first.textContent())!.trim();
+  const target = catalog.skills.find((item) => item.title === title)!;
+  await first.click();
+  await expect(
+    page.getByRole('heading', { name: target.title, level: 1 }),
+  ).toBeVisible();
+  expect(requests.filter((path) => path.startsWith('/data/skills/'))).toEqual([
+    `/data/skills/${target.sector}/${target.slug}.json`,
+  ]);
+  expect(requests).not.toContain('/catalog.json');
+});
+
+test('Load more pages results, survives reload and moves focus to new results', async ({
+  page,
+}) => {
+  const sorted = [...catalog.skills].sort(
+    (a, b) =>
+      a.title.localeCompare(b.title, 'en') || a.id.localeCompare(b.id, 'en'),
+  );
+  await page.goto('/skills');
+  const cards = page.getByRole('article');
+  await expect(cards.first()).toBeVisible();
+  // Derive the page size from the UI rather than assuming a constant.
+  const pageSize = await cards.count();
+  expect(sorted.length).toBeGreaterThan(pageSize);
+  await expect(page.getByRole('status')).toContainText(
+    `${catalog.skills.length} skills · showing ${pageSize}`,
+  );
+  await expect(
+    page.getByRole('link', { name: sorted[pageSize - 1].title, exact: true }),
+  ).toBeVisible();
+  await expect(
+    page.getByRole('link', { name: sorted[pageSize].title, exact: true }),
+  ).toHaveCount(0);
+  await page.getByRole('button', { name: 'Load more skills' }).click();
+  await expect(cards).toHaveCount(Math.min(sorted.length, pageSize * 2));
+  await expect(
+    page.getByRole('link', { name: sorted[pageSize].title, exact: true }),
+  ).toBeFocused();
+  await expect
+    .poll(() => new URL(page.url()).searchParams.get('page'))
+    .toBe('2');
+  await page.reload();
+  await expect(cards).toHaveCount(Math.min(sorted.length, pageSize * 2));
+  if (sorted.length <= pageSize * 2)
+    await expect(
+      page.getByRole('button', { name: 'Load more skills' }),
+    ).toHaveCount(0);
+});
+
+test('published view stays published-only with a clear empty state', async ({
+  page,
+}) => {
+  const requests = dataRequests(page);
+  await page.goto('/published?status=draft&q=review');
+  await expect(
+    page.getByRole('heading', { name: 'No skills have been published yet' }),
+  ).toBeVisible();
+  await expect(page.getByRole('article')).toHaveCount(0);
+  await expect(page.getByText('Draft · preview')).toHaveCount(0);
+  await page.getByRole('button', { name: 'Clear filters' }).click();
+  await expect(page).toHaveURL(/\/published$/);
+  await expect(
+    page.getByRole('heading', { name: 'No skills have been published yet' }),
+  ).toBeVisible();
+  expect(requests).not.toContain('/data/search.json');
+});
+
+test('accessibility of paged results and the published empty state in both themes', async ({
+  page,
+}) => {
+  for (const theme of ['light', 'dark'])
+    for (const path of ['/skills?page=2&q=review', '/published']) {
+      await page.goto(path);
+      await expect(page.locator('main h1').first()).toBeVisible();
+      if (path.startsWith('/skills'))
+        await expect(page.getByRole('status')).toContainText('matching');
+      await page.getByLabel('Color theme').selectOption(theme);
+      await page.evaluate(async () => {
+        await Promise.all(
+          document
+            .getAnimations()
+            .map((animation) => animation.finished.catch(() => undefined)),
+        );
+      });
+      const results = await new AxeBuilder({ page })
+        .withTags(['wcag2a', 'wcag2aa', 'wcag21aa', 'wcag22aa'])
+        .analyze();
+      expect(
+        results.violations.map((violation) => ({
+          id: violation.id,
+          context: `${theme} ${path}`,
+          nodes: violation.nodes.map((node) => node.target),
+        })),
+      ).toEqual([]);
+    }
 });
