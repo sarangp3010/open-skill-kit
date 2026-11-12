@@ -140,6 +140,9 @@ describe('reproducible founding content triage', () => {
       'software-engineering/code-review-expert',
     );
   });
+  // Integration test: three full scans of all 42 packages (founding reports,
+  // read-only freshness check and catalog generation). Keep its budget explicit
+  // like the copy-tree test below rather than raising Vitest's global timeout.
   it('is deterministic, checks freshness read-only and never changes the ledger or source', async () => {
     const before = await readFile(
       resolve('catalog/publication-reviews.json'),
@@ -156,7 +159,7 @@ describe('reproducible founding content triage', () => {
     expect(
       publishedCatalog(catalog, await readPublicationRegistry(root)).skills,
     ).toEqual([]);
-  });
+  }, 20000);
   it('regenerates reports only in the report tree and detects changed package contents', async () => {
     const dir = await mkdtemp(
       join(await realpath(tmpdir()), 'osk-founding-copy-'),
