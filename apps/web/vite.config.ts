@@ -1,3 +1,4 @@
+import { assertReleaseLicenseEvidence } from '../../scripts/release-license-gate';
 import { fileURLToPath, URL } from 'node:url';
 import { defineConfig } from 'vite';
 import { readFile } from 'node:fs/promises';
@@ -17,6 +18,7 @@ export default defineConfig({
       name: 'distribution-licenses',
       async generateBundle() {
         const dependencies: DependencyNoticeRecord[] = [];
+        const locations = new Map<string, string>();
         this.emitFile({
           type: 'asset',
           fileName: 'THIRD_PARTY_NOTICES.txt',
@@ -31,9 +33,18 @@ export default defineConfig({
               ),
             ],
             fileURLToPath(new URL('../../third-party', import.meta.url)),
-            (record) => dependencies.push(record),
+            (record, directory) => {
+              dependencies.push(record);
+              locations.set(`${record.name}@${record.version}`, directory);
+            },
           ),
         });
+        if (process.env.OPEN_SKILL_KIT_RELEASE_BUILD === '1')
+          await assertReleaseLicenseEvidence(
+            fileURLToPath(new URL('../../', import.meta.url)),
+            dependencies,
+            locations,
+          );
         this.emitFile({
           type: 'asset',
           fileName: 'DEPENDENCY_MANIFEST.json',

@@ -1,0 +1,76 @@
+# PR #4 — Attribution Review Authorization & License Provenance Enforcement
+
+Local implementation on 2026-11-12, baseline e869c81e6bf47e7d741ca974b3af957271c4efc4. No real approvals, attribution records, owner decisions or publication authority were created. All 42 source packages remain drafts, with zero approvals and zero published packages.
+
+## Attribution trust boundary
+
+The existing local authority is catalog/maintainers.json. Nonempty attribution registries require that roster, a separate authorized reviewer, a valid non-future UTC date, and bounded UTF-8 review evidence with its exact recorded hash. Missing/malformed authorization or evidence fails. Catalog options are checked against the authorized recorded evidence instead of accepting an arbitrary structurally valid attribution object. Current/stale still describes package-hash freshness; it does not certify identity or rights.
+
+CI uses the already existing trusted-base roster, read-only GitHub review GET requests and current-head independent approval logic. Changed attribution records must reference the current PR, so an unrelated historical approval cannot authorize new metadata. Historical PR references require a merged PR and an authorized merger; the current PR may be checked before merge. Dismissed, stale, absent and self-authored approvals fail. Both recorded and API review timestamps use the existing strict format; missing/invalid/future dates and recorded dates after actual approval fail. These checks extend the existing trust sources, not a new reviewer allowlist or authentication service. Publication decisions continue to require main; attribution never publishes a package.
+
+Local unsigned metadata alone is not an independent identity attestation. The UI now states this explicitly. Real ownership/consent and rights review remain human responsibilities. Repository review policy must protect the checker and trusted roster; no claim is made that local files cryptographically authenticate a person. Tests use clearly synthetic, disposable rosters and mocked API responses; no live approval was submitted or invented.
+
+## License provenance boundary
+
+Before: override handling checked its source URL, notice hash and license declaration, but ignored sourceVersion and permitted the limitation note to be omitted.
+
+After: sourceVersion must be a valid declared version. A version mismatch requires a string limitation with non-whitespace content. Missing/empty limitations, invalid version/note fields, unsafe source references and altered notice hashes fail closed. Generated notices disclose the declared source and actual dependency versions. These are declarations and byte-integrity checks, not proof that a commit belongs to a release or that a license applies across versions.
+
+The real react-remove-scroll-bar@2.3.8 override and 2.3.7 source evidence remain byte-identical and unresolved. No new source evidence, legal acceptance, dependency replacement or canonical inventory record was manufactured.
+
+## Earlier attribution/collection validation
+
+Environment: existing isolated darwin-arm64 dependencies, Node 22.23.4 and pnpm 10.20.0. Source was mirrored without changing branches or dependencies. No GitHub Actions, paid API, browser download or real-agent execution was used.
+
+| Command                                                                                                     | Result                                                                                                                            |
+| ----------------------------------------------------------------------------------------------------------- | --------------------------------------------------------------------------------------------------------------------------------- |
+| pnpm exec vitest run tests/community.test.ts tests/moderated-submissions.test.ts tests/marketplace.test.tsx | Final 89 focused tests passed                                                                                                     |
+| pnpm test                                                                                                   | Final default run: 419 tests / 18 files passed in 5.89 seconds                                                                    |
+| pnpm exec vitest run --maxWorkers=2                                                                         | Diagnostic run: all 417 then-current tests passed; final two strict-date cases were added afterward and passed in the default run |
+| pnpm typecheck                                                                                              | Passed, root and web                                                                                                              |
+| pnpm lint                                                                                                   | Passed                                                                                                                            |
+| pnpm format:check                                                                                           | Passed                                                                                                                            |
+| pnpm portability:check                                                                                      | Passed on this host; no new native Windows/Linux claim                                                                            |
+| pnpm licensing:check                                                                                        | Passed in the isolated validated installation                                                                                     |
+| pnpm contributions:check                                                                                    | Passed                                                                                                                            |
+| pnpm moderation:check                                                                                       | Passed, zero actual decisions/attributions                                                                                        |
+| pnpm founding:check                                                                                         | Passed                                                                                                                            |
+| pnpm release:check                                                                                          | Passed                                                                                                                            |
+| pnpm validate:skills                                                                                        | Passed, 42 drafts                                                                                                                 |
+| pnpm check:links                                                                                            | Passed, local file references only                                                                                                |
+| pnpm catalog:check                                                                                          | Passed                                                                                                                            |
+| pnpm build:marketplace                                                                                      | Passed                                                                                                                            |
+| pnpm build                                                                                                  | Passed, static production build                                                                                                   |
+| pnpm catalog:check-assets                                                                                   | Passed                                                                                                                            |
+| pnpm pack:npm                                                                                               | Passed, local packaging only, zero published skills                                                                               |
+| pnpm licensing:artifacts                                                                                    | Passed                                                                                                                            |
+| CI=true PLAYWRIGHT_PORT=5186 pnpm test:e2e                                                                  | All 22 browser/accessibility cases passed in 36.4 seconds                                                                         |
+
+Early focused failures exposed a misplaced new review loop; it was corrected and existing negative publication tests retained. Earlier full parallel runs encountered existing five-second tests and a ten-second hook timeout during filesystem-heavy work. No test was disabled or timeout increased. Mock-only tests were moved to the existing lightweight fixture, and the final normal command passed. Original logs remain in ignored local validation files, not proposed commit content.
+
+## Protected state and remaining requirements
+
+Dependencies, lockfile, canonical provenance inventory, actual attribution/publication/maintainer ledgers, skill content, CI workflows and GitHub settings are unchanged. The original installation still has the known 67 obsolete dependency records; no cleanup or inventory regeneration was attempted. Vite PID 9302 on port 5173 remains running.
+
+The seven original parent owner-packet files are preserved byte-for-byte. The previous current packet is preserved with verified hashes before safe regeneration of unsigned current observations; no human edits are overwritten. Current freshness/reproducibility and final artifact observations are recorded in docs/owner-decision/current/VALIDATION.md. Build artifacts are local observations, not clean-commit attestations.
+
+Remaining release blockers include exact-release runtime license provenance, genuine ownership/consent/domain review, actual independent maintainer review, protected repository/reporting controls and explicit release authorization. Code cannot fabricate these. No new hosted or real-agent results or complete legal/security verification are claimed. Changes are prepared for manual review and commit only; nothing is staged, committed, pushed, published or deployed.
+
+## Release-only license preflight — final revision
+
+Before this revision, notice collection allowed disclosed cross-version evidence and the generated npm publication guard checked approved skill bytes but did not independently check dependency provenance. A limitation could therefore be collected without preventing release preparation. This is now a separate fail-closed boundary.
+
+The shared scripts/release-license-gate.ts checks the actually distributed dependencies against the existing canonical inventory, unchanged lockfile/root license/override references, and the actual package manifest and notices. Any matching unresolved notice record blocks, regardless of its asserted status. Missing, changed, linked, unsafe, empty or non-UTF-8 notice material also blocks. Override-only evidence cannot clear the gate, including when sourceVersion matches or a limitation/hash is present. No new licensing approval or waiver scheme exists. This is a negative technical preflight, not legal clearance; genuine exact-release provenance and human rights review remain necessary.
+
+Npm release preparation explicitly opts in with `pnpm exec tsx scripts/build-npm.ts --release`; the preflight runs before output writes and independently of the existing approved-skill count check. Ordinary local builds are private diagnostic packages whose generated publication guard rejects them. Successful release packages also bind license/manifest/notice bytes against subsequent tampering. Browser release preparation uses `OPEN_SKILL_KIT_RELEASE_BUILD=1 pnpm build`, enforcing the same preflight before bundle writes. Default browser builds remain local diagnostic outputs and are not authorized for upload. There is no deployment/publish workflow. An owner can edit local source or manually upload files; these controls do not claim to prevent an owner bypassing the release procedure.
+
+The exact real browser release command was exercised against the unchanged inventory and failed with exit 1, naming react-remove-scroll-bar@2.3.8, human-confirmation-required provenance and the differing 2.3.7 override source. No browser index/bundle was written to its separate rejected-release output. Actual npm release preparation also fails with exit 1 because no approved skill exists. The independent integration fixture has one otherwise valid synthetic publication authorization and still fails specifically on unresolved bundled licensing before any release package manifest is written; the zero-skill block cannot mask that regression.
+
+### Final offline validation
+
+- Focused release-gate and npm tests: **30 passed**. Includes matching exact packaged evidence, unresolved and override-only evidence, missing/invalid/changed/stale evidence, empty/whitespace/binary notice material, a valid-skill-authorization fixture and post-build license tampering.
+- Full default `pnpm test`: **431 passed / 19 files**, 5.87 seconds, without skips or changed test configuration/timeouts.
+- `pnpm typecheck`, `pnpm lint`, `pnpm format:check`, `pnpm portability:check`, `pnpm licensing:check`, `pnpm contributions:check`, `pnpm moderation:check`, `pnpm founding:check`, `pnpm release:check`, `pnpm validate:skills`, `pnpm check:links`, `pnpm catalog:check`, `pnpm evaluate:fixtures`, `pnpm build:marketplace`, `pnpm build`, `pnpm catalog:check-assets`, `pnpm pack:npm` and `pnpm licensing:artifacts`: passed using existing isolated dependencies. Fixture replay is deterministic validation, not measured real-agent effectiveness.
+- Final browser/accessibility and owner-packet freshness/reproduction results are recorded in the separate current validation receipt, after all affected source and evidence is finalized. Earlier port 5186 results above are retained as historical execution, not substituted for this revision.
+
+The complete PR #4 source diff was reviewed for authorized attribution roster handling, independent current-head reviews, unrelated historical PR references, stale/dismissed/self approval rejection, strict dates, publication main-only checks and the new licensing path. No existing owner approval authority was changed. Remaining release blockers are genuine exact-release runtime licensing evidence, genuine rights/domain/owner decisions, actual independent approvals, confidential reporting/settings confirmation and explicit release authority. The code change is for manual review/commit; release remains blocked. No remote advisory audit, hosted/native Linux/Windows run, paid service, real-agent run or legal certification is claimed.

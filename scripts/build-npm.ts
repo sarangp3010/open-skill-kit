@@ -1,3 +1,4 @@
+import { assertReleaseLicenseEvidence } from './release-license-gate';
 import {
   thirdPartyNotices,
   type DependencyNoticeRecord,
@@ -26,6 +27,7 @@ export async function buildNpmPackage(
   repositoryRoot: string,
   outDir: string,
   skillsRoot = join(repositoryRoot, 'skills'),
+  options: { release?: boolean } = {},
 ) {
   const { catalog } = await buildCatalog(skillsRoot);
   const registry = await readPublicationRegistry(dirname(resolve(skillsRoot)));
@@ -51,9 +53,6 @@ export async function buildNpmPackage(
     basename(dirname(target)) !== 'dist'
   )
     throw new Error('npm output must be a dedicated directory under dist');
-  await rm(target, { recursive: true, force: true });
-  await mkdir(join(target, 'bin'), { recursive: true });
-  await mkdir(join(target, 'data'), { recursive: true });
   const rootManifest = JSON.parse(
     await readFile(join(repositoryRoot, 'package.json'), 'utf8'),
   ) as { version: string; engines: { node: string } };
@@ -65,20 +64,38 @@ export async function buildNpmPackage(
     format: 'esm',
     target: 'node22',
     metafile: true,
+    write: false,
     banner: {
       js: '#!/usr/bin/env node\nimport { createRequire as __createRequire } from "node:module";\nconst require = __createRequire(import.meta.url);',
     },
     legalComments: 'eof',
   });
   const dependencies: DependencyNoticeRecord[] = [];
-  await writeFile(
-    join(target, 'THIRD_PARTY_NOTICES.txt'),
-    await thirdPartyNotices(
-      Object.keys(bundle.metafile.inputs),
-      join(repositoryRoot, 'third-party'),
-      (record) => dependencies.push(record),
-    ),
+  const locations = new Map<string, string>();
+  const notices = await thirdPartyNotices(
+    Object.keys(bundle.metafile.inputs),
+    join(repositoryRoot, 'third-party'),
+    (record, directory) => {
+      dependencies.push(record);
+      locations.set(`${record.name}@${record.version}`, directory);
+    },
   );
+  if (options.release) {
+    // Check licensing independently, before the skill-count guard and any output writes.
+    await assertReleaseLicenseEvidence(repositoryRoot, dependencies, locations);
+    if (!catalog.skills.length)
+      throw new Error(
+        'Release blocked: at least one reviewed, published skill is required',
+      );
+  }
+  await rm(target, { recursive: true, force: true });
+  await mkdir(join(target, 'bin'), { recursive: true });
+  await mkdir(join(target, 'data'), { recursive: true });
+  await writeFile(
+    join(target, 'bin/open-skill-kit.js'),
+    bundle.outputFiles[0].contents,
+  );
+  await writeFile(join(target, 'THIRD_PARTY_NOTICES.txt'), notices);
   await writeFile(
     join(target, 'DEPENDENCY_MANIFEST.json'),
     JSON.stringify(
@@ -117,6 +134,7 @@ export async function buildNpmPackage(
   }
   const manifest = {
     name: 'open-skill-kit',
+    private: !options.release,
     version: rootManifest.version,
     description:
       'Browse and copy portable, human-reviewed SKILL.md packages from an open-source library.',
@@ -150,6 +168,14 @@ export async function buildNpmPackage(
     join(target, 'package.json'),
     JSON.stringify(manifest, null, 2) + '\n',
   );
+  const licenseIntegrity: Record<string, string> = {};
+  licenseIntegrity.LICENSE = createHash('sha256')
+    .update(await readFile(join(repositoryRoot, 'LICENSE')))
+    .digest('hex');
+  for (const file of ['DEPENDENCY_MANIFEST.json', 'THIRD_PARTY_NOTICES.txt'])
+    licenseIntegrity[file] = createHash('sha256')
+      .update(await readFile(join(target, file)))
+      .digest('hex');
   await writeFile(
     join(target, 'release-check.js'),
     `import { readFileSync,readdirSync,lstatSync } from 'node:fs';
@@ -161,6 +187,9 @@ const raw=readFileSync(new URL('./data/catalog.json',import.meta.url));
 const expectedCatalogHash=${JSON.stringify(createHash('sha256').update(serializedCatalog).digest('hex'))};
 const expectedPackages=${JSON.stringify(packageHashes)};
 try {
+ if(!${JSON.stringify(Boolean(options.release))})throw new Error('Development artifact is private; an explicit licensed release build is required');
+ const expectedLicenses=${JSON.stringify(licenseIntegrity)};
+ for(const [file,digest] of Object.entries(expectedLicenses))if(hash(readFileSync(new URL('./'+file,import.meta.url)))!==digest)throw new Error('Release license evidence changed: '+file);
  if(hash(raw)!==expectedCatalogHash)throw new Error('Catalog changed since approved build');
  const catalog=JSON.parse(raw);
  if(!catalog.skills.length || catalog.skills.some(entry=>entry.metadata.status!=='published')) throw new Error('at least one reviewed, published skill is required');
@@ -197,7 +226,15 @@ if (
   process.argv[1] &&
   resolve(process.argv[1]) === fileURLToPath(import.meta.url)
 ) {
-  const result = await buildNpmPackage(resolve('.'), resolve('dist/npm'));
+  const args = process.argv.slice(2);
+  if (args.length > 1 || (args.length && args[0] !== '--release'))
+    throw new Error('Usage: build-npm.ts [--release]');
+  const result = await buildNpmPackage(
+    resolve('.'),
+    resolve('dist/npm'),
+    undefined,
+    { release: args[0] === '--release' },
+  );
   console.log(
     `Built npm package in ${result.directory}; ${result.published} published skills. No package was published.`,
   );

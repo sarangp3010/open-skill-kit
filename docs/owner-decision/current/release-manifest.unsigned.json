@@ -2,7 +2,7 @@
   "schemaVersion": 1,
   "kind": "unsigned-owner-decision-package",
   "notAnApprovalRecord": true,
-  "headObserved": "d3dab62aeb5c8ed221ee116299cde3c3c3daa9ca",
+  "headObserved": "e869c81e6bf47e7d741ca974b3af957271c4efc4",
   "candidateVersionObserved": "0.1.0",
   "sourceSnapshot": {
     "files": [
@@ -60,7 +60,7 @@
       },
       {
         "path": "CHANGELOG.md",
-        "sha256": "eac9c6edb52e2a35fa10a1ec6354ae4607e235dff1a7b95a1f8d6bffd2840004"
+        "sha256": "269572c7ee4082143a281839aeb9da84bc11e6ff9cd46e678d2f4027bc48a264"
       },
       {
         "path": "CODE_OF_CONDUCT.md",
@@ -124,7 +124,7 @@
       },
       {
         "path": "apps/web/src/components/contributor-attribution.tsx",
-        "sha256": "5568db27a94b4dfcd9c4b679b50350b9c5ec5675d43bc3b0b41848b468e9c704"
+        "sha256": "5138b7e6f0213da0fd3f076b863683de148786427f8d0e8042a73ca685cbb8f1"
       },
       {
         "path": "apps/web/src/components/install-guide.tsx",
@@ -236,7 +236,7 @@
       },
       {
         "path": "apps/web/vite.config.ts",
-        "sha256": "6a75bdc0589f43f1bd186dfbebaae7aca16dff1096847e49ab8155683b56d35f"
+        "sha256": "e73671a4b14b362ffb95fd9a05dface62eaba42d82b33c73a1a2cd29d0b71121"
       },
       {
         "path": "archive/README.md",
@@ -344,7 +344,7 @@
       },
       {
         "path": "docs/IMPLEMENTATION_STATUS.md",
-        "sha256": "175bd01df71fcc6c5b39d12cfe24fb1d3891e62ecacc84ce389f7a90afb5b6bb"
+        "sha256": "34907b5086f6445bcde47af30bf9b40bfc3734d408fd37e102a5b873671260f2"
       },
       {
         "path": "docs/MARKETPLACE_V1_INTEGRATION.md",
@@ -359,6 +359,10 @@
         "sha256": "0fd0c54e694339ffe4f5c9dc47d79dbc873fddcd4a4f31525dff6d83d0c5b8f0"
       },
       {
+        "path": "docs/PR4_IMPLEMENTATION_REPORT.md",
+        "sha256": "5490584e538eb1e2eec580673bca87a0709234d947ed2b2181daa6c781116bc6"
+      },
+      {
         "path": "docs/adr/0001-monorepo-boundaries.md",
         "sha256": "aa96ae95b4f5296652f9c9c48369e2e391785775d375714a86d6d7d7eff55850"
       },
@@ -368,7 +372,7 @@
       },
       {
         "path": "docs/attributions/README.md",
-        "sha256": "0c6311e76c9e10f441f640638589fc71026aae3a8913ef2dfb0dd96524e7b061"
+        "sha256": "c44b63974aa269212383be113b9aafd9d8a9e1779702f61328153494c71bb755"
       },
       {
         "path": "docs/catalog-pipeline.md",
@@ -432,7 +436,7 @@
       },
       {
         "path": "docs/npm-distribution.md",
-        "sha256": "b8bfac13a030359864e67e1495f581f6b96fa0391baa7c0acc56f2bd383dad63"
+        "sha256": "af3f2b60ed367cf2203312d46c0ae3782e5d2f3ad1750395d0cfb92869a9ec60"
       },
       {
         "path": "docs/owner-decision/DEPENDENCY_TRIAGE.md",
@@ -472,7 +476,7 @@
       },
       {
         "path": "docs/releases.md",
-        "sha256": "7ad19523dd7bab7b2b11df3759321b66e5e5c345c30358ee6caba8bb3ec44e01"
+        "sha256": "d1e00cb90c090907db56aaafcbdef6531f5131f9900b10800d932f686dadd7ab"
       },
       {
         "path": "docs/scaffold.md",
@@ -596,7 +600,7 @@
       },
       {
         "path": "packages/catalog-indexer/src/attributions.ts",
-        "sha256": "1a49f30823e47b5153643c8fa4531a759cba78de326c4beafb0161ae3e63fa75"
+        "sha256": "33623bf8624e1d375c7c0165cb3b39da65bc513949622b0ad687c9444a9ba926"
       },
       {
         "path": "packages/catalog-indexer/src/evaluations.ts",
@@ -604,7 +608,7 @@
       },
       {
         "path": "packages/catalog-indexer/src/index.ts",
-        "sha256": "708d2f38a3d5241e16505ad649f19a9d95c38db90ae154aee7cd22be889ceb3a"
+        "sha256": "8fb0f1b88123620295cf2a9856f5d9cdb9890eecf489b8d3fcad0e3626b96cd8"
       },
       {
         "path": "packages/catalog-indexer/src/maintainer-review.ts",
@@ -944,7 +948,7 @@
       },
       {
         "path": "scripts/build-npm.ts",
-        "sha256": "b4818be4199b8f6c3f30312dba9be76b12cf374be325dc92304ede8868a2efd0"
+        "sha256": "78ad8bf920ef10e0f04fd80f2e2fd1060d62c61581bb79a592830c25e192a4e7"
       },
       {
         "path": "scripts/catalog.ts",
@@ -960,7 +964,7 @@
       },
       {
         "path": "scripts/check-moderation.ts",
-        "sha256": "271d4b274bfb82dce46535c76c343a7723fa1735550363b5663c5ebdb9583d9e"
+        "sha256": "1620a112a0f9849dd9f54ed9b6dc73aa88b7892def215529922d5c112a656f14"
       },
       {
         "path": "scripts/check-portability.ts",
@@ -983,12 +987,16 @@
         "sha256": "52e2641224e35af265aa8081da68c9b2401928e9c38567327abdc65ab338c9f8"
       },
       {
+        "path": "scripts/release-license-gate.ts",
+        "sha256": "0156c523f2520acd8d8adb4a01c7f6a32d43e3398e765dcbe2bf8111eefba826"
+      },
+      {
         "path": "scripts/release-review.ts",
         "sha256": "f125aeb79291c1191bd6af266fb9a07d559b2debba727c7d432670b9606d31a4"
       },
       {
         "path": "scripts/third-party-notices.ts",
-        "sha256": "0983b6a790526e151282809f476647bc584878d67cc0963d6d6678acc47d52af"
+        "sha256": "2817a5de0b84247887b6bdc71a419fe81e2b258b84d7f5941d0d02a7a4c4d469"
       },
       {
         "path": "scripts/validate-local.ts",
@@ -2436,7 +2444,7 @@
       },
       {
         "path": "tests/community.test.ts",
-        "sha256": "778f3e6af0c790fb31c6ca4dc3e8216fd653326aa0196a601cbf24dff7af094c"
+        "sha256": "21c8180c69dfa72c23010e3d2147204d31bdef86f8ab5bb48ddf4a05b9832f2c"
       },
       {
         "path": "tests/content-engine.test.ts",
@@ -2504,7 +2512,7 @@
       },
       {
         "path": "tests/marketplace.test.tsx",
-        "sha256": "e3ca63979df8a68f34b8b905407dae7823a3623eefdbc5155152c03475af7eba"
+        "sha256": "110a48f9f16c331db9cfd44b6561b3af7207183eab75b64eccdd27c4bf4a4476"
       },
       {
         "path": "tests/moderated-submissions.test.ts",
@@ -2512,7 +2520,7 @@
       },
       {
         "path": "tests/npm-cli.test.ts",
-        "sha256": "936b943669ea86edd22252d2251bf0d863f3ef3d66c6113d8d5860c5a2521837"
+        "sha256": "a435406a539b0cd97c7150da73c412cc130d631e5a8ec602405590f9802d58ba"
       },
       {
         "path": "tests/owner-decision-package.test.ts",
@@ -2533,6 +2541,10 @@
       {
         "path": "tests/publication-boundaries.test.ts",
         "sha256": "df26e943037f838e7b66f24a8d6995ac92fcb1b92a7132ade9ae01438045561f"
+      },
+      {
+        "path": "tests/release-license-gate.test.ts",
+        "sha256": "b93505beea33c7a31023e2a2565452b57bda25cda93662b44a804729cb3ac349"
       },
       {
         "path": "tests/release-readiness.test.ts",
@@ -2571,12 +2583,16 @@
         "sha256": "a36196f100e945aa30f6a77b5689c489105a720ed2a017e5785d95f973939084"
       }
     ],
-    "sha256": "872caed66ce7d6d27cf7469cb13db58630d2526fca081786fdd346b860b50aca"
+    "sha256": "c77c3cbe17ec5873016f1b404aa4b2b53e4a7b31117ed5e125dbdb49007be5d4"
   },
   "observedArtifacts": {
     "buildCommit": null,
     "associationWithFinalRelease": "unproven-rebuild-and-review-required",
     "files": [
+      {
+        "path": "dist/npm/DEPENDENCY_MANIFEST 3.json",
+        "sha256": "53e78babcc176a1c41e1f6e006e9f85807ed27372d0bdecefff02138fd5dffa6"
+      },
       {
         "path": "dist/npm/DEPENDENCY_MANIFEST.json",
         "sha256": "53e78babcc176a1c41e1f6e006e9f85807ed27372d0bdecefff02138fd5dffa6"
@@ -2586,8 +2602,20 @@
         "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
       },
       {
+        "path": "dist/npm/LICENSE 3",
+        "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+      },
+      {
+        "path": "dist/npm/README 3.md",
+        "sha256": "5a61697a71e87541f24f65d73750bf04aea688d06025ce717e3a31c78fed87a4"
+      },
+      {
         "path": "dist/npm/README.md",
         "sha256": "5a61697a71e87541f24f65d73750bf04aea688d06025ce717e3a31c78fed87a4"
+      },
+      {
+        "path": "dist/npm/THIRD_PARTY_NOTICES 3.txt",
+        "sha256": "f8fc87f7c54813f0e8b59b54bed5622e50477da54d96f622647f50bf5bfe837f"
       },
       {
         "path": "dist/npm/THIRD_PARTY_NOTICES.txt",
@@ -2595,19 +2623,27 @@
       },
       {
         "path": "dist/npm/bin/open-skill-kit.js",
-        "sha256": "ae7115a8b678f699c15ed7ac64bcda2370c286c70a36e5b443a601f48502801e"
+        "sha256": "9b587f14d8687f9c82949f2e93540ea2917eaf50a7f0b5732b0c5fbb441fc01a"
       },
       {
         "path": "dist/npm/data/catalog.json",
         "sha256": "51753e5d3a64d26fbdc8f1632bf042072999e63d30fc3b76b917c2f636d6424a"
       },
       {
-        "path": "dist/npm/package.json",
+        "path": "dist/npm/package 3.json",
         "sha256": "dcbaffdcece454d53b4bbb0a123e1d0065062c006e536221c9f827b910893e70"
       },
       {
-        "path": "dist/npm/release-check.js",
+        "path": "dist/npm/package.json",
+        "sha256": "d335c9aed4685a423af2e10fa9a1380ba3172664446a3d4db4512ca8ceaefd17"
+      },
+      {
+        "path": "dist/npm/release-check 3.js",
         "sha256": "49c790295d167d6d535299d7e5e512e8f49aa2e1da07fde42411e4eb0417736d"
+      },
+      {
+        "path": "dist/npm/release-check.js",
+        "sha256": "1a2abc68d0498e629e5b1df1ac3ced23f8ac7269cdaed69fcd59fc4900cf2cd0"
       },
       {
         "path": "apps/web/dist/.nojekyll",
@@ -2615,7 +2651,7 @@
       },
       {
         "path": "apps/web/dist/404.html",
-        "sha256": "514f85310d86910e366f1f5fb3f8e01c2e191b64fa7388ee233230d5063b5cae"
+        "sha256": "4e77c6383dd84d045a41b7d7e42e7ff495a239103e46f183bd121ddf542043f9"
       },
       {
         "path": "apps/web/dist/DEPENDENCY_MANIFEST.json",
@@ -2627,7 +2663,7 @@
       },
       {
         "path": "apps/web/dist/THIRD_PARTY_NOTICES.txt",
-        "sha256": "b79a3ae0319a727e6df99d99f461c011e6d9cccd343bc6dc5ee02552a39e188c"
+        "sha256": "ac8a738b71ebf655d28b0367cc948a2e22d2f897475147c44acfe8326df75e58"
       },
       {
         "path": "apps/web/dist/_redirects",
@@ -2635,23 +2671,23 @@
       },
       {
         "path": "apps/web/dist/about/index.html",
-        "sha256": "47ca11c244058aaffeb354460470fe2a81ca610939f92e3caf1d4b6512c1d7a3"
+        "sha256": "b11cf3ea88b9c5cb088193257036d52fcdb198c2c73460bd286aa3d0a31569ad"
       },
       {
-        "path": "apps/web/dist/assets/download-CG7VRZXE.js",
-        "sha256": "c5ed554c8e6999a96dc603fa216749af595f0954714bf39008b123e3da1bdc0e"
+        "path": "apps/web/dist/assets/download-E7awmbhU.js",
+        "sha256": "5fd0173753efceae7d8a0ceec3c61ccd5c6b9b9543f59fa3cc37fc4dbe6f3dda"
+      },
+      {
+        "path": "apps/web/dist/assets/index-CSNkOSxm.js",
+        "sha256": "7e6af61aac824373fe47344e83faf7a46468056286c077fefb07b2338f53e0e5"
       },
       {
         "path": "apps/web/dist/assets/index-DvrN833F.css",
         "sha256": "0212127f0c933ccde5c672aa5f4e5d05d605958393285d310058e8100fa8c9c7"
       },
       {
-        "path": "apps/web/dist/assets/index-DzZy2OsC.js",
-        "sha256": "c83ff11f9ba330a1b7e3a607d0493f54c82a0451ce5b89915d20c65404010756"
-      },
-      {
-        "path": "apps/web/dist/assets/index-s5oOpWBc.js",
-        "sha256": "2ea49cd1de9db97e76763c9ea6eaa2bd5cf9c4cbaceb262f5d2b6c30d73b0804"
+        "path": "apps/web/dist/assets/index-kp7FY04U.js",
+        "sha256": "d5e315f72cce7c68799c2a65ee2c94f4f4797ee34fee57bf1e3f9777ef984c01"
       },
       {
         "path": "apps/web/dist/assets/markdown-A-aJu39Y.js",
@@ -2662,20 +2698,20 @@
         "sha256": "604708242ec03c0296ae67ac0a41efb481cf569aeba27f72b72cfd0ad77572af"
       },
       {
-        "path": "apps/web/dist/assets/published-ClzlSq4_.js",
-        "sha256": "f165439725f37027749c1e215279061ae6e7e970e9f301586ca1fe9d3e41087e"
+        "path": "apps/web/dist/assets/published-BKnO-M3t.js",
+        "sha256": "c8eb7706c42eb5c91258278d5c594750f9aeb94097c627235aa11300eed56d73"
       },
       {
         "path": "apps/web/dist/assets/react-6I0Kn_82.js",
         "sha256": "74cc41d9a0f7c4b79c0b0b114ffd54ef597e6a2b3c54748bb96dc96d823a0f0a"
       },
       {
-        "path": "apps/web/dist/assets/skill-detail-4zIDzmPz.js",
-        "sha256": "bb1f5d3823c1aacdd623ed751c48a299c02147fd64e0751dc7c216c0f223c4d1"
+        "path": "apps/web/dist/assets/skill-detail-DHlG9Xxp.js",
+        "sha256": "5e7d417e30e55ecaf599c49fed8fdfccaa4f16de0611614034ff3cbfb632f99f"
       },
       {
-        "path": "apps/web/dist/assets/skill-editor-CrEFRI8u.js",
-        "sha256": "6de2eaa712b5dc29251f76b8eac15cdbea69a5dda4c816a36c15f45a6f83f4c5"
+        "path": "apps/web/dist/assets/skill-editor-BN__ctIf.js",
+        "sha256": "b8b25c09f418eeadeac7ad4f14d7ecf96b5828f47425f5dea61247b9f693f317"
       },
       {
         "path": "apps/web/dist/catalog.json",
@@ -2683,23 +2719,23 @@
       },
       {
         "path": "apps/web/dist/contribute/index.html",
-        "sha256": "6b351d92cf5752c3ec292bd23d667bf7b2ffc60caaad61863475a63b33446ec9"
+        "sha256": "e6472df54b9f92e2dd0551e5cf3587f7d3ffd08e2230255fd6a8dc28fb90ac0b"
       },
       {
         "path": "apps/web/dist/create/index.html",
-        "sha256": "7e80b2e37274b810f9455dab8da59b45cbe63ca0ee3576f59bc4d74e8f178686"
+        "sha256": "4b4b116b09c66a1f4c1371f30192831234337e84d700bc21848bc2f238dd2fe6"
       },
       {
         "path": "apps/web/dist/docs/index.html",
-        "sha256": "497732bd9635c688307ab556752526783d71625c39674dcfc932de46d2dc8cc8"
+        "sha256": "cedcf4c7b5714b2eb6621cc9709da5c77fb5d7d254e2290d5278d0d06eb2e346"
       },
       {
         "path": "apps/web/dist/index.html",
-        "sha256": "7be59a3b2eb7388a4a95e8e4c181ecf242615336afcd3479cd2039b8b61e3528"
+        "sha256": "7487351ccf0c0845fd6643fd6e8ea1f5dff630ae126aa6bf418ea18c5a3a75e4"
       },
       {
         "path": "apps/web/dist/published/index.html",
-        "sha256": "38a27cba194f2fe82a68326515ce4ed99814e89f53f183b725b6bb4292038f58"
+        "sha256": "62a9c69fa459057a80f1121f1a3e0bbca68b90c595d93bf812c6f264173a7232"
       },
       {
         "path": "apps/web/dist/published.json",
@@ -2711,291 +2747,291 @@
       },
       {
         "path": "apps/web/dist/sectors/accounting-operations/index.html",
-        "sha256": "ca3eb595fa70683b992b082d2179b2d08dabf08a9e6de5bb58487da6d6283eaf"
+        "sha256": "247a7f8bf44671686f9641ba39017005d3a5ff7010d1bcec54fe814ec626151e"
       },
       {
         "path": "apps/web/dist/sectors/agriculture/index.html",
-        "sha256": "ba8b0e5dfc15d659e9c7373f9719f8e7a1ef2bc54e529c62876d31fd151a954d"
+        "sha256": "a00b1cad7c385c16f29bc05afa431d676e3304a94e2dfdb6c455a172bd0f1a06"
       },
       {
         "path": "apps/web/dist/sectors/ai-machine-learning/index.html",
-        "sha256": "66cde2487ee16b28c37841077e8870355a84c5cd5f5854d1571f2fd4681b87ed"
+        "sha256": "b9ec11a84aa9438f7dcf62be92ef37b31f181f339de82d5d11ee8bf8738b482e"
       },
       {
         "path": "apps/web/dist/sectors/assessment-design/index.html",
-        "sha256": "bc49f338f17742bb234c2f217a98abbbf034405bd850690805833cacab744cf4"
+        "sha256": "cee9be6e21da21424d354139d9037a44523e7afc7514436d7eb316fd2a719969"
       },
       {
         "path": "apps/web/dist/sectors/business-operations/index.html",
-        "sha256": "6952b05eb08dafbf0de90e29064cf8f2ae5a74f155d1212d809227228d9e0f13"
+        "sha256": "a2f0ba63119e705dc0b41f4a9928866c563fd7c4d5f01c0e3bd8612a6284ad7c"
       },
       {
         "path": "apps/web/dist/sectors/business-startups/index.html",
-        "sha256": "c6e5c5d58b137fd0b0e7be7a57a4b0774c490d75d748b8e1d6076f3fb3c9c0b5"
+        "sha256": "3515df443681061c1610b448a3ca698c818c2ab108b14ced7ebb2c507033a178"
       },
       {
         "path": "apps/web/dist/sectors/collaboration-records/index.html",
-        "sha256": "20044bf8ca8661bd8567823fac4f24dff4743bce5e90a5f12fb32ebda97a66a2"
+        "sha256": "7fdd5e795a2776179edddadd87a0fb64f8977725f297f11569d6c4c46cd297ff"
       },
       {
         "path": "apps/web/dist/sectors/construction/index.html",
-        "sha256": "04fbb0623a04c626d9f88ce98b0c3d0f1c257e1f62f4add24ff5e2601df684a5"
+        "sha256": "a59af584ae6b532a0a2811881781134618d4110c3fcf8f5957a2be583ff35964"
       },
       {
         "path": "apps/web/dist/sectors/construction-documentation/index.html",
-        "sha256": "80427dd9224b2fdd2761985e39fbd4bb84fef96a15f1c1a20c315d24ea2b2a50"
+        "sha256": "40962f14ec13b08ce9bd666f74b53e23ce6703377d9a1f86f1f064942fa781b1"
       },
       {
         "path": "apps/web/dist/sectors/construction-project-controls/index.html",
-        "sha256": "c89f68fdabbab64e85e84878e307a877d2303a94280fb013916940605d421f56"
+        "sha256": "1cb4567273beb2bcbf623a685beacba9012766f6f0f98b58d2cedd7ec92c51e9"
       },
       {
         "path": "apps/web/dist/sectors/contract-operations/index.html",
-        "sha256": "3b84e9981eddcb39fabd59c32d2f2d9e10e7a41a4728e237fb6a1ba2d1b88195"
+        "sha256": "378ed655545965d728c88cd9e53ad7add335a99726030b39aa094f354f3ca5fe"
       },
       {
         "path": "apps/web/dist/sectors/creative-production/index.html",
-        "sha256": "fd6380a9838a7d7aa768e917efaed46e3952c676cb460da7e2a3d31c3010bf81"
+        "sha256": "5c3deb7a4bbab888deddabc4d7675ae25fa991bd9734f2788cd2bbcd272adc35"
       },
       {
         "path": "apps/web/dist/sectors/customer-order-operations/index.html",
-        "sha256": "f0b156042997f66a543897d66a7cb3986b915387782774682aba614e2bd979b6"
+        "sha256": "df08d2434487d5d0963fb5284822597c987b2a0e16875a940778bd368b904649"
       },
       {
         "path": "apps/web/dist/sectors/cybersecurity/index.html",
-        "sha256": "5db4a23e37cdaf73ea6af26b0c6c6d71b178d7eddc7ce9f73a1f4ea087bc6e59"
+        "sha256": "553756b01d2550f3108d01fe2e5a32b5cbd01d91161a1cf7e5357a914c81c10e"
       },
       {
         "path": "apps/web/dist/sectors/data-analytics-bi/index.html",
-        "sha256": "27267ea17027c3ad2c2f0e567857f60cf0f2ecd1189246427b4f1cbe3abb3b64"
+        "sha256": "03d6037a284d1e2bd531b66b8ef565237823f8a78d845598fbaefeef8015f7d2"
       },
       {
         "path": "apps/web/dist/sectors/design-ux/index.html",
-        "sha256": "632d735e9091cd564080ecf8fc70568b5a8c9f8a26ad0c97ad67b57e991f6d01"
+        "sha256": "316cb8ae3007c23d6f8aa2eea18aec902f2b6cead5d4b6ac6c51ea3e82f0442d"
       },
       {
         "path": "apps/web/dist/sectors/education/index.html",
-        "sha256": "40cc09d3f03dc17cdd9da28c89683a0ac592714a08f8bcb3259b8fbfbfda6045"
+        "sha256": "5d81b9f620d6a035904d15bcb19289893ae3b18445e18e505bec01cc6a154318"
       },
       {
         "path": "apps/web/dist/sectors/education-teaching/index.html",
-        "sha256": "1a4d379d02d7252dd0d5e96018a382678bee80ef2b992159139b0fc6f5e83e90"
+        "sha256": "2297e1c6c924d050e96b5b7eee25aa26311f826c755d6af55d7b5a2e09ab6ab1"
       },
       {
         "path": "apps/web/dist/sectors/energy-operations/index.html",
-        "sha256": "694dea057daa86edf213f7e29f56f8601d4f6514efe56a2bd2139780a4f22995"
+        "sha256": "f08827a15d6b4ce5ead1cb361e0dc4fe9c363a686cc502ff607d9cd815e0a644"
       },
       {
         "path": "apps/web/dist/sectors/environment-energy/index.html",
-        "sha256": "0aedd7b2cf912f97e547bf2db474cffd2332ffceea3dea17b876f78fb03d1abc"
+        "sha256": "3e77b16600cb6b09aff553d08993c77f669705ab289f3183466b041f0b238828"
       },
       {
         "path": "apps/web/dist/sectors/environmental-management/index.html",
-        "sha256": "bfe5723fe559c06a15be03abda5bcc25619550c3fe4c76ddbc8c6099ae27658a"
+        "sha256": "48004c9e267d8dc558851baf6722f9678c3d936599cef0cd7a72b87dc9f08ea3"
       },
       {
         "path": "apps/web/dist/sectors/farm-records/index.html",
-        "sha256": "a223263e81a090c95316b219a76156f2988a6a807801f306361cb61cca906f96"
+        "sha256": "52f47494a533f848a2b802fa0556ecd3667143bc1cc666b4469ed2532ab0af95"
       },
       {
         "path": "apps/web/dist/sectors/finance/index.html",
-        "sha256": "1f5546eb0c6dda411c06cbae6aeeb330e3967fec3e96e66ac85c0b39c732ecf2"
+        "sha256": "cf3444986616b0f273d31568ef35c0a11dc48cbe2501f6878503bba4ad4c10e4"
       },
       {
         "path": "apps/web/dist/sectors/financial-planning/index.html",
-        "sha256": "e5872effe96986736c7d2cf10a05763bf4c0cfcb5a8e5c63d68adcf52f3f4608"
+        "sha256": "1e611411d1ce765ef05a5a9cb3ba994533153be1c48634c8ae67be8b7e2098f2"
       },
       {
         "path": "apps/web/dist/sectors/fleet-operations/index.html",
-        "sha256": "56df3793addf10206effa99ebf3a3d10276aef4d9b8d1d79f058cddb1e344d48"
+        "sha256": "2f2ad86c1d702ad7fa561bc0c317828a19b832c0e43f8832aaaa1cf65c284903"
       },
       {
         "path": "apps/web/dist/sectors/food-restaurants/index.html",
-        "sha256": "387dcd0097574cb3a1544efb7554be70b0fbb671afe50fea1edb2d3f750f59c0"
+        "sha256": "2e753ec33cb45d47a88737047b157431c6d7f86507446158e50a09438b2a98c6"
       },
       {
         "path": "apps/web/dist/sectors/freight-logistics/index.html",
-        "sha256": "22e3913a15e787313fe24edc1b4e562201c202ba32abe41d947f5c0770c9d9ad"
+        "sha256": "8266f4b05009f4ebd507ed0c72b7d7486f5aaf237792475baa0789f8e6cc0fd0"
       },
       {
         "path": "apps/web/dist/sectors/government-public-services/index.html",
-        "sha256": "82cd84a6d10e8d0f1c11c2f1012094485ad31508ba32ef0125d23693feb33a65"
+        "sha256": "bc3fbfd36b522e32a5653bbe310349212772c9d72df5da7aa2ddd631b25b8d8a"
       },
       {
         "path": "apps/web/dist/sectors/guest-operations/index.html",
-        "sha256": "fec7c96ed5d6df10f3f1d87cf8666986e5d3727af01223702e7c307a4f91063e"
+        "sha256": "d1ebaff00740ed0fedd1e18e77345a0751e3245e1054f8609e419241efcf7e30"
       },
       {
         "path": "apps/web/dist/sectors/harvest-planning/index.html",
-        "sha256": "1a989ee4252e4b0379ac47ed0e2f26644439931602a5e2b4101198d27c6c198c"
+        "sha256": "9678e97b7551f07f7eaa7ff131a8426acacfbf1b76de1277e35f3cebb324bbeb"
       },
       {
         "path": "apps/web/dist/sectors/healthcare/index.html",
-        "sha256": "4e156017de132c234e16b89239322c336a484c23d451baaf171068d07e9da497"
+        "sha256": "89430081860bbb841ef2dce59bacc567bef0e4853d0640cc7592d8114b81b0a0"
       },
       {
         "path": "apps/web/dist/sectors/healthcare-administration/index.html",
-        "sha256": "8a30331751bdb882a05bf95ec34f0afd6be57a989d45ffd8e4f8395c6000e723"
+        "sha256": "b561ceeb1dc0acfcc642b0325cb55d11bf58052e236cf207b96d89ef96f6842a"
       },
       {
         "path": "apps/web/dist/sectors/healthcare-research/index.html",
-        "sha256": "7b589652e5996189870bed762746927d23e02897325f0739322fc14d5d31f3ed"
+        "sha256": "a2b8ccffbce58078ec7cf37e0a6a3ccc1ad310c98cfda3a5bf537b36cb57b365"
       },
       {
         "path": "apps/web/dist/sectors/human-resources/index.html",
-        "sha256": "217b855b8997758a3c72dc0d0b553e110b73c02cfa34004df7e096e52b3903ca"
+        "sha256": "0541afe63924d12900ee0b77d3df3a5fc069ef9f3d7d899834c1d1137e36bcd3"
       },
       {
         "path": "apps/web/dist/sectors/index.html",
-        "sha256": "0587876428bbbc4c59508815587290af5b4662a88c6acd31adbe44a40df5eb22"
+        "sha256": "e0b8fa9c17165e3f7c21352fb54a7033d857a1c9b14b0ef3b6aa2ede0467341c"
       },
       {
         "path": "apps/web/dist/sectors/industrial-maintenance/index.html",
-        "sha256": "e0a65bdadb2380960b7fe2654503c0f994a7c8e81d7c952a723cd35db60cb04e"
+        "sha256": "8b25290e242e85ea524cd53bc215d04f9271580f48f8f74086f5e7c3c9c38995"
       },
       {
         "path": "apps/web/dist/sectors/legal/index.html",
-        "sha256": "c5aced071e5edde8e075560ce284cae508bf6023e9d7a09d1e44144333e5e543"
+        "sha256": "ce279fe2bc978ee2a326539bef0ee29fbe0eb0eda354c8d773e2001e68346a27"
       },
       {
         "path": "apps/web/dist/sectors/legal-research-support/index.html",
-        "sha256": "7519ea836bd5b318b44cab4b17648fc960ec734ef5416c506e1cd390e20ea1e8"
+        "sha256": "9d64fb683c3584903eedbaf22735cbb83069745dddfdb2e8d76887641ed04e1f"
       },
       {
         "path": "apps/web/dist/sectors/manufacturing/index.html",
-        "sha256": "30654f39ed01ad45d8ab000c2f5731ab2aa833049198efcb8735ae8a1d16c20c"
+        "sha256": "51c5be2bfda573a2cac57d70baa062cde6c60a170ada04e2071f5a690674ead7"
       },
       {
         "path": "apps/web/dist/sectors/marketing/index.html",
-        "sha256": "5a5e9a5a60f971b2620a8c67aa659d90fb859c9eaa6d8fe34b48859351d9e019"
+        "sha256": "2bc46e7ecc2d42ab9910da7a88928394e37ff53263e62eadd01b9dcf2cdae6d2"
       },
       {
         "path": "apps/web/dist/sectors/marketing-advertising/index.html",
-        "sha256": "3ac35a1374c1f5fe12e10afbe329130fbfb7169cd35728e82e960bf969109260"
+        "sha256": "e3e1e472f44dd43bd4b8ad05a83b9327aa22e2c4921b4ca89dba3411be64392b"
       },
       {
         "path": "apps/web/dist/sectors/media-creative/index.html",
-        "sha256": "9a4cfa640ea2bcd3069225dde20779bc14201b6ee04d248f71d4b03ebefe65c8"
+        "sha256": "4cbf00373da589e73941747d3d3dc40a1577a520d55cc17932c2286203031720"
       },
       {
         "path": "apps/web/dist/sectors/media-journalism/index.html",
-        "sha256": "18be963f625777698255e6f08a26413b08ddfc5f2488545b4c42140a8a2cafac"
+        "sha256": "b55976834c5f4222a71f614d3591205c762cf19ed663aee522ad13d20a302290"
       },
       {
         "path": "apps/web/dist/sectors/nonprofits-social-impact/index.html",
-        "sha256": "32c97ec7876768f5b5f1e7f2322dbaf2b6aea2a7a84afccba74bd0d9b5085719"
+        "sha256": "200c5765364d76bb1a15478f4ef1234006a733b0ac656acca4b4cd7bc4e67748"
       },
       {
         "path": "apps/web/dist/sectors/people-careers/index.html",
-        "sha256": "d065c1572a0bdd8a2f1a6bb1674d47147a4844a526817a7125dbdb7976847988"
+        "sha256": "ee2dcf4ef050ffd45d283d3686e126a475730e305835b6de74731a15d18e44df"
       },
       {
         "path": "apps/web/dist/sectors/personal-life-productivity/index.html",
-        "sha256": "c13102e17ec40d5911ad268ab92cb736bd928d6e2b009e35544195f936839c9b"
+        "sha256": "1d7995909fe4e3d5d39ff832e56c75ec8dcc8df8972d6a03f924bc914794d3be"
       },
       {
         "path": "apps/web/dist/sectors/personal-organization/index.html",
-        "sha256": "a2b75cd04f16a5823e1eecb7abe89163ae548118406d5928d22ab2285495cd23"
+        "sha256": "d56d5cc48c62e3d084c4fc99e19619e69c71a0dfb695349ba3829e174ff0e1a3"
       },
       {
         "path": "apps/web/dist/sectors/personal-productivity/index.html",
-        "sha256": "2b04adeff68582038256f573410d3a4d81e57cd9993869a0e46b32ecbddae13e"
+        "sha256": "242fa604463f52299cb2c420f7db1ac5b66cdb6a595bcf182cdee24135198592"
       },
       {
         "path": "apps/web/dist/sectors/photography-video/index.html",
-        "sha256": "8b900162288862a98b22ff27125b4e2c3f8f8a97d35a12b7b2ba75fa55100ca5"
+        "sha256": "945ba8c5901fb188623f5d27da7aa1df7f677223d2be782e10ed12a8f1a51729"
       },
       {
         "path": "apps/web/dist/sectors/production-quality/index.html",
-        "sha256": "664a4d2b77307babff1040ec5e1b8e224f4b6388270089ddbdb0c45c3be313b6"
+        "sha256": "8f954a0727e3b04012fbf1f54fe745afcfd7d7a5f4a63af8b8698223c73e82ed"
       },
       {
         "path": "apps/web/dist/sectors/property-analysis/index.html",
-        "sha256": "bf63e39bf6353541cd90d5a9fcd4a18ced6b3df7feef3baf0d583d406423c68d"
+        "sha256": "63f3c93868763c72932ebd332a3ca7d16a63f47881b46c439beb91b4bff4622c"
       },
       {
         "path": "apps/web/dist/sectors/property-operations/index.html",
-        "sha256": "fce9d6ff7c35e41229fc01e70664e8aa1eafa83676ecaa95498eb32a357a3256"
+        "sha256": "4bafbc7c0e22a3fcf3599fc0fba9bb743f6034fef2f3adc0125ba4e74fcc8419"
       },
       {
         "path": "apps/web/dist/sectors/public-administration/index.html",
-        "sha256": "30d1958af5700620b68536d70ac04be28526d85aaa4101deab46de39a85041db"
+        "sha256": "57c126c7840f7ef3ebc8e19ab9702e9d04e4fc4abca3c940be8fc19834506712"
       },
       {
         "path": "apps/web/dist/sectors/real-estate/index.html",
-        "sha256": "f6457fd9bea5a9eaf815fcd59118fc036978007b0b18054855cd21dab2d97af7"
+        "sha256": "01e55a4a2cf477a58ee79f910795ad7d9c50a5fbcd6440873637a7d23c9a9340"
       },
       {
         "path": "apps/web/dist/sectors/recreation-planning/index.html",
-        "sha256": "34faf0bc357a85e612f6be01148c0fecb6d4d60cdd8e51d2932c6838d53f8021"
+        "sha256": "072a8ac41d22a44715e7b14d97619d39b9e69bbda33e992143abcedcabf551dc"
       },
       {
         "path": "apps/web/dist/sectors/recruitment-careers/index.html",
-        "sha256": "c93e67385e9ab71fb6fd64c200f39ea98bdd2d9ed8ac8a7ee38c6f70f3e94831"
+        "sha256": "3fec0641cab2e826a60ed298a294c218790fbb1ee18cff1480c348cffe1c5d03"
       },
       {
         "path": "apps/web/dist/sectors/research-data-management/index.html",
-        "sha256": "56e858d1d990c62dd1ab03df14e929e57d4b0cbd781fb528729b56c8f227b72f"
+        "sha256": "928165203123cc17f0ecbb32c4d418e5f3798f19484ddd164d2fd7f40a0cabb3"
       },
       {
         "path": "apps/web/dist/sectors/research-methods/index.html",
-        "sha256": "8efb0e7eae0b4b93a3b6ca2310ac43b3f9e690bf048d808cd591210515cbc3f9"
+        "sha256": "5deb056cb08e052d2c5703aa596fdbbdc9f8199a8ad1ea01af201f9ab91fc912"
       },
       {
         "path": "apps/web/dist/sectors/retail-e-commerce/index.html",
-        "sha256": "05517b944a379a690a202b3b13d48cfabbee57c0caf618defdda449e835dd55f"
+        "sha256": "36a8469fa2feda1cd7239ff7ca81950d31a50e570a2b66c5d8cf0d7d1d0cd979"
       },
       {
         "path": "apps/web/dist/sectors/retail-inventory/index.html",
-        "sha256": "2588672ccf3a4a9feff99284fe374e3413d8ba47f9e5e485146ffa4ca5fd9596"
+        "sha256": "2f8563ef1e02734438f0472cb97dcd7ee828ab88b0070fee30dc2f8d1bb1b56c"
       },
       {
         "path": "apps/web/dist/sectors/sales/index.html",
-        "sha256": "e82267e38ca6b16588d33f05afecde48e237e7b3562d06732bf4b120cd9bbb4e"
+        "sha256": "00a2c955c32558b0372d3378a7344145b959d37644a381e72843aaa01963d3bd"
       },
       {
         "path": "apps/web/dist/sectors/science-research/index.html",
-        "sha256": "b205364241476bbfb1f64757a7d6e7ec7c54366910f7adb57f2915e1f1169d67"
+        "sha256": "3012adccc995344c0c181febaf3e104348a2e57171fb68abdadc2775d738a51d"
       },
       {
         "path": "apps/web/dist/sectors/social-media-creators/index.html",
-        "sha256": "9b648198e8a22508a02eb50ab33d88f51b0a66813030f561b03ad10644f3c024"
+        "sha256": "28bd06875f5e017d5c070a62036c4b5a6a6cce9d32eb667b4bf0833a361bcfcc"
       },
       {
         "path": "apps/web/dist/sectors/software-development/index.html",
-        "sha256": "9e68d3376af3d9ec7560d5e58c4e6d6ec236b917c4226fa310afee9069b8f4ca"
+        "sha256": "53290e89774a487b7b85a79df11f2cd915a576623776a226f63f0221a4b85da3"
       },
       {
         "path": "apps/web/dist/sectors/software-engineering/index.html",
-        "sha256": "1ea3b7788619bd18eacc2a9e34153a8d9c3a1646bf16c2eba5435bafe53c6735"
+        "sha256": "27d65cdd4a021856b2375ad03f2126f405e3dace57fe2dd7df7a065f3c017fc7"
       },
       {
         "path": "apps/web/dist/sectors/sports-event-operations/index.html",
-        "sha256": "2447ccb87939502428918aa994a189aebe82f4856a451e03e7e8e9e10752e369"
+        "sha256": "020121268c92e967bf8a4579a96b6e0f59b6cfbfa7c4bfc810495671bcd7fdc0"
       },
       {
         "path": "apps/web/dist/sectors/sports-fitness/index.html",
-        "sha256": "c31a8866e0b7893cd9a958a3c58e8e298c5f2a24fb4bc22ab17bf0aaaca42c53"
+        "sha256": "4c5797834f96b52d13b1e8044c4a8c51ee813a2564159289ff370b6b0a94345f"
       },
       {
         "path": "apps/web/dist/sectors/technology/index.html",
-        "sha256": "a944e688a52d617a0e0b22ac7fc228f9726cfc0ac50722d1107b9a2ea9c90ffd"
+        "sha256": "13ff22b943e39f5a98ff53dd69805aa0d5ec7d26078912b8a0bfd87f9561fb37"
       },
       {
         "path": "apps/web/dist/sectors/transportation-logistics/index.html",
-        "sha256": "db2d702d16c49dbbc7841230580e6b2d88744552ca64160df5342b690758a9cc"
+        "sha256": "22ca65ac018905bfabc5507c557b117413e480a99d564757d093db124917ac36"
       },
       {
         "path": "apps/web/dist/sectors/travel-hospitality/index.html",
-        "sha256": "c356f916ba96dd999953a14991da1cbfe1d7106debd4b7e160f343af6067f263"
+        "sha256": "a5e729abfb469c2eb3f7f06dea82bb3353fe29acca379fe6ab8f9d969a6cd85f"
       },
       {
         "path": "apps/web/dist/sectors/travel-planning/index.html",
-        "sha256": "fedbeafc48d7d5b75a5473b633b2d2d906615f2f29627be2d8eb79779d2de308"
+        "sha256": "83bd4f14cea85f2f0927f389c2ad66a29213e3f2955ee09c2f01ff9447efd8f8"
       },
       {
         "path": "apps/web/dist/sectors/web-design-ux/index.html",
-        "sha256": "42fedecc32c4298c36f383bca2d3a5f47bbe3d6b559c4a94a90d69dce8f460ac"
+        "sha256": "183ea1198ecbf3f06f3b5c44733212a75a72c8da40b362fd5eb7edc722ea2d6f"
       },
       {
         "path": "apps/web/dist/sitemap.xml",
@@ -3003,179 +3039,179 @@
       },
       {
         "path": "apps/web/dist/skills/accounting-operations/invoice-reconciliation-assistant/index.html",
-        "sha256": "421a2ad7c72626361c57449d23734c48e90b0a5e68959b88f417b1def47efaef"
+        "sha256": "75dd6dfffd99de9d0dc0f47b6b045c8c086170e0d12e458cacd003c06b2c3d25"
       },
       {
         "path": "apps/web/dist/skills/ai-machine-learning/prompt-evaluator/index.html",
-        "sha256": "76f864a8d7dc06bb8bb8999d3e9715ad15caa184eb2959e4de8ce84119c0b2fe"
+        "sha256": "87f4f524532507683b8155579d7c46c3fc5f1d624841016ed55e7e3d3d301972"
       },
       {
         "path": "apps/web/dist/skills/assessment-design/rubric-alignment-reviewer/index.html",
-        "sha256": "e5ecaddd298e6ef3e09024f315b26e4e0f7fe57c9958ac044fbcb4fef3bc937d"
+        "sha256": "5b28ff7e552aeca7f2dbd572826c16fdb432933a302691e11f722e2917d9bc94"
       },
       {
         "path": "apps/web/dist/skills/business-startups/business-idea-validator/index.html",
-        "sha256": "7c230db85627f9a7e725a82c420c52c55e891a6891358840d514b1b0466e2918"
+        "sha256": "4741a16bf0cd18aeb7267d9b71bb418671b3f489e0cf7fbed3df4fd11cc8e533"
       },
       {
         "path": "apps/web/dist/skills/collaboration-records/meeting-action-extractor/index.html",
-        "sha256": "ee192fac59ed84d10c3b235fe36b4a0075cdc3f4b4508ab106d5911ef081918a"
+        "sha256": "3c3e34c89e03d310befb22049f9c7e93012d17b9e97f7287d8c343a045fe8526"
       },
       {
         "path": "apps/web/dist/skills/construction-project-controls/change-order-organizer/index.html",
-        "sha256": "057736f458aa13cb14eebb7a89db96c8344925c8bfe3badd78235ac514b9eb1e"
+        "sha256": "c7691503c097527b9269c00f7229378a045bfd59309cf1f12a409aee0382fef2"
       },
       {
         "path": "apps/web/dist/skills/contract-operations/contract-obligation-tracker/index.html",
-        "sha256": "150297bc87d688bb0a4f0454f5950fd3d78b9e189892e2f74896c886f9802fe9"
+        "sha256": "c7c87d8be30d13cbd3eb74e457e86d33282486c8df4dd7f660aa9e2dc58d3c82"
       },
       {
         "path": "apps/web/dist/skills/cybersecurity/threat-model-builder/index.html",
-        "sha256": "eb4f00a06d3715f79373d690dac609c59912e892d62884ae34a44d99b31b16c9"
+        "sha256": "478fb11d0bd2e2c2f4fcd5c9a8b18b496955dc797f119bbcbe188e8c3f37c72e"
       },
       {
         "path": "apps/web/dist/skills/data-analytics-bi/sql-query-reviewer/index.html",
-        "sha256": "e3df9737d84fd98ba0db99ccceb2023a64f2b35d3bd8bc23f26ea523a0df0efc"
+        "sha256": "92ac559b0528a8d833c63e15cafe4375cacf44924ed32c33929d7052d3a9d8be"
       },
       {
         "path": "apps/web/dist/skills/education-teaching/personal-tutor/index.html",
-        "sha256": "4e3cb8bc4c59f33d5138a0c484bc0f84904ff89e54b3fb10eceff5199d157d01"
+        "sha256": "96a2f167f3755c2eae633087bf7a53586676c425f078e2519938986bd8c5f148"
       },
       {
         "path": "apps/web/dist/skills/energy-operations/outage-planning-brief/index.html",
-        "sha256": "b34105e0d8e1687e1de0b5267395c83134de9e0fc2b588ad6efc7831371fcf31"
+        "sha256": "c32f8eaca9f2020448531e3c6d15a4930f4ffbcc78bb8b5b1a455fafccdadf8d"
       },
       {
         "path": "apps/web/dist/skills/environmental-management/waste-audit-reconciler/index.html",
-        "sha256": "948bae25819fee79360c3859c2240be2496112d8bf94465f4946c6bfc03a0bc4"
+        "sha256": "dc2d9bb24b2ca2af5cdf4154e961024e9b48268893b7a5989f84fd9856896e3b"
       },
       {
         "path": "apps/web/dist/skills/farm-records/field-observation-organizer/index.html",
-        "sha256": "a1aeb55a148ee6a175af37bfbb3b727d0efaa6e2320661a5d11a25f89534e277"
+        "sha256": "93659ee536fa25505cb089ad61a33b9ba20f268c948c70d4578122d026b0ba5b"
       },
       {
         "path": "apps/web/dist/skills/finance/personal-budget-planner/index.html",
-        "sha256": "290d9e1d4d69fb386b8a67690fd5db2dc49c23e4acebe1aaf8fe167edd1b9f46"
+        "sha256": "b72a069135c9037f3a624121a05fe942b34ea3cc95617090aaf1dcc59ba73406"
       },
       {
         "path": "apps/web/dist/skills/fleet-operations/driver-handover-organizer/index.html",
-        "sha256": "aea739e5a3d84fb1cf8f346a4f4bfe22e24bd05359d281b0abdfafa27edf97a6"
+        "sha256": "dabb981ed2b424661e629c22f1fb1646e9ecfd6546a8243731910ba744d9a848"
       },
       {
         "path": "apps/web/dist/skills/freight-logistics/shipment-exception-organizer/index.html",
-        "sha256": "68949ce9aaa5e35741bc864562afcb2467f590cf6dea600af10f6970d9d5679d"
+        "sha256": "ac95501f0ed9fb5e994c228a84147bf572fd5dfe7fcd2f29df3cb53000b2dd96"
       },
       {
         "path": "apps/web/dist/skills/guest-operations/guest-service-handover/index.html",
-        "sha256": "128532c15e9c2b343347258a9922db24f264e08db0a42442ea4e47a05e2e6c31"
+        "sha256": "cb931059b00bc5b12f7685974660ed0f48d154b12ff6db0129615c6783942526"
       },
       {
         "path": "apps/web/dist/skills/healthcare/medical-visit-preparer/index.html",
-        "sha256": "14d6fd0b26c4f379aa854d838c7af9163637a3062940a1870fde3679d682e4af"
+        "sha256": "d97c0bdbd9d770a9963707a524e08f130978a5d89616a528a7c32312c0d153f7"
       },
       {
         "path": "apps/web/dist/skills/healthcare-administration/care-handoff-organizer/index.html",
-        "sha256": "7fb6c6283e1a4d12002a64b1fd72d9a84caa46a9b6191b5babc55456e91c11a7"
+        "sha256": "5d618558ae660fb7976b4875b910857f5ef480fa1eec4c9829d736cf857b3b3d"
       },
       {
         "path": "apps/web/dist/skills/index.html",
-        "sha256": "8258c8dfa4abd5f3dc364c83e1be7c41ca33a75ffd0d0b7f8b3ac02d0fda2b36"
+        "sha256": "faa5e064e9313abba3d2ccc25170129973e9089e187f53d934fed11e1289c086"
       },
       {
         "path": "apps/web/dist/skills/legal/contract-risk-spotter/index.html",
-        "sha256": "9599e0857dd76421e8bcb49f8923089eb30d83fc31a79a65835f4570f0a5d05d"
+        "sha256": "0d4bac4a64399acea986da22961eb1330d760fab47ba42b5338fce716856c502"
       },
       {
         "path": "apps/web/dist/skills/marketing-advertising/campaign-planner/index.html",
-        "sha256": "e44c6d4deb5435a9005b3f48d18d93c0ee0e7b05496462f10d0bf9b6915e73d5"
+        "sha256": "69c76e65e299899418ff53666e8969fae4ef3c96c8dec6be53ac3cb05c7e6708"
       },
       {
         "path": "apps/web/dist/skills/media-journalism/source-claim-tracker/index.html",
-        "sha256": "68d7f2aef0697e21ba1a32900fbfa343272eca90e2443f42890a6cbcf82a3437"
+        "sha256": "aefb4140bc233b57a1d87af70c8e09b34ddb89419be82f8bd46ba58efc98efb4"
       },
       {
         "path": "apps/web/dist/skills/personal-life-productivity/weekly-life-planner/index.html",
-        "sha256": "693cba5bafd8e8d9990c11d1e190d70c82c978d2ed4b59a203f9829f466c36cd"
+        "sha256": "ef8bfbf774b1007b095d6e736852a10fc6cd4cc12130631ab2ce4d596d724c21"
       },
       {
         "path": "apps/web/dist/skills/personal-productivity/weekly-review-coach/index.html",
-        "sha256": "3d5d6abec084c61ba7f2aaa9daf2dff30b6745903e5476978c6c57fae73d076a"
+        "sha256": "e8fc86406d151b3ff97f43d58f66528587f65979dffc2b24a284af7b9ffc25ab"
       },
       {
         "path": "apps/web/dist/skills/production-quality/nonconformance-report-builder/index.html",
-        "sha256": "041559e7069052ec4d246ae2015f5c7f2656b9307ee949bf3c7d6a40034059c2"
+        "sha256": "28712cdf17086c464f8cce44c8e75849674128128ed338e73c622e86741878f2"
       },
       {
         "path": "apps/web/dist/skills/property-operations/maintenance-request-triager/index.html",
-        "sha256": "5a78da710d897589d8f225a2176e665ea6c9a0025eb04a589e07a0005732f9ed"
+        "sha256": "b8663134d9688ee51bbd36f037126957068c47df297e0739b66f57d69e70f255"
       },
       {
         "path": "apps/web/dist/skills/public-administration/public-comment-synthesizer/index.html",
-        "sha256": "8fa0a67251380f58f93421cbc3170837bd5ab3ec894ff416893f30b91ae5396f"
+        "sha256": "a72b01988ca97e51db2624e15c24bd55cec1f1b8bb91da2ddcc4e8550082f788"
       },
       {
         "path": "apps/web/dist/skills/recruitment-careers/resume-reviewer/index.html",
-        "sha256": "5869033aa81f94ef2eafdfa04ad5c67cbbf866472a81619a3ffd39d1f9f3251e"
+        "sha256": "899bc4cde20db9f0f9ecd5046e13d8caba7400f1cdb14e5d312484a3731e4925"
       },
       {
         "path": "apps/web/dist/skills/recruitment-careers/resume-tailoring-assistant/index.html",
-        "sha256": "be3a0df256b2a18954e4c50ad51294be74f2b16ada56fe598fa82e3c6085c83d"
+        "sha256": "d0bd47ebf8de39dfb05f02ae4102da3addec3d0cb69eeeb4f6ce9e49c6080faa"
       },
       {
         "path": "apps/web/dist/skills/research-data-management/data-dictionary-builder/index.html",
-        "sha256": "a894e56b3307feda74b80871b50958e8cf17d45410e238943fd5470ccf440313"
+        "sha256": "ee877e320ef1d750b4f04971aa09941d5ee8de32c4bf26a05f84d3842e88d286"
       },
       {
         "path": "apps/web/dist/skills/retail-inventory/stock-count-reconciler/index.html",
-        "sha256": "b19c862c5ae96a3beb5d926a5e91e77e22c4f78e4da6033ef7f0af7a1233f54b"
+        "sha256": "4132ab3ca3d0810d2de9cb0cb3889a0ccaaebab3767068c7269684fd18a49008"
       },
       {
         "path": "apps/web/dist/skills/science-research/literature-review-builder/index.html",
-        "sha256": "33211160c257096b4426d09fbaf0baa7a9bc7aba80692001454d39465cb33f39"
+        "sha256": "6e31a55796766c64731bb17ef5e5a1fe63478e7e0dd64beabcf922d0c04d1648"
       },
       {
         "path": "apps/web/dist/skills/social-media-creators/youtube-script-builder/index.html",
-        "sha256": "498526ebb4603b7afa4eff52d4dedb8b9fda08b00a068b3a800598ecd3572865"
+        "sha256": "e28eed22b4bcc7798659f2f620afd4fee42e92b874e6586523b0960b22a6424d"
       },
       {
         "path": "apps/web/dist/skills/software-development/bug-investigator/index.html",
-        "sha256": "ac8ecb470cf2c837a5e0d716ac0aa5d2cf5f96178af70e64aabd861ffe204e42"
+        "sha256": "22eeb6b6b58ff44830e3e152f360b2f7684f4e723a01614cb4e62d1f575d8dce"
       },
       {
         "path": "apps/web/dist/skills/software-development/code-reviewer/index.html",
-        "sha256": "4ec3724f2da3fcb99fad9aabfa6ffebe3edee17fa2ad693df5ac01801e7297d5"
+        "sha256": "89747280689f30d3564947e4465d066a6887bcde9e3dd42e41d3dacf70b3e936"
       },
       {
         "path": "apps/web/dist/skills/software-engineering/code-review-expert/index.html",
-        "sha256": "3910cbde3890c9258821362f7e0f030c9a83155de58211b8634fbd4e2d197c15"
+        "sha256": "bc3b651bc86a612ed5a4c0109a1e28319a5321f21c7a9c81288cfe6f286f3143"
       },
       {
         "path": "apps/web/dist/skills/software-engineering/system-design-architect/index.html",
-        "sha256": "0e16ed309fdd72781644c88c3a91bb2385d1a052ed018c9d189ac97275edaa68"
+        "sha256": "1f31e94ef1d47e6907b3dba0d493e973c673885b2bdc8115ca238da2c8a36151"
       },
       {
         "path": "apps/web/dist/skills/sports-event-operations/volunteer-coverage-planner/index.html",
-        "sha256": "434f40b1b4b94da15e9b1855002125ba51235da18fa1a33fbeafa65222c48c2a"
+        "sha256": "0b7bc3c202b71a53eb29e71511350c4700672f1bb419444e05a6edba1852d685"
       },
       {
         "path": "apps/web/dist/skills/travel-hospitality/travel-itinerary-planner/index.html",
-        "sha256": "526d38c6edd7d1dc5c7da89202fa9ab1ef0eeabf7a7edf1d788b418e93f84bea"
+        "sha256": "ad990563df078594e63f50b597f6181528ab67a858f89a3fa754a85897542f12"
       },
       {
         "path": "apps/web/dist/skills/web-design-ux/accessibility-reviewer/index.html",
-        "sha256": "fa3d7e9823af67ce212742c7610170755fe0b870b671925b8c66ef7b5a4524db"
+        "sha256": "d27eaaecd897a2ef89fc083fa5e0dd31c6dd413f7733fc0ae88d5da7041f913e"
       },
       {
         "path": "apps/web/dist/skills/web-design-ux/react-component-designer/index.html",
-        "sha256": "9bac859644906d8cf31a1a28d1f422b562fff9843877d91da81ac57eb4dc23bc"
+        "sha256": "e4f4c9b210a13540471557da9a8b5114f2cfa0dd9200c90037560d727aa8881a"
       },
       {
         "path": "apps/web/dist/skills/web-design-ux/ux-auditor/index.html",
-        "sha256": "d73c32335e5f63ced485fb60aecd1b8e719375a48d894a6370ed46f26cb39156"
+        "sha256": "acb8d1a55a0dd3c744d07f61e25f1209c00c88f3b58fbd26f0db0dced247840d"
       },
       {
         "path": "dist/open-skill-kit-0.1.0.tgz",
-        "sha256": "03b33ff15ce7d59035841becb6a237b94fcaf9d891f82252e67de1a83dd3ed0b"
+        "sha256": "62dceaa71d2f07b3d4d0cd978212ff7ad9d935dc675f48711325e5a733fbef61"
       }
     ]
   },

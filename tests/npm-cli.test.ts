@@ -70,7 +70,7 @@ beforeAll(async () => {
     }),
   );
   artifact = join(temp, 'dist/npm');
-  await buildNpmPackage(repo, artifact, skills);
+  await buildNpmPackage(repo, artifact, skills, { release: true });
   data = join(artifact, 'data');
 });
 afterAll(async () => {
@@ -229,7 +229,7 @@ describe('npm CLI', () => {
   });
   it('seals approved package/catalog bytes and rejects unlisted package directories before publication', async () => {
     await execute(process.execPath, [join(artifact, 'release-check.js')]);
-    for (const kind of ['package', 'catalog', 'extra']) {
+    for (const kind of ['package', 'catalog', 'extra', 'license']) {
       const output = join(temp, 'tampered-' + kind);
       await cp(artifact, output, { recursive: true });
       if (kind === 'package')
@@ -239,6 +239,11 @@ describe('npm CLI', () => {
         );
       if (kind === 'catalog')
         await writeFile(join(output, 'data/catalog.json'), '{}');
+      if (kind === 'license')
+        await writeFile(
+          join(output, 'THIRD_PARTY_NOTICES.txt'),
+          'Removed license evidence',
+        );
       if (kind === 'extra')
         await mkdir(join(output, 'data/skills/education/unapproved'), {
           recursive: true,

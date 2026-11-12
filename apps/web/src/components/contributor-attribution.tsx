@@ -27,9 +27,10 @@ export function ContributorAttribution({ skill }: { skill: DiscoverySkill }) {
             .
           </p>
           <p className="mt-2 text-xs leading-6 text-muted-foreground">
-            Reviewed by {attribution.record.reviewedBy} on{' '}
-            {attribution.record.reviewedAt}. This maintainer record is not a
-            professional qualification or skill-effectiveness endorsement.
+            Recorded reviewer: {attribution.record.reviewedBy} on{' '}
+            {attribution.record.reviewedAt}. This record is not independent
+            identity verification, proof of ownership, a professional
+            qualification or a skill-effectiveness endorsement.
           </p>
           <a
             className="text-link mt-2 text-xs"

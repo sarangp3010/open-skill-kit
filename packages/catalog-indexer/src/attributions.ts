@@ -4,6 +4,7 @@ import { lstat, readFile, realpath } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import {
   attributionRegistrySchema,
+  maintainersSchema,
   type AttributionRecord,
   type DiscoverySkill,
 } from '@uas/skill-schema';
@@ -23,6 +24,7 @@ async function boundedFile(path: string, limit: number) {
 }
 export async function readAttributions(
   root: string,
+  now = new Date(),
 ): Promise<AttributionRecord[]> {
   const registry = resolve(root, 'catalog/attributions.json');
   let raw: Buffer;
@@ -37,7 +39,34 @@ export async function readAttributions(
       new TextDecoder('utf-8', { fatal: true, ignoreBOM: true }).decode(raw),
     ),
   );
+  if (!records.length) return records;
+  // Same checked-in authorization source as local publication review validation.
+  // PR moderation additionally checks this against the trusted base roster.
+  const roster = maintainersSchema.parse(
+    JSON.parse(
+      (
+        await boundedFile(resolve(root, 'catalog/maintainers.json'), 1048576)
+      ).toString('utf8'),
+    ),
+  ).maintainers;
   for (const record of records) {
+    if (
+      !roster.some(
+        (name) => name.toLowerCase() === record.reviewedBy.toLowerCase(),
+      )
+    )
+      throw new Error(
+        `${record.skillId}: attribution reviewer is not an authorized maintainer`,
+      );
+    const reviewedAt = Date.parse(record.reviewedAt);
+    if (
+      !Number.isFinite(reviewedAt) ||
+      !Number.isFinite(now.getTime()) ||
+      reviewedAt > now.getTime()
+    )
+      throw new Error(
+        `${record.skillId}: attribution review date is invalid or in the future`,
+      );
     const evidence = await boundedFile(
       resolve(root, record.evidencePath),
       65536,
@@ -65,6 +94,7 @@ export async function readAttributions(
   }
   return records;
 }
+/** Current means package-hash freshness, not independent identity verification. */
 export function assessAttribution(
   record: AttributionRecord,
   skill: DiscoverySkill,

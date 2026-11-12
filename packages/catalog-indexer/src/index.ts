@@ -8,7 +8,7 @@ export {
   type EvaluationArtifact,
 } from './evaluations';
 import { assessCompatibility } from './trust';
-import { assessAttribution } from './attributions';
+import { assessAttribution, readAttributions } from './attributions';
 export { readAttributions, assessAttribution } from './attributions';
 export { packageDigest, assessCompatibility } from './trust';
 export {
@@ -215,6 +215,18 @@ export async function generateCatalog(
       throw new Error(
         `Attribution references unknown skill: ${record.skillId}`,
       );
+  if (attributions.length) {
+    const recorded = await readAttributions(dirname(root));
+    for (const record of attributions)
+      if (
+        !recorded.some(
+          (entry) => JSON.stringify(entry) === JSON.stringify(record),
+        )
+      )
+        throw new Error(
+          `${record.skillId}: attribution must match authorized recorded evidence`,
+        );
+  }
   const derived = [...new Set(results.map(({ id }) => id.split('/')[0]))]
     .filter((slug) => !known.has(slug))
     .sort()
