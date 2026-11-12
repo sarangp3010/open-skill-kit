@@ -27,6 +27,8 @@ The app's dev/build commands regenerate the [typed catalog](catalog-pipeline.md)
 
 Light/dark/system selection is a labeled native control. Only the theme preference is optionally saved in localStorage; no private skill content or AI keys are stored. A system preference listener updates the effective theme when system mode is selected. The Radix mobile dialog handles focus trapping, Escape and return focus. All visible action controls have real behavior.
 
+On start-up the app fetches only the lightweight `data/index.json`. Full-text search loads `data/search.json` once, on the first non-empty query, and caches it; detail pages and update proposals load their own `data/skills/<sector>/<slug>.json`. Late responses for a page the visitor has left are ignored, failures offer retry, and data from a different catalog build asks for a reload. Results show 24 at a time with Load more (the count lives in a `page` URL parameter and resets when filters change); focus moves to the first newly shown result. Filter options show result counts that account for every other active filter, and zero-result options are disabled unless already selected. `/published` reads only published.json, keeps its own empty state, and resets stay on `/published`. Relative links in Markdown previews and examples resolve against the current file; in-page anchors move to their heading.
+
 The browser fetches only static catalog data, aside from user-initiated external navigation. Markdown uses react-markdown, remark-gfm and rehype-sanitize with raw HTML disabled and no remote image requests. Local package links open another file preview. ZIP generation is lazy-loaded and runs entirely in-browser; manual copy and generic assistant guidance do not imply native support for every product.
 
 ## Browser/accessibility checks
@@ -69,3 +71,13 @@ Detail pages now provide Codex, Claude Code, Cursor and Gemini CLI project/globa
 ## Quality and marketplace trust
 
 The generated catalog now carries optional structural quality, validation and platform assessment fields. Cards/details consume those fields, with not-assessed fallbacks for older catalogs. Detail pages explain each scoring check and display contributor-recorded evidence separately from documented installation and legacy testing declarations. No score or declaration produces a verified label. Additional URL filters cover difficulty, editorial state, minimum score, platform, evidence and validation; quality/evidence sorting reuses the existing catalog selector. See [quality and trust](skill-quality.md).
+
+## Phase 5 onboarding and metadata
+
+Submit a skill on the landing page and Contribute in desktop/mobile navigation open the local contribution guide. It explains complete templates, deterministic validation, draft PR submission, provenance and the distinction between account-free browsing/local work and GitHub submission. Docs reuse the same generated-skill installation guide as detail pages. Attribution displays declared author text separately from current maintainer-reviewed records; stale records require re-review and no real approvals are prefilled.
+
+Normal builds now include the route preparation previously specific to build:pages. Each known route has its own title/description/canonical/social tags and safe JSON-LD, with client updates on navigation and a noscript source-navigation fallback. The deterministic sitemap excludes aliases/planned collections/404 while retaining all skill URLs. This is static metadata, not full React SSR. The Pages project-subpath robots.txt cannot replace host-root crawling controls. Both web and npm outputs retain project/dependency notices. See [readiness and SEO limits](community-readiness.md) and [licensing](licensing.md).
+
+## Browser proposals and published catalog
+
+/create now edits and previews complete tab-local drafts, validates through the existing package/rubric logic, saves/imports bounded JSON and exports proposal ZIPs. Submit Skill shows GitHub PR instructions and never uploads or publishes. Pending submissions are absent from public assets. /published loads the separate approval-gated artifact and fails closed on a load error; it does not substitute source drafts. /skills and existing detail URLs remain explicitly labeled source/draft previews. The publication ledger starts empty. See [moderation policy](moderated-submissions.md).

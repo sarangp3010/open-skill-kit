@@ -1,5 +1,5 @@
 {
-  "skillId": "personal-productivity/example-skill",
+  "skillId": "collaboration-records/example-skill",
   "cases": [
     {
       "name": "Explicit action",

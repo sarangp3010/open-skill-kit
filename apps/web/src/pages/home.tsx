@@ -1,4 +1,5 @@
-import { useState } from 'react';
+import { broadSectors, matchesSector } from '@uas/skill-schema';
+import { useEffect, useState } from 'react';
 import { Link, useNavigate } from 'react-router-dom';
 import {
   Search,
@@ -14,16 +15,45 @@ import { Button } from '@/components/ui/button';
 import { Badge, Input } from '@/components/ui/card';
 import { SkillCard } from '@/components/skill-card';
 import { useLibrary } from '@/lib/use-library';
+import { loadSkillDetail } from '@/lib/catalog';
 export function HomePage() {
   const catalog = useLibrary();
   const navigate = useNavigate();
   const [query, setQuery] = useState('');
-  const populated = catalog.sectors.filter((sector) =>
-    catalog.skills.some((skill) => skill.sector === sector.slug),
+  const populated = broadSectors(catalog.sectors).filter((sector) =>
+    catalog.skills.some((skill) =>
+      matchesSector(catalog.sectors, skill.sector, sector.slug),
+    ),
   );
   const sample = [...catalog.skills].sort((a, b) =>
     a.title.localeCompare(b.title),
   )[0];
+  // The preview's workflow lines come from the sample's detail file, loaded lazily.
+  const [steps, setSteps] = useState<{ id: string; lines: string }>();
+  useEffect(() => {
+    if (!sample) return;
+    let active = true;
+    loadSkillDetail(catalog.catalogDigest, sample).then(
+      (skill) => {
+        if (active)
+          setSteps({
+            id: skill.id,
+            lines: skill.body
+              .split('\n')
+              .filter((line) => /^\d+\. /.test(line))
+              .slice(0, 3)
+              .map((line) =>
+                line.length > 58 ? line.slice(0, 55) + '…' : line,
+              )
+              .join('\n'),
+          });
+      },
+      () => undefined,
+    );
+    return () => {
+      active = false;
+    };
+  }, [sample, catalog.catalogDigest]);
   return (
     <>
       <section className="hero-grid border-b border-border">
@@ -77,6 +107,9 @@ export function HomePage() {
                 />
               </Button>
             </form>
+            <Link to="/contribute" className="text-link mt-5 text-sm">
+              Submit a skill <ArrowRight size={15} aria-hidden="true" />
+            </Link>
             <div className="mt-5 flex flex-wrap items-center gap-x-5 gap-y-2 text-xs text-muted-foreground">
               <span className="inline-flex items-center gap-1.5">
                 <Check size={13} className="text-primary" aria-hidden="true" />
@@ -131,15 +164,8 @@ export function HomePage() {
                   </span>
                   {'\n\n'}
                   <span className="text-slate-400">
-                    {sample
-                      ? sample.body
-                          .split('\n')
-                          .filter((line) => /^\d+\. /.test(line))
-                          .slice(0, 3)
-                          .map((line) =>
-                            line.length > 58 ? line.slice(0, 55) + '…' : line,
-                          )
-                          .join('\n')
+                    {steps && steps.id === sample?.id
+                      ? steps.lines
                       : 'Your instructions live here.'}
                   </span>
                 </code>
@@ -260,8 +286,8 @@ export function HomePage() {
                 </span>
                 <span className="text-xs text-muted-foreground">
                   {
-                    catalog.skills.filter(
-                      (skill) => skill.sector === sector.slug,
+                    catalog.skills.filter((skill) =>
+                      matchesSector(catalog.sectors, skill.sector, sector.slug),
                     ).length
                   }
                 </span>

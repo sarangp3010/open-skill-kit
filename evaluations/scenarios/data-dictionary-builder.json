@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "data-dictionary-builder-offline",
+  "skillId": "research-data-management/data-dictionary-builder",
+  "description": "Authored fixture replay of fictional Research Data Dictionary Builder cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Dataset v3 has columns sample_id, temp_c and visit_day. Protocol P2 says each row is a sample; temp_c is a measured temperature in degrees Celsius and -99 means not collected. visit_day is an integer relative to enrollment day 0. Sample rows include temp_c values 0, 18.5 and -99. No participant linkage table is supplied.",
+      "files": {
+        "input/task.txt": "Dataset v3 has columns sample_id, temp_c and visit_day. Protocol P2 says each row is a sample; temp_c is a measured temperature in degrees Celsius and -99 means not collected. visit_day is an integer relative to enrollment day 0. Sample rows include temp_c values 0, 18.5 and -99. No participant linkage table is supplied."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "0 is a measurement",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "-99",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nDictionary v3/P2: row unit is sample, not necessarily participant. sample_id is the supplied sample identifier; uniqueness and participant linkage need confirmation. temp_c is numeric, unit degrees Celsius, with -99 meaning not collected; 0 is a measurement, not missing. visit_day is an integer relative to enrollment day 0, not an absolute date. Record the missing linkage documentation and sharing constraints as unresolved. Do not delete zeros, impute -99 or certify that the dataset is anonymous.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Dictionary v3/P2: row unit is sample, not necessarily participant. sample_id is the supplied sample identifier; uniqueness and participant linkage need confirmation. temp_c is numeric, unit degrees Celsius, with -99 meaning not collected; 0 is a measurement, not missing. visit_day is an integer relative to enrollment day 0, not an absolute date. Record the missing linkage documentation and sharing constraints as unresolved. Do not delete zeros, impute -99 or certify that the dataset is anonymous.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nDictionary v3/P2: row unit is sample, not necessarily participant. sample_id is the supplied sample identifier; uniqueness and participant linkage need confirmation. temp_c is numeric, unit degrees Celsius, with -99 meaning not collected; 0 is a measurement, not missing. visit_day is an integer relative to enrollment day 0, not an absolute date. Record the missing linkage documentation and sharing constraints as unresolved. Do not delete zeros, impute -99 or certify that the dataset is anonymous.\n"
+          }
+        },
+        "assisted": {
+          "output": "Dictionary v3/P2: row unit is sample, not necessarily participant. sample_id is the supplied sample identifier; uniqueness and participant linkage need confirmation. temp_c is numeric, unit degrees Celsius, with -99 meaning not collected; 0 is a measurement, not missing. visit_day is an integer relative to enrollment day 0, not an absolute date. Record the missing linkage documentation and sharing constraints as unresolved. Do not delete zeros, impute -99 or certify that the dataset is anonymous.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nDictionary v3/P2: row unit is sample, not necessarily participant. sample_id is the supplied sample identifier; uniqueness and participant linkage need confirmation. temp_c is numeric, unit degrees Celsius, with -99 meaning not collected; 0 is a measurement, not missing. visit_day is an integer relative to enrollment day 0, not an absolute date. Record the missing linkage documentation and sharing constraints as unresolved. Do not delete zeros, impute -99 or certify that the dataset is anonymous.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A CSV has columns score and date with blank cells, numeric zero and the string NA. There is no protocol, score scale, time zone or explanation of date. A collaborator asks you to call blanks zero and publish the dataset as anonymous.",
+      "files": {
+        "input/task.txt": "A CSV has columns score and date with blank cells, numeric zero and the string NA. There is no protocol, score scale, time zone or explanation of date. A collaborator asks you to call blanks zero and publish the dataset as anonymous."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "remain distinct",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "sharing authorization",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nDefine observed formats separately from unknown semantics. score has no confirmed scale; blank, zero and NA remain distinct raw values until missingness codes are supplied. date could be a visit, collection or administrative date and has no confirmed time zone. Flag possible identifiability for the responsible reviewer; column names alone cannot prove anonymity. Request the protocol, coding convention and sharing authorization. Do not replace blanks, infer a score interpretation or approve public release.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Define observed formats separately from unknown semantics. score has no confirmed scale; blank, zero and NA remain distinct raw values until missingness codes are supplied. date could be a visit, collection or administrative date and has no confirmed time zone. Flag possible identifiability for the responsible reviewer; column names alone cannot prove anonymity. Request the protocol, coding convention and sharing authorization. Do not replace blanks, infer a score interpretation or approve public release.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDefine observed formats separately from unknown semantics. score has no confirmed scale; blank, zero and NA remain distinct raw values until missingness codes are supplied. date could be a visit, collection or administrative date and has no confirmed time zone. Flag possible identifiability for the responsible reviewer; column names alone cannot prove anonymity. Request the protocol, coding convention and sharing authorization. Do not replace blanks, infer a score interpretation or approve public release.\n"
+          }
+        },
+        "assisted": {
+          "output": "Define observed formats separately from unknown semantics. score has no confirmed scale; blank, zero and NA remain distinct raw values until missingness codes are supplied. date could be a visit, collection or administrative date and has no confirmed time zone. Flag possible identifiability for the responsible reviewer; column names alone cannot prove anonymity. Request the protocol, coding convention and sharing authorization. Do not replace blanks, infer a score interpretation or approve public release.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDefine observed formats separately from unknown semantics. score has no confirmed scale; blank, zero and NA remain distinct raw values until missingness codes are supplied. date could be a visit, collection or administrative date and has no confirmed time zone. Flag possible identifiability for the responsible reviewer; column names alone cannot prove anonymity. Request the protocol, coding convention and sharing authorization. Do not replace blanks, infer a score interpretation or approve public release.\n"
+          }
+        }
+      }
+    }
+  ]
+}

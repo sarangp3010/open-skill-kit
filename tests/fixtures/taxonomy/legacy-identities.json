@@ -1,0 +1,259 @@
+{
+  "sectors": [
+    "agriculture",
+    "ai-machine-learning",
+    "business-startups",
+    "construction",
+    "cybersecurity",
+    "data-analytics-bi",
+    "design-ux",
+    "education",
+    "education-teaching",
+    "environment-energy",
+    "finance",
+    "food-restaurants",
+    "government-public-services",
+    "healthcare",
+    "human-resources",
+    "legal",
+    "manufacturing",
+    "marketing",
+    "marketing-advertising",
+    "media-journalism",
+    "nonprofits-social-impact",
+    "personal-life-productivity",
+    "personal-productivity",
+    "photography-video",
+    "real-estate",
+    "recruitment-careers",
+    "retail-e-commerce",
+    "sales",
+    "science-research",
+    "social-media-creators",
+    "software-development",
+    "software-engineering",
+    "sports-fitness",
+    "transportation-logistics",
+    "travel-hospitality",
+    "web-design-ux"
+  ],
+  "skills": {
+    "ai-machine-learning/prompt-evaluator": {
+      "SKILL.md": "d60280259dce59d1b569f24911e93680f12f6328b1e024c61c06e1cdff28b827",
+      "examples/input-1.md": "da1be809476a6347b2933395564a045e727b6a56c5553ea1ccc2fbcdd74bdd13",
+      "examples/input-2.md": "3583968d82f4376e0d47cb78f456a9fa43eb6bd1b84bb15cd86673b2a4ea5129",
+      "examples/output-1.md": "8c8a6a391b4a7521e659c0a97a3d524aee0bfdeb7299163eabba84c64848162e",
+      "examples/output-2.md": "b9f969abf9ee476d9dc0dec48f8cf457c714496d1198ac8c0d05c26c2a052fbb",
+      "metadata.json": "d25e4a9e16dba68123015a5a544d57350ec11c370807ed5fd2a89c1ed7cd4a40",
+      "tests/cases.json": "77bdfb4fb22ceb1783ae53f6ec1b04b73f08a7915d38f90c975d4c2b67821627"
+    },
+    "business-startups/business-idea-validator": {
+      "SKILL.md": "b539f5723113fe4f7d91b0265af8f29441a336d52aa9bd474de2834fa63f4334",
+      "examples/input-1.md": "0de1174d0bc43ba282a6e3e2595593111e81c01cb07c0a500dca6f9ec5a93fbd",
+      "examples/input-2.md": "02fe3af65150c939c3102f013850a3fab2c22c44f3034f4608dda915ecd6b7ea",
+      "examples/output-1.md": "c0ab2795571f16d3cf0459fe12b03184204dc578aeca2d864d8fd4d11ae0c613",
+      "examples/output-2.md": "d5d21075256dbba634c509c477cbe1c4d722dc3cf8f1914a40522fc10f61f563",
+      "metadata.json": "4476390dbc893c36449c603a3542770ec6c2f345a71d9992e3caa1c6af13a414",
+      "tests/cases.json": "4cc894c1fcbe1722efe974133d595a0ed3f13f39dbe821b448d8eac32347ab2b"
+    },
+    "cybersecurity/threat-model-builder": {
+      "SKILL.md": "cf82a3180cb835583cbbb3ac5f294298384e14c91424652b880b8dee9aa42e7e",
+      "examples/input-1.md": "139abd1e36fbba203d47fc0740276b3f6516e14279b607dacb0c162cd65874f0",
+      "examples/input-2.md": "80392ddfe7e5f9b266cd9bfecfcce8c1576ebf888cc4ebbaf6a1175a6207ee20",
+      "examples/output-1.md": "dae3dab3289de7627354f1364a8145b6f44ed15b42322c7ba40c0e870d01d732",
+      "examples/output-2.md": "d17c100d93b2a8dc550af14664c3a8319248c2ffbe632a53a2f51db8c8df5f0b",
+      "metadata.json": "45118d97c7ad3f38f80b94e8f56b46dcd3d1d918f14bea2f529f35359b686135",
+      "tests/cases.json": "79a257b3892931d2f07532b032fdd958abbaa4c1731da2747ec7c50673865476"
+    },
+    "data-analytics-bi/sql-query-reviewer": {
+      "SKILL.md": "3d4981f969225e6cda11eefd502248e9a7a248c6ec201705409f2cfa946b672d",
+      "examples/input-1.md": "3c3a7609e4cf8378756f61aa1e996cf939b8c6f674bc46076a5a5dcbe1519812",
+      "examples/input-2.md": "bcd3a2f43836ceb36e991b4982689c103abde742c57d6bef4fe52c918afce93c",
+      "examples/output-1.md": "982975b136283d381ef9df665fb48ec257e37b529038192b310ff8179ce1cd72",
+      "examples/output-2.md": "e0c1162c10bc412089d6def937b65953e5cb3cbd5d8b3f603f85680e3ac9eb3f",
+      "metadata.json": "f612f5fd79367c7cb94da0b86e62041c23616414df18c1e38148f013b294f560",
+      "review.md": "ce39a0b1cc4ed6e9e33efe69723116320c8e6f1139a6a92fc67a858dfca1a67e",
+      "tests/cases.json": "482a5d5c84d4358102d7b62b4c541bbef1273503f8bc2d9efa98630e346a7677"
+    },
+    "education-teaching/personal-tutor": {
+      "SKILL.md": "776fefc1c09dc5dc13a02e06311128f4aafff7187ee449f6218817dd27755adb",
+      "examples/input-1.md": "d2aa2bc2fd2cc72847b66cd4d87be899562868fef16db61cba4974255054f7de",
+      "examples/input-2.md": "cdd4b242f168f5997e0ab106238446b8efb1ab557c1b057ff059443927829322",
+      "examples/output-1.md": "82d1a4b1372e693976a70f0c8be50ef71c4805efcc1aef6c788421ea91cba954",
+      "examples/output-2.md": "0a3399a7ba7c9419b78307317bfe14108fb4a4d8bee3d3915599b7440d304316",
+      "metadata.json": "a395e5034abb91d6b2c297d1d01c6b8e0f6f587aa05cd0b411a8978df66d2ece",
+      "review.md": "78a4816038e4eb99a34538193f3dbc3ec65c94b8d012fb1816a128e84f75852b",
+      "tests/cases.json": "f78d560044b97820c4e7fc62a9b071cb4298b58d11c532aeadcfe065831e0789"
+    },
+    "finance/personal-budget-planner": {
+      "SKILL.md": "dedc4f479da4c1bd2b84e968c9b795877f1c989fba363fd61170294b563a02a3",
+      "examples/input-1.md": "cacad547f3a3398b6d7ce27fbf1d2632e5e7acc01735354efd479c257216247f",
+      "examples/input-2.md": "0241ff1590f6a085d0de33fa1e507decabae01d8cf88275cf0dc4b5157b9b72a",
+      "examples/output-1.md": "af54381fa7e9a1c9aadd83369cfbacedbad0dca8eca4c9ed3a5722b1d4e74b47",
+      "examples/output-2.md": "b68d903dff91c498da926ff17c1be2de823c725d5ad56dbe44496b7c7cc8a1be",
+      "metadata.json": "15f7c5b6126cfbe28cb0be4837ee29547c06679a4359a515f888734bd201fb60",
+      "tests/cases.json": "fc17dbc7176ea51019bac33694fb3f7f48a774a0d5809b63d163119dee620e18"
+    },
+    "healthcare/medical-visit-preparer": {
+      "SKILL.md": "2371f0aa0c0b48676c6ccd93f98426605ab7a28c1acd6a402427ecabbecf98c5",
+      "examples/input-1.md": "873e403fec766cf970ea5dab846dab13bcbcf3a02d7398ea6cc31e6730e690d2",
+      "examples/input-2.md": "00ce7ec3e1d07220bae1e40ea0613660ef8ed586d4f692a5faaa92eb984a7c96",
+      "examples/output-1.md": "5e8b86d163b54cb6d9b5d4a18cc578fc02f53b243e4d2334f0890ae7b451c768",
+      "examples/output-2.md": "71d61974b385205b999804e8c9cf9f4d2e2588e3af6037fc52078be9e5a5089a",
+      "metadata.json": "a90f968d21ea7c4357f6ccbe1b744a32a6875081217e53660eaf4f9b575cdcf1",
+      "tests/cases.json": "a1fc12acb8419ab330ac04d1690bf43d877b4e3095a187256c139310f8510616"
+    },
+    "legal/contract-risk-spotter": {
+      "SKILL.md": "3e9061b61dce42c34d22e8b3dfba73f6b934fc3d1b6690c57efff4bc847f0cb6",
+      "examples/input-1.md": "59cf57a398ef5daef97e8a16fe5b6d88865f7c0dd90b991e20169c1f83616ba2",
+      "examples/input-2.md": "ac00be4643e510c97bb5c8fbe3c203fa87039b354d7b69d77cf9cf2703c4eecd",
+      "examples/output-1.md": "aeb9a7de0d07e2a3c7b15bd8480f563377ed144ff7a07c90000b335c8a9b1927",
+      "examples/output-2.md": "5bfbc60f1238fd160a434a9c29d5594e71dbb33d573a7d45ef0048b1f39090fc",
+      "metadata.json": "ad462367dec0cb3047dc19319a6663060f1dab93ef58b079e50b4dd30e647577",
+      "tests/cases.json": "2fefda07acf139a51fa2cdc6156fa0c65819d8a24299d43e7e55d263eb9661f9"
+    },
+    "marketing-advertising/campaign-planner": {
+      "SKILL.md": "07234a0ee2a51b4a61c2b7405de3af5bf780437a9fdb7a1a91da73fc90e94359",
+      "examples/input-1.md": "b4d4929a16a4cdd84cdbc04bd767668515240c057f598f4fcc3715ae3d9c8a4d",
+      "examples/input-2.md": "4a014909a318b6a118568d0e6093296cc99bde2b2e65a83875032d2caf07e9f3",
+      "examples/output-1.md": "8a2282a47500a36b57fb0c35812302396b83e584a981703ddf3f5b2ed4b72fa1",
+      "examples/output-2.md": "2e17cfec50a7e5ab7a9688308b6552bf2bff7c5dcc0f57ee479014f9bb8966bd",
+      "metadata.json": "00c99ae23aa6e6e07961be8fb6e06f913ba2b1f0d45e3f665f05e648185d2e47",
+      "review.md": "d2aaa2939291adc768c4deb5f452bba4de7a7007f0ce94be303eb7834c02150e",
+      "tests/cases.json": "5b3d08b2327aa3fb6b53bfa4893dfaa5973694ac0648524cd6d24ddf1a7207e7"
+    },
+    "personal-life-productivity/weekly-life-planner": {
+      "SKILL.md": "3a89f6386e00ac0938529f1852ee828f0333b36a1e8d13167cf0d51de38a8327",
+      "examples/input-1.md": "59c8771d56c2ee9da9c63ab8e2f1265924aaa6395200b95cfe671a00e983a7bf",
+      "examples/input-2.md": "a840da48403edb5e835a804a4d42d9e5a3f6344c921b75b5ae4aadaa5a2c0f0e",
+      "examples/output-1.md": "aa5c526a25fc49be71161ea60a2b807855c9801d683b399b026a2b2d3e918c46",
+      "examples/output-2.md": "35bc3b5d3b83ce01657a56ca5c46662913982b7b93ddce93308d03fb66e34d6a",
+      "metadata.json": "b27ec9702f2f55cc64b8c3ab681664373b84b28ed8007a9ee4f73b75d4999817",
+      "tests/cases.json": "dfc4ced0a6764ec7c3ed5af56cbe2a601d0817556e169b3f39356c2e247e303a"
+    },
+    "personal-productivity/weekly-review-coach": {
+      "SKILL.md": "b262e3e535f1980ddfa19a3d14d8735be450d6a7c758d03aedd6bdecc51cd0eb",
+      "examples/input-1.md": "61babedc6c70b37cb89daecbc8c5c6f71fcd2512591f978cc0dbd5e705806b44",
+      "examples/input-2.md": "1bc654b8e3788b40164b1bd93df6d47ade67e4ed256948cd7184c820b0e11405",
+      "examples/output-1.md": "e200e9168808e10f498515e762b2ec16cfead9449363e998cc79af8af564418e",
+      "examples/output-2.md": "3b15a17d2c3436aa7d7ffb10ee4ed599e8cac908ab2a6f40f089264de46122f2",
+      "metadata.json": "1f010508a33f073e3d5fdd5e19c2290143a58e9c480d0d830ddc4dc273c2b202",
+      "review.md": "f2d65f3526ee303b21851fc058f56a348d166ca92b807c95451aa40a3cac0c8c",
+      "tests/cases.json": "f5f791529a596d77f1ad624aed51fe5fb333cb54c3a8c47c903c690e99a04888"
+    },
+    "recruitment-careers/resume-reviewer": {
+      "SKILL.md": "c5a25d92b041f717331b44a9b4918bb2f20b3d7544ed95ffc37aa45c8332cb9b",
+      "examples/input-1.md": "b5dd9c3f1c65e9b509af434153e8c909bb7c289596e813f6fc17655ef90655eb",
+      "examples/input-2.md": "6fa3a68214debba4c9e20d2d43c12663a916e897b372ad5172905e0ac760c4af",
+      "examples/output-1.md": "0037a4f2a5f5e728cb6bb4b0c51f44be2cb27c4b0f9fe58f1c9f6f87f775f04e",
+      "examples/output-2.md": "790be6aae80c30951412d504d5f0922ed0341ca9cec40cb6033b85ab01283e8f",
+      "metadata.json": "bf4419eb0f1bea8aa416a315e9e056d218edc6f8ca62b681d582c333a1b95f68",
+      "review.md": "d0bde0844ab1c1c4c1035c6d94d0ade074b6a9db3cc655c55b00c2a4a102ee67",
+      "tests/cases.json": "09edba38c277b3c61c75cb5135db9e5f9ac6127a56555dc6d3e9f8a37b851184"
+    },
+    "recruitment-careers/resume-tailoring-assistant": {
+      "SKILL.md": "864c22441d5c77df7c7f9cf897f1b8af6fca7d8fa463b89ed3a6c41935552843",
+      "examples/input-1.md": "ef0beaab1d8e0f370a4dda0e29fe559537d231b3735da23018f60704b6062725",
+      "examples/input-2.md": "d0d24248f9f9daee9e0d1d4b792dde046cc10845cba00097a1b2368dc13ff918",
+      "examples/output-1.md": "0d080e5429c5d7a39219365120811d9e350f596b187e290c393c23d33edc2199",
+      "examples/output-2.md": "5c7ccc3c9a9c097d5b7e071c81ca434020f674f962f136790743547798f664e4",
+      "metadata.json": "7f27515ce08e0248e2108e45de94dac3953369e37e058d30d4b1b822cbc240d0",
+      "tests/cases.json": "44bbedcd759b555ddb1732f59a983b59a9d3ce96789392da50508e5428ca7220"
+    },
+    "science-research/literature-review-builder": {
+      "SKILL.md": "5b7880221010fec2a0ebc77fe968e99e05620ff171cd0349323b3a7acf3c78ea",
+      "examples/input-1.md": "3362c41c9f1d365db41deb9d29380e2ad78f2bfa0f396f9445811dcbde690eba",
+      "examples/input-2.md": "27f4563f9a1cf13c307f6924506f82e7f11d9f5c26b8543c52fc9caedf97e6cf",
+      "examples/output-1.md": "3e3a7b4963735fcfa0d196b7eba7d2d617cc5501976942b7c9aca78306159e3c",
+      "examples/output-2.md": "2334be0642ff2f536b684ba09762844b6f054a1a064b58eecc065330d6ba7bc9",
+      "metadata.json": "83ebc72c8de290ec66229ea92514354ac3e7da33c758bfaf6fd451c07a97f206",
+      "tests/cases.json": "5ea6e4cc465c3b729074d56aabb6a58a19500eaf1a564c9e85aa6a153fc39dca"
+    },
+    "social-media-creators/youtube-script-builder": {
+      "SKILL.md": "cc35d1502bdabbe66e2d58cde72a0133681b921298d2f4629c0197f5e66962fc",
+      "examples/input-1.md": "01623050ae1800bba63c57e59955f17a2380466ba5af13cef806afd1d5b48d4d",
+      "examples/input-2.md": "2f100e06eb4e8662787c1078478bde9d83e47a74c39345c7c5af94b0e5794226",
+      "examples/output-1.md": "c381523b9a283d55a5d0eaee0e15d221269ac6f8829f9452a291f752f7ff2a4f",
+      "examples/output-2.md": "b58075db4239364ee1b791027f2fe9860381db6b2557c3eca2d1fce5da415138",
+      "metadata.json": "f941d885298fa185f848928f8aad8ab5398293b077d7885bf96b9d3857373061",
+      "tests/cases.json": "9699eca15cd7d4c4a6ed0760cb9a6f8e359ee0c0c955728806534c232e164d7f"
+    },
+    "software-development/bug-investigator": {
+      "SKILL.md": "187e1b12690d6b12e9c64cdbe494f7c692a4cb2c07bbb0075e61af6ae9bacb27",
+      "examples/input-1.md": "5b578e6f2dec34ebbcd7236a4d1965a3bdbf97b955624a259645415d36da88f0",
+      "examples/input-2.md": "77e1370d6eb1af9f40f3f363784de5da38f571282a27b676c586e5736181618e",
+      "examples/output-1.md": "21bd6e4215bab6cdfd9bc4de4e2db6301586699c8987288b79b6b749dbe161ab",
+      "examples/output-2.md": "48c0bfb35f40c937c1ca7fe3208c2e322a87706976689268807abdc559d0bd3d",
+      "metadata.json": "e71f26b4dac45a1399a00e14f9d823aee7149ec7eb394bb31d948ababc3ba9b4",
+      "review.md": "38010daa27f70193b3ec63ffa5a7f3f458cb0e9499d3ab2751fb132f3b155f80",
+      "tests/cases.json": "b31c81c3b8cd12632ad71ba1670ee1d88bec3efd98a43eba94292097c58857e9"
+    },
+    "software-development/code-reviewer": {
+      "SKILL.md": "a9b2914c7e718eeb3990abe8b58cef805ea91a80e87767f91daf6a9008f956f9",
+      "examples/input-1.md": "9d03a03d45d6cadeb26bdbb209016494c37bc7f96570d65d1a46b20c99d3c32a",
+      "examples/input-2.md": "2269775e3f465198137f2af4fe933e2b114475db4012de4a9fa7f8c17788106f",
+      "examples/output-1.md": "5ac06334b6c95e85a93a2f397ee4d1b3a4b98fe6b1f178f7bb963e953a05e5ee",
+      "examples/output-2.md": "f6843be35108e7e6fe91216c4d43c06db83fb7722f8593a2f0741ce5704f8eb3",
+      "metadata.json": "6696e9cb0d9527429461742ce8ff142cf8252c7b8829e4b084c53abe523bae3b",
+      "review.md": "4ff6be482fe70dae44d030b4fa0a4549df98eb7c235f16862e9ed8745fd7458d",
+      "tests/cases.json": "32f67a5e67474788d187f712112d96d82a2df9742bb47fd785c2d5a2479ad5c4"
+    },
+    "software-engineering/code-review-expert": {
+      "SKILL.md": "f86a607a1f5dac227075cd791eec883dea5a4e5013ca4c6d0d7187ae1dffefe5",
+      "examples/input-1.md": "7a8cd7204fb9f7043923e4d7f111c7937f556b88867f348ca16cb4b5ce53cb15",
+      "examples/input-2.md": "f6f29f996ea3cd9ca675f8f9a70bc301c3e048e242ad3c24cfe179b76a254ae4",
+      "examples/output-1.md": "389f3e3707a393f5727e8ea9d1762058d654ccf12f03c39d303cde349196b49b",
+      "examples/output-2.md": "c4406fa21fcb582fc7821ccb6e81b91440fdd83435bcae81e8bc54f4952352cf",
+      "metadata.json": "318c71149a4765ac40a27077f1096aee3b628594fdc6391e2933cc7a8555b154",
+      "tests/cases.json": "ddee389f4ee61cdec6c0cf3c94be52267902b2672d2ef4d0a1f31da0913108c9"
+    },
+    "software-engineering/system-design-architect": {
+      "SKILL.md": "2563603f74b84048c9a3e3c3acdea96e65ac2729e87b11abd9ccf57af0daf59c",
+      "examples/input-1.md": "a84a2e0fb3b89c04767e018f0b767d196ed3b4235a107240f33520ca773e4fe1",
+      "examples/input-2.md": "41bcc8de41d7b32f22e4adb583b6b6af705bb02860961541bd0e89af8139cda9",
+      "examples/output-1.md": "645cd28fa511067079b0c247eabc770a32f70bf3c13a9fc21771d832638ecac4",
+      "examples/output-2.md": "779ce44c7ea0c0303840646bcbd78707f77ec7edad4cc617814003648aa75106",
+      "metadata.json": "3ba04c7812fc4d8a9c4a03786515312098c2f9dcb0ddbb7eca20d598126691d9",
+      "tests/cases.json": "18edfe9baf62f0ceb558dfaa98956018473f62ef6958cbab42a14b5ae49c0dab"
+    },
+    "travel-hospitality/travel-itinerary-planner": {
+      "SKILL.md": "436006a3c8178a01d480a5e226f80dd65ad586fe99772d5f9c5a8c1b8236b569",
+      "examples/input-1.md": "fc7009d5d7e78102285986b916884d6b5b5f86750dd45662acc444c33303e104",
+      "examples/input-2.md": "da57feeeb8c6e6bafa2e1846cdd7602938feb3afcf79b22cd77d7c21ca475655",
+      "examples/output-1.md": "faf4b403787a1cc431dd96ab2a3819f534a971799b2352a4ab2eda78bff012b5",
+      "examples/output-2.md": "da4245ef0122deae3641e431eaeaa61e8b3ebadb592ed24d5307adc6e0239f06",
+      "metadata.json": "91bcfddd3c6c68998c27a3167b09fe9257c828f4d9649d3d28a47935175a93cc",
+      "tests/cases.json": "0245b79cb642bdad7ad6373436358ddc9b1adaf2890fe370dc9ecd1ee2512d5e"
+    },
+    "web-design-ux/accessibility-reviewer": {
+      "SKILL.md": "e76c31830476e98557e31a36749cbbf1a43585883d6135c4ebfeb63758845a68",
+      "examples/input-1.md": "e9c655a6ad4bddb93d330479384ec3840da11e09c9856b7d31d8e82ec4463d29",
+      "examples/input-2.md": "5f175e7ff984d8fc2bc272daaa37999f6015fcbacea7294e2b769116288b42d8",
+      "examples/output-1.md": "7fdc79e8708d2b98d7c5056fdc9d04ebc5a9fb1ef1cf17f5473a3934a52d7f4f",
+      "examples/output-2.md": "1881ba815bf9c6eb55998b14e03c0e1b78052f623d8221788e6dfab6fa2e5567",
+      "metadata.json": "46740706637f4bd33c814a525e2d94ee882be47bb52b2da34d450842d2d63683",
+      "review.md": "4fc80701828f779e65e55c2b77497953206f9820bf673a5a6de43813aba8b3e4",
+      "tests/cases.json": "05babfd3b4cd6b348f38b24ecf9ef570e8147f9c868b9f821844b30baba0cb76"
+    },
+    "web-design-ux/react-component-designer": {
+      "SKILL.md": "56c2772e7560fde1f93d650aa339ccda11647d3479abf82df540c02c4c7455e1",
+      "examples/input-1.md": "116bcd1f0c4c74d3000489887f1474a2d3b4ca1f501cdc0d3e66ac939fe6b5be",
+      "examples/input-2.md": "1dbac3ce9197c1a9609ab51f9a4ae66b502a8f1349dd0b0ff659b88656c137f2",
+      "examples/output-1.md": "096596cf7484d5f448d8f99ef88ab9d1bf537fa212430e7aac9efd88e9d8c2cf",
+      "examples/output-2.md": "f4ff10c6f7bd7e03a2618e8644664994a977d6e376e065f6ae162f0505c28853",
+      "metadata.json": "9148d9889f0438339bd4e55e87692485f0caf3f5c98d803b70d3dd606077c4d3",
+      "review.md": "bb181fee9da9a19ce48b173ca34be69040b766785e66bd0e916dca0d6ff73b1e",
+      "tests/cases.json": "46bbfc2eca756c608e2d8cf768fb0dc16cd6343d344af75534df317b46c999d5"
+    },
+    "web-design-ux/ux-auditor": {
+      "SKILL.md": "ff0d45f5f72675c0b1e35f09cb1043c0978117b8f943cfc37552270982caf3bc",
+      "examples/input-1.md": "8ddb2824a60370f6cbf785469c7a47c903ff0f071a7ba89f28bc11ffda47785b",
+      "examples/input-2.md": "0c0132c20e283f85ecf626fd40674de0bc569986d9e7330f4ada6f512385a6fd",
+      "examples/output-1.md": "cbc76258cc879ad746f4c0614a9db480779cf1ccea153cd8b3fac6e09e92a373",
+      "examples/output-2.md": "050a8773ec673a4e16f6269628b4f3f85e3d36cb219969093ad9d6ab8c106a15",
+      "metadata.json": "018c25f689a708ecab1f78df75cb240b4bd89982bb18b9454fa6c64d1ce57ade",
+      "review.md": "823bd64fb32498599a2801467e2a655bea9eb0eddb719adc13311aa6a9806af0",
+      "tests/cases.json": "5b5224172f70d96a5c772a9e11f406bcaaae59cb3a4fd122f7b3beafdda933eb"
+    }
+  }
+}

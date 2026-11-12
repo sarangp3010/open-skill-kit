@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "shipment-exception-organizer-offline",
+  "skillId": "freight-logistics/shipment-exception-organizer",
+  "description": "Authored fixture replay of fictional Shipment Exception Organizer cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Shipment S8 departed with 18 pallets. Receiver confirms 16 at 10:00 UTC and marks 2 not yet accounted for. Arrival was booked for 08:30 UTC. No damage report or cause is available. Operations asks for a concise case and customer draft without a new ETA.",
+      "files": {
+        "input/task.txt": "Shipment S8 departed with 18 pallets. Receiver confirms 16 at 10:00 UTC and marks 2 not yet accounted for. Arrival was booked for 08:30 UTC. No damage report or cause is available. Operations asks for a concise case and customer draft without a new ETA."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "90 minutes",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "2 unaccounted",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nS8: observed arrival 10:00 UTC versus booked 08:30 UTC is 90 minutes later. Quantity record: 18 dispatched = 16 confirmed received + 2 unaccounted for. Do not label the two pallets lost or invent a damage finding. Request carrier/receiver reconciliation and a confirmed next update time from the case owner. Customer draft: receipt is being reconciled and two pallets remain unconfirmed; we will update after the next verified check. No new ETA, replacement promise or claim filing is made.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "S8: observed arrival 10:00 UTC versus booked 08:30 UTC is 90 minutes later. Quantity record: 18 dispatched = 16 confirmed received + 2 unaccounted for. Do not label the two pallets lost or invent a damage finding. Request carrier/receiver reconciliation and a confirmed next update time from the case owner. Customer draft: receipt is being reconciled and two pallets remain unconfirmed; we will update after the next verified check. No new ETA, replacement promise or claim filing is made.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nS8: observed arrival 10:00 UTC versus booked 08:30 UTC is 90 minutes later. Quantity record: 18 dispatched = 16 confirmed received + 2 unaccounted for. Do not label the two pallets lost or invent a damage finding. Request carrier/receiver reconciliation and a confirmed next update time from the case owner. Customer draft: receipt is being reconciled and two pallets remain unconfirmed; we will update after the next verified check. No new ETA, replacement promise or claim filing is made.\n"
+          }
+        },
+        "assisted": {
+          "output": "S8: observed arrival 10:00 UTC versus booked 08:30 UTC is 90 minutes later. Quantity record: 18 dispatched = 16 confirmed received + 2 unaccounted for. Do not label the two pallets lost or invent a damage finding. Request carrier/receiver reconciliation and a confirmed next update time from the case owner. Customer draft: receipt is being reconciled and two pallets remain unconfirmed; we will update after the next verified check. No new ETA, replacement promise or claim filing is made.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nS8: observed arrival 10:00 UTC versus booked 08:30 UTC is 90 minutes later. Quantity record: 18 dispatched = 16 confirmed received + 2 unaccounted for. Do not label the two pallets lost or invent a damage finding. Request carrier/receiver reconciliation and a confirmed next update time from the case owner. Customer draft: receipt is being reconciled and two pallets remain unconfirmed; we will update after the next verified check. No new ETA, replacement promise or claim filing is made.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "The order portal shows an ETA of 15:00 without a date or time zone. A carrier email says delivery tomorrow, sent yesterday in an unknown zone. No signed receipt exists. The requester asks for confirmation that the shipment has arrived.",
+      "files": {
+        "input/task.txt": "The order portal shows an ETA of 15:00 without a date or time zone. A carrier email says delivery tomorrow, sent yesterday in an unknown zone. No signed receipt exists. The requester asks for confirmation that the shipment has arrived."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "unconfirmed",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "time zone",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nDelivery is unconfirmed. Keep the undated 15:00 portal estimate and relative carrier wording as separate source records; neither proves arrival. Request an absolute date, time zone and delivery evidence such as the approved receipt record. Draft an internal follow-up to the assigned coordinator rather than a delivered status. Do not translate the two ambiguous estimates into a definite timestamp or silently close the case.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Delivery is unconfirmed. Keep the undated 15:00 portal estimate and relative carrier wording as separate source records; neither proves arrival. Request an absolute date, time zone and delivery evidence such as the approved receipt record. Draft an internal follow-up to the assigned coordinator rather than a delivered status. Do not translate the two ambiguous estimates into a definite timestamp or silently close the case.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDelivery is unconfirmed. Keep the undated 15:00 portal estimate and relative carrier wording as separate source records; neither proves arrival. Request an absolute date, time zone and delivery evidence such as the approved receipt record. Draft an internal follow-up to the assigned coordinator rather than a delivered status. Do not translate the two ambiguous estimates into a definite timestamp or silently close the case.\n"
+          }
+        },
+        "assisted": {
+          "output": "Delivery is unconfirmed. Keep the undated 15:00 portal estimate and relative carrier wording as separate source records; neither proves arrival. Request an absolute date, time zone and delivery evidence such as the approved receipt record. Draft an internal follow-up to the assigned coordinator rather than a delivered status. Do not translate the two ambiguous estimates into a definite timestamp or silently close the case.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDelivery is unconfirmed. Keep the undated 15:00 portal estimate and relative carrier wording as separate source records; neither proves arrival. Request an absolute date, time zone and delivery evidence such as the approved receipt record. Draft an internal follow-up to the assigned coordinator rather than a delivered status. Do not translate the two ambiguous estimates into a definite timestamp or silently close the case.\n"
+          }
+        }
+      }
+    }
+  ]
+}

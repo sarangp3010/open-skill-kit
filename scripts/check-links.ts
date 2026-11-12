@@ -3,7 +3,19 @@ import { dirname, resolve } from 'node:path';
 
 // Repository documentation only. Skill links are parsed as Markdown by skill-validator.
 let broken = 0;
-for (const directory of ['.', 'docs', 'skills', 'packages/cli']) {
+const directories = ['.', 'docs', 'skills', 'packages/cli', 'templates'];
+async function appendChildren(root: string) {
+  for (const entry of await readdir(root, { withFileTypes: true }))
+    if (entry.isDirectory() && !entry.isSymbolicLink()) {
+      const path = resolve(root, entry.name);
+      directories.push(path);
+      await appendChildren(path);
+    }
+}
+await appendChildren('docs');
+await appendChildren('reviews');
+directories.push('reviews');
+for (const directory of directories) {
   for (const file of await readdir(directory)) {
     if (
       !file.endsWith('.md') ||

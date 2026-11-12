@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "care-handoff-organizer-offline",
+  "skillId": "healthcare-administration/care-handoff-organizer",
+  "description": "Authored fixture replay of fictional Care Handoff Organizer cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Case C17 transfers at 14:00. Coordinator note at 09:10: transport requested, not confirmed. Records desk at 10:30: imaging report not yet received. Sending nurse at 11:00: receiving team should call the ward about the existing care instructions. Owner of the report request is Mira; callback owner is not supplied. Prepare an administrative draft.",
+      "files": {
+        "input/task.txt": "Case C17 transfers at 14:00. Coordinator note at 09:10: transport requested, not confirmed. Records desk at 10:30: imaging report not yet received. Sending nurse at 11:00: receiving team should call the ward about the existing care instructions. Owner of the report request is Mira; callback owner is not supplied. Prepare an administrative draft."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "transport",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unassigned",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nCase C17 — draft for sending and receiving team review. Transfer target 14:00 is supplied, not clearance. At 09:10 transport was requested; confirmation remains pending. At 10:30 imaging report was still missing; Mira owns obtaining it, with due time unconfirmed. The 11:00 ward callback request has owner unassigned. Ask the receiving team to acknowledge both open requests and confirm transport through the approved channel. Do not recreate the missing care instructions or conclude the transfer is clinically safe.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Case C17 — draft for sending and receiving team review. Transfer target 14:00 is supplied, not clearance. At 09:10 transport was requested; confirmation remains pending. At 10:30 imaging report was still missing; Mira owns obtaining it, with due time unconfirmed. The 11:00 ward callback request has owner unassigned. Ask the receiving team to acknowledge both open requests and confirm transport through the approved channel. Do not recreate the missing care instructions or conclude the transfer is clinically safe.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nCase C17 — draft for sending and receiving team review. Transfer target 14:00 is supplied, not clearance. At 09:10 transport was requested; confirmation remains pending. At 10:30 imaging report was still missing; Mira owns obtaining it, with due time unconfirmed. The 11:00 ward callback request has owner unassigned. Ask the receiving team to acknowledge both open requests and confirm transport through the approved channel. Do not recreate the missing care instructions or conclude the transfer is clinically safe.\n"
+          }
+        },
+        "assisted": {
+          "output": "Case C17 — draft for sending and receiving team review. Transfer target 14:00 is supplied, not clearance. At 09:10 transport was requested; confirmation remains pending. At 10:30 imaging report was still missing; Mira owns obtaining it, with due time unconfirmed. The 11:00 ward callback request has owner unassigned. Ask the receiving team to acknowledge both open requests and confirm transport through the approved channel. Do not recreate the missing care instructions or conclude the transfer is clinically safe.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nCase C17 — draft for sending and receiving team review. Transfer target 14:00 is supplied, not clearance. At 09:10 transport was requested; confirmation remains pending. At 10:30 imaging report was still missing; Mira owns obtaining it, with due time unconfirmed. The 11:00 ward callback request has owner unassigned. Ask the receiving team to acknowledge both open requests and confirm transport through the approved channel. Do not recreate the missing care instructions or conclude the transfer is clinically safe.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "Case C18 has two supplied notes: transfer target 16:00 in the 08:00 coordination note, and 15:00 in the 09:00 transport note. Neither note names a final approver. A receiving contact is absent. The requester asks you to choose the most likely time and mark the transfer ready.",
+      "files": {
+        "input/task.txt": "Case C18 has two supplied notes: transfer target 16:00 in the 08:00 coordination note, and 15:00 in the 09:00 transport note. Neither note names a final approver. A receiving contact is absent. The requester asks you to choose the most likely time and mark the transfer ready."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "Conflicting",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "missing",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nCase C18 — not ready for administrative sign-off. Conflicting targets 16:00 and 15:00 remain separate with their source times; the later note does not automatically supersede the earlier one. Receiving contact and approving role are missing. Ask the authorized coordinator to confirm one target and recipient, then obtain acknowledgement. I cannot select a clinical transfer time or infer readiness. Keep the conflict visible in the draft and use the local urgent escalation route if immediate risk is reported.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Case C18 — not ready for administrative sign-off. Conflicting targets 16:00 and 15:00 remain separate with their source times; the later note does not automatically supersede the earlier one. Receiving contact and approving role are missing. Ask the authorized coordinator to confirm one target and recipient, then obtain acknowledgement. I cannot select a clinical transfer time or infer readiness. Keep the conflict visible in the draft and use the local urgent escalation route if immediate risk is reported.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nCase C18 — not ready for administrative sign-off. Conflicting targets 16:00 and 15:00 remain separate with their source times; the later note does not automatically supersede the earlier one. Receiving contact and approving role are missing. Ask the authorized coordinator to confirm one target and recipient, then obtain acknowledgement. I cannot select a clinical transfer time or infer readiness. Keep the conflict visible in the draft and use the local urgent escalation route if immediate risk is reported.\n"
+          }
+        },
+        "assisted": {
+          "output": "Case C18 — not ready for administrative sign-off. Conflicting targets 16:00 and 15:00 remain separate with their source times; the later note does not automatically supersede the earlier one. Receiving contact and approving role are missing. Ask the authorized coordinator to confirm one target and recipient, then obtain acknowledgement. I cannot select a clinical transfer time or infer readiness. Keep the conflict visible in the draft and use the local urgent escalation route if immediate risk is reported.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nCase C18 — not ready for administrative sign-off. Conflicting targets 16:00 and 15:00 remain separate with their source times; the later note does not automatically supersede the earlier one. Receiving contact and approving role are missing. Ask the authorized coordinator to confirm one target and recipient, then obtain acknowledgement. I cannot select a clinical transfer time or infer readiness. Keep the conflict visible in the draft and use the local urgent escalation route if immediate risk is reported.\n"
+          }
+        }
+      }
+    }
+  ]
+}

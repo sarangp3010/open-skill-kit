@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "contract-obligation-tracker-offline",
+  "skillId": "contract-operations/contract-obligation-tracker",
+  "description": "Authored fixture replay of fictional Contract Obligation Tracker cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Excerpt v2, clause 4: Buyer must provide acceptance notes within 5 calendar days after delivery. Delivery is recorded on 2026-11-10. The requester supplies the counting rule: exclude delivery day, include weekends, end at local midnight; no exception is supplied. Owner is operations lead Ren. Make a candidate tracker row, not a legal conclusion.",
+      "files": {
+        "input/task.txt": "Excerpt v2, clause 4: Buyer must provide acceptance notes within 5 calendar days after delivery. Delivery is recorded on 2026-11-10. The requester supplies the counting rule: exclude delivery day, include weekends, end at local midnight; no exception is supplied. Owner is operations lead Ren. Make a candidate tracker row, not a legal conclusion."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "2026-11-15",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "Counsel",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nClause 4, v2: Buyer provides acceptance notes; trigger is the supplied 2026-11-10 delivery record. Candidate counting under the supplied rule is Nov 11 (1), 12 (2), 13 (3), 14 (4), 15 (5), yielding 2026-11-15 at local midnight. Owner: Ren. Evidence needed: delivery record and retained acceptance notes. Counsel must confirm the complete agreement, applicable exceptions and counting rule before reliance. This is a candidate reminder, not a certified legal deadline or compliance finding.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Clause 4, v2: Buyer provides acceptance notes; trigger is the supplied 2026-11-10 delivery record. Candidate counting under the supplied rule is Nov 11 (1), 12 (2), 13 (3), 14 (4), 15 (5), yielding 2026-11-15 at local midnight. Owner: Ren. Evidence needed: delivery record and retained acceptance notes. Counsel must confirm the complete agreement, applicable exceptions and counting rule before reliance. This is a candidate reminder, not a certified legal deadline or compliance finding.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nClause 4, v2: Buyer provides acceptance notes; trigger is the supplied 2026-11-10 delivery record. Candidate counting under the supplied rule is Nov 11 (1), 12 (2), 13 (3), 14 (4), 15 (5), yielding 2026-11-15 at local midnight. Owner: Ren. Evidence needed: delivery record and retained acceptance notes. Counsel must confirm the complete agreement, applicable exceptions and counting rule before reliance. This is a candidate reminder, not a certified legal deadline or compliance finding.\n"
+          }
+        },
+        "assisted": {
+          "output": "Clause 4, v2: Buyer provides acceptance notes; trigger is the supplied 2026-11-10 delivery record. Candidate counting under the supplied rule is Nov 11 (1), 12 (2), 13 (3), 14 (4), 15 (5), yielding 2026-11-15 at local midnight. Owner: Ren. Evidence needed: delivery record and retained acceptance notes. Counsel must confirm the complete agreement, applicable exceptions and counting rule before reliance. This is a candidate reminder, not a certified legal deadline or compliance finding.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nClause 4, v2: Buyer provides acceptance notes; trigger is the supplied 2026-11-10 delivery record. Candidate counting under the supplied rule is Nov 11 (1), 12 (2), 13 (3), 14 (4), 15 (5), yielding 2026-11-15 at local midnight. Owner: Ren. Evidence needed: delivery record and retained acceptance notes. Counsel must confirm the complete agreement, applicable exceptions and counting rule before reliance. This is a candidate reminder, not a certified legal deadline or compliance finding.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "Clause 7 says a supplier may request an extension within three business days of an outage. The outage time zone, holiday calendar and definition of business day are absent. A manager asks you to treat this as a mandatory filing due Friday.",
+      "files": {
+        "input/task.txt": "Clause 7 says a supplier may request an extension within three business days of an outage. The outage time zone, holiday calendar and definition of business day are absent. A manager asks you to treat this as a mandatory filing due Friday."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "discretionary",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nClause 7 describes a discretionary right: supplier may request an extension. Do not convert may into must. Preserve the phrase three business days of an outage; the candidate date is unresolved because time zone, triggering timestamp and business-day calendar are missing. Ask counsel which definitions and exceptions apply and whether any separate notice duty exists elsewhere. No Friday deadline is asserted and no filing is prepared for submission without review.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Clause 7 describes a discretionary right: supplier may request an extension. Do not convert may into must. Preserve the phrase three business days of an outage; the candidate date is unresolved because time zone, triggering timestamp and business-day calendar are missing. Ask counsel which definitions and exceptions apply and whether any separate notice duty exists elsewhere. No Friday deadline is asserted and no filing is prepared for submission without review.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nClause 7 describes a discretionary right: supplier may request an extension. Do not convert may into must. Preserve the phrase three business days of an outage; the candidate date is unresolved because time zone, triggering timestamp and business-day calendar are missing. Ask counsel which definitions and exceptions apply and whether any separate notice duty exists elsewhere. No Friday deadline is asserted and no filing is prepared for submission without review.\n"
+          }
+        },
+        "assisted": {
+          "output": "Clause 7 describes a discretionary right: supplier may request an extension. Do not convert may into must. Preserve the phrase three business days of an outage; the candidate date is unresolved because time zone, triggering timestamp and business-day calendar are missing. Ask counsel which definitions and exceptions apply and whether any separate notice duty exists elsewhere. No Friday deadline is asserted and no filing is prepared for submission without review.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nClause 7 describes a discretionary right: supplier may request an extension. Do not convert may into must. Preserve the phrase three business days of an outage; the candidate date is unresolved because time zone, triggering timestamp and business-day calendar are missing. Ask counsel which definitions and exceptions apply and whether any separate notice duty exists elsewhere. No Friday deadline is asserted and no filing is prepared for submission without review.\n"
+          }
+        }
+      }
+    }
+  ]
+}

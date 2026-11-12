@@ -1,73 +1,128 @@
 name: CI
 on:
   pull_request:
+    branches: [main, develop]
+  pull_request_review:
+    types: [submitted, dismissed]
   push:
-    branches: [main]
+    branches: [main, develop]
   workflow_dispatch:
 permissions:
   contents: read
+concurrency:
+  group: ci-${{ github.workflow }}-${{ github.ref }}
+  cancel-in-progress: true
 jobs:
-  validate:
-    runs-on: ubuntu-latest
-    timeout-minutes: 15
+  checks:
+    runs-on: ubuntu-24.04
+    timeout-minutes: 20
+    permissions:
+      contents: read
+      pull-requests: read
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+          fetch-depth: 0
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
+          package-manager-cache: false
+      - run: npm install --global pnpm@10.20.0 --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - name: Validate skill contributions and report actionable diagnostics
+        run: pnpm contributions:check
+      - name: Require maintainer approval for publication changes
+        run: pnpm moderation:check
+        env:
+          GH_TOKEN: ${{ github.token }}
+      - run: pnpm founding:check
+      - run: pnpm release:check
       - run: pnpm lint
       - run: pnpm format:check
       - run: pnpm typecheck
       - run: pnpm test
+      - run: pnpm portability:check
+      - run: pnpm licensing:check
       - run: pnpm evaluate:fixtures
       - run: pnpm validate:skills
       - run: pnpm check:links
-      - run: pnpm check:duplicates
       - run: pnpm catalog:check
+      - run: pnpm build:marketplace
       - run: pnpm build
       - run: pnpm catalog:check-assets
-      - run: pnpm exec playwright install --with-deps chromium
-      - run: pnpm test:e2e
       - run: pnpm pack:npm
-      - run: git diff --exit-code -- catalog/catalog.json
+      - run: pnpm licensing:artifacts
+      - name: Check generated catalog is committed
+        run: git diff --exit-code -- catalog/catalog.json
 
-  deploy-pages:
-    needs: validate
-    if: github.ref == 'refs/heads/main' && github.event_name != 'pull_request'
-    runs-on: ubuntu-latest
+  # Browser libraries and binaries come from the matching official image.
+  # This still consumes standard runner allowance; the owner's $0 hard stop applies.
+  e2e:
+    needs: checks
+    runs-on: ubuntu-24.04
     timeout-minutes: 10
     permissions:
       contents: read
-      pages: write
-      id-token: write
-    concurrency:
-      group: github-pages
-      cancel-in-progress: false
-    environment:
-      name: github-pages
-      url: ${{ steps.deployment.outputs.page_url }}
+    container:
+      image: mcr.microsoft.com/playwright:v1.65.0-noble@sha256:6e3fb709361521eb27161606e6da6d2674e5e89fa16516cb37d6fdd91372273d
+      options: --user 1001 --shm-size=1gb
+    env:
+      HOME: /tmp/osk-playwright-home
+      PLAYWRIGHT_BROWSERS_PATH: /ms-playwright
+      PLAYWRIGHT_SKIP_BROWSER_DOWNLOAD: '1'
     steps:
-      - uses: actions/checkout@v4
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1 # v7
         with:
           persist-credentials: false
-      - uses: pnpm/action-setup@v4
-      - uses: actions/setup-node@v4
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38 # v6
         with:
           node-version: 22
-          cache: pnpm
-      - run: pnpm install --frozen-lockfile
-      - uses: actions/configure-pages@v5
-        id: pages
-      - run: pnpm build:pages
+          package-manager-cache: false
+      - name: Install the pinned package manager without root privileges
+        run: |
+          npm install --prefix "$RUNNER_TEMP/osk-pnpm" --ignore-scripts --no-audit --no-fund pnpm@10.20.0
+          echo "$RUNNER_TEMP/osk-pnpm/node_modules/.bin" >> "$GITHUB_PATH"
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm exec playwright --version
+      - run: pnpm test:e2e
+
+  # Retain the existing required-check name. Failure/skips of either dependency
+  # must fail this gate; moving E2E must not make a partial run mergeable.
+  validate:
+    if: always()
+    needs: [checks, e2e]
+    runs-on: ubuntu-24.04
+    timeout-minutes: 2
+    permissions:
+      contents: read
+    steps:
+      - name: Require all validation results
         env:
-          VITE_BASE_PATH: ${{ steps.pages.outputs.base_path }}/
-      - uses: actions/upload-pages-artifact@v4
+          CHECKS_RESULT: ${{ needs.checks.result }}
+          E2E_RESULT: ${{ needs.e2e.result }}
+        run: |
+          test "$CHECKS_RESULT" = success
+          test "$E2E_RESULT" = success
+
+  # Standard public-repository runners only; no private-plan spending is assumed.
+  portability:
+    if: github.event.repository.private == false
+    strategy:
+      matrix:
+        os: [windows-latest, macos-latest]
+    runs-on: ${{ matrix.os }}
+    timeout-minutes: 10
+    permissions:
+      contents: read
+    steps:
+      - uses: actions/checkout@3d3c42e5aac5ba805825da76410c181273ba90b1
         with:
-          path: apps/web/dist
-      - uses: actions/deploy-pages@v4
-        id: deployment
+          persist-credentials: false
+      - uses: actions/setup-node@249970729cb0ef3589644e2896645e5dc5ba9c38
+        with:
+          node-version: 22
+          package-manager-cache: false
+      - run: npm install --global pnpm@10.20.0 --ignore-scripts
+      - run: pnpm install --frozen-lockfile --ignore-scripts
+      - run: pnpm exec vitest run tests/portability.test.ts

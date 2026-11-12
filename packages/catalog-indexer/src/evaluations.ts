@@ -1,3 +1,4 @@
+import { sameFilesystemPath } from './path-identity';
 import { createHash } from 'node:crypto';
 import { lstat, readFile, readdir, realpath } from 'node:fs/promises';
 import { join, resolve } from 'node:path';
@@ -30,7 +31,7 @@ export async function readEvaluationReports(
     if ((error as NodeJS.ErrnoException).code === 'ENOENT') return [];
     throw error;
   }
-  if (actual !== path)
+  if (!sameFilesystemPath(actual, path))
     throw new Error(
       `Evaluation report directory must not contain symlink aliases: ${path}`,
     );
@@ -57,9 +58,10 @@ export async function readEvaluationReports(
       bytes > 16777216
     )
       throw new Error(`Unsafe or oversized evaluation report: ${file}`);
-    const raw = new TextDecoder('utf-8', { fatal: true }).decode(
-      await readFile(file),
-    );
+    const raw = new TextDecoder('utf-8', {
+      fatal: true,
+      ignoreBOM: true,
+    }).decode(await readFile(file));
     try {
       results.push({
         reportPath: `evaluations/reports/${name}`,

@@ -1,0 +1,22 @@
+# Review routing only. Enforcement depends on repository settings and plan.
+/.github/ @sarangp3010
+/package.json @sarangp3010
+/pnpm-lock.yaml @sarangp3010
+/scripts/ @sarangp3010
+/packages/skill-schema/ @sarangp3010
+/packages/skill-validator/ @sarangp3010
+/packages/catalog-indexer/ @sarangp3010
+/packages/skill-evaluator/ @sarangp3010
+/catalog/attributions.json @sarangp3010
+/docs/attributions/ @sarangp3010
+/SECURITY.md @sarangp3010
+/LICENSE @sarangp3010
+/third-party/ @sarangp3010
+/catalog/publication-reviews.json @sarangp3010
+/catalog/maintainers.json @sarangp3010
+/submissions/ @sarangp3010
+/reviews/ @sarangp3010
+/templates/maintainer-review.md @sarangp3010
+/.gitattributes @sarangp3010
+/docs/launch/PROVENANCE_INVENTORY.json @sarangp3010
+/docs/owner-decision/ @sarangp3010

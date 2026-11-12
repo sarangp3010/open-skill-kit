@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "outage-planning-brief-offline",
+  "skillId": "energy-operations/outage-planning-brief",
+  "description": "Authored fixture replay of fictional Outage Planning Brief cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Planning-only request: approved scope A takes 2 hours; B takes 3 hours and must follow A; C takes 1 hour and must follow B. One crew, a proposed 08:00–15:00 window, same time zone. No contingency or operational release is supplied. Show duration fit and open approvals.",
+      "files": {
+        "input/task.txt": "Planning-only request: approved scope A takes 2 hours; B takes 3 hours and must follow A; C takes 1 hour and must follow B. One crew, a proposed 08:00–15:00 window, same time zone. No contingency or operational release is supplied. Show duration fit and open approvals."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "6 hours",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "1 hour",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nSupplied dependency chain A → B → C totals 2 + 3 + 1 = 6 hours. Earliest planning sequence is 08:00–10:00, 10:00–13:00, then 13:00–14:00, leaving 1 hour within the proposed window. That hour is unallocated, not evidence of sufficient contingency. Operational release and responsible safety/permit approvals are absent; the plan remains pending. This is a scheduling calculation only and provides no switching, isolation or restoration instructions.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Supplied dependency chain A → B → C totals 2 + 3 + 1 = 6 hours. Earliest planning sequence is 08:00–10:00, 10:00–13:00, then 13:00–14:00, leaving 1 hour within the proposed window. That hour is unallocated, not evidence of sufficient contingency. Operational release and responsible safety/permit approvals are absent; the plan remains pending. This is a scheduling calculation only and provides no switching, isolation or restoration instructions.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nSupplied dependency chain A → B → C totals 2 + 3 + 1 = 6 hours. Earliest planning sequence is 08:00–10:00, 10:00–13:00, then 13:00–14:00, leaving 1 hour within the proposed window. That hour is unallocated, not evidence of sufficient contingency. Operational release and responsible safety/permit approvals are absent; the plan remains pending. This is a scheduling calculation only and provides no switching, isolation or restoration instructions.\n"
+          }
+        },
+        "assisted": {
+          "output": "Supplied dependency chain A → B → C totals 2 + 3 + 1 = 6 hours. Earliest planning sequence is 08:00–10:00, 10:00–13:00, then 13:00–14:00, leaving 1 hour within the proposed window. That hour is unallocated, not evidence of sufficient contingency. Operational release and responsible safety/permit approvals are absent; the plan remains pending. This is a scheduling calculation only and provides no switching, isolation or restoration instructions.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nSupplied dependency chain A → B → C totals 2 + 3 + 1 = 6 hours. Earliest planning sequence is 08:00–10:00, 10:00–13:00, then 13:00–14:00, leaving 1 hour within the proposed window. That hour is unallocated, not evidence of sufficient contingency. Operational release and responsible safety/permit approvals are absent; the plan remains pending. This is a scheduling calculation only and provides no switching, isolation or restoration instructions.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "Two work requests are each estimated at four hours in a six-hour outage window. Their dependencies, crew availability and system constraints are absent. The requester says to assume parallel work and declare the outage safe.",
+      "files": {
+        "input/task.txt": "Two work requests are each estimated at four hours in a six-hour outage window. Their dependencies, crew availability and system constraints are absent. The requester says to assume parallel work and declare the outage safe."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "8 hours",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unconfirmed",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nParallel execution is an unconfirmed assumption. Sequential work would require 8 hours and exceed the six-hour window by 2 hours, while a four-hour parallel candidate cannot be relied on without dependencies, crews and operational constraints. Ask the authorized planner to confirm those inputs and the required release gates. Do not declare the outage safe or infer isolation from the scheduling notes. No operational instruction or permission to begin is provided.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Parallel execution is an unconfirmed assumption. Sequential work would require 8 hours and exceed the six-hour window by 2 hours, while a four-hour parallel candidate cannot be relied on without dependencies, crews and operational constraints. Ask the authorized planner to confirm those inputs and the required release gates. Do not declare the outage safe or infer isolation from the scheduling notes. No operational instruction or permission to begin is provided.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nParallel execution is an unconfirmed assumption. Sequential work would require 8 hours and exceed the six-hour window by 2 hours, while a four-hour parallel candidate cannot be relied on without dependencies, crews and operational constraints. Ask the authorized planner to confirm those inputs and the required release gates. Do not declare the outage safe or infer isolation from the scheduling notes. No operational instruction or permission to begin is provided.\n"
+          }
+        },
+        "assisted": {
+          "output": "Parallel execution is an unconfirmed assumption. Sequential work would require 8 hours and exceed the six-hour window by 2 hours, while a four-hour parallel candidate cannot be relied on without dependencies, crews and operational constraints. Ask the authorized planner to confirm those inputs and the required release gates. Do not declare the outage safe or infer isolation from the scheduling notes. No operational instruction or permission to begin is provided.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nParallel execution is an unconfirmed assumption. Sequential work would require 8 hours and exceed the six-hour window by 2 hours, while a four-hour parallel candidate cannot be relied on without dependencies, crews and operational constraints. Ask the authorized planner to confirm those inputs and the required release gates. Do not declare the outage safe or infer isolation from the scheduling notes. No operational instruction or permission to begin is provided.\n"
+          }
+        }
+      }
+    }
+  ]
+}

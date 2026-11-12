@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "stock-count-reconciler-offline",
+  "skillId": "retail-inventory/stock-count-reconciler",
+  "description": "Authored fixture replay of fictional Stock Count Reconciler cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "SKU A, location L1: trusted opening physical stock 100 units. Before the count cutoff, receive 20 units and sell 15; neither movement is in the opening balance. Count finds 103 physical units. Five units are reserved and still physically present. No damage is reported. Calculate the physical variance.",
+      "files": {
+        "input/task.txt": "SKU A, location L1: trusted opening physical stock 100 units. Before the count cutoff, receive 20 units and sell 15; neither movement is in the opening balance. Count finds 103 physical units. Five units are reserved and still physically present. No damage is reported. Calculate the physical variance."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "105 units",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "-2 units",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nExpected physical stock at cutoff: 100 + 20 − 15 = 105 units. Counted physical stock: 103. Using counted minus expected, variance = 103 − 105 = -2 units. The five reserved units remain in physical stock and must not be subtracted a second time. If all counted stock is saleable and the supplied reservation rule applies, candidate available-to-promise is 103 − 5 = 98 units. Request a recount and movement check before any authorized adjustment; no loss cause is inferred.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Expected physical stock at cutoff: 100 + 20 − 15 = 105 units. Counted physical stock: 103. Using counted minus expected, variance = 103 − 105 = -2 units. The five reserved units remain in physical stock and must not be subtracted a second time. If all counted stock is saleable and the supplied reservation rule applies, candidate available-to-promise is 103 − 5 = 98 units. Request a recount and movement check before any authorized adjustment; no loss cause is inferred.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nExpected physical stock at cutoff: 100 + 20 − 15 = 105 units. Counted physical stock: 103. Using counted minus expected, variance = 103 − 105 = -2 units. The five reserved units remain in physical stock and must not be subtracted a second time. If all counted stock is saleable and the supplied reservation rule applies, candidate available-to-promise is 103 − 5 = 98 units. Request a recount and movement check before any authorized adjustment; no loss cause is inferred.\n"
+          }
+        },
+        "assisted": {
+          "output": "Expected physical stock at cutoff: 100 + 20 − 15 = 105 units. Counted physical stock: 103. Using counted minus expected, variance = 103 − 105 = -2 units. The five reserved units remain in physical stock and must not be subtracted a second time. If all counted stock is saleable and the supplied reservation rule applies, candidate available-to-promise is 103 − 5 = 98 units. Request a recount and movement check before any authorized adjustment; no loss cause is inferred.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nExpected physical stock at cutoff: 100 + 20 − 15 = 105 units. Counted physical stock: 103. Using counted minus expected, variance = 103 − 105 = -2 units. The five reserved units remain in physical stock and must not be subtracted a second time. If all counted stock is saleable and the supplied reservation rule applies, candidate available-to-promise is 103 − 5 = 98 units. Request a recount and movement check before any authorized adjustment; no loss cause is inferred.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A book balance says 40 cases, while the physical count says 390 bottles. The case pack is absent and a sales export may already be included in the book balance. The manager requests a ten-unit write-off.",
+      "files": {
+        "input/task.txt": "A book balance says 40 cases, while the physical count says 390 bottles. The case pack is absent and a sales export may already be included in the book balance. The manager requests a ten-unit write-off."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "double-counting",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nThe variance is unresolved: cases and bottles are incompatible without a confirmed case pack. The sales export also has uncertain inclusion, creating a double-counting risk. Request the pack conversion and a balance cutoff/movement reconciliation before proposing a quantity adjustment. Do not accept a ten-unit write-off, infer theft or convert using a remembered product pack. Preserve both original units and mark adjustment pending.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "The variance is unresolved: cases and bottles are incompatible without a confirmed case pack. The sales export also has uncertain inclusion, creating a double-counting risk. Request the pack conversion and a balance cutoff/movement reconciliation before proposing a quantity adjustment. Do not accept a ten-unit write-off, infer theft or convert using a remembered product pack. Preserve both original units and mark adjustment pending.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nThe variance is unresolved: cases and bottles are incompatible without a confirmed case pack. The sales export also has uncertain inclusion, creating a double-counting risk. Request the pack conversion and a balance cutoff/movement reconciliation before proposing a quantity adjustment. Do not accept a ten-unit write-off, infer theft or convert using a remembered product pack. Preserve both original units and mark adjustment pending.\n"
+          }
+        },
+        "assisted": {
+          "output": "The variance is unresolved: cases and bottles are incompatible without a confirmed case pack. The sales export also has uncertain inclusion, creating a double-counting risk. Request the pack conversion and a balance cutoff/movement reconciliation before proposing a quantity adjustment. Do not accept a ten-unit write-off, infer theft or convert using a remembered product pack. Preserve both original units and mark adjustment pending.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nThe variance is unresolved: cases and bottles are incompatible without a confirmed case pack. The sales export also has uncertain inclusion, creating a double-counting risk. Request the pack conversion and a balance cutoff/movement reconciliation before proposing a quantity adjustment. Do not accept a ten-unit write-off, infer theft or convert using a remembered product pack. Preserve both original units and mark adjustment pending.\n"
+          }
+        }
+      }
+    }
+  ]
+}

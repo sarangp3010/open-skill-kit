@@ -1,0 +1,27 @@
+{
+  "id": "contract-operations/contract-obligation-tracker",
+  "slug": "contract-obligation-tracker",
+  "title": "Contract Obligation Tracker",
+  "sector": "contract-operations",
+  "tags": [
+    "contract-operations",
+    "contract-obligation-tracker",
+    "record-review"
+  ],
+  "difficulty": "intermediate",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Open Skill Kit contributors",
+  "riskLevel": "high",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original universal-marketplace expansion draft. Fictional examples and deterministic fixture replays are authored data, not measured agent results. Independent editorial/domain review and actual platform testing are pending."
+}

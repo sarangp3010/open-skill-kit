@@ -14,3 +14,23 @@ test-results/
 catalog/catalog.json
 # Preserve the supplied implementation specification
 OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md
+
+# Preserve upstream license verbatim
+third-party/*-LICENSE.txt
+
+apps/web/public/published.json
+catalog/published.json
+apps/web/public/data/
+
+# Reproducible founding review artifacts
+reviews/founding/reports/
+reviews/founding/README.md
+
+# Generated owner summaries
+docs/launch/SHORTLIST_REVIEW.md
+
+# Generated licensing inventory
+docs/launch/PROVENANCE_INVENTORY.json
+
+# Unsigned owner worksheets: preserve exact instruction text and owner edits
+docs/owner-decision/

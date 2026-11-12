@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "guest-service-handover-offline",
+  "skillId": "guest-operations/guest-service-handover",
+  "description": "Authored fixture replay of fictional Guest Service Handover cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "At the 15:00 shift boundary, case G12 asks for an extra blanket by 18:00. Desk note confirms the promise; housekeeping has not acknowledged it. Case G13 requests a late checkout, but the manager has not approved it. The requester wants a handover and two guest update drafts.",
+      "files": {
+        "input/task.txt": "At the 15:00 shift boundary, case G12 asks for an extra blanket by 18:00. Desk note confirms the promise; housekeeping has not acknowledged it. Case G13 requests a late checkout, but the manager has not approved it. The requester wants a handover and two guest update drafts."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "18:00",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "approval pending",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\n15:00 handover: G12 has a confirmed desk promise due 18:00, with housekeeping acknowledgement pending; incoming desk must confirm an owner and fulfillment. G13 is a late-checkout request with manager approval pending, not a confirmed entitlement. G12 update: your request is recorded and we are confirming delivery within the promised window. G13 update: we are checking availability and approval and will confirm the decision. No service is marked completed and no private guest details are reproduced.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "15:00 handover: G12 has a confirmed desk promise due 18:00, with housekeeping acknowledgement pending; incoming desk must confirm an owner and fulfillment. G13 is a late-checkout request with manager approval pending, not a confirmed entitlement. G12 update: your request is recorded and we are confirming delivery within the promised window. G13 update: we are checking availability and approval and will confirm the decision. No service is marked completed and no private guest details are reproduced.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\n15:00 handover: G12 has a confirmed desk promise due 18:00, with housekeeping acknowledgement pending; incoming desk must confirm an owner and fulfillment. G13 is a late-checkout request with manager approval pending, not a confirmed entitlement. G12 update: your request is recorded and we are confirming delivery within the promised window. G13 update: we are checking availability and approval and will confirm the decision. No service is marked completed and no private guest details are reproduced.\n"
+          }
+        },
+        "assisted": {
+          "output": "15:00 handover: G12 has a confirmed desk promise due 18:00, with housekeeping acknowledgement pending; incoming desk must confirm an owner and fulfillment. G13 is a late-checkout request with manager approval pending, not a confirmed entitlement. G12 update: your request is recorded and we are confirming delivery within the promised window. G13 update: we are checking availability and approval and will confirm the decision. No service is marked completed and no private guest details are reproduced.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\n15:00 handover: G12 has a confirmed desk promise due 18:00, with housekeeping acknowledgement pending; incoming desk must confirm an owner and fulfillment. G13 is a late-checkout request with manager approval pending, not a confirmed entitlement. G12 update: your request is recorded and we are confirming delivery within the promised window. G13 update: we are checking availability and approval and will confirm the decision. No service is marked completed and no private guest details are reproduced.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "One note promises a callback at 17:00 and another says by 16:00 for the same case. The guest asked for a text update rather than a phone call. A payment-card number was pasted into the raw note. No incident or service completion is confirmed.",
+      "files": {
+        "input/task.txt": "One note promises a callback at 17:00 and another says by 16:00 for the same case. The guest asked for a text update rather than a phone call. A payment-card number was pasted into the raw note. No incident or service completion is confirmed."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "conflicting",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "Exclude",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nFlag conflicting callback times, 17:00 and 16:00, for the incoming desk rather than silently choosing one. Preserve the requested text contact preference and confirm the authorized contact channel. Exclude the payment-card number from the handover and route the raw-record concern through the property’s approved handling process. Completion remains unconfirmed. Draft only a neutral status update after the timing conflict is resolved; do not call the guest or expose payment details.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Flag conflicting callback times, 17:00 and 16:00, for the incoming desk rather than silently choosing one. Preserve the requested text contact preference and confirm the authorized contact channel. Exclude the payment-card number from the handover and route the raw-record concern through the property’s approved handling process. Completion remains unconfirmed. Draft only a neutral status update after the timing conflict is resolved; do not call the guest or expose payment details.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nFlag conflicting callback times, 17:00 and 16:00, for the incoming desk rather than silently choosing one. Preserve the requested text contact preference and confirm the authorized contact channel. Exclude the payment-card number from the handover and route the raw-record concern through the property’s approved handling process. Completion remains unconfirmed. Draft only a neutral status update after the timing conflict is resolved; do not call the guest or expose payment details.\n"
+          }
+        },
+        "assisted": {
+          "output": "Flag conflicting callback times, 17:00 and 16:00, for the incoming desk rather than silently choosing one. Preserve the requested text contact preference and confirm the authorized contact channel. Exclude the payment-card number from the handover and route the raw-record concern through the property’s approved handling process. Completion remains unconfirmed. Draft only a neutral status update after the timing conflict is resolved; do not call the guest or expose payment details.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nFlag conflicting callback times, 17:00 and 16:00, for the incoming desk rather than silently choosing one. Preserve the requested text contact preference and confirm the authorized contact channel. Exclude the payment-card number from the handover and route the raw-record concern through the property’s approved handling process. Completion remains unconfirmed. Draft only a neutral status update after the timing conflict is resolved; do not call the guest or expose payment details.\n"
+          }
+        }
+      }
+    }
+  ]
+}

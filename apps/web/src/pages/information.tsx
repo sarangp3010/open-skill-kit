@@ -1,3 +1,4 @@
+import { broadSectors, matchesSector } from '@uas/skill-schema';
 import { Link } from 'react-router-dom';
 import {
   ArrowRight,
@@ -9,15 +10,15 @@ import {
 } from 'lucide-react';
 import { useLibrary } from '@/lib/use-library';
 import { Button } from '@/components/ui/button';
+import { InstallGuide } from '@/components/install-guide';
 export function SectorsPage() {
   const catalog = useLibrary();
-  const sectors = catalog.sectors
-    .map((sector) => ({
-      ...sector,
-      count: catalog.skills.filter((skill) => skill.sector === sector.slug)
-        .length,
-    }))
-    .filter((sector) => sector.count > 0);
+  const sectors = broadSectors(catalog.sectors);
+  const count = (slug: string) =>
+    catalog.skills.filter((skill) =>
+      matchesSector(catalog.sectors, skill.sector, slug),
+    ).length;
+
   return (
     <section className="container-shell py-16">
       <p className="eyebrow">Different work. Shared knowledge.</p>
@@ -25,35 +26,46 @@ export function SectorsPage() {
         Explore the sectors.
       </h1>
       <p className="mt-4 max-w-xl text-base leading-7 text-muted-foreground">
-        Find a starting point in your field. Every collection below has real
-        skill files to explore.
+        Browse broad sectors and their specialties. Available counts include
+        draft packages; planned collections have no skill files yet.
       </p>
       <div className="mt-10 grid gap-5 sm:grid-cols-2 lg:grid-cols-3">
         {sectors.map((sector) => (
-          <Link
+          <article
             key={sector.slug}
-            to={`/sectors/${sector.slug}`}
-            className="group rounded-2xl border border-border bg-card p-6 transition hover:border-primary/50"
+            className="rounded-2xl border border-border bg-card p-6"
           >
-            <div className="flex justify-between">
-              <FolderOpen
-                className="text-primary"
-                size={25}
-                aria-hidden="true"
-              />
-              <span className="text-xs text-muted-foreground">
-                {sector.count} {sector.count === 1 ? 'skill' : 'skills'}
-              </span>
-            </div>
-            <h2 className="mt-5 text-lg font-semibold">{sector.title}</h2>
+            <FolderOpen className="text-primary" size={25} aria-hidden="true" />
+            <h2 className="mt-5 text-lg font-semibold">
+              <Link className="text-link" to={`/sectors/${sector.slug}`}>
+                {sector.title}
+              </Link>
+            </h2>
+            <p className="mt-2 text-xs text-muted-foreground">
+              {count(sector.slug)
+                ? `Available · ${count(sector.slug)} skill packages`
+                : 'Planned · no skills yet'}
+            </p>
             <p className="mt-3 text-sm leading-6 text-muted-foreground">
               {sector.description}
             </p>
-            <span className="text-link mt-5 text-xs">
-              Explore workflows
-              <ArrowRight size={14} aria-hidden="true" />
-            </span>
-          </Link>
+            <ul className="mt-4 space-y-2 text-sm">
+              {catalog.sectors
+                .filter((item) => item.parent === sector.slug && !item.aliasOf)
+                .map((item) => (
+                  <li key={item.slug}>
+                    <Link className="text-link" to={`/sectors/${item.slug}`}>
+                      {item.title}
+                    </Link>
+                    <span className="ml-2 text-xs text-muted-foreground">
+                      {count(item.slug)
+                        ? `${count(item.slug)} available`
+                        : 'Planned'}
+                    </span>
+                  </li>
+                ))}
+            </ul>
+          </article>
         ))}
       </div>
       {!sectors.length && (
@@ -65,6 +77,8 @@ export function SectorsPage() {
   );
 }
 export function DocsPage() {
+  const catalog = useLibrary();
+  const example = catalog.skills[0];
   return (
     <article className="container-shell max-w-3xl py-16">
       <p className="eyebrow">Start with a text file</p>
@@ -72,6 +86,20 @@ export function DocsPage() {
         A simple way to reuse a workflow.
       </h1>
       <div className="mt-9 space-y-8 text-sm leading-7 text-muted-foreground">
+        <p>
+          Browsing, local validation and downloads need no account. GitHub pull
+          requests require a GitHub account and repository access. Current
+          skills are drafts; installation directory support is separate from
+          actual assistant testing.
+        </p>
+        {example && (
+          <section>
+            <h2 className="mb-3 text-xl font-semibold text-foreground">
+              Install a catalog example: {example.title}
+            </h2>
+            <InstallGuide skill={example} />
+          </section>
+        )}
         <section>
           <h2 className="mb-3 text-xl font-semibold text-foreground">
             1. Find and inspect
@@ -150,6 +178,71 @@ export function ContributePage() {
         Useful skills are specific, inspectable and honest about their limits.
         Contributions start with a GitHub pull request and a human review.
       </p>
+      <div className="mt-6 flex flex-wrap gap-3">
+        <Button asChild>
+          <Link to="/create">Create and preview a skill</Link>
+        </Button>
+        <Button asChild variant="outline">
+          <Link to="/published">Published catalog</Link>
+        </Button>
+      </div>
+      <ol className="mt-8 list-decimal space-y-4 pl-6 text-sm leading-7 text-muted-foreground">
+        <li>
+          Choose a canonical specialty and check for an existing workflow. Copy
+          the complete repository template into skills/sector/skill-name, align
+          its identity and replace the illustrative task.
+        </li>
+        <li>
+          Write original instructions, two fictional example pairs, structured
+          behavior cases, limitations and source/license provenance. Keep the
+          package a draft; do not invent platform tests.
+        </li>
+        <li>
+          Validate locally and regenerate the catalog. Fix diagnostics at the
+          reported paths before submitting.
+        </li>
+        <li>
+          Fork and open a draft GitHub pull request using the checklist.
+          Maintainers review scope, provenance, safety and evidence; passing CI
+          does not publish a skill.
+        </li>
+      </ol>
+      <pre
+        tabIndex={0}
+        aria-label="Contribution validation commands"
+        className="mt-6 overflow-x-auto rounded-xl bg-muted p-4 text-xs leading-6"
+      >
+        <code>
+          {
+            'pnpm install --frozen-lockfile --ignore-scripts\npnpm contributions:check\npnpm skills:index\npnpm validate:all'
+          }
+        </code>
+      </pre>
+      <p className="mt-4 text-sm leading-7 text-muted-foreground">
+        No marketplace account is needed. GitHub submission needs a GitHub
+        account and repository access; this page opens instructions and links,
+        and never submits or publishes on your behalf.
+      </p>
+      <div className="mt-6 flex flex-wrap gap-4">
+        <a
+          className="text-link"
+          href="https://github.com/sarangp3010/open-skill-kit/tree/main/templates/skill"
+        >
+          Get the complete skill template
+        </a>
+        <a
+          className="text-link"
+          href="https://github.com/sarangp3010/open-skill-kit/compare"
+        >
+          Open a pull request on GitHub
+        </a>
+        <a
+          className="text-link"
+          href="https://github.com/sarangp3010/open-skill-kit/issues/new?template=skill_request.yml"
+        >
+          Propose a skill first
+        </a>
+      </div>
       <div className="my-10 grid gap-5 sm:grid-cols-2">
         {[
           {

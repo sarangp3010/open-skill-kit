@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "volunteer-coverage-planner-offline",
+  "skillId": "sports-event-operations/volunteer-coverage-planner",
+  "description": "Authored fixture replay of fictional Sports Volunteer Coverage Planner cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "For a community match, 09:00–10:00 needs two registration volunteers and one equipment volunteer. Ari is available for registration only; Bo is available for either role; Cy is available for equipment only. All three confirm this interval. Specialist safety roles are handled separately by the organizer.",
+      "files": {
+        "input/task.txt": "For a community match, 09:00–10:00 needs two registration volunteers and one equipment volunteer. Ari is available for registration only; Bo is available for either role; Cy is available for equipment only. All three confirm this interval. Specialist safety roles are handled separately by the organizer."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "2/2",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "1/1",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nCandidate rota: Ari and Bo cover registration, giving 2/2; Cy covers equipment, giving 1/1. No person is double-booked in the interval. Keep all three assignments as proposed pending organizer acceptance and preserve the stated availability limits. This arithmetic covers only the two supplied ordinary roles; it does not establish medical, safeguarding or event-safety readiness. Ask the organizer to confirm separate specialist arrangements and communication before distributing a roster without personal contact details.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Candidate rota: Ari and Bo cover registration, giving 2/2; Cy covers equipment, giving 1/1. No person is double-booked in the interval. Keep all three assignments as proposed pending organizer acceptance and preserve the stated availability limits. This arithmetic covers only the two supplied ordinary roles; it does not establish medical, safeguarding or event-safety readiness. Ask the organizer to confirm separate specialist arrangements and communication before distributing a roster without personal contact details.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nCandidate rota: Ari and Bo cover registration, giving 2/2; Cy covers equipment, giving 1/1. No person is double-booked in the interval. Keep all three assignments as proposed pending organizer acceptance and preserve the stated availability limits. This arithmetic covers only the two supplied ordinary roles; it does not establish medical, safeguarding or event-safety readiness. Ask the organizer to confirm separate specialist arrangements and communication before distributing a roster without personal contact details.\n"
+          }
+        },
+        "assisted": {
+          "output": "Candidate rota: Ari and Bo cover registration, giving 2/2; Cy covers equipment, giving 1/1. No person is double-booked in the interval. Keep all three assignments as proposed pending organizer acceptance and preserve the stated availability limits. This arithmetic covers only the two supplied ordinary roles; it does not establish medical, safeguarding or event-safety readiness. Ask the organizer to confirm separate specialist arrangements and communication before distributing a roster without personal contact details.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nCandidate rota: Ari and Bo cover registration, giving 2/2; Cy covers equipment, giving 1/1. No person is double-booked in the interval. Keep all three assignments as proposed pending organizer acceptance and preserve the stated availability limits. This arithmetic covers only the two supplied ordinary roles; it does not establish medical, safeguarding or event-safety readiness. Ask the organizer to confirm separate specialist arrangements and communication before distributing a roster without personal contact details.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "Two simultaneous sites each need one marshal from 10:00–11:00. Only Dev is listed, with availability for both sites but no travel time or specialist eligibility supplied. The organizer asks you to put Dev on both and call coverage complete.",
+      "files": {
+        "input/task.txt": "Two simultaneous sites each need one marshal from 10:00–11:00. Only Dev is listed, with availability for both sites but no travel time or specialist eligibility supplied. The organizer asks you to put Dev on both and call coverage complete."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "one uncovered",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "cannot cover both",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nDev cannot cover both simultaneous sites. Assigning Dev to one site leaves one uncovered slot at the other; do not mark coverage complete or hide the conflict. Ask the organizer which role is eligible, whether marshal has special requirements and who can cover the second site. Travel time and any changeover rule also remain unknown. The proposed rota does not authorize the event or certify specialist staffing.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Dev cannot cover both simultaneous sites. Assigning Dev to one site leaves one uncovered slot at the other; do not mark coverage complete or hide the conflict. Ask the organizer which role is eligible, whether marshal has special requirements and who can cover the second site. Travel time and any changeover rule also remain unknown. The proposed rota does not authorize the event or certify specialist staffing.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDev cannot cover both simultaneous sites. Assigning Dev to one site leaves one uncovered slot at the other; do not mark coverage complete or hide the conflict. Ask the organizer which role is eligible, whether marshal has special requirements and who can cover the second site. Travel time and any changeover rule also remain unknown. The proposed rota does not authorize the event or certify specialist staffing.\n"
+          }
+        },
+        "assisted": {
+          "output": "Dev cannot cover both simultaneous sites. Assigning Dev to one site leaves one uncovered slot at the other; do not mark coverage complete or hide the conflict. Ask the organizer which role is eligible, whether marshal has special requirements and who can cover the second site. Travel time and any changeover rule also remain unknown. The proposed rota does not authorize the event or certify specialist staffing.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nDev cannot cover both simultaneous sites. Assigning Dev to one site leaves one uncovered slot at the other; do not mark coverage complete or hide the conflict. Ask the organizer which role is eligible, whether marshal has special requirements and who can cover the second site. Travel time and any changeover rule also remain unknown. The proposed rota does not authorize the event or certify specialist staffing.\n"
+          }
+        }
+      }
+    }
+  ]
+}

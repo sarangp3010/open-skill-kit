@@ -1,8 +1,8 @@
 {
-  "id": "personal-productivity/example-skill",
+  "id": "collaboration-records/example-skill",
   "slug": "example-skill",
   "title": "Meeting Notes Organizer",
-  "sector": "personal-productivity",
+  "sector": "collaboration-records",
   "tags": ["meetings", "notes", "actions"],
   "difficulty": "beginner",
   "version": "0.1.0",

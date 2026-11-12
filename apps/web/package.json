@@ -6,7 +6,7 @@
   "scripts": {
     "dev": "pnpm generate && vite --host 127.0.0.1",
     "typecheck": "tsc --noEmit -p tsconfig.json && tsc --noEmit -p tsconfig.node.json",
-    "build": "pnpm generate && pnpm typecheck && vite build",
+    "build": "pnpm generate && pnpm typecheck && vite build && tsx ../../scripts/prepare-pages.ts",
     "preview": "vite preview --host 127.0.0.1",
     "generate": "tsx ../../scripts/catalog.ts"
   },

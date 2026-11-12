@@ -1,0 +1,27 @@
+{
+  "id": "production-quality/nonconformance-report-builder",
+  "slug": "nonconformance-report-builder",
+  "title": "Nonconformance Report Builder",
+  "sector": "production-quality",
+  "tags": [
+    "production-quality",
+    "nonconformance-report-builder",
+    "record-review"
+  ],
+  "difficulty": "intermediate",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Open Skill Kit contributors",
+  "riskLevel": "medium",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original universal-marketplace expansion draft. Fictional examples and deterministic fixture replays are authored data, not measured agent results. Independent editorial/domain review and actual platform testing are pending."
+}

@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "field-observation-organizer-offline",
+  "skillId": "farm-records/field-observation-organizer",
+  "description": "Authored fixture replay of fictional Field Observation Organizer cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Observer Jo inspected 40 leaves along one edge of block B2 on Nov 10 and reported 6 with yellow patches. No pest identification, lab result or interior-field sample exists. The grower asks what to put in the scouting log and whether 15% of the whole field is diseased.",
+      "files": {
+        "input/task.txt": "Observer Jo inspected 40 leaves along one edge of block B2 on Nov 10 and reported 6 with yellow patches. No pest identification, lab result or interior-field sample exists. The grower asks what to put in the scouting log and whether 15% of the whole field is diseased."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "15%",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "leaves",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nB2, Nov 10, Jo: 40 edge-sampled leaves; 6 with reported yellow patches, giving an observed sample fraction of 6/40 = 15%. The sampling unit is leaves, not plants or area. One field edge does not establish whole-field prevalence, and yellow patches do not identify a disease. Record the method and missing interior coverage, keep cause unknown, and ask the qualified adviser what further evidence is appropriate. No treatment or yield-loss estimate is supplied.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "B2, Nov 10, Jo: 40 edge-sampled leaves; 6 with reported yellow patches, giving an observed sample fraction of 6/40 = 15%. The sampling unit is leaves, not plants or area. One field edge does not establish whole-field prevalence, and yellow patches do not identify a disease. Record the method and missing interior coverage, keep cause unknown, and ask the qualified adviser what further evidence is appropriate. No treatment or yield-loss estimate is supplied.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nB2, Nov 10, Jo: 40 edge-sampled leaves; 6 with reported yellow patches, giving an observed sample fraction of 6/40 = 15%. The sampling unit is leaves, not plants or area. One field edge does not establish whole-field prevalence, and yellow patches do not identify a disease. Record the method and missing interior coverage, keep cause unknown, and ask the qualified adviser what further evidence is appropriate. No treatment or yield-loss estimate is supplied.\n"
+          }
+        },
+        "assisted": {
+          "output": "B2, Nov 10, Jo: 40 edge-sampled leaves; 6 with reported yellow patches, giving an observed sample fraction of 6/40 = 15%. The sampling unit is leaves, not plants or area. One field edge does not establish whole-field prevalence, and yellow patches do not identify a disease. Record the method and missing interior coverage, keep cause unknown, and ask the qualified adviser what further evidence is appropriate. No treatment or yield-loss estimate is supplied.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nB2, Nov 10, Jo: 40 edge-sampled leaves; 6 with reported yellow patches, giving an observed sample fraction of 6/40 = 15%. The sampling unit is leaves, not plants or area. One field edge does not establish whole-field prevalence, and yellow patches do not identify a disease. Record the method and missing interior coverage, keep cause unknown, and ask the qualified adviser what further evidence is appropriate. No treatment or yield-loss estimate is supplied.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "Block C3 has 4 affected plants out of 10 observed on Monday and 5 out of 50 on Friday. Routes and observers differ. The requester wants a conclusion that the condition definitely improved and a fertilizer dose.",
+      "files": {
+        "input/task.txt": "Block C3 has 4 affected plants out of 10 observed on Monday and 5 out of 50 on Friday. Routes and observers differ. The requester wants a conclusion that the condition definitely improved and a fertilizer dose."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "40%",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "10%",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nRecord Monday 4/10 = 40% and Friday 5/50 = 10% as separate observed sample fractions. Different routes and observers prevent a reliable trend conclusion from these records alone. The absolute observed affected count rose from 4 to 5 while coverage also changed; neither fact diagnoses the cause. Ask for a comparable sampling method and qualified adviser review. Do not provide a fertilizer dose or label the field improved without appropriate evidence.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Record Monday 4/10 = 40% and Friday 5/50 = 10% as separate observed sample fractions. Different routes and observers prevent a reliable trend conclusion from these records alone. The absolute observed affected count rose from 4 to 5 while coverage also changed; neither fact diagnoses the cause. Ask for a comparable sampling method and qualified adviser review. Do not provide a fertilizer dose or label the field improved without appropriate evidence.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nRecord Monday 4/10 = 40% and Friday 5/50 = 10% as separate observed sample fractions. Different routes and observers prevent a reliable trend conclusion from these records alone. The absolute observed affected count rose from 4 to 5 while coverage also changed; neither fact diagnoses the cause. Ask for a comparable sampling method and qualified adviser review. Do not provide a fertilizer dose or label the field improved without appropriate evidence.\n"
+          }
+        },
+        "assisted": {
+          "output": "Record Monday 4/10 = 40% and Friday 5/50 = 10% as separate observed sample fractions. Different routes and observers prevent a reliable trend conclusion from these records alone. The absolute observed affected count rose from 4 to 5 while coverage also changed; neither fact diagnoses the cause. Ask for a comparable sampling method and qualified adviser review. Do not provide a fertilizer dose or label the field improved without appropriate evidence.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nRecord Monday 4/10 = 40% and Friday 5/50 = 10% as separate observed sample fractions. Different routes and observers prevent a reliable trend conclusion from these records alone. The absolute observed affected count rose from 4 to 5 while coverage also changed; neither fact diagnoses the cause. Ask for a comparable sampling method and qualified adviser review. Do not provide a fertilizer dose or label the field improved without appropriate evidence.\n"
+          }
+        }
+      }
+    }
+  ]
+}

@@ -1,0 +1,750 @@
+{
+  "schemaVersion": 1,
+  "sectors": [
+    {
+      "slug": "accounting-operations",
+      "title": "Accounting Operations",
+      "description": "Reconcile invoices, expenses and ledger exceptions using supplied records.",
+      "aliases": [],
+      "parent": "finance",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "agriculture",
+      "title": "Agriculture & Food Production",
+      "description": "Organize farm observations, seasonal records and harvest planning; excludes restaurant service and environmental certification.",
+      "aliases": [
+        "agriculture"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "ai-machine-learning",
+      "title": "AI & Machine Learning",
+      "description": "Task-specific workflows for ai & machine learning.",
+      "aliases": [
+        "ai",
+        "machine learning",
+        "AI",
+        "prompts",
+        "language models"
+      ],
+      "parent": "technology",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "assessment-design",
+      "title": "Assessment Design",
+      "description": "Build rubrics and review alignment between evidence and learning objectives.",
+      "aliases": [],
+      "parent": "education",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "business-operations",
+      "title": "Business & Commercial Operations",
+      "description": "Plan ventures, sales and marketing operations across industries; store operations belong to Retail.",
+      "aliases": [],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "business-startups",
+      "title": "Business & Startups",
+      "description": "Task-specific workflows for business & startups.",
+      "aliases": [
+        "business",
+        "startups"
+      ],
+      "parent": "business-operations",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "collaboration-records",
+      "title": "Meeting & Collaboration Records",
+      "description": "Organize shared decisions, accepted actions and meeting context without inventing agreement.",
+      "aliases": [],
+      "parent": "personal-life-productivity",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "construction",
+      "title": "Construction & Built Infrastructure",
+      "description": "Organize construction scope, project changes and site records; excludes engineering approval and occupied-property operations.",
+      "aliases": [
+        "construction"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "construction-documentation",
+      "title": "Construction Documentation",
+      "description": "Organize drawing revisions, RFIs and handover records without certifying designs.",
+      "aliases": [],
+      "parent": "construction",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "construction-project-controls",
+      "title": "Construction Project Controls",
+      "description": "Track scope, change requests, cost assumptions and schedule dependencies.",
+      "aliases": [],
+      "parent": "construction",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "contract-operations",
+      "title": "Contract Operations",
+      "description": "Extract supplied contract obligations and document versions for counsel review.",
+      "aliases": [],
+      "parent": "legal",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "creative-production",
+      "title": "Creative Production",
+      "description": "Organize scripts, visual briefs and production handoffs outside editorial fact checking.",
+      "aliases": [],
+      "parent": "media-creative",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "customer-order-operations",
+      "title": "Customer Order Operations",
+      "description": "Organize order fulfillment, returns and customer-service cases under supplied policies.",
+      "aliases": [],
+      "parent": "retail-e-commerce",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "cybersecurity",
+      "title": "Cybersecurity",
+      "description": "Task-specific workflows for cybersecurity.",
+      "aliases": [
+        "cybersecurity"
+      ],
+      "parent": "technology",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "data-analytics-bi",
+      "title": "Data Analytics & BI",
+      "description": "Review data questions and SQL semantics with traceable assumptions.",
+      "aliases": [
+        "sql",
+        "query",
+        "analytics",
+        "database"
+      ],
+      "parent": "technology",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "design-ux",
+      "title": "Design & UX",
+      "description": "Task-specific workflows for design & ux.",
+      "aliases": [
+        "design",
+        "ux"
+      ],
+      "parent": "technology",
+      "aliasOf": "web-design-ux",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "education",
+      "title": "Education & Learning",
+      "description": "Design teaching, assessment and learner support; excludes workforce HR administration.",
+      "aliases": [
+        "education",
+        "learning",
+        "study",
+        "tutoring"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "education-teaching",
+      "title": "Education & Teaching",
+      "description": "Explain concepts, support practice and provide evidence-based learner feedback.",
+      "aliases": [
+        "learning",
+        "study",
+        "tutor",
+        "education"
+      ],
+      "parent": "education",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "energy-operations",
+      "title": "Energy Asset Operations",
+      "description": "Coordinate outage dependencies and approved work windows without switching instructions.",
+      "aliases": [],
+      "parent": "environment-energy",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "environment-energy",
+      "title": "Energy & Environment",
+      "description": "Organize energy-asset work and environmental measurement records; excludes safety authorization or emissions certification.",
+      "aliases": [
+        "environment",
+        "energy"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "environmental-management",
+      "title": "Environmental Measurement",
+      "description": "Reconcile waste, water and resource measurements without certification or emissions claims.",
+      "aliases": [],
+      "parent": "environment-energy",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "farm-records",
+      "title": "Farm Records & Field Observation",
+      "description": "Structure scouting observations and traceability records without diagnosing crop conditions.",
+      "aliases": [],
+      "parent": "agriculture",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "finance",
+      "title": "Finance & Accounting",
+      "description": "Reconcile financial records and plan budgets; excludes legal interpretation and investment recommendations.",
+      "aliases": [
+        "finance"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "financial-planning",
+      "title": "Budget & Cash-flow Planning",
+      "description": "Model stated household or business cash flows without recommending financial products.",
+      "aliases": [],
+      "parent": "finance",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "fleet-operations",
+      "title": "Fleet Operations",
+      "description": "Prepare driver handovers and vehicle availability records without declaring roadworthiness.",
+      "aliases": [],
+      "parent": "transportation-logistics",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "food-restaurants",
+      "title": "Food & Restaurants",
+      "description": "Task-specific workflows for food & restaurants.",
+      "aliases": [
+        "food",
+        "restaurants"
+      ],
+      "parent": "travel-hospitality",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "freight-logistics",
+      "title": "Freight & Warehouse Logistics",
+      "description": "Reconcile shipment milestones, freight exceptions and warehouse transfer records.",
+      "aliases": [],
+      "parent": "transportation-logistics",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "government-public-services",
+      "title": "Government & Civic Services",
+      "description": "Organize public administration, nonprofit governance and community-service records; excludes legal advice and political profiling.",
+      "aliases": [
+        "government",
+        "public services"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "guest-operations",
+      "title": "Guest Operations",
+      "description": "Coordinate hotel front-desk handovers, promises and open service requests.",
+      "aliases": [],
+      "parent": "travel-hospitality",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "harvest-planning",
+      "title": "Harvest & Post-harvest Planning",
+      "description": "Coordinate harvest capacity, storage and produce traceability from supplied constraints.",
+      "aliases": [],
+      "parent": "agriculture",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "healthcare",
+      "title": "Healthcare",
+      "description": "Organize care administration and patient-provided information; clinical judgment belongs to qualified professionals.",
+      "aliases": [
+        "healthcare"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "healthcare-administration",
+      "title": "Care Administration",
+      "description": "Coordinate nonclinical handoffs, appointment logistics and supplied care records.",
+      "aliases": [],
+      "parent": "healthcare",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "healthcare-research",
+      "title": "Healthcare Evidence Organization",
+      "description": "Organize supplied clinical evidence for professional review without treatment recommendations.",
+      "aliases": [],
+      "parent": "healthcare",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "human-resources",
+      "title": "Human Resources",
+      "description": "Task-specific workflows for human resources.",
+      "aliases": [
+        "human resources"
+      ],
+      "parent": "people-careers",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "industrial-maintenance",
+      "title": "Industrial Maintenance Planning",
+      "description": "Organize asset histories and maintenance windows from approved work records.",
+      "aliases": [],
+      "parent": "manufacturing",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "legal",
+      "title": "Legal Services",
+      "description": "Organize legal documents, obligations and questions for counsel; excludes accounting and legal determinations.",
+      "aliases": [
+        "legal"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "legal-research-support",
+      "title": "Legal Research Support",
+      "description": "Organize provided authorities, citations and open legal research questions.",
+      "aliases": [],
+      "parent": "legal",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "manufacturing",
+      "title": "Manufacturing & Industrial Operations",
+      "description": "Manage production quality, process records and maintenance planning; excludes transport fleet operations.",
+      "aliases": [
+        "manufacturing"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "marketing",
+      "title": "Marketing",
+      "description": "Task-specific workflows for marketing.",
+      "aliases": [
+        "marketing"
+      ],
+      "parent": "business-operations",
+      "aliasOf": "marketing-advertising",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "marketing-advertising",
+      "title": "Marketing & Advertising",
+      "description": "Plan truthful, measurable campaigns with explicit budgets and decision criteria.",
+      "aliases": [
+        "campaign",
+        "promotion",
+        "marketing",
+        "audience"
+      ],
+      "parent": "business-operations",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "media-creative",
+      "title": "Media & Creative Work",
+      "description": "Develop editorial, journalistic and visual production workflows; excludes product interface engineering and marketing campaign strategy.",
+      "aliases": [],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "media-journalism",
+      "title": "Media & Journalism",
+      "description": "Task-specific workflows for media & journalism.",
+      "aliases": [
+        "media",
+        "journalism"
+      ],
+      "parent": "media-creative",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "nonprofits-social-impact",
+      "title": "Nonprofits & Social Impact",
+      "description": "Task-specific workflows for nonprofits & social impact.",
+      "aliases": [
+        "nonprofits",
+        "social impact"
+      ],
+      "parent": "government-public-services",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "people-careers",
+      "title": "People, HR & Careers",
+      "description": "Organize employment processes, recruitment and professional development; excludes formal education assessment.",
+      "aliases": [],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "personal-life-productivity",
+      "title": "Personal Productivity & Life",
+      "description": "Organize personal commitments, meetings and everyday decisions; excludes professional domain-specific judgment.",
+      "aliases": [
+        "personal life",
+        "productivity"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "personal-organization",
+      "title": "Personal Organization",
+      "description": "Plan individual routines, commitments and everyday records outside professional decision-making.",
+      "aliases": [],
+      "parent": "personal-life-productivity",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "personal-productivity",
+      "title": "Personal Productivity",
+      "description": "Reflect on commitments, capacity and practical next actions.",
+      "aliases": [
+        "weekly review",
+        "reflection",
+        "planning",
+        "time"
+      ],
+      "parent": "personal-life-productivity",
+      "aliasOf": "personal-life-productivity",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "photography-video",
+      "title": "Photography & Video",
+      "description": "Task-specific workflows for photography & video.",
+      "aliases": [
+        "photography",
+        "video"
+      ],
+      "parent": "media-creative",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "production-quality",
+      "title": "Production Quality",
+      "description": "Document nonconformances, evidence and disposition requests without product-release authority.",
+      "aliases": [],
+      "parent": "manufacturing",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "property-analysis",
+      "title": "Property Comparison",
+      "description": "Compare supplied property features and costs without valuations or housing eligibility decisions.",
+      "aliases": [],
+      "parent": "real-estate",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "property-operations",
+      "title": "Property Operations",
+      "description": "Coordinate maintenance requests and tenancy communication with approved access arrangements.",
+      "aliases": [],
+      "parent": "real-estate",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "public-administration",
+      "title": "Public Administration",
+      "description": "Organize public comments, service requests and administrative records without policy determinations.",
+      "aliases": [],
+      "parent": "government-public-services",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "real-estate",
+      "title": "Real Estate & Property",
+      "description": "Manage property records, tenancy operations and maintenance coordination; excludes construction project delivery.",
+      "aliases": [
+        "real estate"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "recreation-planning",
+      "title": "Community Recreation",
+      "description": "Plan inclusive recreation logistics and equipment access without fitness prescriptions.",
+      "aliases": [],
+      "parent": "sports-fitness",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "recruitment-careers",
+      "title": "Recruitment & Careers",
+      "description": "Task-specific workflows for recruitment & careers.",
+      "aliases": [
+        "recruitment",
+        "careers",
+        "interview",
+        "job search",
+        "resume",
+        "career"
+      ],
+      "parent": "people-careers",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "research-data-management",
+      "title": "Research Data Management",
+      "description": "Document variables, missingness, provenance and data-sharing constraints.",
+      "aliases": [],
+      "parent": "science-research",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "research-methods",
+      "title": "Research Methods & Evidence",
+      "description": "Plan reproducible study records and evidence synthesis without inventing findings.",
+      "aliases": [],
+      "parent": "science-research",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "retail-e-commerce",
+      "title": "Retail & E-commerce",
+      "description": "Operate stores, product inventory and customer orders; excludes general marketing strategy.",
+      "aliases": [
+        "retail",
+        "e-commerce"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "retail-inventory",
+      "title": "Retail Inventory",
+      "description": "Reconcile physical counts, stock movements and saleable inventory exceptions.",
+      "aliases": [],
+      "parent": "retail-e-commerce",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "sales",
+      "title": "Sales",
+      "description": "Task-specific workflows for sales.",
+      "aliases": [
+        "sales"
+      ],
+      "parent": "business-operations",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "science-research",
+      "title": "Science & Research",
+      "description": "Organize research methods, evidence and reusable data; excludes production analytics engineering and invented scientific findings.",
+      "aliases": [
+        "science",
+        "research"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "social-media-creators",
+      "title": "Social Media & Creators",
+      "description": "Task-specific workflows for social media & creators.",
+      "aliases": [
+        "social media",
+        "creators"
+      ],
+      "parent": "media-creative",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "software-development",
+      "title": "Software Development",
+      "description": "Review, investigate and improve software using concrete code evidence.",
+      "aliases": [
+        "programming",
+        "code review",
+        "debugging",
+        "software engineering"
+      ],
+      "parent": "technology",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "software-engineering",
+      "title": "Software Engineering",
+      "description": "Task-specific workflows for software engineering.",
+      "aliases": [
+        "software engineering",
+        "programming",
+        "code",
+        "development",
+        "debugging"
+      ],
+      "parent": "technology",
+      "aliasOf": "software-development",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "sports-event-operations",
+      "title": "Sports Event Operations",
+      "description": "Coordinate volunteers, fixtures and event logistics without medical or security staffing assumptions.",
+      "aliases": [],
+      "parent": "sports-fitness",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "sports-fitness",
+      "title": "Sports & Recreation",
+      "description": "Coordinate recreation events, club operations and participant logistics; excludes medical treatment or exercise prescriptions.",
+      "aliases": [
+        "sports",
+        "fitness"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "technology",
+      "title": "Technology & Data",
+      "description": "Build and operate software, AI, data systems and digital interfaces; excludes editorial media production.",
+      "aliases": [],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "transportation-logistics",
+      "title": "Transportation & Logistics",
+      "description": "Coordinate fleet movements, freight, warehouses and shipment exceptions; excludes production inventory decisions.",
+      "aliases": [
+        "transportation",
+        "logistics"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "travel-hospitality",
+      "title": "Hospitality, Food & Travel",
+      "description": "Coordinate guest service, restaurant operations and travel logistics; excludes transport fleet dispatch.",
+      "aliases": [
+        "travel",
+        "hospitality"
+      ],
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "travel-planning",
+      "title": "Travel Planning",
+      "description": "Organize traveler constraints, itinerary options and booking questions.",
+      "aliases": [],
+      "parent": "travel-hospitality",
+      "availability": "planned",
+      "skillCount": 0
+    },
+    {
+      "slug": "web-design-ux",
+      "title": "Web Design & UX",
+      "description": "Review journeys and accessibility, and design focused React components.",
+      "aliases": [
+        "design",
+        "usability",
+        "interface",
+        "frontend"
+      ],
+      "parent": "technology",
+      "availability": "planned",
+      "skillCount": 0
+    }
+  ],
+  "skills": []
+}

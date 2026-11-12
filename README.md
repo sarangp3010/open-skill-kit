@@ -1,80 +1,91 @@
 # Open Skill Kit
 
-An open-source library of portable AI skill packages and a responsive React marketplace.
+Portable AI workflows for many professions, with a static React marketplace and a local installation CLI. Start with the [skill library](skills/README.md), [sector taxonomy](docs/sector-taxonomy.md), [installation guide](docs/platform-installation.md), or [contribution guide](CONTRIBUTING.md).
 
-Browse by task or sector, inspect Markdown instructions and examples, and copy or download a complete package. The files in `skills/` remain usable independently of the website. Current starter skills are **drafts awaiting human review**; no verified platform support or model evaluation is claimed.
+The catalog contains **42 draft skill packages across 20 broad sectors and 47 specialties**. Available packages and planned collections are labeled separately. Read instructions, examples, limitations and provenance before use. A structural quality score, documented directory or authored fixture replay does not establish actual assistant compatibility, effectiveness or professional correctness.
 
-## Run locally
+## Run the marketplace locally
 
-Requires pnpm 10.20.0 and Node.js 22.13+ on the 22.x line, 24.x, or 26+.
+Requires Node.js 22.13+ on the 22.x line, 24.x, or 26+, and pnpm 10.20.0.
 
 ```sh
-pnpm install --frozen-lockfile
+pnpm install --frozen-lockfile --ignore-scripts
 pnpm dev
 ```
 
-Vite prints the local address, normally http://127.0.0.1:5173. No account, backend, API key or paid service is needed.
+Vite prints its local address, normally http://127.0.0.1:5173. Browsing, search, Markdown previews, themes and ZIP downloads need no account, database, API key or paid service. Every package in skills/ works as plain text independently of React. The app consumes a generated catalog, not hardcoded skill arrays.
+
+## Install a skill from this checkout
+
+The npm package remains unpublished and published bundles exclude drafts. Use the built local CLI and inspect a preview first:
 
 ```sh
-pnpm skills:validate
+pnpm build:npm
+pnpm cli list --source ./skills
+pnpm cli show software-development/code-reviewer --source ./skills
+pnpm cli install software-development/code-reviewer --source ./skills --platform codex --scope project --project-dir ../your-project --allow-draft --dry-run
+```
+
+Use an existing project, inspect the skill's source and limits, then omit --dry-run when you choose to install. Adapters support Codex, Claude Code, Cursor and Gemini CLI; project/global scope, inspection, managed updates and safe removal are documented in [platform installation](docs/platform-installation.md). Installation preserves supporting files and refuses unsafe conflicts. It does not activate an assistant or run skill code. Read [compatibility](docs/compatibility.md); documented installation is separate from completed platform testing. Browser ZIPs are a CLI-free alternative.
+
+## Submit a skill
+
+Use the marketplace's **Submit a skill** or **Contribute** links, or start with [CONTRIBUTING.md](CONTRIBUTING.md). Copy the complete [template](templates/skill/SKILL.md), choose a canonical specialty, author a focused workflow with realistic fictional examples and limitations, validate locally, regenerate the catalog and submit your own draft GitHub pull request. GitHub submission requires an account and repository access; no marketplace signup is needed. No automated submission or publication occurs.
+
+```sh
+pnpm contributions:check
 pnpm skills:index
-pnpm catalog:check
-pnpm lint
-pnpm format:check
-pnpm typecheck
-pnpm test
-pnpm build
-pnpm catalog:check-assets
+pnpm exec playwright install chromium
+pnpm validate:all
 ```
 
-The app regenerates its catalog before dev/build. `pnpm build` emits `apps/web/dist`; use `pnpm --filter @osh/web preview` to serve production output locally. Static hosts need an SPA fallback for readable detail URLs; see [marketplace development](docs/marketplace.md).
+The complete local suite runs formatting/lint/types, tests, contribution/duplicate/safety checks, offline evaluations, skill/link/catalog checks, builds, Playwright/accessibility and local npm packing. It stops on the first failure. CI provides actionable file diagnostics and a contribution summary. Dependency audit is separately available with pnpm audit --audit-level high. See [community workflow and readiness](docs/community-readiness.md) for workflow permissions and unverified remote settings.
 
-For browser and accessibility tests:
+## Trust, evidence and licensing
+
+All current skills remain drafts awaiting human review, including appropriate domain review for consequential uses. Author strings are declarations. Contributor attribution appears as maintainer-recorded only when a separate review is recorded against the exact package and evidence digests; no actual identity approvals are prefilled. Structural quality, validation, editorial status, installation, attribution and measured evaluation are separate signals.
+
+[Phase 4 evaluation](docs/skill-evaluation.md) provides realistic scenarios, isolated baseline/assisted execution and reproducible reports. pnpm evaluate:fixtures runs without providers or paid APIs. Its authored observations are not real model results. Optional real-agent execution requires separate configuration and explicit opt-in; normal contribution CI never invokes an agent. Do not invent test outcomes or infer compatibility from installation tests.
+
+Code and original content use the [MIT license](LICENSE). Preserve third-party source attribution and redistribution rights; builds include dependency notices for both web and npm artifacts. See [licensing](docs/licensing.md), [security policy](SECURITY.md), [code of conduct](CODE_OF_CONDUCT.md) and [governance](GOVERNANCE.md).
+
+## Build and repository layout
 
 ```sh
-pnpm exec playwright install chromium
-pnpm test:e2e
+pnpm build
+VITE_BASE_PATH=/open-skill-kit/ pnpm build:pages
+pnpm pack:npm
 ```
 
-## Repository structure
+Normal builds emit apps/web/dist with route-specific static HTML, canonical/social metadata, a sitemap, robots file and license notices. Known Pages routes load directly; JavaScript powers search, previews and downloads. Metadata/noscript output is not full server-side rendering. VITE_SITE_URL configures the intended HTTPS directory URL for another host; VITE_BASE_PATH configures its asset/router prefix. Local builds and npm packing do not deploy or publish.
 
-```text
-skills/                  Portable sector/skill/SKILL.md packages
-apps/web/                React, TypeScript, Vite, Tailwind and shadcn/ui
-packages/skill-schema/   Typed contracts and runtime schemas
-packages/skill-parser/   Safe YAML/frontmatter parser
-packages/skill-validator/ Content, path and reference validation
-packages/catalog-indexer/ Deterministic discovery and diagnostics
-packages/cli/            Existing independent npm CLI/distribution source
-scripts/                 Catalog generation and packaging commands
-catalog/                 Sector data and canonical generated catalog
-docs/                   Architecture, authoring, development and status
-```
+| Directory        | Purpose                                                                             |
+| ---------------- | ----------------------------------------------------------------------------------- |
+| skills/          | Portable sector/skill/SKILL.md packages and supporting text files                   |
+| apps/web/        | Independent React/TypeScript/Vite/Tailwind/shadcn/ui marketplace                    |
+| packages/        | Existing schema, parser, validator, indexer, adapters, installer, evaluator and CLI |
+| catalog/         | Sector registry, generated discovery catalog and maintainer attribution registry    |
+| evaluations/     | Scenario definitions and deliberately reviewed report artifacts                     |
+| templates/skill/ | Complete reusable authoring example, outside the active catalog                     |
+| scripts/         | Catalog, contribution, build, notice and local-validation commands                  |
+| docs/            | Authoring, installation, trust, evaluation, architecture and implementation reports |
 
-The React application consumes generated `catalog/catalog.json` through its static public copy. No skill metadata arrays live in React components. Adding a valid package and running `pnpm skills:index` updates the library without component edits. See [catalog pipeline](docs/catalog-pipeline.md) for optional metadata, diagnostic formats, freshness checks and security boundaries.
+[Phase 5 report](docs/PHASE_5_REPORT.md) · [Implementation status](docs/IMPLEMENTATION_STATUS.md) · [Architecture](docs/architecture.md) · [Catalog pipeline](docs/catalog-pipeline.md) · [Marketplace](docs/marketplace.md) · [Quality](docs/skill-quality.md) · [50-skill expansion plan](docs/skill-expansion-plan.md) · [Release policy](docs/releases.md)
 
-## Skill files and trust
+The owner controls any future repository visibility, hosting and release decisions. This workflow uses existing local tooling and free GitHub features; no paid API, hosting, database or external account service was introduced.
 
-Explore the [Markdown skill index](skills/README.md). The exact first ten specification skills now have substantive instructions, two example pairs, six behavior cases and authoring review notes; see [review evidence](docs/initial-skills-review.md). The active library also retains thirteen earlier drafts, with two superseded same-name sources preserved in the archive. Canonical frontmatter contains only name and description; marketplace metadata belongs in metadata.json. Each existing starter draft includes two example pairs and structured behavioral expectations. These expectations are not executed model tests.
+## Moderated submissions
 
-Contributed scripts are never executed. Validation rejects unsafe YAML, path traversal, symlinks, oversized/binary packages, unsafe local references and raw HTML. Browser previews additionally sanitize Markdown; ZIP generation revalidates file safety. Actual usefulness, provenance, professional correctness and assistant compatibility require human review.
+Use Create from the contribution page to edit, validate, preview and export a skill entirely in the browser. Submit Skill opens a PR preparation guide; it cannot publish. Community proposals go under submissions/ and remain outside website/npm catalog generation. Only an authorized maintainer's exact-package approval, current-head GitHub review and merge admit a package to the separate /published catalog. The existing source library remains explicitly labeled as draft/source previews. No publication decisions are prefilled. See [moderated submissions](docs/moderated-submissions.md) for acceptance, rejection, updates, withdrawal and required GitHub policy settings.
 
-## npm distribution
+## Founding review
 
-The earlier npm CLI setup is preserved and remains unpublished. Its release bundle excludes drafts and requires reviewed content before publication. See [npm distribution](docs/npm-distribution.md); registry installation commands are intended usage after an authorized release, not a claim that a package is currently available.
+The [42 exact-package review packets and proposed 12-skill launch shortlist](reviews/founding/README.md) await owner review. See the [maintainer procedure](docs/founding-skills-review.md) and [review worksheet](templates/maintainer-review.md). `pnpm founding:review` generates preliminary reports; `pnpm founding:check` checks freshness without writing approval records. All source skills remain drafts, with no invented reviewer identities or agent results.
 
-## Documentation
+## First public release review
 
-[Implementation status](docs/IMPLEMENTATION_STATUS.md) · [Progress](docs/progress.md) · [Architecture](docs/architecture.md) · [Catalog pipeline](docs/catalog-pipeline.md) · [Marketplace](docs/marketplace.md) · [Authoring](docs/skill-authoring.md) · [Contributing](CONTRIBUTING.md) · [Security](SECURITY.md) · [Governance](GOVERNANCE.md) · [Code of conduct](CODE_OF_CONDUCT.md) · [Release policy](docs/releases.md) · [Specification](OPEN_SKILL_KIT_CODEX_IMPLEMENTATION.md)
+Start with the [owner summaries for 12 candidates](docs/launch/SHORTLIST_REVIEW.md), [launch checklist and blockers](docs/launch/CHECKLIST.md), and [GitHub settings audit](docs/launch/GITHUB_SETTINGS.md). `pnpm release:review` regenerates the summaries; `pnpm release:check` checks them without creating approval. Technical checks passing do not authorize release: all 42 current packages remain drafts and the published catalog is empty.
 
-Code and original repository content are [MIT licensed](LICENSE). Preserve third-party attribution and check each package's declared provenance/license before reuse.
+See [CI architecture and local pre-push checks](docs/CI_ARCHITECTURE.md) for the implemented checks/E2E split, unchanged validate gate, exact browser-image version, $0 safeguards, successful Linux evidence and remaining native-platform/security limits. No commit or push is authorized by a passing local suite.
 
-## Install into a local assistant
-
-Codex, Claude Code, Cursor and Gemini CLI installation, inspection, updates and safe removal are implemented. Start with [platform installation](docs/platform-installation.md) for verified project/global paths and preview commands. Current drafts require explicit local --source and --allow-draft; they are not published npm releases or independently assistant-tested packages.
-
-## Quality and marketplace trust
-
-Cards/details now show generated structural scores, validation and separate installation/test evidence. Assess a local skill with pnpm cli quality <sector>/<slug> --source ./skills after building the CLI. Scores and declarations never imply verification. Start authoring from templates/skill and read [quality and trust](docs/skill-quality.md) for the rubric, evidence format and contributor workflow.
-
-Phase 4 adds [reproducible evaluations](docs/skill-evaluation.md): run pnpm evaluate:fixtures for offline scenario replay, or use the built CLI evaluate command for structured baseline/assisted reports. Marketplace evidence distinguishes fixture mechanics from actual agent performance. Real-agent container execution requires separate configuration and explicit opt-in; no real platform evaluation is included or claimed.
+The [refreshed unsigned owner decision package](docs/owner-decision/current/README.md) collects complete shortlisted instructions, blank approve/reject/defer fields, nine active notice cases and two historical-only cases, and separate release paperwork. The [original worksheets](docs/owner-decision/README.md) are preserved unchanged as the 2799067 snapshot. Neither package creates publication approval or release permission.

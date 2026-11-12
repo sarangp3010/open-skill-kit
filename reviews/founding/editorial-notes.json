@@ -1,0 +1,300 @@
+{
+  "schemaVersion": 1,
+  "assessmentKind": "assistant-preliminary-content-triage-not-maintainer-approval",
+  "notes": [
+    {
+      "skillId": "accounting-operations/invoice-reconciliation-assistant",
+      "usefulness": "Trace invoice quantities and received quantities before payment review.",
+      "safetyConcerns": "Financial records and payment consequences; qualified accounting review remains required.",
+      "nextReview": "Check partial receipt arithmetic, credits and duplicate liabilities against complete records.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "ai-machine-learning/prompt-evaluator",
+      "usefulness": "Turn vague prompt wording into testable instructions before model calls.",
+      "safetyConcerns": "Private prompts may contain sensitive data; wording review is not benchmark evidence.",
+      "nextReview": "Add structured output and discovery metadata; independently test borderline classifications.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "assessment-design/rubric-alignment-reviewer",
+      "usefulness": "Align assessment criteria with observable learning objectives.",
+      "safetyConcerns": "Rubric points do not establish fairness, accessibility or grading validity.",
+      "nextReview": "Educator must review accommodations and criteria; test a genuinely ambiguous learner response.",
+      "shortlistRank": 10
+    },
+    {
+      "skillId": "business-startups/business-idea-validator",
+      "usefulness": "Identify falsifiable customer and delivery hypotheses for small experiments.",
+      "safetyConcerns": "Participant consent and speculative financial projections require care.",
+      "nextReview": "Improve structured outputs and discovery metadata; distinguish interview intent from purchase behavior.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "collaboration-records/meeting-action-extractor",
+      "usefulness": "Separate explicit commitments from suggestions in meeting records.",
+      "safetyConcerns": "Personnel/client data and invented consensus or ownership are the main risks.",
+      "nextReview": "Review conditional commitments, ambiguous relative dates and redacted circulation.",
+      "shortlistRank": 11
+    },
+    {
+      "skillId": "construction-project-controls/change-order-organizer",
+      "usefulness": "Organize supplied construction changes for cost and schedule review.",
+      "safetyConcerns": "Engineering, structural safety and legal authorization are consequential even in administrative summaries.",
+      "nextReview": "Qualified project review must resolve site evidence and permit/approval boundaries.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "contract-operations/contract-obligation-tracker",
+      "usefulness": "Extract source-linked contractual duties and notice questions.",
+      "safetyConcerns": "Incorrect interpretation or date counting can lose legal rights.",
+      "nextReview": "Counsel must verify full agreement, precedence, jurisdiction and business-day rules.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "cybersecurity/threat-model-builder",
+      "usefulness": "Map defensive trust boundaries for an authorized system.",
+      "safetyConcerns": "Incomplete security models may create false assurance or be misused outside authorization.",
+      "nextReview": "Independent security review and executed validation are absent; do not present as security verification.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "data-analytics-bi/sql-query-reviewer",
+      "usefulness": "Review query grain, NULL behavior and tenant boundaries without connecting to a database.",
+      "safetyConcerns": "Credentials, production queries and data exposure require explicit boundaries.",
+      "nextReview": "Confirm dialect and schema; execute only authorized isolated regressions before making runtime claims.",
+      "shortlistRank": 2
+    },
+    {
+      "skillId": "education-teaching/personal-tutor",
+      "usefulness": "Explain supplied concepts and respond to learner attempts.",
+      "safetyConcerns": "Assessment rules, minors privacy and unsupported learning/diagnosis claims require attention.",
+      "nextReview": "Add discovery metadata and structured output; educator review of pedagogical accuracy remains pending.",
+      "shortlistRank": 6
+    },
+    {
+      "skillId": "energy-operations/outage-planning-brief",
+      "usefulness": "Organize supplied dependency durations and communication questions.",
+      "safetyConcerns": "Energy asset work can be safety critical; schedule arithmetic is not operational authorization.",
+      "nextReview": "Qualified operations review must verify dependencies and release records; exclude switching instructions.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "environmental-management/waste-audit-reconciler",
+      "usefulness": "Reconcile waste mass with explicit tare and denominator assumptions.",
+      "safetyConcerns": "Unconfirmed treatment and material hazards can produce misleading environmental claims.",
+      "nextReview": "Verify treatment evidence, sampling scope and local professional requirements.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "farm-records/field-observation-organizer",
+      "usefulness": "Preserve farm scouting samples and observations without diagnosing.",
+      "safetyConcerns": "Small samples do not establish prevalence, contamination or treatment need.",
+      "nextReview": "Agronomic review should check sampling differences and escalation boundaries.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "finance/personal-budget-planner",
+      "usefulness": "Organize supplied cash flow and expose missing expense assumptions.",
+      "safetyConcerns": "Sensitive financial data and regulated advice boundaries remain consequential.",
+      "nextReview": "Qualified financial review and complete expense checks are pending; no savings guarantee.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "fleet-operations/driver-handover-organizer",
+      "usefulness": "Record unresolved dispatch defects and timing questions.",
+      "safetyConcerns": "Vehicle release and roadworthiness decisions can affect physical safety.",
+      "nextReview": "Qualified fleet staff must check inspection and release records; no operational clearance.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "freight-logistics/shipment-exception-organizer",
+      "usefulness": "Reconcile shipment quantities, milestones and conflicting ETA records.",
+      "safetyConcerns": "Commercial/recipient privacy and unsupported loss or customs conclusions require review.",
+      "nextReview": "Confirm cutoff/time zones and avoid carrier contact or goods classification without authority.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "guest-operations/guest-service-handover",
+      "usefulness": "Track open guest promises and shift ownership.",
+      "safetyConcerns": "Guest privacy, access credentials and unsafe room-entry assumptions require safeguards.",
+      "nextReview": "Property staff must check acknowledgement and escalation procedures; no inferred service completion.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "healthcare/medical-visit-preparer",
+      "usefulness": "Organize patient-supplied questions for a clinician appointment.",
+      "safetyConcerns": "Health data, urgency and treatment misunderstandings require clinical oversight.",
+      "nextReview": "Qualified clinical review of escalation language is pending; never treat as triage or diagnosis.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "healthcare-administration/care-handoff-organizer",
+      "usefulness": "Organize nonclinical transfer notes with source attribution.",
+      "safetyConcerns": "Incomplete care transfer records may affect patient safety and privacy.",
+      "nextReview": "Qualified care staff must verify timestamps, source records and receiving acknowledgement.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "legal/contract-risk-spotter",
+      "usefulness": "Organize contract excerpts into questions for counsel.",
+      "safetyConcerns": "Excerpts cannot determine enforceability, jurisdiction or signing risk.",
+      "nextReview": "Counsel review of full agreement and conflict resolution is required.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "marketing-advertising/campaign-planner",
+      "usefulness": "Plan a bounded campaign with explicit hypotheses and evaluation decisions.",
+      "safetyConcerns": "Spending, private audience data and unsupported marketing claims require permission.",
+      "nextReview": "Add missing discovery metadata; keep budgets hypothetical and conversion evidence separate.",
+      "shortlistRank": 8
+    },
+    {
+      "skillId": "media-journalism/source-claim-tracker",
+      "usefulness": "Link editorial claims to supplied source scope and contradictions.",
+      "safetyConcerns": "Confidential source identity and misleading verification language can cause harm.",
+      "nextReview": "Independent source authentication and publication/legal review are not supplied.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "personal-life-productivity/weekly-life-planner",
+      "usefulness": "Allocate available time with buffers and a smaller fallback.",
+      "safetyConcerns": "Personal calendars are private; over-capacity plans must not imply overtime or diagnosis.",
+      "nextReview": "Improve structured output/discovery metadata; distinguish schedule planning from weekly reflection.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "personal-productivity/weekly-review-coach",
+      "usefulness": "Reflect on actual progress and choose one bounded adjustment.",
+      "safetyConcerns": "Private journals and inferred mental-health diagnoses require boundaries.",
+      "nextReview": "Human review of nonjudgmental language and over-capacity examples is still pending.",
+      "shortlistRank": 9
+    },
+    {
+      "skillId": "production-quality/nonconformance-report-builder",
+      "usefulness": "Organize observed defects, sampling scope and disposition questions.",
+      "safetyConcerns": "Manufacturing acceptance and safety cannot follow from a sample summary.",
+      "nextReview": "Qualified quality staff must verify specifications, containment and disposition authority.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "property-operations/maintenance-request-triager",
+      "usefulness": "Organize tenant reports and access questions for a dispatch draft.",
+      "safetyConcerns": "Hazards, tenant privacy and unauthorized access or prioritization can be consequential.",
+      "nextReview": "Property staff must apply actual emergency/access procedures; no remote diagnosis.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "public-administration/public-comment-synthesizer",
+      "usefulness": "Summarize consultation themes without treating submissions as a representative vote.",
+      "safetyConcerns": "Public policy, privacy and minority viewpoints can be distorted by counts.",
+      "nextReview": "Administrative review must check deduplication rules, traceability and representativeness limits.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "recruitment-careers/resume-reviewer",
+      "usefulness": "Give truthful evidence-based feedback on an applicant-owned resume.",
+      "safetyConcerns": "Personal data, invented credentials and applicant ranking are inappropriate.",
+      "nextReview": "Check target-role relevance and redaction; do not infer protected traits or guarantee interviews.",
+      "shortlistRank": 7
+    },
+    {
+      "skillId": "recruitment-careers/resume-tailoring-assistant",
+      "usefulness": "Align an applicant-owned resume with an actual job description.",
+      "safetyConcerns": "Invented qualifications and unnecessary personal disclosures remain risks.",
+      "nextReview": "Clarify distinction from Resume Reviewer before launch; improve metadata and structured output.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "research-data-management/data-dictionary-builder",
+      "usefulness": "Document supplied research variable definitions, units and missingness.",
+      "safetyConcerns": "Participant privacy, inferred definitions and invalid measurements require review.",
+      "nextReview": "Research owner must verify codes against source instruments; no inference of de-identification.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "retail-inventory/stock-count-reconciler",
+      "usefulness": "Reconcile physical counts, movement cutoffs and reservations without changing stock.",
+      "safetyConcerns": "Wrong units or double-counted movements can produce unauthorized adjustments or accusations.",
+      "nextReview": "Check reservations versus physical count and incompatible units; require authorized recount/adjustment.",
+      "shortlistRank": 12
+    },
+    {
+      "skillId": "science-research/literature-review-builder",
+      "usefulness": "Organize actual supplied sources into a limited evidence synthesis.",
+      "safetyConcerns": "Fabricated citations, copyright and unsupported systematic-review claims require care.",
+      "nextReview": "Source and domain review are pending; improve output structure and discovery metadata.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "social-media-creators/youtube-script-builder",
+      "usefulness": "Draft a bounded spoken script with explicit factual and rights checks.",
+      "safetyConcerns": "Unsupported claims, testimonials and copyrighted material can mislead audiences.",
+      "nextReview": "Improve structure/discovery metadata; verify timing assumptions and source/footage permissions.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "software-development/bug-investigator",
+      "usefulness": "Separate observations and hypotheses before choosing a discriminating local check.",
+      "safetyConcerns": "Production diagnostics and pasted logs require privacy and execution boundaries.",
+      "nextReview": "Improve discovery metadata; do not treat static traces as completed reproductions.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "software-development/code-reviewer",
+      "usefulness": "Find concrete defects in a supplied change with trigger and regression evidence.",
+      "safetyConcerns": "Code review can miss vulnerabilities and must not imply security certification.",
+      "nextReview": "Prefer over overlapping Code Review Expert; independently test no-defect and adversarial-context cases.",
+      "shortlistRank": 1
+    },
+    {
+      "skillId": "software-engineering/code-review-expert",
+      "usefulness": "Review a supplied diff for bounded actionable defects.",
+      "safetyConcerns": "Review access does not authorize script execution or secret disclosure.",
+      "nextReview": "Substantial task overlap with Code Reviewer; preserve URL but defer launch pending differentiation.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "software-engineering/system-design-architect",
+      "usefulness": "Compare simple system designs against stated load and reliability constraints.",
+      "safetyConcerns": "Conceptual designs do not establish secure operation, compliance or vendor costs.",
+      "nextReview": "Improve metadata/structured output and validate numerical assumptions independently.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "sports-event-operations/volunteer-coverage-planner",
+      "usefulness": "Expose roster conflicts and uncovered intervals before organizer approval.",
+      "safetyConcerns": "Safeguarding, qualifications, specialist roles and contact privacy need domain oversight.",
+      "nextReview": "Organizer review must verify eligibility and emergency coverage; arithmetic is not event safety.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "travel-hospitality/travel-itinerary-planner",
+      "usefulness": "Draft a flexible itinerary from supplied constraints and checked reservations.",
+      "safetyConcerns": "Travel costs, entry rules and availability change and can cause real financial loss.",
+      "nextReview": "Needs current authoritative checks before spending; improve metadata and output structure.",
+      "shortlistRank": null
+    },
+    {
+      "skillId": "web-design-ux/accessibility-reviewer",
+      "usefulness": "Produce scoped accessibility findings with honest evidence and retest limits.",
+      "safetyConcerns": "A source review or automated scan cannot certify conformance or screen-reader behavior.",
+      "nextReview": "Qualified accessibility/manual assistive-technology review remains pending.",
+      "shortlistRank": 4
+    },
+    {
+      "skillId": "web-design-ux/react-component-designer",
+      "usefulness": "Design focused controlled React components using an explicit behavior contract.",
+      "safetyConcerns": "Generated code and form callbacks must not imply authorized sends or proven accessibility.",
+      "nextReview": "Independently compile and interact with proposed examples; current examples are illustrations.",
+      "shortlistRank": 3
+    },
+    {
+      "skillId": "web-design-ux/ux-auditor",
+      "usefulness": "Review one supplied user journey and separate observations from hypotheses.",
+      "safetyConcerns": "Screenshots do not prove interaction, conversion or accessibility outcomes.",
+      "nextReview": "Add missing discovery metadata and test uncertain findings with consent-based research.",
+      "shortlistRank": 5
+    }
+  ]
+}

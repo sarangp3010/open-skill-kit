@@ -1,0 +1,27 @@
+{
+  "id": "healthcare-administration/care-handoff-organizer",
+  "slug": "care-handoff-organizer",
+  "title": "Care Handoff Organizer",
+  "sector": "healthcare-administration",
+  "tags": [
+    "healthcare-administration",
+    "care-handoff-organizer",
+    "record-review"
+  ],
+  "difficulty": "intermediate",
+  "version": "0.1.0",
+  "license": "MIT",
+  "author": "Open Skill Kit contributors",
+  "riskLevel": "high",
+  "capabilities": ["text-only"],
+  "testedPlatforms": [],
+  "lastVerified": null,
+  "examples": [
+    "examples/input-1.md",
+    "examples/output-1.md",
+    "examples/input-2.md",
+    "examples/output-2.md"
+  ],
+  "status": "draft",
+  "provenance": "Original universal-marketplace expansion draft. Fictional examples and deterministic fixture replays are authored data, not measured agent results. Independent editorial/domain review and actual platform testing are pending."
+}

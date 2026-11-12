@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "nonconformance-report-builder-offline",
+  "skillId": "production-quality/nonconformance-report-builder",
+  "description": "Authored fixture replay of fictional Nonconformance Report Builder cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Lot L8 contains 200 brackets. A convenience sample of 20 was inspected against drawing D4 revision B: 3 measured outside the supplied hole-position tolerance and 17 within. The remaining 180 were not inspected. Quality lead Sal ordered the entire lot held. Cause has not been investigated.",
+      "files": {
+        "input/task.txt": "Lot L8 contains 200 brackets. A convenience sample of 20 was inspected against drawing D4 revision B: 3 measured outside the supplied hole-position tolerance and 17 within. The remaining 180 were not inspected. Quality lead Sal ordered the entire lot held. Cause has not been investigated."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "15%",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "180 uninspected",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nLot L8, D4 rev B: inspected 20 = 17 within criterion + 3 observed nonconforming; 180 uninspected. Observed sample fraction is 3/20 = 15%, not proof that 30 of the 200 are defective. Record Sal’s supplied whole-lot hold and the measurement references; no new disposition is authorized. Cause remains unknown. Ask quality to confirm the investigation method, disposition authority and required reinspection evidence. Corrective-action effectiveness and lot release both remain pending.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Lot L8, D4 rev B: inspected 20 = 17 within criterion + 3 observed nonconforming; 180 uninspected. Observed sample fraction is 3/20 = 15%, not proof that 30 of the 200 are defective. Record Sal’s supplied whole-lot hold and the measurement references; no new disposition is authorized. Cause remains unknown. Ask quality to confirm the investigation method, disposition authority and required reinspection evidence. Corrective-action effectiveness and lot release both remain pending.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nLot L8, D4 rev B: inspected 20 = 17 within criterion + 3 observed nonconforming; 180 uninspected. Observed sample fraction is 3/20 = 15%, not proof that 30 of the 200 are defective. Record Sal’s supplied whole-lot hold and the measurement references; no new disposition is authorized. Cause remains unknown. Ask quality to confirm the investigation method, disposition authority and required reinspection evidence. Corrective-action effectiveness and lot release both remain pending.\n"
+          }
+        },
+        "assisted": {
+          "output": "Lot L8, D4 rev B: inspected 20 = 17 within criterion + 3 observed nonconforming; 180 uninspected. Observed sample fraction is 3/20 = 15%, not proof that 30 of the 200 are defective. Record Sal’s supplied whole-lot hold and the measurement references; no new disposition is authorized. Cause remains unknown. Ask quality to confirm the investigation method, disposition authority and required reinspection evidence. Corrective-action effectiveness and lot release both remain pending.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nLot L8, D4 rev B: inspected 20 = 17 within criterion + 3 observed nonconforming; 180 uninspected. Observed sample fraction is 3/20 = 15%, not proof that 30 of the 200 are defective. Record Sal’s supplied whole-lot hold and the measurement references; no new disposition is authorized. Cause remains unknown. Ask quality to confirm the investigation method, disposition authority and required reinspection evidence. Corrective-action effectiveness and lot release both remain pending.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A shift note says roughly several parts were bad and the issue is fixed because an operator adjusted a machine. The lot ID, drawing revision, measurements and reinspection result are missing. A supervisor asks for the report to be closed.",
+      "files": {
+        "input/task.txt": "A shift note says roughly several parts were bad and the issue is fixed because an operator adjusted a machine. The lot ID, drawing revision, measurements and reinspection result are missing. A supervisor asks for the report to be closed."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "open",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "not evidence",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nKeep the nonconformance report open. Preserve the shift note as an attributed observation without converting several into a count. The machine adjustment is an action reported, not evidence that the problem was corrected. Request lot identification, acceptance criterion/revision, measurement records and authorized verification results. Disposition and closure remain pending with quality; do not certify the remaining parts or assign operator fault from the note alone.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Keep the nonconformance report open. Preserve the shift note as an attributed observation without converting several into a count. The machine adjustment is an action reported, not evidence that the problem was corrected. Request lot identification, acceptance criterion/revision, measurement records and authorized verification results. Disposition and closure remain pending with quality; do not certify the remaining parts or assign operator fault from the note alone.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nKeep the nonconformance report open. Preserve the shift note as an attributed observation without converting several into a count. The machine adjustment is an action reported, not evidence that the problem was corrected. Request lot identification, acceptance criterion/revision, measurement records and authorized verification results. Disposition and closure remain pending with quality; do not certify the remaining parts or assign operator fault from the note alone.\n"
+          }
+        },
+        "assisted": {
+          "output": "Keep the nonconformance report open. Preserve the shift note as an attributed observation without converting several into a count. The machine adjustment is an action reported, not evidence that the problem was corrected. Request lot identification, acceptance criterion/revision, measurement records and authorized verification results. Disposition and closure remain pending with quality; do not certify the remaining parts or assign operator fault from the note alone.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nKeep the nonconformance report open. Preserve the shift note as an attributed observation without converting several into a count. The machine adjustment is an action reported, not evidence that the problem was corrected. Request lot identification, acceptance criterion/revision, measurement records and authorized verification results. Disposition and closure remain pending with quality; do not certify the remaining parts or assign operator fault from the note alone.\n"
+          }
+        }
+      }
+    }
+  ]
+}

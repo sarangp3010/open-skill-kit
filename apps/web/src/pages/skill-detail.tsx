@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -9,10 +9,16 @@ import {
   PackageOpen,
 } from 'lucide-react';
 import { useLibrary } from '@/lib/use-library';
-import { sourceUrl, type DiscoverySkill } from '@/lib/catalog';
+import {
+  loadSkillDetail,
+  sourceUrl,
+  type CatalogIndex,
+  type DiscoverySkill,
+} from '@/lib/catalog';
 import { Button } from '@/components/ui/button';
 import { Badge, Select } from '@/components/ui/card';
 import { TrustDetails } from '@/components/skill-trust';
+import { ContributorAttribution } from '@/components/contributor-attribution';
 import { InstallGuide } from '@/components/install-guide';
 import { MarkdownViewer } from '@/components/markdown-viewer';
 function SkillActions({ skill }: { skill: DiscoverySkill }) {
@@ -65,14 +71,24 @@ function SkillActions({ skill }: { skill: DiscoverySkill }) {
     </>
   );
 }
-function Preview({ skill }: { skill: DiscoverySkill }) {
-  const [file, setFile] = useState('SKILL.md');
+function Preview({
+  skill,
+  file,
+  setFile,
+}: {
+  skill: DiscoverySkill;
+  file: string;
+  setFile: (path: string) => void;
+}) {
   return (
-    <section className="overflow-hidden rounded-2xl border border-border bg-card">
+    <section
+      aria-labelledby="preview-title"
+      className="overflow-hidden rounded-2xl border border-border bg-card"
+    >
       <div className="flex flex-wrap items-center justify-between gap-3 border-b border-border bg-muted/40 px-5 py-4">
         <div className="flex items-center gap-2 text-sm font-medium">
           <FileText size={16} className="text-primary" aria-hidden="true" />
-          <h2>Package preview</h2>
+          <h2 id="preview-title">Package preview</h2>
         </div>
         <div className="min-w-0">
           <label htmlFor="preview-file" className="sr-only">
@@ -106,6 +122,7 @@ function Preview({ skill }: { skill: DiscoverySkill }) {
             source={file === 'SKILL.md' ? skill.body : skill.files[file]}
             files={skill.files}
             onFile={setFile}
+            path={file}
           />
         ) : (
           <pre
@@ -120,13 +137,40 @@ function Preview({ skill }: { skill: DiscoverySkill }) {
     </section>
   );
 }
+type DetailState =
+  { id: string; skill: DiscoverySkill } | { id: string; error: string };
 export function SkillDetailPage() {
   const catalog = useLibrary();
   const { sector, slug } = useParams();
-  const skill = catalog.skills.find(
+  const entry = catalog.skills.find(
     (item) => item.slug === slug && item.sector === sector,
   );
-  if (!skill)
+  const [state, setState] = useState<DetailState>();
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    if (!entry) return;
+    // Ignore responses for a skill the visitor has already navigated away from.
+    let active = true;
+    loadSkillDetail(catalog.catalogDigest, entry).then(
+      (skill) => {
+        if (active) setState({ id: entry.id, skill });
+      },
+      (error: unknown) => {
+        if (active)
+          setState({
+            id: entry.id,
+            error:
+              error instanceof Error
+                ? error.message
+                : 'The skill details could not be loaded.',
+          });
+      },
+    );
+    return () => {
+      active = false;
+    };
+  }, [entry, catalog.catalogDigest, attempt]);
+  if (!entry)
     return (
       <div className="container-shell py-20">
         <h1 className="text-3xl font-semibold">Skill not found</h1>
@@ -139,11 +183,77 @@ export function SkillDetailPage() {
         </Link>
       </div>
     );
+  const current = state?.id === entry.id ? state : undefined;
+  if (!current)
+    return (
+      <div className="container-shell py-20" role="status">
+        Loading {entry.title}…
+      </div>
+    );
+  if ('error' in current)
+    return (
+      <div className="container-shell py-20">
+        <div role="alert" className="max-w-lg">
+          <h1 className="text-3xl font-semibold">{entry.title}</h1>
+          <p className="mt-4 text-muted-foreground">{current.error}</p>
+        </div>
+        <Button
+          className="mt-6"
+          onClick={() => {
+            setState(undefined);
+            setAttempt((value) => value + 1);
+          }}
+        >
+          Try again
+        </Button>
+      </div>
+    );
+  return (
+    <SkillDetailView
+      key={current.skill.id}
+      skill={current.skill}
+      catalog={catalog}
+    />
+  );
+}
+function SkillDetailView({
+  skill,
+  catalog,
+}: {
+  skill: DiscoverySkill;
+  catalog: CatalogIndex;
+}) {
+  const [file, setFile] = useState('SKILL.md');
+  function openFile(path: string) {
+    setFile(path);
+    const select = document.getElementById('preview-file');
+    select?.scrollIntoView?.({ block: 'center' });
+    select?.focus({ preventScroll: true });
+  }
   const sectorName =
     catalog.sectors.find((item) => item.slug === skill.sector)?.title ??
     skill.sector;
+  const parent = catalog.sectors.find(
+    (item) =>
+      item.slug ===
+      catalog.sectors.find((item) => item.slug === skill.sector)?.parent,
+  );
   return (
     <div className="container-shell py-10 sm:py-14">
+      <p className="mb-4 text-xs leading-6 text-muted-foreground">
+        Source package preview. Authored status does not grant publication
+        approval.{' '}
+        <Link className="text-link" to="/published">
+          Published catalog
+        </Link>{' '}
+        ·{' '}
+        <Link
+          className="text-link"
+          to={`/create?skill=${encodeURIComponent(skill.id)}`}
+        >
+          Propose an update
+        </Link>
+      </p>
       <nav
         aria-label="Breadcrumb"
         className="mb-8 flex flex-wrap items-center gap-2 text-xs text-muted-foreground"
@@ -152,6 +262,14 @@ export function SkillDetailPage() {
           Skills
         </Link>
         <span aria-hidden="true">/</span>
+        {parent && (
+          <>
+            <Link to={`/sectors/${parent.slug}`} className="hover:text-primary">
+              {parent.title}
+            </Link>
+            <span aria-hidden="true">/</span>
+          </>
+        )}
         <Link to={`/sectors/${skill.sector}`} className="hover:text-primary">
           {sectorName}
         </Link>
@@ -184,7 +302,7 @@ export function SkillDetailPage() {
               </span>
             ))}
           </div>
-          <Preview key={skill.id} skill={skill} />
+          <Preview skill={skill} file={file} setFile={setFile} />
           <TrustDetails skill={skill} />
           <section aria-labelledby="examples-title" className="mt-10">
             <h2
@@ -208,6 +326,8 @@ export function SkillDetailPage() {
                   <MarkdownViewer
                     source={skill.files[path]}
                     files={skill.files}
+                    onFile={openFile}
+                    path={path}
                   />
                 </article>
               ))}
@@ -262,6 +382,7 @@ export function SkillDetailPage() {
             </a>
           </section>
           <InstallGuide key={skill.id} skill={skill} />
+          <ContributorAttribution skill={skill} />
           <section className="px-1">
             <h2 className="text-xs font-semibold">Provenance</h2>
             <p className="mt-2 text-xs leading-6 text-muted-foreground">

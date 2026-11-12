@@ -1,0 +1,3 @@
+# Illustrative output 1
+
+Proposed draft: observation evidence 3 points, distinction between observation and causation 5 points, clear explanation 2 points; total 10. Full evidence credit requires referring to the reported window-side growth, not inventing measurements. Full reasoning credit says the comparison alone does not establish that light caused the difference because controls are absent. Clarity concerns whether the explanation can be followed, not accent or stylistic conformity. Ask the teacher to calibrate partial credit for a response that notices missing controls but omits the observed difference.

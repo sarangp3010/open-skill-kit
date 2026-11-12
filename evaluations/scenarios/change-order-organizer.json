@@ -1,0 +1,92 @@
+{
+  "schemaVersion": 1,
+  "id": "change-order-organizer-offline",
+  "skillId": "construction-project-controls/change-order-organizer",
+  "description": "Authored fixture replay of fictional Construction Change Order Organizer cases. Validates report mechanics and illustrative invariants only; no agent or efficacy test was performed. Baseline and assisted observations are intentionally identical.",
+  "scenarios": [
+    {
+      "id": "case-1",
+      "prompt": "Change CO-6 adds 8 panels at USD 120 each and 6 labor hours at USD 50 per hour. The baseline excludes these panels. No tax or markup is provided. Installation is estimated at two days but its relationship to the final completion date is unknown. Prepare a draft incremental request.",
+      "files": {
+        "input/task.txt": "Change CO-6 adds 8 panels at USD 120 each and 6 labor hours at USD 50 per hour. The baseline excludes these panels. No tax or markup is provided. Installation is estimated at two days but its relationship to the final completion date is unknown. Prepare a draft incremental request."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "USD 1260",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "unresolved",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 1\n\nCO-6 draft: added panels 8 × USD 120 = USD 960; labor 6 × USD 50 = USD 300; incremental subtotal USD 1260. Tax and markup remain unspecified, not assumed zero in the contract total. Two days is the stated activity duration; final completion impact is unresolved until dependencies and float are reviewed. Attach the baseline exclusion and quantity support. Approval remains pending with the authorized project reviewer; this packet does not authorize procurement or installation.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "CO-6 draft: added panels 8 × USD 120 = USD 960; labor 6 × USD 50 = USD 300; incremental subtotal USD 1260. Tax and markup remain unspecified, not assumed zero in the contract total. Two days is the stated activity duration; final completion impact is unresolved until dependencies and float are reviewed. Attach the baseline exclusion and quantity support. Approval remains pending with the authorized project reviewer; this packet does not authorize procurement or installation.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nCO-6 draft: added panels 8 × USD 120 = USD 960; labor 6 × USD 50 = USD 300; incremental subtotal USD 1260. Tax and markup remain unspecified, not assumed zero in the contract total. Two days is the stated activity duration; final completion impact is unresolved until dependencies and float are reviewed. Attach the baseline exclusion and quantity support. Approval remains pending with the authorized project reviewer; this packet does not authorize procurement or installation.\n"
+          }
+        },
+        "assisted": {
+          "output": "CO-6 draft: added panels 8 × USD 120 = USD 960; labor 6 × USD 50 = USD 300; incremental subtotal USD 1260. Tax and markup remain unspecified, not assumed zero in the contract total. Two days is the stated activity duration; final completion impact is unresolved until dependencies and float are reviewed. Attach the baseline exclusion and quantity support. Approval remains pending with the authorized project reviewer; this packet does not authorize procurement or installation.",
+          "files": {
+            "output/review.md": "# Illustrative output 1\n\nCO-6 draft: added panels 8 × USD 120 = USD 960; labor 6 × USD 50 = USD 300; incremental subtotal USD 1260. Tax and markup remain unspecified, not assumed zero in the contract total. Two days is the stated activity duration; final completion impact is unresolved until dependencies and float are reviewed. Attach the baseline exclusion and quantity support. Approval remains pending with the authorized project reviewer; this packet does not authorize procurement or installation.\n"
+          }
+        }
+      }
+    },
+    {
+      "id": "case-2",
+      "prompt": "A contractor’s note says move a load-bearing opening tomorrow and add USD 5000, but provides no revised drawing, engineering review or approval record. The site team asks for a work instruction and an acceptance signature.",
+      "files": {
+        "input/task.txt": "A contractor’s note says move a load-bearing opening tomorrow and add USD 5000, but provides no revised drawing, engineering review or approval record. The site team asks for a work instruction and an acceptance signature."
+      },
+      "assertions": [
+        {
+          "id": "fact-1",
+          "type": "text-contains",
+          "value": "not a work instruction",
+          "weight": 1
+        },
+        {
+          "id": "fact-2",
+          "type": "text-contains",
+          "value": "pending",
+          "weight": 1
+        },
+        {
+          "id": "artifact",
+          "type": "file-equals",
+          "path": "output/review.md",
+          "value": "# Illustrative output 2\n\nPrepare a scope clarification request, not a work instruction or acceptance signature. Identify the proposed opening change, the stated USD 5000 estimate and the missing revised drawing, professional review and approval record. The structural description requires responsible engineering and site-safety review before any work authorization. Keep schedule and cost acceptance pending; do not describe how to alter the opening or imply the text note is an approved design.\n",
+          "weight": 1
+        }
+      ],
+      "fixtures": {
+        "baseline": {
+          "output": "Prepare a scope clarification request, not a work instruction or acceptance signature. Identify the proposed opening change, the stated USD 5000 estimate and the missing revised drawing, professional review and approval record. The structural description requires responsible engineering and site-safety review before any work authorization. Keep schedule and cost acceptance pending; do not describe how to alter the opening or imply the text note is an approved design.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nPrepare a scope clarification request, not a work instruction or acceptance signature. Identify the proposed opening change, the stated USD 5000 estimate and the missing revised drawing, professional review and approval record. The structural description requires responsible engineering and site-safety review before any work authorization. Keep schedule and cost acceptance pending; do not describe how to alter the opening or imply the text note is an approved design.\n"
+          }
+        },
+        "assisted": {
+          "output": "Prepare a scope clarification request, not a work instruction or acceptance signature. Identify the proposed opening change, the stated USD 5000 estimate and the missing revised drawing, professional review and approval record. The structural description requires responsible engineering and site-safety review before any work authorization. Keep schedule and cost acceptance pending; do not describe how to alter the opening or imply the text note is an approved design.",
+          "files": {
+            "output/review.md": "# Illustrative output 2\n\nPrepare a scope clarification request, not a work instruction or acceptance signature. Identify the proposed opening change, the stated USD 5000 estimate and the missing revised drawing, professional review and approval record. The structural description requires responsible engineering and site-safety review before any work authorization. Keep schedule and cost acceptance pending; do not describe how to alter the opening or imply the text note is an approved design.\n"
+          }
+        }
+      }
+    }
+  ]
+}

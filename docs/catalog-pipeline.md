@@ -16,6 +16,16 @@ pnpm catalog:check-assets
 
 `catalog:check` compares the committed canonical JSON with freshly computed output without rewriting it. This works in a clean checkout even though the public copy is Git-ignored. `catalog:check-assets` also checks the generated app copy, so run it after generation/build. Missing or stale data returns a nonzero exit code. CI checks canonical freshness before building, then checks both copies afterward.
 
+## Browser data artifacts
+
+Generation also writes Git-ignored browser data under `apps/web/public/data/`, derived deterministically from the canonical catalog bytes:
+
+- `index.json`: sectors and per-skill metadata with summarized quality, validation and per-platform installation/testing status. It excludes bodies, files, examples and provenance, and generation fails if it exceeds 150,000 bytes.
+- `search.json`: normalized full-text skill bodies, fetched only when a visitor searches.
+- `skills/<sector>/<slug>.json`: the complete skill record, fetched by its detail page.
+
+Each artifact carries the SHA-256 digest of `catalog/catalog.json`; the app rejects search or detail data from a different build. Regeneration replaces the whole data directory, so removed skills leave no orphans. `catalog:check-assets` compares every expected file byte-for-byte and rejects missing, stale, unexpected or non-regular files. The full `apps/web/public/catalog.json` is still generated for compatibility but is no longer fetched during browsing.
+
 `catalog/index.json` is the earlier published-package index and is not the website's data source. Existing npm packaging uses `buildCatalog` directly and retains its publication-quality contract; this implementation does not publish npm packages or promote drafts.
 
 ## Contracts and normalization
@@ -55,3 +65,7 @@ Node tests cover parser variants, schema/path validation, YAML locations, aggreg
 ## Derived trust reports
 
 The validator now returns a deterministic rubric-v1 quality report for valid and invalid packages. Valid discovery entries additionally include static validation status/warnings. The existing Node indexer adds platform installation support, compatibility declarations and package-bound completed-test records using the shared adapter registry. It never runs skill content. Quality and compatibility fields are optional when reading an older catalog; current generation always derives them from files, not authored scores. Publication catalog entries remain unchanged. See [quality and trust](skill-quality.md) for weights, evidence hashing and stale-result policy.
+
+Publication hardening: buildCatalog now gates authored published entries through the same validated immutable registry reader as the normal and legacy exporters. includeDrafts remains a source-inspection option and cannot smuggle an unapproved published entry into distribution. Raw/copied registry objects cannot authorize publishedCatalog/isApprovedPackage; approved registries are read/validated from evidence and frozen. The npm prepublication guard binds the generated catalog and every expected package hash, rejects unlisted package directories and blocks post-build changes. Local record integrity still does not authenticate identity; real GitHub approval/merge checks and protected reviews remain necessary.
+
+Validated registry objects are frozen and bound to the current ledger, maintainer roster, review record, complete package manifest and referenced evidence bytes. Reusing an old object after changes or withdrawal does not preserve its authority; builders must read current evidence. This guards data integrity within the local build, while authentic reviewer identity and merge authorization still require the existing GitHub checks. No unsigned local mechanism can prevent a repository administrator replacing policy/code.

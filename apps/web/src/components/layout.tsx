@@ -4,15 +4,18 @@ import * as Dialog from '@radix-ui/react-dialog';
 import { Boxes, Github, Menu, X, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { Button } from './ui/button';
 import { ThemeToggle } from './theme-toggle';
-import type { DiscoveryCatalog } from '@/lib/catalog';
+import type { CatalogIndex } from '@/lib/catalog';
+import { PageMetadata } from './page-metadata';
 export type CatalogState =
   | { status: 'loading' }
   | { status: 'error'; message: string }
-  | { status: 'ready'; catalog: DiscoveryCatalog };
+  | { status: 'ready'; catalog: CatalogIndex };
 const links = [
+  { to: '/published', label: 'Published' },
   { to: '/skills', label: 'Explore skills' },
   { to: '/sectors', label: 'Sectors' },
   { to: '/docs', label: 'Documentation' },
+  { to: '/contribute', label: 'Contribute' },
 ];
 export function Layout({
   state,
@@ -29,6 +32,7 @@ export function Layout({
   }, [location.pathname]);
   return (
     <div className="flex min-h-svh flex-col">
+      {state.status === 'ready' && <PageMetadata catalog={state.catalog} />}
       <a
         href="#main"
         className="sr-only z-[100] rounded-md bg-primary p-3 text-primary-foreground focus:not-sr-only focus:fixed focus:left-4 focus:top-4"

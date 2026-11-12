@@ -17,7 +17,7 @@ Project scope uses the selected working directory, not a guessed Git root. Globa
 
 ## Current checkout workflow
 
-The npm package remains unpublished and the current 23 library skills remain drafts. Published npm bundles continue to exclude drafts. Use an explicit local source and review/opt in before installing unpublished content:
+The npm package remains unpublished and the current 42 library skills remain drafts. Published npm bundles continue to exclude drafts. Use an explicit local source and review/opt in before installing unpublished content:
 
 ```sh
 pnpm install --frozen-lockfile
@@ -67,3 +67,7 @@ Use the same platform/scope/project selection as installation. installed and ins
 - Locks coordinate Open Skill Kit processes. These checks are not an OS sandbox against a hostile same-user process racing filesystem calls or deliberately forging receipts. Avoid shared adversarially writable directories. Process interruption can require manual recovery; there is no automatic destructive recovery or rollback command.
 
 The static marketplace uses the same browser-safe adapter registry for paths, official links and copyable preview/install commands. It cannot write to a visitor's filesystem. ZIP/Markdown fallbacks remain available. Platform conventions were checked in documentation; tests exercise filesystem operations and UI, not actual assistant/model execution.
+
+## Filesystem portability and review hashes
+
+Use native host paths for project/home directories. Windows drive and UNC roots are handled by native path utilities; backslash separators on POSIX are rejected explicitly rather than silently interpreted as different directory levels. Package/evidence paths use forward slashes, NFC Unicode and portable components, with Windows device names and case/Unicode aliases rejected. Git text checkout uses LF through .gitattributes. UTF-8 BOM and line-ending changes remain part of full package hashing: they cannot silently preserve prior approval. Native hosted results must be observed separately; path-syntax regression tests do not establish assistant behavior or complete platform compatibility.

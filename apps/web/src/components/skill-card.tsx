@@ -2,12 +2,12 @@ import { ArrowUpRight, FileText } from 'lucide-react';
 import { Link } from 'react-router-dom';
 import { TrustSummary } from './skill-trust';
 import { Badge } from './ui/card';
-import type { DiscoverySkill } from '@/lib/catalog';
+import type { IndexSkill } from '@/lib/catalog';
 export function SkillCard({
   skill,
   sector,
 }: {
-  skill: DiscoverySkill;
+  skill: IndexSkill;
   sector: string;
 }) {
   return (

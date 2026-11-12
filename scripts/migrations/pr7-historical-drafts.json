@@ -1,0 +1,1684 @@
+{
+  "schemaVersion": 1,
+  "kind": "historical-draft-import-not-publication-approval",
+  "repository": "sarangp3010/open-skill-kit",
+  "repositoryId": 1451647247,
+  "number": 7,
+  "base": "ffe6fc876373ea8f3152fff165e234f29a742ed7",
+  "historical": "8bb0057a860e0dbd1ec4217df6b4786a891ba505",
+  "snapshot": "cd221b2a49579045ecede39942d4d15c44f67c72",
+  "packages": [
+    {
+      "id": "accounting-operations/invoice-reconciliation-assistant",
+      "historical": {
+        "digest": "7c244cf0cd0061eee369a4ac1df40fe3a3bbc67f6da0b1796ab164c7bc33ad5d",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "570557ad66cfd67035a522dab2b9dfbff14e3c2b426038a6fc8fe197a5d26c05"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "546b06b4a7190b8b3cf4fbeed08bcc5eefd93c4620555c8aecb0c8eb6008a4e0"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "31901db3ebe53c3a3085aa1110f3091dab3ae32e4b35cfe649919775be506268"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "e3ec04d5087681e08641cb4aae2c5dd28d73596f5b6292f76890a5f1de5bd37b"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "8b28582dfd9c94ccfc520dc9e2bf60427fc5aac4841c4b9ac64fe20115efd248"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "cd59c26ef76495d61b3cec269d8460453c512cd1555d3e1244bca117197d147e"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "c7fc324ad0448fb1be3bfc2235d40af4af56ffbcd27398e7984075759e073842"
+          }
+        ]
+      },
+      "current": {
+        "digest": "38e9afa131816ddfc8b5a77b91a41cd82a7aa8d10ecfd7225dc72f4ad9a44658",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "570557ad66cfd67035a522dab2b9dfbff14e3c2b426038a6fc8fe197a5d26c05"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "546b06b4a7190b8b3cf4fbeed08bcc5eefd93c4620555c8aecb0c8eb6008a4e0"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "31901db3ebe53c3a3085aa1110f3091dab3ae32e4b35cfe649919775be506268"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "e3ec04d5087681e08641cb4aae2c5dd28d73596f5b6292f76890a5f1de5bd37b"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "8b28582dfd9c94ccfc520dc9e2bf60427fc5aac4841c4b9ac64fe20115efd248"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "cd59c26ef76495d61b3cec269d8460453c512cd1555d3e1244bca117197d147e"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "c7fc324ad0448fb1be3bfc2235d40af4af56ffbcd27398e7984075759e073842"
+          }
+        ]
+      }
+    },
+    {
+      "id": "assessment-design/rubric-alignment-reviewer",
+      "historical": {
+        "digest": "e3fd6199624c20d96ec4ec06ec14045edf4e8e4bc36ced1fca4e018c4c8af8a3",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "2ee7eab80d61f453f29c30581fadb83289125ccced842aec539c91fe16e2b3ff"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "e1e03cd0882e02e9ac6a56c09df582fb87eb42aa066f3ab81b03191c187e74a1"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "9c1a9dcafb41669d97f53701281c097c5b7cfafb329fb203b742384cb72cf44a"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "9a1349caa86e52e7403fe7f972b1a39efed94a888c3a8d5761a6a999fcecd54c"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "6fe3c8c2668d2ca05a4cca09e1a17dc5d8162892636e990c084afdbb22a3a9e7"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "3139030a7492d5d87ac7ccde551000001122fea3596facb838ad96f88750dab0"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "15203d77130c615a528b99685d80ec59589b2e8479bd43a01bec75f6a40ddc13"
+          }
+        ]
+      },
+      "current": {
+        "digest": "dfa51aa3f6f694198a04819e196fd1582b3f3d70812df65f496be016a3cd91a2",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "2ee7eab80d61f453f29c30581fadb83289125ccced842aec539c91fe16e2b3ff"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "e1e03cd0882e02e9ac6a56c09df582fb87eb42aa066f3ab81b03191c187e74a1"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "9c1a9dcafb41669d97f53701281c097c5b7cfafb329fb203b742384cb72cf44a"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "9a1349caa86e52e7403fe7f972b1a39efed94a888c3a8d5761a6a999fcecd54c"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "6fe3c8c2668d2ca05a4cca09e1a17dc5d8162892636e990c084afdbb22a3a9e7"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "3139030a7492d5d87ac7ccde551000001122fea3596facb838ad96f88750dab0"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "15203d77130c615a528b99685d80ec59589b2e8479bd43a01bec75f6a40ddc13"
+          }
+        ]
+      }
+    },
+    {
+      "id": "collaboration-records/meeting-action-extractor",
+      "historical": {
+        "digest": "d196a5746767108adafa2495450fb0766917d62c4ec97dd84165a457449a505b",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "5481a0d46408ed2d2e31fa5e00538a2fc51eaeb7589cd43c9ae7eabf513f47e7"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "492bd0a2e3e34e56955e1d87b5d9ed6d9be2075426729a750caccea90e4bc9fb"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "da563bec293015e8c0c548f976afbb90573b1f23a5ae8b882ff168ab442afcf3"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "c1efc93fd03050020548091bd6e52d88ef4e0e4c96f4db04bcc447d46b9d057d"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "99cfab2c8b3d25e18cb4ff6fa1e117bd52fcfd6788f3d90ef00fa96d70961818"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "5d9f5bbac8fe48333075ae65fa4356eccf994e2f41b397b0a66b70e268a5fb3b"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "64081938a0a7ef5175c73261fa7d8550ad1776b08bb6ba1b33787b365cac2cf3"
+          }
+        ]
+      },
+      "current": {
+        "digest": "0a5606ecddda7d29f5132cd2285ad8eeb00ebe892d225475cbcde8013dcaca9a",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "5481a0d46408ed2d2e31fa5e00538a2fc51eaeb7589cd43c9ae7eabf513f47e7"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "492bd0a2e3e34e56955e1d87b5d9ed6d9be2075426729a750caccea90e4bc9fb"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "da563bec293015e8c0c548f976afbb90573b1f23a5ae8b882ff168ab442afcf3"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "c1efc93fd03050020548091bd6e52d88ef4e0e4c96f4db04bcc447d46b9d057d"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "99cfab2c8b3d25e18cb4ff6fa1e117bd52fcfd6788f3d90ef00fa96d70961818"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "5d9f5bbac8fe48333075ae65fa4356eccf994e2f41b397b0a66b70e268a5fb3b"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "64081938a0a7ef5175c73261fa7d8550ad1776b08bb6ba1b33787b365cac2cf3"
+          }
+        ]
+      }
+    },
+    {
+      "id": "construction-project-controls/change-order-organizer",
+      "historical": {
+        "digest": "15046ad5bc89c6973e515abd61ed54786994418fe9dab57627c2e7e0a9b0e575",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "f3a3ae01685ad37e4952eaa6a387df0e02fa3dd0d9ef7737b93f6ce65c367752"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "29d568f2885ad9e2c8f3c3a0bce81bd539e2854423476633e18f868a7f174491"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "e75bd563f3a06cdfdbd8832ad129e65b70b691bfe1d5baf120d75e28a115737a"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "ee4bb2483be095797cfcac2775af1db8026e47e94523539d49c830d4cac7b6b6"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "9fc771c6d1de14a3f37443551f3c7bd788f31db8cb6f4443a5293a16fbd9fbbe"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "2e28b6a369c2cc27530702e52753e966898a6cd2a69c1fdfcace78cc7d53c328"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "531baf7b694ed89a5700dd5abe01daf6ccaa56b67cec343c9d4414e575b9011c"
+          }
+        ]
+      },
+      "current": {
+        "digest": "383a37a133c013098515fb691595f1cd5dae8a52acdbec1fc7c52639473c1dba",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "f3a3ae01685ad37e4952eaa6a387df0e02fa3dd0d9ef7737b93f6ce65c367752"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "29d568f2885ad9e2c8f3c3a0bce81bd539e2854423476633e18f868a7f174491"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "e75bd563f3a06cdfdbd8832ad129e65b70b691bfe1d5baf120d75e28a115737a"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "ee4bb2483be095797cfcac2775af1db8026e47e94523539d49c830d4cac7b6b6"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "9fc771c6d1de14a3f37443551f3c7bd788f31db8cb6f4443a5293a16fbd9fbbe"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "2e28b6a369c2cc27530702e52753e966898a6cd2a69c1fdfcace78cc7d53c328"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "531baf7b694ed89a5700dd5abe01daf6ccaa56b67cec343c9d4414e575b9011c"
+          }
+        ]
+      }
+    },
+    {
+      "id": "contract-operations/contract-obligation-tracker",
+      "historical": {
+        "digest": "70b45d7718a5c1d16f2832b78cc0042603e48bfcf86d72af335381651c13ef19",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "3e735ed051ebf9589b8f19f330fdb457129c55ec704b2531f38f537a4da2ecf4"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "7aeca0ac4d0a128fab2821677ef8f2eeda2a25847e53cb796744213eb3ff1124"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "82abab11f5b06fd95e29680e22f8ba207913fcc75a1b4f705fc87d7308396b35"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "ea45495021cf3776a182c9997599127704419f5350eee70d31c78723e2eab9b2"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "3e7ee88f6170b362b96077ead79b781060de26aaa4aac05394d85c6fefe64433"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "8e32d89051569afd845e233c81083fcaf85ad4ddbd90d1d7efff24be0d4389c6"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "4d88bb1167ecd966bac40cdbc7dfc7fd1e143b4b8e91d6a1095125b86ed88645"
+          }
+        ]
+      },
+      "current": {
+        "digest": "32ab9f259a5d6b31f27c1534a2026bc11029568929871c5c324284b4af497547",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "3e735ed051ebf9589b8f19f330fdb457129c55ec704b2531f38f537a4da2ecf4"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "7aeca0ac4d0a128fab2821677ef8f2eeda2a25847e53cb796744213eb3ff1124"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "82abab11f5b06fd95e29680e22f8ba207913fcc75a1b4f705fc87d7308396b35"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "ea45495021cf3776a182c9997599127704419f5350eee70d31c78723e2eab9b2"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "3e7ee88f6170b362b96077ead79b781060de26aaa4aac05394d85c6fefe64433"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "8e32d89051569afd845e233c81083fcaf85ad4ddbd90d1d7efff24be0d4389c6"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "4d88bb1167ecd966bac40cdbc7dfc7fd1e143b4b8e91d6a1095125b86ed88645"
+          }
+        ]
+      }
+    },
+    {
+      "id": "energy-operations/outage-planning-brief",
+      "historical": {
+        "digest": "51a2183c3f9e6b187d2441731ab10ce5266af2ff4eaad8f709d94d98a1eb9c4f",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "f9e8eebad04895b42ba75c0836e6552270429d95f3625dcafb389ecff2d2f790"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "90863340ae878afade180bb06364d2fc0c18a2b64f8da66884eff075360118f4"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "9e8a136ff92204617a1582a9eb4c07969b5196114d46fb2ee9b8d4673321acfd"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "330256c98f575bdeb8f7a445099e4baafba85bf28791f89666deda05e83716b7"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "f5b7af531603ab284b753c8b4936bdbc7d32dfefd21d9377bdf04331307fb17b"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "b129ab29cb7898f012cfd785c146f5565274dd10bb9889acfce998dfb6652769"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "b4a22f44bd270fa7a2390679fc437873611f843d8ed6952b9405e99fbcfad269"
+          }
+        ]
+      },
+      "current": {
+        "digest": "798cb5691a05a3d7e7d4a2ed177240947a8875aaaed36abc1044947ae41e4f90",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "f9e8eebad04895b42ba75c0836e6552270429d95f3625dcafb389ecff2d2f790"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "90863340ae878afade180bb06364d2fc0c18a2b64f8da66884eff075360118f4"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "9e8a136ff92204617a1582a9eb4c07969b5196114d46fb2ee9b8d4673321acfd"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "330256c98f575bdeb8f7a445099e4baafba85bf28791f89666deda05e83716b7"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "f5b7af531603ab284b753c8b4936bdbc7d32dfefd21d9377bdf04331307fb17b"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "b129ab29cb7898f012cfd785c146f5565274dd10bb9889acfce998dfb6652769"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "b4a22f44bd270fa7a2390679fc437873611f843d8ed6952b9405e99fbcfad269"
+          }
+        ]
+      }
+    },
+    {
+      "id": "environmental-management/waste-audit-reconciler",
+      "historical": {
+        "digest": "3974a9ff313da96409d05553433c4d78ff04ad6eaabcf01650827bd14c4cd40a",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "23ae76d3a43aed5bffc63caaaee9c1877a8b7f09a50d885e3c7aa181b2fd1af6"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "184c2f253f6a74b43d3df9e06a3c5db6871f7da08904459996833abb2e8d310c"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "fd684abbf053cad59b1d08de00744a67d1c5ba7165e363516b5852c61875fe19"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "f98bca42e8e7c09a3be602c1a73ecd4b56318a54affba78aa3910311a4786ff6"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "39c581167b37e3f94489e9084ee32b28e15e608d16e844cae879f37faa9316d6"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "2542248a82ef2ed1cb67d2cce825f28a89524faed4199fff1b9ecc12521107e2"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "a00d58722c6a6f31083a6e2f43da03236747d383f03536d3ffea48e98024bc72"
+          }
+        ]
+      },
+      "current": {
+        "digest": "b2c30fee6b6c980273d1de5f5a9b68f30afb73e51e26bf2efca512d05d13759e",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "23ae76d3a43aed5bffc63caaaee9c1877a8b7f09a50d885e3c7aa181b2fd1af6"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "184c2f253f6a74b43d3df9e06a3c5db6871f7da08904459996833abb2e8d310c"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "fd684abbf053cad59b1d08de00744a67d1c5ba7165e363516b5852c61875fe19"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "f98bca42e8e7c09a3be602c1a73ecd4b56318a54affba78aa3910311a4786ff6"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "39c581167b37e3f94489e9084ee32b28e15e608d16e844cae879f37faa9316d6"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "2542248a82ef2ed1cb67d2cce825f28a89524faed4199fff1b9ecc12521107e2"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "a00d58722c6a6f31083a6e2f43da03236747d383f03536d3ffea48e98024bc72"
+          }
+        ]
+      }
+    },
+    {
+      "id": "farm-records/field-observation-organizer",
+      "historical": {
+        "digest": "c8af429e7bed1ab2833df2d99c7024d1e41573335b4df66d9a078e20e1581890",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "48c3ab5e1382238c0f8a3ea13f686cba62551ec58b76cc14fc88f409100d54eb"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "815c8eeb73d7d00fac1cd920ffea659aaf020c534dfe1b0d751c6c21f2c61b57"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "a1874687d130c5e3049fb3ffa3d6bba1ebadd822feed854c3570093414dc8a99"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "5bcaf68bbe3c675afdc961fedbfd9bb82bc0e0aaa4c5934ff95a1f0932e121db"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "19357ae876fc177f425eb7f5995be17ab60bb9c68f152f01b3eaefb96a2db535"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "5bb579386d0b52b0d5a401a102f28d09ca2d14e54fcadb711ba5111d1cc35d9b"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "6431ef1ad93bc506944ff7d86d18a4b935f9e71b03ea306f270e8f5823b83610"
+          }
+        ]
+      },
+      "current": {
+        "digest": "0d2d20185fd2bb9a49dead3416780068cba2afc698aa8ee89743529b1287d5ef",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "48c3ab5e1382238c0f8a3ea13f686cba62551ec58b76cc14fc88f409100d54eb"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "815c8eeb73d7d00fac1cd920ffea659aaf020c534dfe1b0d751c6c21f2c61b57"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "a1874687d130c5e3049fb3ffa3d6bba1ebadd822feed854c3570093414dc8a99"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "5bcaf68bbe3c675afdc961fedbfd9bb82bc0e0aaa4c5934ff95a1f0932e121db"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "19357ae876fc177f425eb7f5995be17ab60bb9c68f152f01b3eaefb96a2db535"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "5bb579386d0b52b0d5a401a102f28d09ca2d14e54fcadb711ba5111d1cc35d9b"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "6431ef1ad93bc506944ff7d86d18a4b935f9e71b03ea306f270e8f5823b83610"
+          }
+        ]
+      }
+    },
+    {
+      "id": "fleet-operations/driver-handover-organizer",
+      "historical": {
+        "digest": "7a41f594f99f8c5e179e38cb8696dd04c4bf9d847579a270f62f656b0b0634c9",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "7a7be3dd0990346f91da5f383d7c17711cf9ea40358dfc8b5b653471f3d74cf9"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "885942634e45b6f37f1208036d24305f18f0edd36c856ae319aaa25e8454c7b5"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "37773e7984d7219bbba6480b290ba9321c2b509933b93b714013513a415f54d9"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "f075bbc88851b441afc202cd54e67d058f74cc3941c5733bd04cccd9ae7696ea"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "704a62ad8a6a4bccda629ccfc529c1e00acd9f04a83e8066ead4ff7e7566ba55"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "64cf87a98f7bce4669d24dc7163fd86bd6b8402e064c69eb39f9ba4914532154"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "722410b8093c0173da27aaa50fb700b880b741fe635f8177d81607fb0f36f0bf"
+          }
+        ]
+      },
+      "current": {
+        "digest": "ec782ecbfce0217d95de0f7bb7aca71e5c3e873e665a3b5af8abbc13dfb16d50",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "7a7be3dd0990346f91da5f383d7c17711cf9ea40358dfc8b5b653471f3d74cf9"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "885942634e45b6f37f1208036d24305f18f0edd36c856ae319aaa25e8454c7b5"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "37773e7984d7219bbba6480b290ba9321c2b509933b93b714013513a415f54d9"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "f075bbc88851b441afc202cd54e67d058f74cc3941c5733bd04cccd9ae7696ea"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "704a62ad8a6a4bccda629ccfc529c1e00acd9f04a83e8066ead4ff7e7566ba55"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "64cf87a98f7bce4669d24dc7163fd86bd6b8402e064c69eb39f9ba4914532154"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "722410b8093c0173da27aaa50fb700b880b741fe635f8177d81607fb0f36f0bf"
+          }
+        ]
+      }
+    },
+    {
+      "id": "freight-logistics/shipment-exception-organizer",
+      "historical": {
+        "digest": "376babacf00f188eb81d2f0a8257dd109962fb664879c57b32a72e3499df7e91",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "83f893733715269c07343bf776c2111d777254d1a7c2cf59392b77656d1ed6c9"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "1847a18b0bc7e719d1c247d9278934b42ad68a28e5a90ed04021f1b84d65d72a"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "8050ac03bdce444d2d4d241e4a4dc7de1e5d8743be87e087080a6b08ac03e6c0"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "202f996ba035ee200190a413837c9f8fbb09bfc7580c42cb44af1daeb962b51c"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "eee7cc692bd1e58e2fd4e2da6080a35cb521c0c9b94721c3c9c3143b1076a210"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "6a45fc529d6961294d989a4bacaf8c8c6a4ae31f58054dad3bcb511710d290cd"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "0f8adc289f5849e5d044aa14441531ec1fd5d969bc9e8da5014afae77d641bdf"
+          }
+        ]
+      },
+      "current": {
+        "digest": "bf2c8ef4be69ae67bae8eb0e78e12d5b251d410f036c0f5af46bb04469e77455",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "83f893733715269c07343bf776c2111d777254d1a7c2cf59392b77656d1ed6c9"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "1847a18b0bc7e719d1c247d9278934b42ad68a28e5a90ed04021f1b84d65d72a"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "8050ac03bdce444d2d4d241e4a4dc7de1e5d8743be87e087080a6b08ac03e6c0"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "202f996ba035ee200190a413837c9f8fbb09bfc7580c42cb44af1daeb962b51c"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "eee7cc692bd1e58e2fd4e2da6080a35cb521c0c9b94721c3c9c3143b1076a210"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "6a45fc529d6961294d989a4bacaf8c8c6a4ae31f58054dad3bcb511710d290cd"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "0f8adc289f5849e5d044aa14441531ec1fd5d969bc9e8da5014afae77d641bdf"
+          }
+        ]
+      }
+    },
+    {
+      "id": "guest-operations/guest-service-handover",
+      "historical": {
+        "digest": "534f09eda301bfe1699a3623d38834b6ac3a0db21ffd0e8160a86a08404d0bc3",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "a71e72d3e9bdc15b9883d3bd2dffc365821967f2df5b47f78e97912a17db65a5"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "bc2adb5d5c6bff5283634d5d6a0f579a4eb7c07a4d924415b9610fb43922fc5e"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "3c68c4ce72cc7936a112992b9a078d6aa0141ee338531bc1249d7e87bf51bb64"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "cc7992778711ec33e968fdabd1f06f5b6e877fa1be08590dee583b08db0e9d61"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "a9a2ac9351e89c5eb06f2e0453e7488edd35a6ae4ef41c223d35c641a95c0a9c"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "00f918e2b226901697724b934dd074f48edf64be41ea79db80fec67f4442ae9b"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "825a3f85deb35008ab1b24e5ed90974763b17f0b740c087003a02599e290dda9"
+          }
+        ]
+      },
+      "current": {
+        "digest": "4799e68696d7ce0ea779f6d10667822649dfe39dd11301a84ca9c092618f846f",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "a71e72d3e9bdc15b9883d3bd2dffc365821967f2df5b47f78e97912a17db65a5"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "bc2adb5d5c6bff5283634d5d6a0f579a4eb7c07a4d924415b9610fb43922fc5e"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "3c68c4ce72cc7936a112992b9a078d6aa0141ee338531bc1249d7e87bf51bb64"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "cc7992778711ec33e968fdabd1f06f5b6e877fa1be08590dee583b08db0e9d61"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "a9a2ac9351e89c5eb06f2e0453e7488edd35a6ae4ef41c223d35c641a95c0a9c"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "00f918e2b226901697724b934dd074f48edf64be41ea79db80fec67f4442ae9b"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "825a3f85deb35008ab1b24e5ed90974763b17f0b740c087003a02599e290dda9"
+          }
+        ]
+      }
+    },
+    {
+      "id": "healthcare-administration/care-handoff-organizer",
+      "historical": {
+        "digest": "66e530752d8efefc24edf5b4348bc8becf708d69c95cc2ff4c633ac1b8df7d5f",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "aea081f1af49b2e69549ee31c230205c2f52f954bb7353fd7120b5c6e8714abd"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "e959c04ab4969f707bd85dab2529d83cc19a2a485524a36e3be2b80e397b3c79"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "875357f58b32d7ba171bc5a50f6766b52188e479422dab601fdfe957e5434194"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "3fdc7f520680733e4122dd1fb3b56da91c4d31878f63efd605b9d059280624a5"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "01586b340f4cfa79ac51d155bc456407218997347edbc41e18145c2a6a88305a"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "9454dd7c1cb8c0b0f2af8765547bf1b6b16e06c58e1e8f498bf25d26c72012a9"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "01991fce247b5f5d4af5843594968b4c3c2e6c304c14d1b83555ec5ddee729f4"
+          }
+        ]
+      },
+      "current": {
+        "digest": "f1a246373d219e3ab8485f3102eb43d353c46f4686a4bcea4866f141cb402262",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "aea081f1af49b2e69549ee31c230205c2f52f954bb7353fd7120b5c6e8714abd"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "e959c04ab4969f707bd85dab2529d83cc19a2a485524a36e3be2b80e397b3c79"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "875357f58b32d7ba171bc5a50f6766b52188e479422dab601fdfe957e5434194"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "3fdc7f520680733e4122dd1fb3b56da91c4d31878f63efd605b9d059280624a5"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "01586b340f4cfa79ac51d155bc456407218997347edbc41e18145c2a6a88305a"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "9454dd7c1cb8c0b0f2af8765547bf1b6b16e06c58e1e8f498bf25d26c72012a9"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "01991fce247b5f5d4af5843594968b4c3c2e6c304c14d1b83555ec5ddee729f4"
+          }
+        ]
+      }
+    },
+    {
+      "id": "media-journalism/source-claim-tracker",
+      "historical": {
+        "digest": "030f16590157e48f41ae411044c7351fa6ee660aa74ee154efc0546a2b669bc7",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "120a11a61ddd755de19cc4f04666f5a74c5b685cc5394434f833fccf0de5bbad"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "be879c97988efad6b67dc06d3b3213318fc2daa80c7923589f001b732dd82a97"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "60cb1fa67d56f5ac8d1404cfa3078bb06a1f3a8a396fc3a73d87d1bd3176431e"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "cb3f07ff904496b2f997b0b61e3333155c1c505427abcd5084b721c160b40c50"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "fb37a7a032a60882fff4c61727e0746fc554130e820152e899a0cbdf907286b3"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "97b93408ff45c24f161a2a9095e7c7fc9469d666583832ca4e0b68d4133c967a"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "30e0c4988cb671db4d069cfdb43fb479e9e64b687494380a88b6043774a6b354"
+          }
+        ]
+      },
+      "current": {
+        "digest": "5f456fe2d788af4fee9c7022726ae20e9e7787e8b6808609481629cdddf45870",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "120a11a61ddd755de19cc4f04666f5a74c5b685cc5394434f833fccf0de5bbad"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "be879c97988efad6b67dc06d3b3213318fc2daa80c7923589f001b732dd82a97"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "60cb1fa67d56f5ac8d1404cfa3078bb06a1f3a8a396fc3a73d87d1bd3176431e"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "cb3f07ff904496b2f997b0b61e3333155c1c505427abcd5084b721c160b40c50"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "fb37a7a032a60882fff4c61727e0746fc554130e820152e899a0cbdf907286b3"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "97b93408ff45c24f161a2a9095e7c7fc9469d666583832ca4e0b68d4133c967a"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "30e0c4988cb671db4d069cfdb43fb479e9e64b687494380a88b6043774a6b354"
+          }
+        ]
+      }
+    },
+    {
+      "id": "production-quality/nonconformance-report-builder",
+      "historical": {
+        "digest": "c8c9d49b601230b4b0f55761aa4a37d1a37af4a787ab21e21ea2d181019a3af2",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "b6c1e56f9774f7d16fad47b5eac64f8e85c9c3bbaf81d268231dbb90b5153e32"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "57c1be58b5e81e7d8a9cff03057a416ee4083c8da704c72f27ed16421d264f2a"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "e3b06233fa1fb9094dabb79c3668c034ed875c4702c576aafa77292755e28488"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "5e07d99e463d21bdc243a3fe0c22c6d4a4df04d60aa6f86dab0c3adac29fb04a"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "0011b1d720d07627bc86e22d252d74a9d3f65a32416080e172a6e22da5533eaf"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "9f7428590c7bd0bec909f84b246205e99acbc66eed51fc76ad2216e0aaa9f4a6"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "7f3a652d8acdff3e025f1a8cf144d531fd746c8856504f3797c847a1ffd09bb6"
+          }
+        ]
+      },
+      "current": {
+        "digest": "a378b474e00a4a7b3e731865df7cbfe4bb071397db09bb0fa3a6b0a60312a3d8",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "b6c1e56f9774f7d16fad47b5eac64f8e85c9c3bbaf81d268231dbb90b5153e32"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "57c1be58b5e81e7d8a9cff03057a416ee4083c8da704c72f27ed16421d264f2a"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "e3b06233fa1fb9094dabb79c3668c034ed875c4702c576aafa77292755e28488"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "5e07d99e463d21bdc243a3fe0c22c6d4a4df04d60aa6f86dab0c3adac29fb04a"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "0011b1d720d07627bc86e22d252d74a9d3f65a32416080e172a6e22da5533eaf"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "9f7428590c7bd0bec909f84b246205e99acbc66eed51fc76ad2216e0aaa9f4a6"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "7f3a652d8acdff3e025f1a8cf144d531fd746c8856504f3797c847a1ffd09bb6"
+          }
+        ]
+      }
+    },
+    {
+      "id": "property-operations/maintenance-request-triager",
+      "historical": {
+        "digest": "791ec6826ab1436f70be86944d1f71844192bd43c684a50b440e67f09c99ce60",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "da1e478899485bb6859973febbd1474845dbc97411b0b358fb074f33dee3a03f"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "2cad054b34a4943ad76bf4aa3fb020260b82cc5637ef2cb0d610dc0b256513e6"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "d0894c799c9a30dd27dbdcc01f8b01ba24babb17d35cda63d75badb36d4ffbb0"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "a5dc0053704b56b60cb4567ec72084190147c9a9ac8bb4e3d0e88fc5313abff6"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "d184cf7229a9569e14213c377a126eb0c527e10590275cf13aa407a6899212bc"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "943016aac1fef9679859d6e080e56a956ff3921994f19b1288b4f79a55abbe34"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "0b5bf36bd7b18dcea257f499a209acf148664856111b54c307222fea02ec8a85"
+          }
+        ]
+      },
+      "current": {
+        "digest": "a8d48e7738a74e7e1215803f954335e920c4cd872b06bb482089e77649abf802",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "da1e478899485bb6859973febbd1474845dbc97411b0b358fb074f33dee3a03f"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "2cad054b34a4943ad76bf4aa3fb020260b82cc5637ef2cb0d610dc0b256513e6"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "d0894c799c9a30dd27dbdcc01f8b01ba24babb17d35cda63d75badb36d4ffbb0"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "a5dc0053704b56b60cb4567ec72084190147c9a9ac8bb4e3d0e88fc5313abff6"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "d184cf7229a9569e14213c377a126eb0c527e10590275cf13aa407a6899212bc"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "943016aac1fef9679859d6e080e56a956ff3921994f19b1288b4f79a55abbe34"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "0b5bf36bd7b18dcea257f499a209acf148664856111b54c307222fea02ec8a85"
+          }
+        ]
+      }
+    },
+    {
+      "id": "public-administration/public-comment-synthesizer",
+      "historical": {
+        "digest": "30bd30a2c56b10a709e761e4d17f28666f5d8f521a9fa8f61e04de400feff283",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "9815cab75e2f8078c07f4589bc158b2bfcd3b2ae7c9057f2f84a5ba8c6b62a38"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "40ef018f5fc9d060ab2ca0954baa787ce313161d05b1283a56b63d8d9f23e3e1"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "205b4c07ba8bec18c0e63d30ca670053f710ce72645c73ef2b090e07c8f68f06"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "08eb09f8c6589bda428eceb90773aee4bef78e21b4130290de1d88597b186c19"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "8eb9ef0ca3445b666ef6251bc6d20e1aa557b509ffa0016520069c235366cbbd"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "bf5252d8be75d80b2663f7652f5247a7d1851ad4fd047657999f69540a2829b5"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "0520442e2e97594da46c4dc00bd78f12ace49012edc80d10b31f61a646919cb8"
+          }
+        ]
+      },
+      "current": {
+        "digest": "5cfdc3f5fae4d64ed66ae55348d71c6867518b4b6bb7f4f6a3a5ce472e36fa05",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "9815cab75e2f8078c07f4589bc158b2bfcd3b2ae7c9057f2f84a5ba8c6b62a38"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "40ef018f5fc9d060ab2ca0954baa787ce313161d05b1283a56b63d8d9f23e3e1"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "205b4c07ba8bec18c0e63d30ca670053f710ce72645c73ef2b090e07c8f68f06"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "08eb09f8c6589bda428eceb90773aee4bef78e21b4130290de1d88597b186c19"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "8eb9ef0ca3445b666ef6251bc6d20e1aa557b509ffa0016520069c235366cbbd"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "bf5252d8be75d80b2663f7652f5247a7d1851ad4fd047657999f69540a2829b5"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "0520442e2e97594da46c4dc00bd78f12ace49012edc80d10b31f61a646919cb8"
+          }
+        ]
+      }
+    },
+    {
+      "id": "research-data-management/data-dictionary-builder",
+      "historical": {
+        "digest": "c99a9141d7d6169f9a27d14c507199d909c5822de9f1922144d60183d6ca502b",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "9f49876b768b1ec5fecffe1d25389aea30d0ed1780e25f59b0708f9be429f1b4"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "c8475f9b7905c9d7f241ad8f4af33f628874c7b37e6d3d3697aa5d1c467c7b80"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "b4dac1aba002bfa4d062e43ced30a04c66d50af34a3d66b4292ffee632ebf77c"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "0e2fd4c07efade91542b0adcac49d99e2ff1f39c5732c9216f9efc48e1b74bf7"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "3a7a05c7a7a4e15e6b4636abc8589589cd1a9bbb0af297dd6948e15569ebca8e"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "005167cb76563d80de090bef86bb2b15f74eb11042adde8e7fcc40c3211f085a"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "3c076344acf3c524759d9b9809b5e1b2c42086e3aba173a207eb1102895b7c97"
+          }
+        ]
+      },
+      "current": {
+        "digest": "c091de69cd0c07bd31c1115725595c0eb2936a0608f3cbda3f225b45b10faf1a",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "9f49876b768b1ec5fecffe1d25389aea30d0ed1780e25f59b0708f9be429f1b4"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "c8475f9b7905c9d7f241ad8f4af33f628874c7b37e6d3d3697aa5d1c467c7b80"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "b4dac1aba002bfa4d062e43ced30a04c66d50af34a3d66b4292ffee632ebf77c"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "0e2fd4c07efade91542b0adcac49d99e2ff1f39c5732c9216f9efc48e1b74bf7"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "3a7a05c7a7a4e15e6b4636abc8589589cd1a9bbb0af297dd6948e15569ebca8e"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "005167cb76563d80de090bef86bb2b15f74eb11042adde8e7fcc40c3211f085a"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "3c076344acf3c524759d9b9809b5e1b2c42086e3aba173a207eb1102895b7c97"
+          }
+        ]
+      }
+    },
+    {
+      "id": "retail-inventory/stock-count-reconciler",
+      "historical": {
+        "digest": "7d7f6699b9d2643f4ce874cbf3c16c7df35ae44317c2bd898d36882bc400fa0a",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "ba3144f28b52fba37364a24169b44510755ef5c99699889be2d1f53d98e211a6"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "0af0403fb2a74fdf35bcada387fcd686ca8410d69cd5b4d51353cfee56ee54b9"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "8244e5d167100ad1c7f6ddb2aeca15a015fd2ce1ecb0eb2701e1151ae26d5169"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "1d7857f5df315949406786fdb11f55c9647c8b58620f178d905ad2045016518d"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "cca178d697cda77b82155924a7a7b52f64c03154853e053cf49ea57023d951e5"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "595966b4ae2c5cc9d65b105b51a7ba66f7dcdaecd1d6bf59e8a355e64d11776e"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "7d1962ec21b382221e8c6b5d0ad16a5f63af65ee4971ae3a79f43ff39bd7d790"
+          }
+        ]
+      },
+      "current": {
+        "digest": "d1eba27412650090a7c1414100b4ff2b26cc1175104942ab3d90cc6e6dcc4699",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "ba3144f28b52fba37364a24169b44510755ef5c99699889be2d1f53d98e211a6"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "0af0403fb2a74fdf35bcada387fcd686ca8410d69cd5b4d51353cfee56ee54b9"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "8244e5d167100ad1c7f6ddb2aeca15a015fd2ce1ecb0eb2701e1151ae26d5169"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "1d7857f5df315949406786fdb11f55c9647c8b58620f178d905ad2045016518d"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "cca178d697cda77b82155924a7a7b52f64c03154853e053cf49ea57023d951e5"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "595966b4ae2c5cc9d65b105b51a7ba66f7dcdaecd1d6bf59e8a355e64d11776e"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "7d1962ec21b382221e8c6b5d0ad16a5f63af65ee4971ae3a79f43ff39bd7d790"
+          }
+        ]
+      }
+    },
+    {
+      "id": "sports-event-operations/volunteer-coverage-planner",
+      "historical": {
+        "digest": "6be0ec743e79380fdfbbb9b64543adcb03287fffc27369ef80072a70946b9227",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "61ee85c98a006fbb582482b438d3194c132f641218aece9976ec04e96f74807d"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "3d44231f8cd03d7add8464caf59e3e6407185f7922fb62b21f1627bb17f85497"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "2a64e394072aa21242848138d55c5f1efc48ddbdc3e821b7e90fbc5be309e51e"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "f9c8c806f06d2715a368ad003dc7f51bff30fb7a588d8ea0fd11f52e50828dd3"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "3760129d0f5258148bab1f62494862b43ed80dbcaaa406624093086151549730"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "b5382119dcd7390ee9a437132db23ab45995d7fa2046b4d25c5183965b7d3ef2"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "de15f74aafa100156fda91d1c4eb53abfdec0874792b5488086a90fa4bce59a5"
+          }
+        ]
+      },
+      "current": {
+        "digest": "0c6c0cba471bbfd67f5b8cfbd80398c422d49c68d250292bf224c2c501413c42",
+        "files": [
+          {
+            "path": "examples/input-1.md",
+            "mode": "100644",
+            "sha256": "61ee85c98a006fbb582482b438d3194c132f641218aece9976ec04e96f74807d"
+          },
+          {
+            "path": "examples/input-2.md",
+            "mode": "100644",
+            "sha256": "3d44231f8cd03d7add8464caf59e3e6407185f7922fb62b21f1627bb17f85497"
+          },
+          {
+            "path": "examples/output-1.md",
+            "mode": "100644",
+            "sha256": "2a64e394072aa21242848138d55c5f1efc48ddbdc3e821b7e90fbc5be309e51e"
+          },
+          {
+            "path": "examples/output-2.md",
+            "mode": "100644",
+            "sha256": "f9c8c806f06d2715a368ad003dc7f51bff30fb7a588d8ea0fd11f52e50828dd3"
+          },
+          {
+            "path": "LICENSE.txt",
+            "mode": "100644",
+            "sha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e"
+          },
+          {
+            "path": "metadata.json",
+            "mode": "100644",
+            "sha256": "3760129d0f5258148bab1f62494862b43ed80dbcaaa406624093086151549730"
+          },
+          {
+            "path": "SKILL.md",
+            "mode": "100644",
+            "sha256": "b5382119dcd7390ee9a437132db23ab45995d7fa2046b4d25c5183965b7d3ef2"
+          },
+          {
+            "path": "tests/cases.json",
+            "mode": "100644",
+            "sha256": "de15f74aafa100156fda91d1c4eb53abfdec0874792b5488086a90fa4bce59a5"
+          }
+        ]
+      }
+    }
+  ]
+}

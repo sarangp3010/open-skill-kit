@@ -1,5 +1,5 @@
 import { randomUUID } from 'node:crypto';
-import { readdir } from 'node:fs/promises';
+import { readdir, lstat } from 'node:fs/promises';
 import { resolve, join } from 'node:path';
 import { readSkillFiles } from '../packages/catalog-indexer/src/index';
 import { evaluationSuiteSchema } from '../packages/skill-schema/src/index';
@@ -21,7 +21,14 @@ for (const filename of (
       1048576,
     ),
   );
-  const files = await readSkillFiles(resolve('skills', suite.skillId));
+  let skillRoot = resolve('skills', suite.skillId);
+  try {
+    await lstat(resolve('submissions', suite.skillId));
+    skillRoot = resolve('submissions', suite.skillId);
+  } catch (error) {
+    if ((error as NodeJS.ErrnoException).code !== 'ENOENT') throw error;
+  }
+  const files = await readSkillFiles(skillRoot);
   const validation = validateSkill(files, suite.skillId, {
     profile: 'catalog',
   });

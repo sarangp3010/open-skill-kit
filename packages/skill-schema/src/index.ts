@@ -1,9 +1,17 @@
 import { z } from 'zod';
 
 import { slugSchema, safePathSchema, frontmatterSchema } from './paths';
-export { slugSchema, safePathSchema, frontmatterSchema } from './paths';
+export {
+  slugSchema,
+  safePathSchema,
+  frontmatterSchema,
+  portablePathKey,
+} from './paths';
 export * from './evaluation';
 import { evaluationSummarySchema } from './evaluation';
+import { attributionSummarySchema } from './attribution';
+export * from './attribution';
+export * from './moderation';
 
 const text = z.string().trim().min(1).max(1024);
 export const metadataSchema = z
@@ -114,6 +122,10 @@ export const sectorSchema = z
     title: text,
     description: text,
     aliases: z.array(text).max(20),
+    parent: slugSchema.optional(),
+    aliasOf: slugSchema.optional(),
+    availability: z.enum(['available', 'planned']).optional(),
+    skillCount: z.number().int().nonnegative().optional(),
   })
   .strict();
 export const sectorsSchema = z
@@ -121,6 +133,35 @@ export const sectorsSchema = z
   .superRefine((sectors, ctx) => {
     if (new Set(sectors.map((sector) => sector.slug)).size !== sectors.length)
       ctx.addIssue({ code: 'custom', message: 'Duplicate sector slug' });
+    const bySlug = new Map(sectors.map((sector) => [sector.slug, sector]));
+    for (const sector of sectors) {
+      if (sector.parent) {
+        const parent = bySlug.get(sector.parent);
+        if (
+          !parent ||
+          parent.parent ||
+          parent.aliasOf ||
+          parent.slug === sector.slug
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: `${sector.slug}: parent must be an existing broad sector`,
+          });
+      }
+      if (sector.aliasOf) {
+        const target = bySlug.get(sector.aliasOf);
+        if (
+          !target ||
+          target.aliasOf ||
+          target.slug === sector.slug ||
+          sector.parent !== (target.parent ?? target.slug)
+        )
+          ctx.addIssue({
+            code: 'custom',
+            message: `${sector.slug}: alias must target a canonical collection in the same broad sector`,
+          });
+      }
+    }
   });
 export const marketplaceSkillSchema = catalogEntrySchema.extend({
   content: z.record(safePathSchema, z.string()),
@@ -163,6 +204,7 @@ export const marketplaceSchema = z
     }
   });
 export type Sector = z.infer<typeof sectorSchema>;
+export { canonicalSector, matchesSector, broadSectors } from './taxonomy';
 export type MarketplaceSkill = z.infer<typeof marketplaceSkillSchema>;
 export type Marketplace = z.infer<typeof marketplaceSchema>;
 
@@ -304,7 +346,7 @@ export const catalogSourceMetadataSchema = z
       .optional(),
   })
   .strict();
-export const discoverySkillSchema = z
+const discoverySkillObject = z
   .object({
     id: z.string(),
     slug: slugSchema,
@@ -324,6 +366,7 @@ export const discoverySkillSchema = z
     lastVerified: z.string().date().nullable(),
     testedPlatforms: z.array(slugSchema),
     evaluations: z.array(evaluationSummarySchema).optional(),
+    attribution: attributionSummarySchema.optional(),
     quality: qualityReportSchema.optional(),
     validation: validationSummarySchema.optional(),
     compatibility: compatibilitySchema.optional(),
@@ -332,8 +375,9 @@ export const discoverySkillSchema = z
     files: z.record(safePathSchema, z.string()),
     examples: z.array(safePathSchema),
   })
-  .strict()
-  .superRefine((skill, ctx) => {
+  .strict();
+export const discoverySkillSchema = discoverySkillObject.superRefine(
+  (skill, ctx) => {
     if (
       skill.id !== `${skill.sector}/${skill.slug}` ||
       skill.name !== skill.slug ||
@@ -346,7 +390,33 @@ export const discoverySkillSchema = z
     for (const path of skill.examples)
       if (!Object.hasOwn(skill.files, path))
         ctx.addIssue({ code: 'custom', message: `Missing example: ${path}` });
-  });
+  },
+);
+function checkCatalogEntries(
+  catalog: {
+    sectors: { slug: string }[];
+    skills: { id: string; slug: string; sector: string }[];
+  },
+  ctx: z.RefinementCtx,
+) {
+  const ids = new Set<string>();
+  const slugs = new Set<string>();
+  const sectors = new Set(catalog.sectors.map((sector) => sector.slug));
+  for (const skill of catalog.skills) {
+    if (ids.has(skill.id) || slugs.has(skill.slug))
+      ctx.addIssue({
+        code: 'custom',
+        message: `Duplicate skill: ${skill.id}`,
+      });
+    if (!sectors.has(skill.sector))
+      ctx.addIssue({
+        code: 'custom',
+        message: `Unknown sector: ${skill.sector}`,
+      });
+    ids.add(skill.id);
+    slugs.add(skill.slug);
+  }
+}
 export const discoveryCatalogSchema = z
   .object({
     schemaVersion: z.literal(1),
@@ -354,24 +424,82 @@ export const discoveryCatalogSchema = z
     skills: z.array(discoverySkillSchema),
   })
   .strict()
-  .superRefine((catalog, ctx) => {
-    const ids = new Set<string>();
-    const slugs = new Set<string>();
-    const sectors = new Set(catalog.sectors.map((sector) => sector.slug));
-    for (const skill of catalog.skills) {
-      if (ids.has(skill.id) || slugs.has(skill.slug))
-        ctx.addIssue({
-          code: 'custom',
-          message: `Duplicate skill: ${skill.id}`,
-        });
-      if (!sectors.has(skill.sector))
-        ctx.addIssue({
-          code: 'custom',
-          message: `Unknown sector: ${skill.sector}`,
-        });
-      ids.add(skill.id);
-      slugs.add(skill.slug);
-    }
-  });
+  .superRefine(checkCatalogEntries);
 export type DiscoverySkill = z.infer<typeof discoverySkillSchema>;
 export type DiscoveryCatalog = z.infer<typeof discoveryCatalogSchema>;
+
+/**
+ * Browser data artifacts derived from the discovery catalog. The index omits
+ * file contents and detailed trust reports; full records load per skill.
+ */
+export const catalogDigestSchema = z.string().regex(/^[a-f0-9]{64}$/);
+export const indexSkillSchema = discoverySkillObject
+  .omit({
+    provenance: true,
+    quality: true,
+    validation: true,
+    compatibility: true,
+    sourcePath: true,
+    body: true,
+    files: true,
+    examples: true,
+  })
+  .extend({
+    quality: z
+      .object({
+        score: qualityReportSchema.shape.score,
+        blocked: z.boolean(),
+      })
+      .strict()
+      .optional(),
+    validation: validationSummarySchema
+      .pick({ status: true })
+      .strict()
+      .optional(),
+    compatibility: z
+      .array(
+        compatibilitySchema.element
+          .pick({ platform: true, installation: true, testing: true })
+          .strict(),
+      )
+      .optional(),
+  })
+  .strict()
+  .superRefine((skill, ctx) => {
+    if (
+      skill.id !== `${skill.sector}/${skill.slug}` ||
+      skill.name !== skill.slug
+    )
+      ctx.addIssue({ code: 'custom', message: 'Skill identity must match' });
+  });
+export const catalogIndexSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    catalogDigest: catalogDigestSchema,
+    sectors: sectorsSchema,
+    skills: z.array(indexSkillSchema),
+  })
+  .strict()
+  .superRefine(checkCatalogEntries);
+export const catalogSearchSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    catalogDigest: catalogDigestSchema,
+    entries: z.record(z.string(), z.string()),
+  })
+  .strict();
+export const skillDetailSchema = z
+  .object({
+    schemaVersion: z.literal(1),
+    catalogDigest: catalogDigestSchema,
+    skill: discoverySkillSchema,
+  })
+  .strict();
+export type IndexSkill = z.infer<typeof indexSkillSchema>;
+export type CatalogIndex = z.infer<typeof catalogIndexSchema>;
+export type CatalogSearch = z.infer<typeof catalogSearchSchema>;
+export type SkillDetail = z.infer<typeof skillDetailSchema>;
+/** Shared by the generator and browser search so matching stays identical. */
+export function normalizeSearchText(value: string) {
+  return value.toLowerCase().normalize('NFKD').replace(/\s+/g, ' ').trim();
+}
