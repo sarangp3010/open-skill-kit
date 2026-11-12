@@ -1,14 +1,19 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useMemo, useState } from 'react';
 import { Link } from 'react-router-dom';
-import { loadCatalog, type DiscoveryCatalog } from '@/lib/catalog';
+import {
+  bodySearchEntries,
+  loadPublishedCatalog,
+  type DiscoveryCatalog,
+} from '@/lib/catalog';
 import { CatalogPage } from './catalog';
 export function PublishedPage() {
   const [catalog, setCatalog] = useState<DiscoveryCatalog>(),
     [error, setError] = useState('');
   useEffect(() => {
     const controller = new AbortController();
-    loadCatalog(controller.signal, 'published.json')
+    loadPublishedCatalog(controller.signal)
       .then((value) =>
+        // Defense in depth: only published entries, whatever the artifact or URL says.
         setCatalog({
           ...value,
           skills: value.skills.filter((skill) => skill.status === 'published'),
@@ -24,6 +29,10 @@ export function PublishedPage() {
       });
     return () => controller.abort();
   }, []);
+  const searchEntries = useMemo(
+    () => bodySearchEntries(catalog?.skills ?? []),
+    [catalog],
+  );
   if (error)
     return (
       <div className="container-shell py-16" role="alert">
@@ -38,7 +47,11 @@ export function PublishedPage() {
     );
   return (
     <>
-      <CatalogPage catalogOverride={catalog} publishedOnly />
+      <CatalogPage
+        catalogOverride={catalog}
+        searchEntries={searchEntries}
+        publishedOnly
+      />
       <p className="container-shell pb-10 text-sm text-muted-foreground">
         Only maintainer-approved, merged publications appear here.{' '}
         <Link className="text-link" to="/skills">

@@ -1,5 +1,5 @@
 import { useOutletContext } from 'react-router-dom';
-import type { DiscoveryCatalog } from './catalog';
+import type { CatalogIndex } from './catalog';
 export function useLibrary() {
-  return useOutletContext<DiscoveryCatalog>();
+  return useOutletContext<CatalogIndex>();
 }

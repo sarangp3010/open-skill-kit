@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
 import { Link, useParams } from 'react-router-dom';
 import {
   ArrowLeft,
@@ -9,7 +9,12 @@ import {
   PackageOpen,
 } from 'lucide-react';
 import { useLibrary } from '@/lib/use-library';
-import { sourceUrl, type DiscoverySkill } from '@/lib/catalog';
+import {
+  loadSkillDetail,
+  sourceUrl,
+  type CatalogIndex,
+  type DiscoverySkill,
+} from '@/lib/catalog';
 import { Button } from '@/components/ui/button';
 import { Badge, Select } from '@/components/ui/card';
 import { TrustDetails } from '@/components/skill-trust';
@@ -66,8 +71,15 @@ function SkillActions({ skill }: { skill: DiscoverySkill }) {
     </>
   );
 }
-function Preview({ skill }: { skill: DiscoverySkill }) {
-  const [file, setFile] = useState('SKILL.md');
+function Preview({
+  skill,
+  file,
+  setFile,
+}: {
+  skill: DiscoverySkill;
+  file: string;
+  setFile: (path: string) => void;
+}) {
   return (
     <section
       aria-labelledby="preview-title"
@@ -110,6 +122,7 @@ function Preview({ skill }: { skill: DiscoverySkill }) {
             source={file === 'SKILL.md' ? skill.body : skill.files[file]}
             files={skill.files}
             onFile={setFile}
+            path={file}
           />
         ) : (
           <pre
@@ -124,13 +137,40 @@ function Preview({ skill }: { skill: DiscoverySkill }) {
     </section>
   );
 }
+type DetailState =
+  { id: string; skill: DiscoverySkill } | { id: string; error: string };
 export function SkillDetailPage() {
   const catalog = useLibrary();
   const { sector, slug } = useParams();
-  const skill = catalog.skills.find(
+  const entry = catalog.skills.find(
     (item) => item.slug === slug && item.sector === sector,
   );
-  if (!skill)
+  const [state, setState] = useState<DetailState>();
+  const [attempt, setAttempt] = useState(0);
+  useEffect(() => {
+    if (!entry) return;
+    // Ignore responses for a skill the visitor has already navigated away from.
+    let active = true;
+    loadSkillDetail(catalog.catalogDigest, entry).then(
+      (skill) => {
+        if (active) setState({ id: entry.id, skill });
+      },
+      (error: unknown) => {
+        if (active)
+          setState({
+            id: entry.id,
+            error:
+              error instanceof Error
+                ? error.message
+                : 'The skill details could not be loaded.',
+          });
+      },
+    );
+    return () => {
+      active = false;
+    };
+  }, [entry, catalog.catalogDigest, attempt]);
+  if (!entry)
     return (
       <div className="container-shell py-20">
         <h1 className="text-3xl font-semibold">Skill not found</h1>
@@ -143,6 +183,53 @@ export function SkillDetailPage() {
         </Link>
       </div>
     );
+  const current = state?.id === entry.id ? state : undefined;
+  if (!current)
+    return (
+      <div className="container-shell py-20" role="status">
+        Loading {entry.title}…
+      </div>
+    );
+  if ('error' in current)
+    return (
+      <div className="container-shell py-20">
+        <div role="alert" className="max-w-lg">
+          <h1 className="text-3xl font-semibold">{entry.title}</h1>
+          <p className="mt-4 text-muted-foreground">{current.error}</p>
+        </div>
+        <Button
+          className="mt-6"
+          onClick={() => {
+            setState(undefined);
+            setAttempt((value) => value + 1);
+          }}
+        >
+          Try again
+        </Button>
+      </div>
+    );
+  return (
+    <SkillDetailView
+      key={current.skill.id}
+      skill={current.skill}
+      catalog={catalog}
+    />
+  );
+}
+function SkillDetailView({
+  skill,
+  catalog,
+}: {
+  skill: DiscoverySkill;
+  catalog: CatalogIndex;
+}) {
+  const [file, setFile] = useState('SKILL.md');
+  function openFile(path: string) {
+    setFile(path);
+    const select = document.getElementById('preview-file');
+    select?.scrollIntoView?.({ block: 'center' });
+    select?.focus({ preventScroll: true });
+  }
   const sectorName =
     catalog.sectors.find((item) => item.slug === skill.sector)?.title ??
     skill.sector;
@@ -215,7 +302,7 @@ export function SkillDetailPage() {
               </span>
             ))}
           </div>
-          <Preview key={skill.id} skill={skill} />
+          <Preview skill={skill} file={file} setFile={setFile} />
           <TrustDetails skill={skill} />
           <section aria-labelledby="examples-title" className="mt-10">
             <h2
@@ -239,6 +326,8 @@ export function SkillDetailPage() {
                   <MarkdownViewer
                     source={skill.files[path]}
                     files={skill.files}
+                    onFile={openFile}
+                    path={path}
                   />
                 </article>
               ))}

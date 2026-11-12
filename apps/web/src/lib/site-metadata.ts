@@ -1,4 +1,16 @@
-import type { DiscoveryCatalog } from '@uas/skill-schema';
+import type { Sector } from '@uas/skill-schema';
+/** Route metadata needs identities and summaries only; full catalogs also satisfy it. */
+export type MetadataCatalog = {
+  sectors: Sector[];
+  skills: {
+    id: string;
+    sector: string;
+    title: string;
+    description: string;
+    status: string;
+    license: string | null;
+  }[];
+};
 export const REPOSITORY_URL = 'https://github.com/sarangp3010/open-skill-kit';
 export const DEFAULT_SITE_URL = 'https://sarangp3010.github.io/open-skill-kit/';
 export function siteAddress(value = DEFAULT_SITE_URL) {
@@ -25,7 +37,7 @@ export interface PageMetadata {
   structured: Record<string, unknown>;
 }
 export function pageMetadata(
-  catalog: DiscoveryCatalog,
+  catalog: MetadataCatalog,
   pathname: string,
   site = DEFAULT_SITE_URL,
 ): PageMetadata {

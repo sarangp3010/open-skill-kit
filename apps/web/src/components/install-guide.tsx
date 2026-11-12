@@ -5,11 +5,11 @@ import {
   type InstallScope,
   type PlatformId,
 } from '@uas/platform-adapters';
-import type { DiscoverySkill } from '@/lib/catalog';
+import type { IndexSkill } from '@/lib/catalog';
 import { Button } from '@/components/ui/button';
 import { Select } from '@/components/ui/card';
 
-export function InstallGuide({ skill }: { skill: DiscoverySkill }) {
+export function InstallGuide({ skill }: { skill: IndexSkill }) {
   const [platform, setPlatform] = useState<PlatformId>('codex');
   const [scope, setScope] = useState<InstallScope>('project');
   const [message, setMessage] = useState('');

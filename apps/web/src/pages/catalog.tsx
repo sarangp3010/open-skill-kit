@@ -1,4 +1,4 @@
-import { useLayoutEffect, useRef } from 'react';
+import { useEffect, useLayoutEffect, useRef, useState } from 'react';
 import {
   Link,
   useLocation,
@@ -17,18 +17,38 @@ import {
 import { platforms } from '@uas/platform-adapters';
 import { broadSectors, matchesSector } from '@uas/skill-schema';
 import { useLibrary } from '@/lib/use-library';
-import { selectSkills } from '@/lib/catalog';
-import type { DiscoveryCatalog } from '@/lib/catalog';
+import {
+  CATALOG_UPDATED,
+  PAGE_SIZE,
+  facetCount,
+  loadSearchEntries,
+  searchTerms,
+  selectSkills,
+  type BrowseCatalog,
+  type CatalogFilters,
+  type FacetKey,
+  type SearchEntries,
+} from '@/lib/catalog';
 import { SkillCard } from '@/components/skill-card';
 import { CatalogSearchInput } from '@/components/catalog-search-input';
 import { Select, Badge } from '@/components/ui/card';
 import { Button } from '@/components/ui/button';
 export function CatalogPage({
   catalogOverride,
+  searchEntries,
   publishedOnly = false,
-}: { catalogOverride?: DiscoveryCatalog; publishedOnly?: boolean } = {}) {
+}: {
+  catalogOverride?: BrowseCatalog;
+  /** Full-text entries supplied by the caller; otherwise loaded on first search. */
+  searchEntries?: SearchEntries;
+  publishedOnly?: boolean;
+} = {}) {
   const library = useLibrary();
-  const catalog = catalogOverride ?? library;
+  // The published view never falls back to the draft/source index.
+  const catalog: BrowseCatalog = publishedOnly
+    ? (catalogOverride ?? { sectors: library.sectors, skills: [] })
+    : (catalogOverride ?? library);
+  const basePath = publishedOnly ? '/published' : '/skills';
   const [params, setParams] = useSearchParams();
   const { sector: sectorRoute } = useParams();
   const navigate = useNavigate();
@@ -70,6 +90,7 @@ export function CatalogPage({
         ? item.parent === industry
         : roots.some((root) => root.slug === item.slug)),
   );
+  // Total packages in a collection, independent of filters ("Planned" when zero).
   const count = (slug: string) =>
     catalog.skills.filter((skill) =>
       matchesSector(catalog.sectors, skill.sector, slug),
@@ -77,7 +98,48 @@ export function CatalogPage({
   const capabilities = [
     ...new Set(catalog.skills.flatMap((skill) => skill.capabilities)),
   ].sort();
-  const skills = selectSkills(catalog, {
+  const terms = searchTerms(query);
+  const needsRemoteText = terms.length > 0 && !searchEntries;
+  const [remote, setRemote] = useState<
+    | { digest: string; entries: SearchEntries }
+    | { digest: string; error: string }
+  >();
+  const [searchAttempt, setSearchAttempt] = useState(0);
+  useEffect(() => {
+    if (!needsRemoteText) return;
+    // One cached request per catalog; typing does not refetch.
+    let active = true;
+    const digest = library.catalogDigest;
+    loadSearchEntries(digest).then(
+      (entries) => {
+        if (active) setRemote({ digest, entries });
+      },
+      (error: unknown) => {
+        if (active)
+          setRemote({
+            digest,
+            error:
+              error instanceof Error
+                ? error.message
+                : 'Full-text search could not be loaded.',
+          });
+      },
+    );
+    return () => {
+      active = false;
+    };
+  }, [needsRemoteText, library.catalogDigest, searchAttempt]);
+  const current = remote?.digest === library.catalogDigest ? remote : undefined;
+  const entries =
+    searchEntries ??
+    (current && 'entries' in current ? current.entries : undefined);
+  const searchError =
+    terms.length && !entries && current && 'error' in current
+      ? current.error
+      : undefined;
+  const searchPending = terms.length > 0 && !entries && !searchError;
+  const ready = !terms.length || !!entries;
+  const filters: CatalogFilters = {
     query,
     sector: selected,
     broadSector: industry,
@@ -89,7 +151,25 @@ export function CatalogPage({
     platform,
     testing,
     validation,
-  });
+  };
+  const skills = ready ? selectSkills(catalog, filters, entries) : [];
+  // Result count if this option were chosen, keeping all other active filters.
+  const facet = (key: FacetKey, value: string | number) =>
+    ready ? facetCount(catalog, filters, entries, key, value) : undefined;
+  const page = Math.max(1, Math.floor(Number(params.get('page'))) || 1);
+  const visible = skills.slice(0, page * PAGE_SIZE);
+  const grid = useRef<HTMLDivElement>(null);
+  const pendingFocus = useRef<number | null>(null);
+  useEffect(() => {
+    if (pendingFocus.current === null) return;
+    const links = grid.current?.querySelectorAll<HTMLAnchorElement>('h3 a');
+    links?.item(pendingFocus.current)?.focus();
+    pendingFocus.current = null;
+  }, [visible.length]);
+  function loadMore() {
+    pendingFocus.current = visible.length;
+    update('page', String(page + 1));
+  }
   function update(key: string, value: string) {
     // Compose with the latest requested URL, even before the router commits it.
     const next = new URLSearchParams(latestParams.current);
@@ -100,13 +180,14 @@ export function CatalogPage({
     }
     if (value) next.set(key, value);
     else next.delete(key);
+    if (key !== 'page') next.delete('page');
     if (key === 'industry') next.delete('sector');
     latestParams.current = next;
     if (sectorRoute && (key === 'sector' || key === 'industry'))
       navigate(`/skills${next.size ? `?${next}` : ''}`);
     else
       setParams(next, {
-        replace: key === 'q',
+        replace: key === 'q' || key === 'page',
         state: { catalogSearchUpdate: true },
       });
   }
@@ -165,20 +246,28 @@ export function CatalogPage({
               onClick={() => update('sector', '')}
             >
               All skills
-              <span>{industry ? count(industry) : catalog.skills.length}</span>
+              <span>{facet('sector', '') ?? ''}</span>
             </button>
-            {collections.map((item) => (
-              <button
-                type="button"
-                aria-pressed={selected === item.slug}
-                key={item.slug}
-                onClick={() => update('sector', item.slug)}
-                className={`sector-button ${selected === item.slug ? 'sector-active' : ''}`}
-              >
-                <span className="text-left">{item.title}</span>
-                <span>{count(item.slug) || 'Planned'}</span>
-              </button>
-            ))}
+            {collections.map((item) => {
+              const matching = facet('sector', item.slug);
+              return (
+                <button
+                  type="button"
+                  aria-pressed={selected === item.slug}
+                  key={item.slug}
+                  disabled={matching === 0 && selected !== item.slug}
+                  onClick={() => update('sector', item.slug)}
+                  className={`sector-button ${selected === item.slug ? 'sector-active' : ''}`}
+                >
+                  <span className="text-left">{item.title}</span>
+                  <span>
+                    {!count(item.slug)
+                      ? 'Planned'
+                      : (matching ?? count(item.slug))}
+                  </span>
+                </button>
+              );
+            })}
           </div>
           <div className="mt-8 rounded-xl border border-border bg-muted/50 p-4">
             <FolderOpen size={21} className="text-primary" aria-hidden="true" />
@@ -224,12 +313,21 @@ export function CatalogPage({
               onChange={(event) => update('industry', event.target.value)}
             >
               <option value="">All broad sectors</option>
-              {roots.map((root) => (
-                <option key={root.slug} value={root.slug}>
-                  {root.title}
-                  {count(root.slug) ? ` (${count(root.slug)})` : ' · Planned'}
-                </option>
-              ))}
+              {roots.map((root) => {
+                const matching = facet('broadSector', root.slug);
+                return (
+                  <option
+                    key={root.slug}
+                    value={root.slug}
+                    disabled={matching === 0 && industry !== root.slug}
+                  >
+                    {root.title}
+                    {count(root.slug)
+                      ? ` (${matching ?? count(root.slug)})`
+                      : ' · Planned'}
+                  </option>
+                );
+              })}
             </Select>
           </div>
           <div className="mt-4 grid grid-cols-2 gap-3 lg:flex lg:items-end">
@@ -255,12 +353,23 @@ export function CatalogPage({
                         item.parent === industry ||
                         item.slug === industry),
                   )
-                  .map((item) => (
-                    <option key={item.slug} value={item.slug}>
-                      {item.title}
-                      {count(item.slug) ? '' : ' · Planned'}
-                    </option>
-                  ))}
+                  .map((item) => {
+                    const matching = facet('sector', item.slug);
+                    return (
+                      <option
+                        key={item.slug}
+                        value={item.slug}
+                        disabled={matching === 0 && selected !== item.slug}
+                      >
+                        {item.title}
+                        {count(item.slug)
+                          ? matching === undefined
+                            ? ''
+                            : ` (${matching})`
+                          : ' · Planned'}
+                      </option>
+                    );
+                  })}
               </Select>
             </div>
             <div>
@@ -277,11 +386,19 @@ export function CatalogPage({
                 onChange={(event) => update('capability', event.target.value)}
               >
                 <option value="">All capabilities</option>
-                {capabilities.map((value) => (
-                  <option key={value} value={value}>
-                    {value.replaceAll('-', ' ')}
-                  </option>
-                ))}
+                {capabilities.map((value) => {
+                  const matching = facet('capability', value);
+                  return (
+                    <option
+                      key={value}
+                      value={value}
+                      disabled={matching === 0 && capability !== value}
+                    >
+                      {value.replaceAll('-', ' ')}
+                      {matching === undefined ? '' : ` (${matching})`}
+                    </option>
+                  );
+                })}
               </Select>
             </div>
             <div className="min-w-0 lg:ml-auto">
@@ -387,11 +504,23 @@ export function CatalogPage({
                   className="w-full"
                   onChange={(event) => update(filter.key, event.target.value)}
                 >
-                  {filter.options.map(([value, title]) => (
-                    <option key={value} value={value}>
-                      {title}
-                    </option>
-                  ))}
+                  {filter.options.map(([value, title]) => {
+                    const matching = value
+                      ? filter.key === 'quality'
+                        ? facet('minQuality', Number(value))
+                        : facet(filter.key as FacetKey, value)
+                      : undefined;
+                    return (
+                      <option
+                        key={value}
+                        value={value}
+                        disabled={matching === 0 && filter.value !== value}
+                      >
+                        {title}
+                        {matching === undefined ? '' : ` (${matching})`}
+                      </option>
+                    );
+                  })}
                 </Select>
               </div>
             ))}
@@ -402,11 +531,22 @@ export function CatalogPage({
               aria-live="polite"
               className="text-sm text-muted-foreground"
             >
-              <strong className="font-semibold text-foreground">
-                {skills.length}
-              </strong>{' '}
-              {skills.length === 1 ? 'skill' : 'skills'}
-              {query && <> matching “{query}”</>}
+              {searchPending ? (
+                'Searching skill instructions…'
+              ) : searchError ? (
+                'Full-text search is unavailable.'
+              ) : (
+                <>
+                  <strong className="font-semibold text-foreground">
+                    {skills.length}
+                  </strong>{' '}
+                  {skills.length === 1 ? 'skill' : 'skills'}
+                  {query && <> matching “{query}”</>}
+                  {visible.length < skills.length && (
+                    <> · showing {visible.length}</>
+                  )}
+                </>
+              )}
             </p>
             <div className="flex items-center gap-2">
               {sector && <Badge>{sector.title}</Badge>}
@@ -422,7 +562,7 @@ export function CatalogPage({
                 <Button
                   variant="ghost"
                   size="sm"
-                  onClick={() => navigate('/skills')}
+                  onClick={() => navigate(basePath)}
                 >
                   <X size={13} aria-hidden="true" />
                   Clear filters
@@ -430,18 +570,87 @@ export function CatalogPage({
               )}
             </div>
           </div>
-          {skills.length ? (
-            <div className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3">
-              {skills.map((skill) => (
-                <SkillCard
-                  key={skill.id}
-                  skill={skill}
-                  sector={
-                    catalog.sectors.find((item) => item.slug === skill.sector)
-                      ?.title ?? skill.sector
-                  }
+          {searchError ? (
+            <div
+              role="alert"
+              className="rounded-2xl border border-border bg-card px-6 py-12 text-center"
+            >
+              <h2 className="text-xl font-semibold">
+                Search couldn’t load skill instructions
+              </h2>
+              <p className="mx-auto mt-3 max-w-sm text-sm leading-6 text-muted-foreground">
+                {searchError}
+              </p>
+              {searchError === CATALOG_UPDATED ? (
+                <Button
+                  className="mt-6"
+                  onClick={() => window.location.reload()}
+                >
+                  Reload page
+                </Button>
+              ) : (
+                <Button
+                  className="mt-6"
+                  onClick={() => {
+                    setRemote(undefined);
+                    setSearchAttempt((value) => value + 1);
+                  }}
+                >
+                  Try search again
+                </Button>
+              )}
+            </div>
+          ) : searchPending ? (
+            <div
+              aria-hidden="true"
+              className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3"
+            >
+              {Array.from({ length: 3 }, (_, i) => (
+                <div
+                  key={i}
+                  className="h-64 animate-pulse rounded-2xl bg-muted motion-reduce:animate-none"
                 />
               ))}
+            </div>
+          ) : skills.length ? (
+            <>
+              <div
+                ref={grid}
+                className="grid gap-5 sm:grid-cols-2 xl:grid-cols-3"
+              >
+                {visible.map((skill) => (
+                  <SkillCard
+                    key={skill.id}
+                    skill={skill}
+                    sector={
+                      catalog.sectors.find((item) => item.slug === skill.sector)
+                        ?.title ?? skill.sector
+                    }
+                  />
+                ))}
+              </div>
+              {visible.length < skills.length && (
+                <div className="mt-8 flex justify-center">
+                  <Button variant="outline" onClick={loadMore}>
+                    Load more skills
+                  </Button>
+                </div>
+              )}
+            </>
+          ) : publishedOnly && !catalog.skills.length ? (
+            <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-16 text-center">
+              <span className="mx-auto grid size-14 place-items-center rounded-2xl bg-muted text-muted-foreground">
+                <FolderOpen size={25} aria-hidden="true" />
+              </span>
+              <h2 className="mt-6 text-xl font-semibold">
+                No skills have been published yet
+              </h2>
+              <p className="mx-auto mt-3 max-w-md text-sm leading-6 text-muted-foreground">
+                A package appears here only after an authorized maintainer
+                approves its exact contents and the change is merged. Source
+                drafts are kept in a separate library and are never shown on
+                this page.
+              </p>
             </div>
           ) : (
             <div className="rounded-2xl border border-dashed border-border bg-card px-6 py-16 text-center">
@@ -453,15 +662,18 @@ export function CatalogPage({
                 Try a shorter phrase, use a different keyword, or explore
                 another sector.
               </p>
-              <Button className="mt-6" onClick={() => navigate('/skills')}>
+              <Button className="mt-6" onClick={() => navigate(basePath)}>
                 Reset search
               </Button>
             </div>
           )}
-          <p className="mt-8 text-xs leading-6 text-muted-foreground">
-            Drafts are shared for inspection and feedback. Structural validation
-            is not human review or a guarantee of assistant compatibility.
-          </p>
+          {!publishedOnly && (
+            <p className="mt-8 text-xs leading-6 text-muted-foreground">
+              Drafts are shared for inspection and feedback. Structural
+              validation is not human review or a guarantee of assistant
+              compatibility.
+            </p>
+          )}
         </section>
       </div>
     </div>

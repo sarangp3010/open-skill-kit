@@ -15,3 +15,4 @@ coverage/
 /test-results/
 
 /apps/web/public/published.json
+/apps/web/public/data/

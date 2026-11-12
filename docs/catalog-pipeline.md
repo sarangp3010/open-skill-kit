@@ -16,6 +16,16 @@ pnpm catalog:check-assets
 
 `catalog:check` compares the committed canonical JSON with freshly computed output without rewriting it. This works in a clean checkout even though the public copy is Git-ignored. `catalog:check-assets` also checks the generated app copy, so run it after generation/build. Missing or stale data returns a nonzero exit code. CI checks canonical freshness before building, then checks both copies afterward.
 
+## Browser data artifacts
+
+Generation also writes Git-ignored browser data under `apps/web/public/data/`, derived deterministically from the canonical catalog bytes:
+
+- `index.json`: sectors and per-skill metadata with summarized quality, validation and per-platform installation/testing status. It excludes bodies, files, examples and provenance, and generation fails if it exceeds 150,000 bytes.
+- `search.json`: normalized full-text skill bodies, fetched only when a visitor searches.
+- `skills/<sector>/<slug>.json`: the complete skill record, fetched by its detail page.
+
+Each artifact carries the SHA-256 digest of `catalog/catalog.json`; the app rejects search or detail data from a different build. Regeneration replaces the whole data directory, so removed skills leave no orphans. `catalog:check-assets` compares every expected file byte-for-byte and rejects missing, stale, unexpected or non-regular files. The full `apps/web/public/catalog.json` is still generated for compatibility but is no longer fetched during browsing.
+
 `catalog/index.json` is the earlier published-package index and is not the website's data source. Existing npm packaging uses `buildCatalog` directly and retains its publication-quality contract; this implementation does not publish npm packages or promote drafts.
 
 ## Contracts and normalization

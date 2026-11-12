@@ -1,6 +1,7 @@
 import { useState } from 'react';
 import { Link, useSearchParams } from 'react-router-dom';
 import { useLibrary } from '@/lib/use-library';
+import { loadSkillDetail } from '@/lib/catalog';
 import { Button } from '@/components/ui/button';
 import { Input, Select } from '@/components/ui/card';
 import { MarkdownViewer } from '@/components/markdown-viewer';
@@ -46,7 +47,7 @@ export function SkillEditorPage() {
     [review, setReview] = useState(false);
   const [baseLoaded, setBaseLoaded] = useState(false);
   const result = checkDraft(draft, catalog);
-  const original = catalog.skills.find(
+  const entry = catalog.skills.find(
     (skill) => skill.id === params.get('skill'),
   );
   function change(next: BrowserDraft) {
@@ -99,7 +100,9 @@ export function SkillEditorPage() {
     }
   }
   async function loadOriginal() {
-    if (!original) return;
+    if (!entry) return;
+    // Full package files load on demand; the browse index has metadata only.
+    const original = await loadSkillDetail(catalog.catalogDigest, entry);
     const metadata = JSON.parse(original.files['metadata.json'] ?? '{}');
     const files: Record<string, string> = {
       ...original.files,
@@ -148,7 +151,7 @@ export function SkillEditorPage() {
         the catalog or GitHub. Submit Skill opens a pull-request guide; only
         authorized maintainers can approve and merge a publication.
       </p>
-      {original && !baseLoaded && (
+      {entry && !baseLoaded && (
         <Button
           className="mt-4"
           onClick={() =>
@@ -161,7 +164,7 @@ export function SkillEditorPage() {
             )
           }
         >
-          Load {original.title} as an update proposal
+          Load {entry.title} as an update proposal
         </Button>
       )}
       <div className="mt-6 grid gap-4 sm:grid-cols-3">

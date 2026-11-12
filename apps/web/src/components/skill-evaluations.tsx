@@ -1,7 +1,7 @@
-import type { DiscoverySkill } from '@/lib/catalog';
+import type { DiscoverySkill, IndexSkill } from '@/lib/catalog';
 import { sourceUrl } from '@/lib/catalog';
 
-export function EvaluationSummary({ skill }: { skill: DiscoverySkill }) {
+export function EvaluationSummary({ skill }: { skill: IndexSkill }) {
   const reports = skill.evaluations ?? [];
   if (!reports.length) return null;
   const current = reports.filter(
