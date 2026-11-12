@@ -22,6 +22,11 @@ Use [Semantic Versioning](https://semver.org/) and the [release policy](docs/rel
 
 ### Changed
 
+- Explicit release builds now reject unresolved dependency-license provenance independently of skill authorization; local notice collection stays available and default npm artifacts are private.
+
+- Attribution validation now requires existing maintainer authorization and valid review dates; CI binds changed records to genuine independent current-head GitHub review without authorizing publication.
+- License overrides compare declared source and dependency versions, require a nonempty limitation for mismatches and retain unresolved provenance rather than claiming cross-version verification.
+
 - PR #1 and PR #2 are merged into develop; documented the owner-confirmed strict required validate protection without authorizing publication or deployment.
 - Licensing checks now explain extra/missing installed records, version changes and manifest/notice or source drift while failing closed and preserving canonical evidence.
 - Corrected security and launch guidance that still described removed automatic Pages jobs or outdated develop protection.

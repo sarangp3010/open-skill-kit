@@ -581,9 +581,7 @@ it('keeps declared authors separate from current and stale maintainer attributio
   ).toHaveAttribute('href', 'https://github.com/synthetic-contributor');
   expect(document.body.querySelector('script')).toBeNull();
   expect(
-    screen.getByText(
-      /This maintainer record is not a professional qualification/,
-    ),
+    screen.getByText(/This record is not independent identity verification/),
   ).toBeInTheDocument();
   rerender(
     <ContributorAttribution

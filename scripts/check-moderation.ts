@@ -6,9 +6,12 @@ import {
   generateCatalog,
   publicationDigest,
   readPublicationRegistry,
+  readAttributions,
 } from '../packages/catalog-indexer/src/index';
 import {
   maintainersSchema,
+  attributionRegistrySchema,
+  type AttributionRecord,
   type PublicationRegistry,
 } from '../packages/skill-schema/src/index';
 /** Missing initial base roster must never trust a contributor's candidate roster. */
@@ -22,7 +25,17 @@ export interface GithubReview {
   id: number;
   state: string;
   commit_id: string;
+  submitted_at?: string | null;
   user: { login: string } | null;
+}
+function latestDecisionReview(reviews: GithubReview[], reviewer: string) {
+  return reviews
+    .filter(
+      (review) =>
+        review.user?.login.toLowerCase() === reviewer.toLowerCase() &&
+        ['APPROVED', 'CHANGES_REQUESTED', 'DISMISSED'].includes(review.state),
+    )
+    .sort((a, b) => b.id - a.id)[0];
 }
 export function hasApproval(
   reviews: GithubReview[],
@@ -31,13 +44,7 @@ export function hasApproval(
   author: string,
 ) {
   if (reviewer.toLowerCase() === author.toLowerCase()) return false;
-  const latest = reviews
-    .filter(
-      (review) =>
-        review.user?.login.toLowerCase() === reviewer.toLowerCase() &&
-        ['APPROVED', 'CHANGES_REQUESTED', 'DISMISSED'].includes(review.state),
-    )
-    .sort((a, b) => b.id - a.id)[0];
+  const latest = latestDecisionReview(reviews, reviewer);
   return latest?.state === 'APPROVED' && latest.commit_id === head;
 }
 export function validateDecisionChanges(
@@ -71,8 +78,27 @@ export function validateDecisionChanges(
       );
   }
 }
+/** A changed attribution cannot borrow a review from an unrelated historical PR. */
+export function validateAttributionChanges(
+  previous: AttributionRecord[],
+  current: AttributionRecord[],
+  pullRequest: number,
+) {
+  for (const record of current) {
+    const old = previous.find((entry) => entry.skillId === record.skillId);
+    if (
+      JSON.stringify(old) !== JSON.stringify(record) &&
+      record.reviewUrl !==
+        `https://github.com/${repository}/pull/${pullRequest}`
+    )
+      throw new Error(
+        `${record.skillId}: changed attribution must reference this PR`,
+      );
+  }
+}
 export async function localModeration(root: string) {
   const registry = await readPublicationRegistry(root);
+  await readAttributions(root);
   const catalog = (await generateCatalog(resolve(root, 'skills'))).catalog;
   const maintainers = JSON.parse(
     await readFile(resolve(root, 'catalog/maintainers.json'), 'utf8'),
@@ -132,13 +158,38 @@ export async function githubModeration(
   maintainers: string[],
   currentPr: number | undefined,
   get: (path: string) => Promise<unknown>,
+  attributions: AttributionRecord[] = [],
 ) {
   const cache = new Map<
     number,
     GithubPullRequest & { reviews: GithubReview[] }
   >();
-  for (const record of registry.decisions) {
-    if (!maintainers.includes(record.reviewer))
+  const claims = [
+    ...registry.decisions.map((record) => ({
+      ...record,
+      kind: 'publication' as const,
+      attribution: null,
+      reviewedAt: null as string | null,
+    })),
+    ...attributionRegistrySchema
+      .parse({ schemaVersion: 1, records: attributions })
+      .records.map((record) => ({
+        skillId: record.skillId,
+        reviewer: record.reviewedBy,
+        pullRequest: Number(
+          new URL(record.reviewUrl).pathname.split('/').at(-1),
+        ),
+        kind: 'attribution' as const,
+        attribution: record,
+        reviewedAt: record.reviewedAt,
+      })),
+  ];
+  for (const record of claims) {
+    if (
+      !maintainers.some(
+        (name) => name.toLowerCase() === record.reviewer.toLowerCase(),
+      )
+    )
       throw new Error(
         `${record.skillId}: reviewer not authorized by trusted base`,
       );
@@ -163,11 +214,11 @@ export async function githubModeration(
     }
     if (
       pr.base?.repo?.full_name !== repository ||
-      pr.base.ref !== 'main' ||
+      (record.kind === 'publication' && pr.base.ref !== 'main') ||
       (!pr.merged && record.pullRequest !== currentPr)
     )
       throw new Error(
-        `${record.skillId}: approval requires a merged repository PR to main`,
+        `${record.skillId}: ${record.kind === 'publication' ? 'approval requires a merged repository PR to main' : 'attribution requires a merged repository PR or the current PR'}`,
       );
     if (
       pr.merged &&
@@ -180,6 +231,25 @@ export async function githubModeration(
       throw new Error(
         `${record.skillId}: missing current-head approval by ${record.reviewer}; request a maintainer review and rerun CI`,
       );
+    if (record.kind === 'attribution') {
+      const approval = latestDecisionReview(pr.reviews, record.reviewer)!;
+      // Apply the existing strict timestamp format to API evidence too.
+      attributionRegistrySchema.parse({
+        schemaVersion: 1,
+        records: [{ ...record.attribution, reviewedAt: approval.submitted_at }],
+      });
+      const approvedAt = Date.parse(approval.submitted_at ?? '');
+      const recordedAt = Date.parse(record.reviewedAt!);
+      if (
+        !Number.isFinite(approvedAt) ||
+        !Number.isFinite(recordedAt) ||
+        recordedAt > approvedAt ||
+        approvedAt > Date.now()
+      )
+        throw new Error(
+          `${record.skillId}: inconsistent or missing attribution review dates`,
+        );
+    }
   }
 }
 if (
@@ -207,6 +277,7 @@ if (
       process.exit(0);
     }
     const registry = await localModeration(root);
+    const attributions = await readAttributions(root);
     if (process.env.GITHUB_ACTIONS === 'true') {
       const event = JSON.parse(
         await readFile(process.env.GITHUB_EVENT_PATH!, 'utf8'),
@@ -249,6 +320,28 @@ if (
         } catch {
           /* No approvals before initial rollout. */
         }
+        let baseAttributions: string | undefined;
+        try {
+          baseAttributions = execFileSync(
+            'git',
+            ['show', `${base}:catalog/attributions.json`],
+            {
+              cwd: root,
+              encoding: 'utf8',
+              stdio: ['ignore', 'pipe', 'pipe'],
+            },
+          );
+        } catch {
+          /* Missing historical registry makes all candidate records new. */
+        }
+        validateAttributionChanges(
+          baseAttributions === undefined
+            ? []
+            : attributionRegistrySchema.parse(JSON.parse(baseAttributions))
+                .records,
+          attributions,
+          event.pull_request.number,
+        );
         validateDecisionChanges(
           previous,
           registry,
@@ -306,6 +399,7 @@ if (
             );
           return response.json();
         },
+        attributions,
       );
     }
     console.log(

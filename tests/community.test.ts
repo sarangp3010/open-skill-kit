@@ -1,3 +1,7 @@
+import {
+  githubModeration,
+  validateAttributionChanges,
+} from '../scripts/check-moderation';
 import { spawnSync } from 'node:child_process';
 import { afterEach, beforeEach, describe, expect, it } from 'vitest';
 import {
@@ -141,6 +145,10 @@ async function attributionFixture() {
   const evidence =
     'Synthetic attribution review for orchestration tests only. No real identity review was performed.\n';
   await mkdir(join(temp, 'catalog'));
+  await writeFile(
+    join(temp, 'catalog/maintainers.json'),
+    JSON.stringify({ schemaVersion: 1, maintainers: ['synthetic-reviewer'] }),
+  );
   await mkdir(join(temp, 'docs/attributions'), { recursive: true });
   await writeFile(join(temp, 'docs/attributions/test.md'), evidence);
   const record = {
@@ -161,6 +169,49 @@ async function attributionFixture() {
   return { record, skill };
 }
 describe('maintainer-recorded attribution, not self-declared verification', () => {
+  it.each([
+    'unauthorized',
+    'missing-roster',
+    'missing-evidence',
+    'future-date',
+    'invalid-date',
+    'revoked',
+  ] as const)(
+    'rejects %s attribution without changing real authorization sources',
+    async (kind) => {
+      const { record } = await attributionFixture();
+      if (kind === 'unauthorized') record.reviewedBy = 'synthetic-attacker';
+      if (kind === 'missing-roster')
+        await rm(join(temp, 'catalog/maintainers.json'));
+      if (kind === 'missing-evidence')
+        await rm(join(temp, record.evidencePath));
+      if (kind === 'future-date')
+        record.reviewedAt = new Date(Date.now() + 86_400_000).toISOString();
+      if (kind === 'invalid-date') record.reviewedAt = 'not-a-date';
+      if (kind === 'revoked')
+        await writeFile(
+          join(temp, 'catalog/maintainers.json'),
+          JSON.stringify({
+            schemaVersion: 1,
+            maintainers: ['other-synthetic-reviewer'],
+          }),
+        );
+      await writeFile(
+        join(temp, 'catalog/attributions.json'),
+        JSON.stringify({ schemaVersion: 1, records: [record] }),
+      );
+      await expect(readAttributions(temp)).rejects.toThrow();
+    },
+  );
+  it('rejects raw catalog attribution options that do not match authorized recorded evidence', async () => {
+    const { record } = await attributionFixture();
+    await expect(
+      generateCatalog(join(temp, 'skills'), [], {
+        attributions: [{ ...record, reviewedBy: 'synthetic-attacker' }],
+      }),
+    ).rejects.toThrow('must match authorized recorded evidence');
+  });
+
   it('ships no invented identities and preserves older catalogs without attribution', async () => {
     expect(await readAttributions(resolve('.'))).toEqual([]);
     expect(await readAttributions(temp)).toEqual([]);
@@ -516,4 +567,199 @@ describe('shared distribution notice collection', () => {
       'Missing bundled dependency',
     );
   });
+});
+
+async function syntheticNoticeOverride() {
+  const directory = join(
+    temp,
+    'node_modules/.pnpm/fixture-notice@1.0.0/node_modules/fixture-notice',
+  );
+  await mkdir(join(directory, 'dist'), { recursive: true });
+  await writeFile(
+    join(directory, 'package.json'),
+    JSON.stringify({
+      name: 'fixture-notice',
+      version: '1.0.0',
+      license: 'MIT',
+    }),
+  );
+  const input = join(directory, 'dist/index.js');
+  await writeFile(input, '// Synthetic file, never executed.');
+  const overrides = join(temp, 'notice-overrides');
+  await mkdir(overrides);
+  const evidence =
+    'Synthetic notice fixture only; not real licensing evidence.';
+  const record = {
+    license: 'MIT',
+    file: 'fixture-notice-1.0.0-LICENSE.txt',
+    source: `https://raw.githubusercontent.com/example/fixture/${'0'.repeat(40)}/LICENSE`,
+    sourceVersion: '1.0.0',
+    sha256: createHash('sha256').update(evidence).digest('hex'),
+    note: undefined as string | undefined,
+  };
+  await writeFile(join(overrides, record.file), evidence);
+  async function save(value: unknown) {
+    await writeFile(
+      join(overrides, 'license-overrides.json'),
+      JSON.stringify({ 'fixture-notice@1.0.0': value }),
+    );
+  }
+  return { input, overrides, record, save };
+}
+describe('version-bound license provenance limitations', () => {
+  it('accepts matching declared versions without claiming independent source verification', async () => {
+    const f = await syntheticNoticeOverride();
+    await f.save(f.record);
+    const output = await thirdPartyNotices([f.input], f.overrides);
+    expect(output).toContain(
+      'Declared evidence source version: 1.0.0; dependency version: 1.0.0',
+    );
+    expect(output).not.toContain('Provenance limitation:');
+  });
+  it('retains an explicit limitation when source and dependency versions differ', async () => {
+    const f = await syntheticNoticeOverride();
+    f.record.sourceVersion = '0.9.0';
+    f.record.note = 'Synthetic older-source notice; not proof for 1.0.0';
+    await f.save(f.record);
+    const output = await thirdPartyNotices([f.input], f.overrides);
+    expect(output).toContain(
+      'source version: 0.9.0; dependency version: 1.0.0',
+    );
+    expect(output).toContain(
+      'Provenance limitation: Synthetic older-source notice; not proof for 1.0.0',
+    );
+  });
+  it.each([undefined, '', '   '])(
+    'rejects a mismatched source with missing/empty limitation %s',
+    async (note) => {
+      const f = await syntheticNoticeOverride();
+      await f.save({ ...f.record, sourceVersion: '0.9.0', note });
+      await expect(thirdPartyNotices([f.input], f.overrides)).rejects.toThrow(
+        'requires a provenance limitation',
+      );
+    },
+  );
+  it.each([
+    'missing-version',
+    'invalid-version',
+    'invalid-note',
+    'hash',
+    'source',
+  ] as const)('rejects invalid %s evidence', async (kind) => {
+    const f = await syntheticNoticeOverride();
+    const record: Record<string, unknown> = { ...f.record };
+    if (kind === 'missing-version') delete record.sourceVersion;
+    if (kind === 'invalid-version') record.sourceVersion = ' ';
+    if (kind === 'invalid-note') record.note = 42;
+    if (kind === 'hash') record.sha256 = 'f'.repeat(64);
+    if (kind === 'source') record.source = 'https://untrusted.example/LICENSE';
+    await f.save(record);
+    await expect(thirdPartyNotices([f.input], f.overrides)).rejects.toThrow();
+  });
+});
+
+// Disposable API fixtures: no real identity review or maintainer approval is created.
+function syntheticAttributionReview() {
+  const record = {
+    skillId: 'education/example-skill',
+    displayName: 'Synthetic Contributor',
+    githubUsername: 'synthetic-contributor',
+    reviewedBy: 'synthetic-reviewer',
+    reviewedAt: '2026-11-10T11:00:00Z',
+    reviewUrl: 'https://github.com/sarangp3010/open-skill-kit/pull/17',
+    packageDigest: '0'.repeat(64),
+    evidencePath: 'docs/attributions/synthetic.md',
+    evidenceDigest: '1'.repeat(64),
+  };
+  const pr = {
+    head: { sha: 'synthetic-head' },
+    base: { ref: 'develop', repo: { full_name: 'sarangp3010/open-skill-kit' } },
+    user: { login: 'synthetic-author' },
+    merged: true,
+    merged_by: { login: 'synthetic-reviewer' },
+  };
+  const review = {
+    id: 1,
+    state: 'APPROVED',
+    commit_id: 'synthetic-head',
+    user: { login: 'synthetic-reviewer' },
+    submitted_at: '2026-11-10T12:00:00Z',
+  };
+  return { record, pr, review };
+}
+it('binds new or changed attribution metadata to its actual PR', () => {
+  const { record } = syntheticAttributionReview();
+  expect(() => validateAttributionChanges([], [record], 17)).not.toThrow();
+  expect(() => validateAttributionChanges([], [record], 99)).toThrow(
+    'must reference this PR',
+  );
+  expect(() =>
+    validateAttributionChanges([record], [record], 99),
+  ).not.toThrow();
+  expect(() =>
+    validateAttributionChanges(
+      [record],
+      [{ ...record, evidenceDigest: '2'.repeat(64) }],
+      99,
+    ),
+  ).toThrow('must reference this PR');
+});
+it('uses trusted-base authorization and genuine independent current-head GitHub attribution review', async () => {
+  const { record, pr, review } = syntheticAttributionReview();
+  const empty = { schemaVersion: 1 as const, decisions: [] };
+  const get = async (path: string) =>
+    path.includes('/reviews?') ? [review] : pr;
+  await githubModeration(empty, ['synthetic-reviewer'], undefined, get, [
+    record,
+  ]);
+  await expect(
+    githubModeration(empty, ['other-synthetic-reviewer'], undefined, get, [
+      record,
+    ]),
+  ).rejects.toThrow('trusted base');
+  pr.merged = false;
+  await expect(
+    githubModeration(empty, ['synthetic-reviewer'], undefined, get, [record]),
+  ).rejects.toThrow('merged');
+  await githubModeration(empty, ['synthetic-reviewer'], 17, get, [record]);
+});
+it.each([
+  'missing',
+  'stale',
+  'self',
+  'dismissed',
+  'missing-date',
+  'invalid-date',
+  'invalid-calendar',
+  'inconsistent-date',
+  'future-date',
+  'api-failure',
+] as const)('rejects %s GitHub attribution review evidence', async (kind) => {
+  const { record, pr, review } = syntheticAttributionReview();
+  if (kind === 'stale') review.commit_id = 'stale-head';
+  if (kind === 'self') pr.user.login = record.reviewedBy;
+  if (kind === 'dismissed') review.state = 'DISMISSED';
+  if (kind === 'missing-date') review.submitted_at = '';
+  if (kind === 'invalid-date') review.submitted_at = 'not-a-date';
+  if (kind === 'invalid-calendar') review.submitted_at = '2026-02-30T12:00:00Z';
+  if (kind === 'inconsistent-date') record.reviewedAt = '2026-11-10T13:00:00Z';
+  if (kind === 'future-date')
+    review.submitted_at = new Date(Date.now() + 86_400_000).toISOString();
+  await expect(
+    githubModeration(
+      { schemaVersion: 1, decisions: [] },
+      ['synthetic-reviewer'],
+      undefined,
+      async (path) => {
+        if (kind === 'api-failure')
+          throw new Error('Synthetic API unavailable');
+        return path.includes('/reviews?')
+          ? kind === 'missing'
+            ? []
+            : [review]
+          : pr;
+      },
+      [record],
+    ),
+  ).rejects.toThrow();
 });

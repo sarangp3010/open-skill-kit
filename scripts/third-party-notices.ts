@@ -33,7 +33,7 @@ export type DependencyNoticeRecord = Awaited<
 export async function thirdPartyNotices(
   inputs: Iterable<string>,
   overrideDirectory?: string,
-  observe?: (record: DependencyNoticeRecord) => void,
+  observe?: (record: DependencyNoticeRecord, directory: string) => void,
 ) {
   const dependencyNotices = new Map<string, string>();
   const missing = new Set<string>();
@@ -54,7 +54,7 @@ export async function thirdPartyNotices(
       if (dependency?.name) {
         const key = `${dependency.name}@${dependency.version}`;
         if (!dependencyNotices.has(key)) {
-          observe?.(await dependencyNoticeRecord(directory));
+          observe?.(await dependencyNoticeRecord(directory), directory);
           const licenses = (await readdir(directory))
             .filter((name) =>
               /^(licen[cs]e|copying|notice)([.-]|$)/i.test(name),
@@ -74,6 +74,7 @@ export async function thirdPartyNotices(
                   file: string;
                   sha256: string;
                   source: string;
+                  sourceVersion: string;
                   note?: string;
                 }
               >;
@@ -86,6 +87,23 @@ export async function thirdPartyNotices(
                   )
                 )
                   throw new Error(`Unsafe license override: ${key}`);
+                if (
+                  typeof override.sourceVersion !== 'string' ||
+                  !/^\d+\.\d+\.\d+(?:-[0-9A-Za-z.-]+)?(?:\+[0-9A-Za-z.-]+)?$/.test(
+                    override.sourceVersion,
+                  ) ||
+                  (override.note !== undefined &&
+                    typeof override.note !== 'string')
+                )
+                  throw new Error(
+                    `Invalid license provenance evidence: ${key}`,
+                  );
+                const versionMismatch =
+                  override.sourceVersion !== dependency.version;
+                if (versionMismatch && !override.note?.trim())
+                  throw new Error(
+                    `License source version mismatch requires a provenance limitation: ${key}`,
+                  );
                 const source = await readFile(
                   join(overrideDirectory, override.file),
                 );
@@ -100,7 +118,7 @@ export async function thirdPartyNotices(
                   throw new Error(`License override mismatch: ${key}`);
                 dependencyNotices.set(
                   key,
-                  `${key}\nSource: ${override.source}\n${override.note ? `Provenance limitation: ${override.note}\n` : ''}${source.toString('utf8')}`,
+                  `${key}\nSource: ${override.source}\nDeclared evidence source version: ${override.sourceVersion}; dependency version: ${dependency.version}\n${override.note ? `Provenance limitation: ${override.note}\n` : ''}${source.toString('utf8')}`,
                 );
                 break;
               }
