@@ -1,3 +1,4 @@
+import { historicalDraftAdmission } from './migrations/pr7-historical-drafts';
 import { readFile } from 'node:fs/promises';
 import { resolve } from 'node:path';
 import { fileURLToPath } from 'node:url';
@@ -285,6 +286,22 @@ if (
       let maintainers = JSON.parse(
         await readFile(resolve(root, 'catalog/maintainers.json'), 'utf8'),
       ).maintainers as string[];
+      const get = async (path: string): Promise<unknown> => {
+        const response = await fetch(`https://api.github.com${path}`, {
+          headers: {
+            Accept: 'application/vnd.github+json',
+            ...(process.env.GH_TOKEN
+              ? { Authorization: `Bearer ${process.env.GH_TOKEN}` }
+              : {}),
+          },
+          signal: AbortSignal.timeout(10000),
+        });
+        if (!response.ok)
+          throw new Error(
+            `GitHub read-only review check failed: HTTP ${response.status}`,
+          );
+        return response.json();
+      };
       if (event.pull_request) {
         const base = event.pull_request.base.sha;
         if (!/^[a-f0-9]{40}$/.test(base))
@@ -348,6 +365,12 @@ if (
           event.pull_request.number,
           event.pull_request.base.ref,
         );
+        const admittedDrafts = await historicalDraftAdmission({
+          root,
+          event,
+          env: process.env,
+          get,
+        });
         const changed = execFileSync(
           'git',
           [
@@ -366,6 +389,7 @@ if (
           if (status === 'A' && path?.endsWith('/SKILL.md')) {
             const id = path.slice(7, -9);
             if (
+              !admittedDrafts.has(id) &&
               !registry.decisions.some(
                 (record) =>
                   record.skillId === id &&
@@ -383,22 +407,7 @@ if (
         registry,
         maintainers,
         event.pull_request?.number,
-        async (path) => {
-          const response = await fetch(`https://api.github.com${path}`, {
-            headers: {
-              Accept: 'application/vnd.github+json',
-              ...(process.env.GH_TOKEN
-                ? { Authorization: `Bearer ${process.env.GH_TOKEN}` }
-                : {}),
-            },
-            signal: AbortSignal.timeout(10000),
-          });
-          if (!response.ok)
-            throw new Error(
-              `GitHub read-only review check failed: HTTP ${response.status}`,
-            );
-          return response.json();
-        },
+        get,
         attributions,
       );
     }

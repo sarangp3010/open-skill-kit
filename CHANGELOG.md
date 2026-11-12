@@ -22,6 +22,8 @@ Use [Semantic Versioning](https://semver.org/) and the [release policy](docs/rel
 
 ### Changed
 
+- Add a temporary, exact-hash historical draft-baseline admission for PR #7 only; publication and release approvals remain separate, and live merge/base checks prevent post-merge reuse.
+
 - Faster marketplace browsing: the app loads a lightweight generated index (about 62 KB instead of the 898 KB full catalog), fetches full-text search only when searching, and loads each skill's details on its own page. Results page with Load more, filters show counts and disable zero-result options, the published view has a dedicated empty state, and relative example links and anchors work. All skills remain drafts and the published catalog stays empty.
 - Explicit release builds now reject unresolved dependency-license provenance independently of skill authorization; local notice collection stays available and default npm artifacts are private.
 
