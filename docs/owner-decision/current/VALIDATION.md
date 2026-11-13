@@ -77,3 +77,31 @@ The online advisory audit, new hosted Linux/Windows validation and real-agent ex
 | `tests/release-license-gate.test.ts` | Exercise licensing independently, including valid publication authorization. |
 
 Final review: no blocking correctness/security finding in the proposed diff. Existing publication-to-main enforcement and trusted-base review sources are preserved. Only the 21 intended files appear, nothing is staged, and scans of added content found no secrets, machine-local paths, backup files or temporary artifacts. A broad full-file path scan also matched a pre-existing generic /home/auth-directory sentence in historical status documentation; it is unchanged and is not a new machine path.
+
+## Derived packet refresh — 2026-11-12 (native dialog / historical-only react-remove-scroll-bar)
+
+This is an owner-approved minimum refresh of the derived files. Earlier receipts above are retained unchanged.
+
+`README.md`, `DEPENDENCY_TRIAGE.md`, `dependency-evidence.json` and `release-manifest.unsigned.json` were regenerated with `pnpm owner:prepare`. `SKILL_DECISIONS.md`, `RELEASE_AUTHORIZATION.md` and this receipt's earlier sections are byte-identical. The superseded four files are archived with SHA-256 checksums in the ignored local `.open-skill-kit/owner-packet-archive-20261112/`.
+
+**What changed:**
+
+- observed baseline `b532c12`;
+- notice scope 8 active / 3 historical-only, with react-remove-scroll-bar@2.3.8 now historical-only (no longer locked or distributed);
+- inventory hash, bundle manifests (`apps/web/dist` 92 records), lockfile line references, source snapshot (655 files) and artifact hashes (194 files, no sync duplicates).
+
+All 12 skill decisions and 11 notice dispositions remain unselected, with blank reviewer, date and signature fields. Nothing is approved or resolved. The 7 original parent files and preserved evidence (`8e7f450b…`) are unchanged.
+
+Generated in an isolated clean clone of HEAD `b532c12` (fresh frozen offline install, macOS arm64, Node 24.21.0, pnpm 10.20.0). Its source snapshot is identical to the working tree (655 files, matching SHA-256).
+
+| Command (clean clone) | Result |
+| --- | --- |
+| `pnpm owner:check` | PASS, before and after the release rebuild |
+| full unit/integration suite | PASS, 528/528 tests, 21 files |
+| `pnpm licensing:check` | PASS |
+| `OPEN_SKILL_KIT_RELEASE_BUILD=1 VITE_BASE_PATH=/open-skill-kit/ pnpm build` | PASS; manifest 92 dependencies, react-remove-scroll-bar absent |
+| typecheck, lint, format:check, check:links | PASS |
+| catalog, moderation, release, founding checks | PASS |
+| Skills / published | 42 draft / 0 published |
+
+**Limitation:** `owner:check` binds local build outputs (`dist/npm`, `apps/web/dist`, npm tarball). A checkout whose outputs differ reports stale. The original working tree currently fails with `Bundle evidence differs from the recorded inventory: @radix-ui/primitive@1.2.0`: its `apps/web/dist` predates the dependency removal, and its build folders hold 118 preserved sync-duplicate files. This receipt grants no permission.

@@ -1,6 +1,5 @@
-import { useEffect, useState } from 'react';
+import { useEffect, useId, useRef, useState } from 'react';
 import { Link, NavLink, Outlet, useLocation } from 'react-router-dom';
-import * as Dialog from '@radix-ui/react-dialog';
 import { Boxes, Github, Menu, X, ArrowUpRight, RefreshCw } from 'lucide-react';
 import { Button } from './ui/button';
 import { ThemeToggle } from './theme-toggle';
@@ -25,7 +24,33 @@ export function Layout({
   retry: () => void;
 }) {
   const [open, setOpen] = useState(false);
+  const dialogRef = useRef<HTMLDialogElement>(null);
+  const triggerRef = useRef<HTMLButtonElement>(null);
+  const dialogId = useId();
   const location = useLocation();
+  // Native modal dialog: showModal() makes the rest of the page inert (focus
+  // stays inside), Escape fires a cancel/close, and the backdrop is ::backdrop.
+  // While open, the page behind is scroll-locked; closing restores the
+  // previous overflow and returns focus to the menu button.
+  useEffect(() => {
+    const dialog = dialogRef.current;
+    if (!open || !dialog) return;
+    if (!dialog.open) {
+      if (typeof dialog.showModal === 'function') dialog.showModal();
+      else dialog.setAttribute('open', '');
+    }
+    const root = document.documentElement;
+    const previousOverflow = root.style.overflow;
+    root.style.overflow = 'hidden';
+    return () => {
+      root.style.overflow = previousOverflow;
+      if (dialog.open) {
+        if (typeof dialog.close === 'function') dialog.close();
+        else dialog.removeAttribute('open');
+      }
+      triggerRef.current?.focus({ preventScroll: true });
+    };
+  }, [open]);
   useEffect(() => {
     document.getElementById('main')?.focus();
     window.scrollTo({ top: 0 });
@@ -87,35 +112,53 @@ export function Layout({
                 <ArrowUpRight size={13} aria-hidden="true" />
               </a>
             </Button>
-            <Dialog.Root open={open} onOpenChange={setOpen}>
-              <Dialog.Trigger asChild>
-                <Button
-                  variant="ghost"
-                  size="sm"
-                  className="lg:hidden"
-                  aria-label="Open navigation"
-                >
-                  <Menu size={20} />
-                </Button>
-              </Dialog.Trigger>
-              <Dialog.Portal>
-                <Dialog.Overlay className="fixed inset-0 z-40 bg-black/40" />
-                <Dialog.Content className="fixed inset-y-0 right-0 z-50 w-[min(88vw,360px)] border-l border-border bg-background p-6 shadow-xl">
-                  <Dialog.Title className="text-lg font-semibold">
+            <Button
+              ref={triggerRef}
+              variant="ghost"
+              size="sm"
+              className="lg:hidden"
+              aria-label="Open navigation"
+              aria-haspopup="dialog"
+              aria-expanded={open}
+              aria-controls={dialogId}
+              onClick={() => setOpen(true)}
+            >
+              <Menu size={20} />
+            </Button>
+            <dialog
+              ref={dialogRef}
+              id={dialogId}
+              aria-labelledby={`${dialogId}-title`}
+              aria-describedby={`${dialogId}-description`}
+              onClose={() => setOpen(false)}
+              onClick={(event) => {
+                // Clicks on the ::backdrop target the dialog element itself.
+                if (event.target === event.currentTarget) setOpen(false);
+              }}
+              className="fixed inset-y-0 right-0 left-auto z-50 m-0 h-full max-h-none w-[min(88vw,360px)] max-w-none border-0 border-l border-border bg-background p-0 text-foreground shadow-xl backdrop:bg-black/40"
+            >
+              {open && (
+                <div className="relative h-full overflow-y-auto p-6">
+                  <h2
+                    id={`${dialogId}-title`}
+                    className="text-lg font-semibold"
+                  >
                     Open Skill Kit
-                  </Dialog.Title>
-                  <Dialog.Description className="mt-2 text-sm text-muted-foreground">
+                  </h2>
+                  <p
+                    id={`${dialogId}-description`}
+                    className="mt-2 text-sm text-muted-foreground"
+                  >
                     Find a workflow for your next task.
-                  </Dialog.Description>
-                  <Dialog.Close asChild>
-                    <Button
-                      variant="ghost"
-                      className="absolute top-4 right-4"
-                      aria-label="Close navigation"
-                    >
-                      <X size={20} />
-                    </Button>
-                  </Dialog.Close>
+                  </p>
+                  <Button
+                    variant="ghost"
+                    className="absolute top-4 right-4"
+                    aria-label="Close navigation"
+                    onClick={() => setOpen(false)}
+                  >
+                    <X size={20} />
+                  </Button>
                   <nav
                     aria-label="Mobile navigation"
                     className="mt-10 flex flex-col gap-2"
@@ -138,9 +181,9 @@ export function Layout({
                     <Github size={16} aria-hidden="true" />
                     View the source
                   </a>
-                </Dialog.Content>
-              </Dialog.Portal>
-            </Dialog.Root>
+                </div>
+              )}
+            </dialog>
           </div>
         </div>
       </header>

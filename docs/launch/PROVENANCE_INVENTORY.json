@@ -1,7 +1,7 @@
 {
   "schemaVersion": 1,
   "dependencyInventoryPlatform": "darwin-arm64",
-  "lockfileSha256": "8a44077578727603a262da10bf53710d7efbfa190a86a9f794923b02c10ad8d7",
+  "lockfileSha256": "7334df7706c94400527d99ee8505311dd8573f4ffa7dee57e8427c6967c475b9",
   "scope": "Installed dependency manifests/notices, all 42 portable packages and retained third-party materials. Not an authorship, legal or external originality attestation.",
   "rootLicenseSha256": "5cdb85f2e8fed127c074b74be706ec8f649bdb9e7dc5ef8711569a8b536ef18e",
   "skills": [
@@ -2770,23 +2770,6 @@
       ]
     },
     {
-      "name": "@radix-ui/primitive",
-      "version": "1.2.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/core/primitive"
-      },
-      "manifestSha256": "26081a6fa5ec5b996d0f9f86d798a6df5b2583461f26b66d440de223de35f7be",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
       "name": "@radix-ui/react-compose-refs",
       "version": "1.1.5",
       "license": "MIT",
@@ -2804,159 +2787,6 @@
       ]
     },
     {
-      "name": "@radix-ui/react-context",
-      "version": "1.3.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/context"
-      },
-      "manifestSha256": "3759b2d1fd0fc66692d97a13c3b6473c2cb0179082ebc2f7c2e936e53f4d4800",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-dialog",
-      "version": "1.3.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/dialog"
-      },
-      "manifestSha256": "263dbd07d8e4ead9e43603b8a4a97e17ee50362f82096012207445ec13d71b0a",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-dismissable-layer",
-      "version": "1.2.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/dismissable-layer"
-      },
-      "manifestSha256": "2d7be89743721b605a02c5c3e3577a87168327976cc247c17d5d4204be878990",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-focus-guards",
-      "version": "1.2.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/focus-guards"
-      },
-      "manifestSha256": "de9e1907cc25a72e4c7ea5c341234a99a3b1071531bb3961733c857f4c846f83",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-focus-scope",
-      "version": "1.3.1",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/focus-scope"
-      },
-      "manifestSha256": "27f8d91c2eeb315a843f4aa859b8565dd8ea9d0f1828fe2d62432e742763aaa5",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-id",
-      "version": "1.1.4",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/id"
-      },
-      "manifestSha256": "e7e0ebe622944df861305093a71a63241b75d83f5512195d8d43d8dbbbf71d32",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-portal",
-      "version": "1.2.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/portal"
-      },
-      "manifestSha256": "1b15381a6b085c9da6472ee1bb595b7563748cab54c18b463cb9b3ca2aa77831",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-presence",
-      "version": "1.1.11",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/presence"
-      },
-      "manifestSha256": "f18c8e3a59aeb29796d9b55f8be683674b994b68e43c8f9adf97f218cae15af7",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-primitive",
-      "version": "2.2.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/primitive"
-      },
-      "manifestSha256": "ee3d3d2b637f6bae33fb5a9f455c9d42df836ace6f52258e0e06e9589814bfbb",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
       "name": "@radix-ui/react-slot",
       "version": "1.5.0",
       "license": "MIT",
@@ -2966,74 +2796,6 @@
         "directory": "packages/react/slot"
       },
       "manifestSha256": "904847542040d15d407ef35e21e782c0082453b504ac25c209c18164042f5dc6",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-use-callback-ref",
-      "version": "1.1.5",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/use-callback-ref"
-      },
-      "manifestSha256": "c3ca07813d08dc65774d711ed72e97cb80bdaf8adad95cedbcf61a70e027a7fd",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-use-controllable-state",
-      "version": "1.3.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/use-controllable-state"
-      },
-      "manifestSha256": "218e5d780291d242f54435dcfd93698dc0a4d8534218dd7e8cb02b6f1ae69d5c",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-use-effect-event",
-      "version": "0.0.5",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/use-effect-event"
-      },
-      "manifestSha256": "fa52035177fd41d2c4004239992c395f6eb493ea8b0cff0083153f9d07d311c2",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "0e80a2d229d2fd4fc7e8636142ec5d0ff0bc031f14c15b682e2ac01dfd5b5138"
-        }
-      ]
-    },
-    {
-      "name": "@radix-ui/react-use-layout-effect",
-      "version": "1.1.4",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/radix-ui/primitives.git",
-        "directory": "packages/react/use-layout-effect"
-      },
-      "manifestSha256": "5612665d1acb0647bce0e3ceee72bdcb407821d2cb2267a560f92b9b8d0ae549",
       "notices": [
         {
           "file": "LICENSE",
@@ -3882,22 +3644,6 @@
       ]
     },
     {
-      "name": "aria-hidden",
-      "version": "1.2.6",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "git+https://github.com/theKashey/aria-hidden.git"
-      },
-      "manifestSha256": "46d066afef535db19d7ba05d8e38ac50662b17a515845deb3ca70613f9623933",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "30f0cfddf483d1128e3610205020f2041a6c5e837aa999e0aa82e5576187d4a9"
-        }
-      ]
-    },
-    {
       "name": "aria-query",
       "version": "5.3.0",
       "license": "Apache-2.0",
@@ -4376,22 +4122,6 @@
         {
           "file": "LICENSE",
           "sha256": "b40930bbcf80744c86c46a12bc9da056641d722716c378f5659b9e555ef833e1"
-        }
-      ]
-    },
-    {
-      "name": "detect-node-es",
-      "version": "1.1.0",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/thekashey/detect-node"
-      },
-      "manifestSha256": "06f9cfd73b6c401019dfa5cbdf4b4a5b346b1b15c4fca2d6f3ecc1a830528b06",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "54b32293ea560d22cd9b62af9b2cda1a030d910a48c6601d227c5ff2338d95f8"
         }
       ]
     },
@@ -4955,19 +4685,6 @@
         {
           "file": "LICENSE",
           "sha256": "e3a956681ee067f971ac413994171b3d90ca801ec6324e76c9c55366cfe31cb0"
-        }
-      ]
-    },
-    {
-      "name": "get-nonce",
-      "version": "1.0.1",
-      "license": "MIT",
-      "repository": "git@github.com:theKashey/get-nonce.git",
-      "manifestSha256": "cd0262ed52e44beb166ba0ed31081587074d48602bd057d1d438103ec169ef8b",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "acf3b087b348d2f2e731b9d4131af185aad694c1204ce14a46909483fd42da05"
         }
       ]
     },
@@ -6702,27 +6419,6 @@
       ]
     },
     {
-      "name": "react-remove-scroll-bar",
-      "version": "2.3.8",
-      "license": "MIT",
-      "repository": "https://github.com/theKashey/react-remove-scroll-bar",
-      "manifestSha256": "e372f857ce05f266137c65293436b5380fec42ac311e6acb9378ed78b98d75d0",
-      "notices": []
-    },
-    {
-      "name": "react-remove-scroll",
-      "version": "2.7.2",
-      "license": "MIT",
-      "repository": "https://github.com/theKashey/react-remove-scroll",
-      "manifestSha256": "35db8a2ffa5161d98795cff1b1f56dc775c94fea5f80eda128f083db59b40ab2",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "30f0cfddf483d1128e3610205020f2041a6c5e837aa999e0aa82e5576187d4a9"
-        }
-      ]
-    },
-    {
       "name": "react-router-dom",
       "version": "7.18.5",
       "license": "MIT",
@@ -6753,22 +6449,6 @@
         {
           "file": "LICENSE.md",
           "sha256": "77c9ee6a9c5d5782fb0c50b50d101189116314c14f7df0a1b0d385fc96a7ba49"
-        }
-      ]
-    },
-    {
-      "name": "react-style-singleton",
-      "version": "2.2.3",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/theKashey/react-style-singleton"
-      },
-      "manifestSha256": "c6d832faf8d9d54cd854d47f23b5b747928fe7554f548b093a7faaf239185d08",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "30f0cfddf483d1128e3610205020f2041a6c5e837aa999e0aa82e5576187d4a9"
         }
       ]
     },
@@ -7310,22 +6990,6 @@
       ]
     },
     {
-      "name": "tslib",
-      "version": "2.9.1",
-      "license": "0BSD",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/Microsoft/tslib.git"
-      },
-      "manifestSha256": "7e9ccc6977540dd94f86f98d0ab9ac405cd3507ac5a2c34752498b250718366b",
-      "notices": [
-        {
-          "file": "LICENSE.txt",
-          "sha256": "210b19e543130388c68654b7497e967119ce17145f66ab7d85688fbd70f08751"
-        }
-      ]
-    },
-    {
       "name": "tsx",
       "version": "4.23.15",
       "license": "MIT",
@@ -7507,35 +7171,6 @@
         {
           "file": "LICENSE",
           "sha256": "0af366eff4c01ec147c9c61ea9e8ffad64a4294754c9d79355f3fd1b97cb2fb9"
-        }
-      ]
-    },
-    {
-      "name": "use-callback-ref",
-      "version": "1.3.3",
-      "license": "MIT",
-      "repository": "https://github.com/theKashey/use-callback-ref/",
-      "manifestSha256": "1fb8f0b34573d1d4057710e559488dbfdff0436cd01d318e20bf66e4cd165318",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "30f0cfddf483d1128e3610205020f2041a6c5e837aa999e0aa82e5576187d4a9"
-        }
-      ]
-    },
-    {
-      "name": "use-sidecar",
-      "version": "1.1.3",
-      "license": "MIT",
-      "repository": {
-        "type": "git",
-        "url": "https://github.com/theKashey/use-sidecar"
-      },
-      "manifestSha256": "a8703897c0caeb8ddfa35ef4b622bd7ebd677ea3fc6c97a0264574552e9404e1",
-      "notices": [
-        {
-          "file": "LICENSE",
-          "sha256": "30f0cfddf483d1128e3610205020f2041a6c5e837aa999e0aa82e5576187d4a9"
         }
       ]
     },
@@ -7897,20 +7532,6 @@
       "version": "1.4.0",
       "declaredLicense": "MIT",
       "recordedException": null,
-      "status": "human-confirmation-required"
-    },
-    {
-      "name": "react-remove-scroll-bar",
-      "version": "2.3.8",
-      "declaredLicense": "MIT",
-      "recordedException": {
-        "license": "MIT",
-        "file": "react-remove-scroll-bar-2.3.8-LICENSE.txt",
-        "sha256": "a79aae0c0f21990d9d963bb3c5a79cdcea9a46f8523ba55c58d7fe776b6ebc84",
-        "source": "https://raw.githubusercontent.com/theKashey/react-remove-scroll-bar/8ca9ba5ea52de03308fe8ced94f7b159a44d28ff/LICENSE",
-        "sourceVersion": "2.3.7",
-        "note": "Installed 2.3.8 declares MIT but omits LICENSE. Its npm gitHead was unavailable upstream. This is the available upstream MIT notice, not a claim of exact-release source verification."
-      },
       "status": "human-confirmation-required"
     },
     {
