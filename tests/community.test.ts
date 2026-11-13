@@ -290,6 +290,7 @@ describe('maintainer-recorded attribution, not self-declared verification', () =
     );
   });
 });
+const PAGES_WORKFLOW = 'pages.yml';
 interface Workflow {
   on: Record<string, unknown> & {
     pull_request?: { branches: string[] };
@@ -308,6 +309,7 @@ interface Workflow {
       strategy?: { matrix: { os: string[] } };
       permissions?: Record<string, string>;
       steps: Array<{
+        if?: string;
         uses?: string;
         run?: string;
         env?: Record<string, string>;
@@ -317,15 +319,23 @@ interface Workflow {
   >;
 }
 describe('workflow and community configuration boundaries', () => {
-  it('documents the actual validation-only workflow boundary without implying deployment authorization', async () => {
+  it('documents the validation boundary and the single gated Pages deployment path', async () => {
     const policy = await readFile(resolve('SECURITY.md'), 'utf8');
     expect(policy).toContain('CI workflows validate only');
-    expect(policy).toContain('No Pages build/deploy jobs');
-    expect(policy).toContain('no Pages/OIDC write permissions');
-    expect(policy).toContain('Publication and deployment remain unauthorized');
-    expect(policy).not.toContain('Pages application builds run in a separate');
-    expect(policy).not.toContain('Only the pinned official deployment action');
+    expect(policy).toContain('they hold no Pages/OIDC write permissions');
+    expect(policy).toContain(
+      'The separate Pages workflow is the only deployment path',
+    );
+    expect(policy).toContain(
+      'A successful build or deployment is not skill publication authorization',
+    );
+    expect(await readdir(resolve('.github/workflows'))).toEqual([
+      'ci.yml',
+      'pages.yml',
+      'security.yml',
+    ]);
     for (const name of await readdir(resolve('.github/workflows'))) {
+      if (name === PAGES_WORKFLOW) continue;
       const workflow = parse(
         await readFile(resolve('.github/workflows', name), 'utf8'),
       ) as Workflow;
@@ -346,6 +356,7 @@ describe('workflow and community configuration boundaries', () => {
 
   it('keeps every PR-capable job read-only, secret-free and on hosted runners', async () => {
     for (const name of await readdir(resolve('.github/workflows'))) {
+      if (name === PAGES_WORKFLOW) continue;
       const raw = await readFile(resolve('.github/workflows', name), 'utf8'),
         workflow = parse(raw) as Workflow;
       expect(workflow.permissions).toEqual({ contents: 'read' });
@@ -388,6 +399,92 @@ describe('workflow and community configuration boundaries', () => {
       }
     }
   });
+  it('deploys Pages only from successful main CI pushes, with write rights isolated to the official action', async () => {
+    const raw = await readFile(
+      resolve('.github/workflows', PAGES_WORKFLOW),
+      'utf8',
+    );
+    const workflow = parse(raw) as Workflow & {
+      concurrency: { group: string; 'cancel-in-progress': boolean };
+    };
+    expect(workflow.on).toEqual({
+      workflow_run: {
+        workflows: ['CI'],
+        types: ['completed'],
+        branches: ['main'],
+      },
+    });
+    expect(workflow.permissions).toEqual({ contents: 'read' });
+    expect(workflow.concurrency['cancel-in-progress']).toBe(false);
+    expect(raw).not.toMatch(/secrets\.|self-hosted|npm publish|pnpm publish/);
+    expect(Object.keys(workflow.jobs)).toEqual(['build', 'deploy']);
+    const { build, deploy } = workflow.jobs;
+    for (const condition of [
+      "github.repository == 'sarangp3010/open-skill-kit'",
+      "github.event.workflow_run.conclusion == 'success'",
+      "github.event.workflow_run.event == 'push'",
+      "github.event.workflow_run.head_branch == 'main'",
+      'github.event.workflow_run.head_repository.full_name == github.repository',
+    ])
+      expect(build.if).toContain(condition);
+    expect(build.if).not.toContain('||');
+    expect(build['runs-on']).toBe('ubuntu-24.04');
+    expect(build.permissions).toEqual({ contents: 'read' });
+    expect(build.environment).toBeUndefined();
+    const checkout = build.steps[0];
+    expect(checkout.uses).toMatch(/^actions\/checkout@[a-f0-9]{40}$/);
+    expect(checkout.with).toEqual({
+      ref: '${{ github.event.workflow_run.head_sha }}',
+      'persist-credentials': false,
+    });
+    const runs = build.steps.map((step) => step.run);
+    expect(runs).toContain('pnpm install --frozen-lockfile --ignore-scripts');
+    expect(runs).toContain('pnpm catalog:check');
+    expect(runs).toContain('pnpm pages:verify --stamp');
+    const release = build.steps.find((step) => step.run === 'pnpm build');
+    expect(release?.env).toEqual({
+      OPEN_SKILL_KIT_RELEASE_BUILD: '1',
+      VITE_BASE_PATH: '/open-skill-kit/',
+    });
+    expect(runs.indexOf('pnpm build')).toBeLessThan(
+      runs.indexOf('pnpm pages:verify --stamp'),
+    );
+    const upload = build.steps.at(-1);
+    expect(upload?.uses).toMatch(
+      /^actions\/upload-pages-artifact@[a-f0-9]{40}$/,
+    );
+    expect(upload?.with?.path).toBe('apps/web/dist');
+    // Every step after the main-tip check is skipped for superseded commits.
+    expect(build.steps[1].run).toContain('git ls-remote');
+    expect(
+      build.steps
+        .slice(2)
+        .every((step) => step.if === "steps.tip.outputs.current == 'true'"),
+    ).toBe(true);
+
+    expect(deploy.needs).toBe('build');
+    expect(deploy.if).toBe("needs.build.outputs.current == 'true'");
+    expect(deploy.permissions).toEqual({
+      pages: 'write',
+      'id-token': 'write',
+    });
+    expect(deploy.environment?.name).toBe('github-pages');
+    expect(deploy.steps).toHaveLength(2);
+    expect(deploy.steps[0].run).toContain('git ls-remote');
+    expect(deploy.steps[0].uses).toBeUndefined();
+    expect(deploy.steps[1].uses).toMatch(
+      /^actions\/deploy-pages@[a-f0-9]{40}$/,
+    );
+    for (const job of [build, deploy])
+      for (const step of job.steps) {
+        if (step.uses)
+          expect(step.uses).toMatch(
+            /^[a-zA-Z0-9-]+\/[a-zA-Z0-9-]+@[a-f0-9]{40}$/,
+          );
+        expect(step.run ?? '').not.toMatch(/\$\{\{/);
+      }
+  });
+
   it('keeps CI validation read-only and disables automatic Pages publication', async () => {
     const workflow = parse(
       await readFile(resolve('.github/workflows/ci.yml'), 'utf8'),
@@ -539,20 +636,32 @@ describe('workflow and community configuration boundaries', () => {
   });
 });
 describe('shared distribution notice collection', () => {
-  it('includes the pinned upstream missing-notice exception and rejects hash tampering', async () => {
-    const module = resolve('node_modules/.pnpm');
-    const packageDir = (await readdir(module)).find((name) =>
-      name.startsWith('react-remove-scroll-bar@2.3.8'),
-    )!;
-    const input = join(
-      module,
-      packageDir,
-      'node_modules/react-remove-scroll-bar/dist/es2015/index.js',
+  it('applies the retained historical missing-notice evidence and rejects hash tampering', async () => {
+    // The dependency is no longer installed. A synthetic manifest with the
+    // same name, version and license (and no notice file) exercises the
+    // retained, unchanged third-party override evidence.
+    const packageRoot = join(
+      temp,
+      'node_modules/.pnpm/react-remove-scroll-bar@2.3.8/node_modules/react-remove-scroll-bar',
     );
+    await mkdir(join(packageRoot, 'dist/es2015'), { recursive: true });
+    await writeFile(
+      join(packageRoot, 'package.json'),
+      JSON.stringify({
+        name: 'react-remove-scroll-bar',
+        version: '2.3.8',
+        license: 'MIT',
+      }),
+    );
+    const input = join(packageRoot, 'dist/es2015/index.js');
+    await writeFile(input, '// Synthetic file, never executed.');
     const notices = await thirdPartyNotices([input], resolve('third-party'));
     expect(notices).toContain('react-remove-scroll-bar@2.3.8');
     expect(notices).toContain('Anton Korzunov');
     expect(notices).toContain('Permission is hereby granted');
+    expect(notices).toContain(
+      'source version: 2.3.7; dependency version: 2.3.8',
+    );
     await cp(resolve('third-party'), join(temp, 'third-party'), {
       recursive: true,
     });

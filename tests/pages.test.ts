@@ -1,10 +1,19 @@
-import { afterEach, expect, it } from 'vitest';
-import { mkdtemp, readFile, rm, writeFile, access } from 'node:fs/promises';
+import { afterEach, describe, expect, it } from 'vitest';
+import {
+  access,
+  mkdir,
+  mkdtemp,
+  readFile,
+  rm,
+  writeFile,
+} from 'node:fs/promises';
 import { tmpdir } from 'node:os';
 import { join, resolve } from 'node:path';
 import { pageMetadata, escapeHtml } from '../apps/web/src/lib/site-metadata';
 import { preparePages, renderStaticPage } from '../scripts/prepare-pages';
 import { discoveryCatalogSchema } from '../packages/skill-schema/src/index';
+import { webArtifacts } from '../packages/catalog-indexer/src/index';
+import { stampPagesVersion, verifyPagesOutput } from '../scripts/verify-pages';
 
 const directories: string[] = [];
 afterEach(async () => {
@@ -145,3 +154,129 @@ it.each(['/constructor', '/toString', '/__proto__'])(
     expect(pageMetadata(catalog, path).canonical).toContain('/404/');
   },
 );
+
+/** A complete deployable site built from the committed catalogs. */
+async function deployableSite() {
+  const { output } = await fixture();
+  const serialized = await readFile(resolve('catalog/catalog.json'), 'utf8');
+  await writeFile(join(output, 'catalog.json'), serialized);
+  await writeFile(
+    join(output, 'published.json'),
+    await readFile(resolve('catalog/published.json'), 'utf8'),
+  );
+  for (const [path, content] of webArtifacts(serialized).artifacts) {
+    await mkdir(join(output, path, '..'), { recursive: true });
+    await writeFile(join(output, path), content);
+  }
+  await mkdir(join(output, 'assets'));
+  await writeFile(join(output, 'assets/app.js'), '');
+  await writeFile(join(output, 'LICENSE.txt'), 'MIT');
+  await writeFile(join(output, 'THIRD_PARTY_NOTICES.txt'), '');
+  await preparePages(output);
+  return output;
+}
+describe('Pages deployment output verification', () => {
+  it('accepts a project-subpath site that mirrors the committed catalogs', async () => {
+    const output = await deployableSite();
+    const catalog = discoveryCatalogSchema.parse(
+      JSON.parse(await readFile(resolve('catalog/catalog.json'), 'utf8')),
+    );
+    expect(await verifyPagesOutput(resolve('.'), output)).toMatchObject({
+      skills: catalog.skills.length,
+      published: 0,
+    });
+  });
+
+  it('rejects assets built for the domain root instead of the project path', async () => {
+    const output = await deployableSite();
+    const page = join(output, 'skills/index.html');
+    await writeFile(
+      page,
+      (await readFile(page, 'utf8')).replace(
+        '/open-skill-kit/assets/app.js',
+        '/assets/app.js',
+      ),
+    );
+    await expect(verifyPagesOutput(resolve('.'), output)).rejects.toThrow(
+      /outside the Pages base path/,
+    );
+  });
+
+  it('rejects references to assets missing from the artifact', async () => {
+    const output = await deployableSite();
+    await rm(join(output, 'assets/app.js'));
+    await expect(verifyPagesOutput(resolve('.'), output)).rejects.toThrow(
+      /missing asset/,
+    );
+  });
+
+  it('refuses a published catalog that differs from the committed ledger output', async () => {
+    const output = await deployableSite();
+    const published = JSON.parse(
+      await readFile(join(output, 'published.json'), 'utf8'),
+    );
+    const catalog = JSON.parse(
+      await readFile(join(output, 'catalog.json'), 'utf8'),
+    );
+    published.skills = [catalog.skills[0]];
+    await writeFile(
+      join(output, 'published.json'),
+      JSON.stringify(published, null, 2) + '\n',
+    );
+    await expect(verifyPagesOutput(resolve('.'), output)).rejects.toThrow(
+      /published.json: differs from committed/,
+    );
+  });
+
+  it('requires direct-load pages and per-skill detail data for every skill', async () => {
+    const output = await deployableSite();
+    const catalog = discoveryCatalogSchema.parse(
+      JSON.parse(await readFile(resolve('catalog/catalog.json'), 'utf8')),
+    );
+    const id = catalog.skills[0].id;
+    await rm(join(output, `data/skills/${id}.json`));
+    await expect(verifyPagesOutput(resolve('.'), output)).rejects.toThrow(
+      /missing or stale browser data/,
+    );
+    const second = await deployableSite();
+    await rm(join(second, `skills/${id}/index.html`));
+    await expect(verifyPagesOutput(resolve('.'), second)).rejects.toThrow(
+      /missing from Pages output/,
+    );
+  });
+
+  it.each([
+    'assets/app.js.map',
+    '.env',
+    'docs/owner-decision/RELEASE_AUTHORIZATION.md',
+    'PROVENANCE_INVENTORY.json',
+  ])('rejects internal or development file %s', async (path) => {
+    const output = await deployableSite();
+    await mkdir(join(output, path, '..'), { recursive: true });
+    await writeFile(join(output, path), '');
+    await expect(verifyPagesOutput(resolve('.'), output)).rejects.toThrow(
+      /internal or development file/,
+    );
+  });
+
+  it('stamps the exact deployed commit and rejects malformed identifiers', async () => {
+    const output = await deployableSite();
+    const commit = 'a'.repeat(40);
+    await stampPagesVersion(output, {
+      commit,
+      ciRunId: '123',
+      pagesRunId: '456',
+    });
+    expect(
+      JSON.parse(await readFile(join(output, 'version.json'), 'utf8')),
+    ).toEqual({ schemaVersion: 1, commit, ciRunId: '123', pagesRunId: '456' });
+    await expect(verifyPagesOutput(resolve('.'), output)).resolves.toBeTruthy();
+    for (const stamp of [
+      { commit: 'abc', ciRunId: '1', pagesRunId: '2' },
+      { commit: 'A'.repeat(40), ciRunId: '1', pagesRunId: '2' },
+      { commit, ciRunId: '', pagesRunId: '2' },
+      { commit, ciRunId: '1', pagesRunId: '2"x' },
+    ])
+      await expect(stampPagesVersion(output, stamp)).rejects.toThrow();
+  });
+});

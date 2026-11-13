@@ -67,11 +67,51 @@ it('allows complete ordinary exact-release notice evidence, without creating an 
   await assertReleaseLicenseEvidence(f.root, [record], locations);
   expect(await readFile(f.path, 'utf8')).toBe(before);
 });
+/**
+ * Synthetic stand-in for the removed react-remove-scroll-bar@2.3.8 manifest:
+ * it declares MIT and ships no notice file, exactly like the published
+ * package. The retained third-party override evidence is used unchanged.
+ */
+async function overrideOnlyDependency(root: string) {
+  const name = 'react-remove-scroll-bar';
+  const packageRoot = join(
+    root,
+    `node_modules/.pnpm/${name}@2.3.8/node_modules/${name}`,
+  );
+  await mkdir(join(packageRoot, 'dist/es2015'), { recursive: true });
+  await writeFile(
+    join(packageRoot, 'package.json'),
+    JSON.stringify({ name, version: '2.3.8', license: 'MIT' }),
+  );
+  await writeFile(
+    join(packageRoot, 'dist/es2015/index.js'),
+    '// Synthetic file, never executed.',
+  );
+  const record = await dependencyNoticeRecord(packageRoot);
+  return {
+    record,
+    packageRoot,
+    locations: new Map([[`${record.name}@${record.version}`, packageRoot]]),
+  };
+}
 it('local notice collection succeeds while unresolved cross-version release evidence fails', async () => {
   const f = await evidenceFixture();
-  const { record, packageRoot, locations } = await observedDependency(
-    'react-remove-scroll-bar',
+  const { record, packageRoot, locations } = await overrideOnlyDependency(
+    f.root,
   );
+  expect(record.notices).toEqual([]);
+  const overrides = JSON.parse(
+    await readFile(join(f.root, 'third-party/license-overrides.json'), 'utf8'),
+  );
+  f.inventory.dependencies.push(record);
+  f.inventory.unresolvedDependencyNotices.push({
+    name: record.name,
+    version: record.version,
+    declaredLicense: record.license,
+    recordedException: overrides['react-remove-scroll-bar@2.3.8'],
+    status: 'human-confirmation-required',
+  });
+  await f.save();
   const notices = await thirdPartyNotices(
     [join(packageRoot, 'dist/es2015/index.js')],
     join(f.root, 'third-party'),
@@ -89,7 +129,9 @@ it('local notice collection succeeds while unresolved cross-version release evid
   await f.save();
   await expect(
     assertReleaseLicenseEvidence(f.root, [record], locations),
-  ).rejects.toThrow('missing exact-release packaged notice');
+  ).rejects.toThrow(
+    'missing exact-release packaged notice evidence (override source version 2.3.7 differs)',
+  );
 });
 it.each([
   'pending',

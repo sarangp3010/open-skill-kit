@@ -1,6 +1,6 @@
 # Open Skill Kit — owner decision package
 
-**Unsigned; no approvals or release actions are granted.** Observed baseline: `e869c81e6bf47e7d741ca974b3af957271c4efc4`; 42/42 source drafts, 0 publication approvals.
+**Unsigned; no approvals or release actions are granted.** Observed baseline: `b532c1263a8ee20899c90bece9a8021c9cc769b6`; 42/42 source drafts, 0 publication approvals.
 
 1. [Read all 12 skill instructions, risks and blank approve/reject/defer fields](SKILL_DECISIONS.md).
 2. [Triage all 11 notice cases](DEPENDENCY_TRIAGE.md), using [exact evidence](dependency-evidence.json).
