@@ -16,6 +16,14 @@ Before any public release, inspect the actual tarball/web artifact, retained not
 
 The installed react-remove-scroll-bar@2.3.8 manifest and README declare MIT, but its npm artifact omits the license text. The npm metadata's gitHead (b3b1287aad81def2e2ae707274b74531b61ddbaf) returned 404 from the declared upstream repository during this review. The available upstream source at commit 8ca9ba5ea52de03308fe8ced94f7b159a44d28ff declares version 2.3.7/MIT and contains Anton Korzunov's MIT notice. That verbatim notice is retained in third-party/ with its source URL and SHA-256. It is **not claimed to be exact-release source verification** for 2.3.8.
 
+**Update 2026-11-12: removed from the dependency tree.** Rechecking upstream sources found no exact 2.3.8 provenance:
+
+- No published 2.3.x tarball (2.3.6, 2.3.7 or 2.3.8) contains a license, copying or notice file.
+- gitHead `b3b1287…` and a `v2.3.8` tag still return 404.
+- The upstream LICENSE was first added by PR #76 on 2025-05-26, after both releases, so no LICENSE existed at `v2.3.7` either.
+
+The only consumer was `@radix-ui/react-dialog` (the mobile navigation sheet), which was replaced with a native `<dialog>`. The dependency and its 22 dialog-only transitive packages were removed from the lockfile, and the canonical inventory was regenerated from a clean frozen install. This is not a clearance of 2.3.8: its retained notice and override above stay unchanged as historical evidence, and the release gate passes because the package is no longer distributed.
+
 The shared collector accepts this explicit version-scoped exception only when the installed license declaration and notice hash match. No build fetches remote licensing content. Other missing notices fail the build. Maintainers should resolve the upstream release-source discrepancy before a public redistribution decision; no visibility or release decision is made here. See [the recorded exception](../third-party/license-overrides.json).
 
 ## Current audit and portable notices

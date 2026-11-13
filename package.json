@@ -30,6 +30,7 @@
     "catalog:check": "tsx scripts/catalog.ts --check",
     "catalog:check-assets": "tsx scripts/catalog.ts --check-public",
     "build:pages": "pnpm build",
+    "pages:verify": "tsx scripts/verify-pages.ts",
     "evaluate:fixtures": "tsx scripts/evaluate-fixtures.ts",
     "contributions:check": "tsx scripts/check-contributions.ts",
     "validate:all": "tsx scripts/validate-local.ts",

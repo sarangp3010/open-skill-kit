@@ -10,10 +10,11 @@ Use [Semantic Versioning](https://semver.org/) and the [release policy](docs/rel
 - Safe native lifecycle adapters for Codex, Claude Code, Cursor and Gemini CLI, with local/project installation, inspection, updates and removal.
 - Browser authoring, validation, preview and proposal export; moderated GitHub review/merge gates, exact-package/evidence hashes and approved-only npm/publication artifacts.
 - Reproducible founding reviews, a 12-skill owner-review shortlist, unsigned human review worksheets, launch checklist, permission/settings guide and additional publication/download regressions.
-- Read-only contribution CI with validation-only checks → e2e → validate; no Pages deployment jobs. Route metadata/sitemap and contributor onboarding remain available for separately authorized hosting. No release, deployment or skill approval is created by these changes.
+- Read-only contribution CI with validation-only checks → e2e → validate; CI jobs hold no deployment rights. Route metadata/sitemap and contributor onboarding remain available for separately authorized hosting. No release, deployment or skill approval is created by these changes.
 
 ### Added
 
+- Automatic GitHub Pages deployment of the website after the full CI workflow succeeds for a push to main. It deploys the exact passing commit as a licensing-gated browser release, skips superseded commits, confines Pages/OIDC write rights to the official deploy action and publishes `version.json` with the deployed commit. `pnpm pages:verify` checks base paths, routes, search/detail data, byte-identical committed catalogs and absence of internal files. The release licensing gate runs on every deployment. No skill or package is published. See [deployment](docs/deployment.md).
 - pnpm/TypeScript React/Vite workspace with shared checks and CI templates.
 - Safe frontmatter parsing, Zod contracts, content validation and deterministic catalog indexing.
 - Synthetic fixtures, regression tests and contributor documentation.
@@ -22,6 +23,7 @@ Use [Semantic Versioning](https://semver.org/) and the [release policy](docs/rel
 
 ### Changed
 
+- The mobile navigation sheet uses an accessible native `<dialog>` instead of `@radix-ui/react-dialog`, keeping its appearance, focus containment and restoration, Escape and backdrop closing, and scroll locking. This removes react-remove-scroll-bar@2.3.8, whose npm artifact lacks exact-release license evidence, and the other 21 dialog-only transitive packages (23 lockfile packages in total), so the browser release licensing gate passes. Its historical licensing evidence is retained unchanged.
 - Add a temporary, exact-hash historical draft-baseline admission for PR #7 only; publication and release approvals remain separate, and live merge/base checks prevent post-merge reuse.
 
 - Faster marketplace browsing: the app loads a lightweight generated index (about 62 KB instead of the 898 KB full catalog), fetches full-text search only when searching, and loads each skill's details on its own page. Results page with Load more, filters show counts and disable zero-result options, the published view has a dedicated empty state, and relative example links and anchors work. All skills remain drafts and the published catalog stays empty.
