@@ -749,3 +749,125 @@ Initial implementation type errors were corrected. The temporary validation harn
 Existing original-checkout conditions remain visible: unqualified pnpm lint reports 2247 errors in preserved ignored backup artifacts, while the clean isolated lint passes; its licensing check still exits 1 for 67 extra installed records, with zero missing or changed retained records and unchanged canonical/source fields. The original owner:check exits 1 because its source-bound unsigned manifest is stale. These preserved local conditions were not repaired by changing ignore rules, installing dependencies, regenerating inventory or overwriting owner paperwork. Owner files remain byte-identical to the baseline.
 
 No successful hosted migration is claimed. Tests exercise synthetic merge/head contexts over real read-only pinned objects, subprocess admission/replay, and actual ordinary moderation CLI exits. The owner must commit the reviewed fix and let the existing required CI validate the real PR merge candidate. All 42 skills remain drafts, with zero actual approvals, attributions or publications. The seven-file change leaves workflows, dependency/lock files, canonical evidence, release configuration, owner documents and ledgers unchanged. The current owner packet is not refreshed, no online advisory audit or new remote setting verification was performed, and genuine rights/licensing/release decisions remain outstanding. No staging, commit, push, PR action, merge, deployment, publication, paid service or GitHub settings/billing change occurred.
+
+## Automatic GitHub Pages deployment — local implementation, 2026-11-12
+
+Root cause of the stale site: `ee32dd2` (merged in PR #1, `24dc135`) deliberately removed the `build-pages`/`deploy-pages` jobs. The last Pages deployment is `ffe6fc8` (CI run 42859011371, 2026-11-10). Read-only API inspection found Pages source `workflow`, HTTPS enforced and a `github-pages` environment limited to `main`; `main` is at `dcb4de7`.
+
+Implemented `.github/workflows/pages.yml`. It is triggered by `workflow_run` on CI completion for `main` and accepts only successful `push` runs from this repository. A read-only build job runs on the exact `head_sha`, skips superseded commits, then runs `pnpm catalog:check`, the `OPEN_SKILL_KIT_RELEASE_BUILD=1 VITE_BASE_PATH=/open-skill-kit/ pnpm build` release build, `pnpm pages:verify --stamp` and the pinned `upload-pages-artifact` v5.0.0. A deploy job with only `pages: write`/`id-token: write` and the `github-pages` environment runs no repository code, rechecks the main tip and runs the pinned `deploy-pages` v5.0.1.
+
+Concurrency never interrupts a running deployment. New `scripts/verify-pages.ts` (`pnpm pages:verify`) checks:
+
+- base paths and referenced assets
+- direct-load routes
+- byte-exact browser data
+- byte-identical committed `catalog.json`/`published.json`
+- absence of source maps, dotfiles and internal ledger or evidence names
+
+It also writes `version.json` (commit, CI run, Pages run). Tests now assert the exact Pages workflow shape instead of its absence; the CI/audit read-only assertions are retained. Docs: new `docs/deployment.md`, plus SECURITY, releases, community-readiness, launch settings/checklist and CHANGELOG.
+
+**Deployment is currently blocked by design:** the browser release build fails with `Release licensing blocked` on react-remove-scroll-bar@2.3.8 (2.3.7 evidence), confirmed locally. That dependency remains unresolved and the gate was not altered.
+
+Validation (macOS arm64, Node 24.21.0, pnpm 10.20.0 via Corepack):
+
+| Check                                                            | Result                                               |
+| ---------------------------------------------------------------- | ---------------------------------------------------- |
+| typecheck, format:check, eslint on changed files                 | pass                                                 |
+| contributions, moderation, founding, release, portability checks | pass                                                 |
+| evaluate:fixtures, validate:skills, check:links                  | pass                                                 |
+| catalog:check, build (120 static routes), catalog:check-assets   | pass                                                 |
+| test:e2e on port 5188                                            | 26/26 pass                                           |
+| pnpm test                                                        | 524/528 pass                                         |
+| pnpm lint (repo-wide)                                            | fails only in preserved `.open-skill-kit/` snapshots |
+| licensing:check                                                  | 67 extra installed records (pre-existing)            |
+
+The four `pnpm test` failures are all in `tests/historical-draft-baseline.test.ts`, caused by a pre-existing untracked empty local directory `skills/design-ux` that the migration's filesystem walk rejects. It is absent from CI checkouts and was left untouched.
+
+The new Pages workflow and verifier tests pass (community 47/47, pages 22/22). A clean Pages-subpath build in scratch verified 122 HTML entry points, 42 catalog entries and 0 published. A browser smoke run against a GitHub-Pages-like static server under `/open-skill-kit/` passed 12 checks:
+
+- home, search with lazy `data/search.json`, client and direct-load skill details
+- the published empty state and a real 404 via `404.html`
+- `version.json`, no failed requests, no console errors
+
+No hosted run, deployment, settings change, publication or Git operation was performed; all 42 skills remain drafts.
+
+## Release licensing unblock: native mobile dialog — local implementation, 2026-11-12
+
+This is the owner-approved, narrowly scoped dependency removal.
+
+**Upstream evidence.** Rechecked react-remove-scroll-bar@2.3.8:
+
+- No published 2.3.x tarball contains a license, copying or notice file; npm integrity matches the lockfile.
+- gitHead `b3b1287` and a `v2.3.8` tag return 404.
+- The upstream LICENSE first appeared via PR #76 on 2025-05-26, after both releases.
+- The release gate accepts only notices packaged inside the installed dependency, so no evidence correction could pass it without a dependency change.
+
+**Change.**
+
+- `apps/web/src/components/layout.tsx`: the mobile navigation sheet now uses a native modal `<dialog>`.
+  - It keeps the same classes and markup and the accessible name and description.
+  - The trigger exposes `aria-haspopup`, `aria-expanded` and `aria-controls`.
+  - Escape, backdrop click and the close button all close it; focus returns to the trigger and the html overflow lock is restored.
+- `@radix-ui/react-dialog` is removed from `apps/web/package.json`, and `pnpm install --lockfile-only --offline --ignore-scripts` regenerated `pnpm-lock.yaml`.
+  - The lockfile change is deletions only: 23 packages, including react-remove-scroll-bar@2.3.8. No remaining version changed.
+  - `@radix-ui/react-slot` and `@radix-ui/react-compose-refs` are kept.
+- `docs/launch/PROVENANCE_INVENTORY.json` was regenerated with `pnpm licensing:audit` in a fresh frozen offline install of an isolated clone.
+  - Changed fields: `lockfileSha256`, dependencies (395 → 372, 0 added, 23 removed) and `unresolvedDependencyNotices` (9 → 8, react-remove-scroll-bar removed).
+  - `thirdParty` hashes and the darwin-arm64 platform are unchanged.
+  - Before regeneration, `licensing:check` reported exactly 0 extra, 23 missing and `lockfileSha256` changed.
+- `third-party/` evidence and overrides are unchanged.
+- Three tests that used the installed package as a fixture now use a synthetic temp manifest with the real retained override evidence, with unchanged or stronger assertions:
+  - `community.test.ts`
+  - `release-license-gate.test.ts`
+  - `publication-boundaries.test.ts`
+
+**Validation (isolated clean clone, macOS arm64, Node 24.21.0, pnpm 10.20.0).**
+
+| Check                                                                                       | Result                                                                                                                           |
+| ------------------------------------------------------------------------------------------- | -------------------------------------------------------------------------------------------------------------------------------- |
+| licensing:audit, licensing:check                                                            | pass                                                                                                                             |
+| Release build (`OPEN_SKILL_KIT_RELEASE_BUILD=1 VITE_BASE_PATH=/open-skill-kit/ pnpm build`) | exit 0, 120 routes                                                                                                               |
+| `DEPENDENCY_MANIFEST.json`                                                                  | 92 dependencies; react-remove-scroll-bar, react-remove-scroll and `@radix-ui/react-dialog` absent, also from notices and bundles |
+| pages:verify --stamp                                                                        | 122 HTML, 186 files, 42 entries, 0 published                                                                                     |
+| typecheck, lint, format:check                                                               | pass                                                                                                                             |
+| contributions, moderation, founding, release, portability checks                            | pass                                                                                                                             |
+| evaluate:fixtures, validate:skills, check:links                                             | pass                                                                                                                             |
+| catalog:check, build:marketplace, build, catalog:check-assets                               | pass                                                                                                                             |
+| pack:npm, licensing:artifacts                                                               | pass                                                                                                                             |
+| E2E on port 5188                                                                            | 26/26 pass, including mobile menu and axe                                                                                        |
+| Mobile dialog check, release site under `/open-skill-kit/`, 390×844                         | 18/18 pass                                                                                                                       |
+| Pages smoke test                                                                            | 12/12 pass                                                                                                                       |
+| Unit tests                                                                                  | 517 passed, 11 skipped; 1 file fails at setup                                                                                    |
+
+The 18 mobile dialog checks cover:
+
+- names and description; `aria-expanded` changes
+- panel geometry identical to the Radix build (343.2 px, right-aligned, full height); the backdrop is `oklab(0 0 0 / 0.4)`
+- focus contained over 25 Tab and 10 Shift+Tab presses
+- background scroll locked
+- Escape, backdrop and close button all close and restore focus; clicks inside keep it open
+- navigation under the base path; no console errors
+
+**Owner-packet classification (separately approved).** `scripts/owner-decision-package.ts` adds `react-remove-scroll-bar@2.3.8` to `historicalNoticeKeys`, alongside `keyv@4.5.4` and `stackback@0.0.2`. The package is absent from `pnpm-lock.yaml` and from the inventory's dependencies and unresolved notices. The case stays among the 11 preserved triage cases as historical-only, with `disposition`/`reviewer` null and its recorded 2.3.7-sourced exception retained. Nothing is approved or resolved, and the generator fails if the package reappears in the lockfile. `tests/owner-decision-package.test.ts` now expects 8 active and 3 historical cases and asserts those properties. Clean clone: the owner-decision tests pass 11/11, the full unit suite passes 528/528, licensing:check, typecheck, lint, format, catalog, moderation and release checks pass, and the release build exits 0 (react-remove-scroll-bar absent; 42 drafts, 0 published). `owner:check` still reports `DEPENDENCY_TRIAGE.md` stale, identically at untouched HEAD. The committed packet still states 9 active/2 historical cases; refreshing it requires separate owner approval. Preserved owner evidence, `third-party/` and `docs/owner-decision/` are unchanged.
+
+No Git operation, deployment, settings change or publication was performed. All 42 skills remain drafts and `published.json` is empty.
+
+## Derived owner-packet refresh — local, 2026-11-12
+
+This is the owner-approved minimum refresh of `docs/owner-decision/current/`, which is derived and unsigned. A dry run showed four generated files change and two stay byte-identical:
+
+- **Change:** `README.md`, `DEPENDENCY_TRIAGE.md`, `dependency-evidence.json` and `release-manifest.unsigned.json`.
+- **Unchanged:** `SKILL_DECISIONS.md` and `RELEASE_AUTHORIZATION.md`.
+
+Every change is a derived observation:
+
+- the baseline commit and inventory hash;
+- notice scope 9 active/2 historical → 8 active/3 historical;
+- observed bundle manifests (`apps/web/dist` 115 → 92 records);
+- lockfile line references;
+- the source snapshot and artifact hashes;
+- react-remove-scroll-bar@2.3.8 reclassified as historical-only.
+
+All 12 skill decisions and 11 notice dispositions remain unselected, with blank reviewers. No approval, signature or resolution was added. Before regeneration, the four superseded files were copied with SHA-256 checksums to the ignored local archive `.open-skill-kit/owner-packet-archive-20261112/`; they also remain in Git history. The packet was generated with `pnpm owner:prepare` in an isolated clean clone whose source tree matches this working tree. It binds that clone's clean build artifacts, with no sync-duplicate files. The original parent worksheets, preserved evidence, `third-party/`, licensing gates and owner approval rules are unchanged.
+
+Validation results are appended to `docs/owner-decision/current/VALIDATION.md`. That file is excluded from the packet's source snapshot, so recording results does not make the packet stale. Any later edit to tracked or untracked source outside `current/` makes `owner:check` stale again by design. `owner:check` also binds local build outputs, so it reports stale in a checkout whose `dist/npm` or `apps/web/dist` differ.

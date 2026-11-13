@@ -20,7 +20,11 @@ export const packetDirectory = 'docs/owner-decision/current';
 export const preservedEvidencePath = `${preservedPacketDirectory}/dependency-evidence.json`;
 const preservedEvidenceSha256 =
   '8e7f450b499fef3ca2c1e8cd9fc1cb2df4341dbe24f86ce3288388e1edea2280';
-const historicalNoticeKeys = new Set(['keyv@4.5.4', 'stackback@0.0.2']);
+const historicalNoticeKeys = new Set([
+  'keyv@4.5.4',
+  'react-remove-scroll-bar@2.3.8',
+  'stackback@0.0.2',
+]);
 const repositoryLink = (path: string) =>
   relative(packetDirectory, path).replaceAll('\\', '/');
 const json = (value: unknown) => JSON.stringify(value, null, 2) + '\n';

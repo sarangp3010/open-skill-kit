@@ -115,14 +115,27 @@ it('retains declared rights and missing upstream evidence as human-confirmation 
       (skill) => skill.rightsConfirmation === 'pending-human-confirmation',
     ),
   ).toBe(true);
-  const missing = inventory.unresolvedDependencyNotices.find(
-    (entry) => entry.name === 'react-remove-scroll-bar',
+  expect(inventory.unresolvedDependencyNotices.length).toBeGreaterThan(0);
+  for (const entry of inventory.unresolvedDependencyNotices)
+    expect(entry.status).toBe('human-confirmation-required');
+  // react-remove-scroll-bar@2.3.8 (override-only, 2.3.7-sourced notice) is no
+  // longer locked or distributed; its historical evidence stays retained.
+  const committed = JSON.parse(
+    await readFile(resolve('docs/launch/PROVENANCE_INVENTORY.json'), 'utf8'),
+  ) as typeof inventory;
+  for (const records of [
+    committed.dependencies,
+    committed.unresolvedDependencyNotices,
+  ])
+    expect(
+      records.some((entry) => entry.name === 'react-remove-scroll-bar'),
+    ).toBe(false);
+  expect(committed.thirdParty.map((entry) => entry.path)).toEqual(
+    expect.arrayContaining([
+      'third-party/license-overrides.json',
+      'third-party/react-remove-scroll-bar-2.3.8-LICENSE.txt',
+    ]),
   );
-  expect(missing).toMatchObject({
-    version: '2.3.8',
-    status: 'human-confirmation-required',
-  });
-  expect(missing?.recordedException.sourceVersion).toBe('2.3.7');
 });
 
 async function licensingFixture() {

@@ -54,10 +54,10 @@ it('includes all 12 complete source instruction sets, exact package hashes, risk
 });
 it('contains every notice case with exact evidence and distinguishes stale local versions from locked dependencies', () => {
   expect(data.triage).toHaveLength(11);
-  expect(data.noticeScope).toEqual({ active: 9, historical: 2 });
+  expect(data.noticeScope).toEqual({ active: 8, historical: 3 });
   expect(
     data.triage.filter((item) => item.evidenceStatus === 'active-inventory'),
-  ).toHaveLength(9);
+  ).toHaveLength(8);
   for (const item of data.triage.filter(
     (item) => item.evidenceStatus === 'historical-only',
   )) {
@@ -68,10 +68,19 @@ it('contains every notice case with exact evidence and distinguishes stale local
   expect(
     data.triage.filter((item) => item.name !== 'react-remove-scroll-bar'),
   ).toHaveLength(10);
-  for (const name of ['keyv', 'stackback'])
+  for (const name of ['keyv', 'react-remove-scroll-bar', 'stackback'])
     expect(
       data.triage.find((item) => item.name === name)?.lockHeadings,
     ).toEqual([]);
+  // Removed from the lockfile, not resolved: the case stays undecided and keeps
+  // its recorded cross-version exception.
+  const removed = data.triage.find(
+    (item) => item.key === 'react-remove-scroll-bar@2.3.8',
+  );
+  expect(removed?.evidenceStatus).toBe('historical-only');
+  expect(removed?.disposition).toBeNull();
+  expect(removed?.reviewer).toBeNull();
+  expect(removed?.recordedException?.sourceVersion).toBe('2.3.7');
   const document = decisionPackageFiles(data).get('DEPENDENCY_TRIAGE.md')!;
   for (const item of data.triage) {
     expect(document).toContain(item.key);
@@ -275,10 +284,10 @@ it('renders the refreshed packet separately with no automatic deployment claim',
     'parent worksheets remain byte-for-byte unchanged',
   );
   expect(files.get('DEPENDENCY_TRIAGE.md')).toContain(
-    '9 active inventory cases',
+    '8 active inventory cases',
   );
   expect(files.get('DEPENDENCY_TRIAGE.md')).toContain(
-    '2 historical-only cases',
+    '3 historical-only cases',
   );
   expect(files.get('RELEASE_AUTHORIZATION.md')).toContain(
     'do not deploy or publish',
